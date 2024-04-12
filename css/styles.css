@@ -4030,7 +4030,7 @@ td:last-child {
  */
 .folio-entries .entry:focus .entry__link::before,
 .folio-entries .entry:hover .entry__link::before {
-    opacity   : 1;
+    opacity   : .8;
     visibility: visible;
 }
 
