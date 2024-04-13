@@ -296,6 +296,23 @@
     }; // end ssMoveTo
 
 
+    // Shayan ----------------------------------------------------------------
+
+    // vanilla JS
+    // init with element
+    var grid = document.querySelector('.folio-entries');
+    var msnry = new Masonry( grid, {
+    // options...
+    itemSelector: '.entry',
+    columnWidth: 200
+    });
+
+    // init with selector
+    var msnry = new Masonry( '.folio-entries', {
+    // options...
+    });
+
+
    /* Initialize
     * ------------------------------------------------------ */
     (function ssInit() {

@@ -2822,6 +2822,15 @@ td:last-child {
 /* ------------------------------------------------------------------- 
  * ## glightbox overrides
  * ------------------------------------------------------------------- */
+
+.gslide-media img{
+    border-radius: 15px;
+}
+
+.gslide-media video{
+    border-radius: 15px;
+}
+
 .glightbox-container a {
     font-weight  : 500 !important;
     color        : var(--color-1);
@@ -3960,9 +3969,10 @@ td:last-child {
     flex    : none;
     width   : 50%;
     margin  : 0;
-    padding : 0;
+    padding : 1%;
     overflow: hidden;
     position: relative;
+    height : fit-content;
 }
 
 .folio-entries .entry__link {
@@ -3974,6 +3984,7 @@ td:last-child {
     vertical-align: bottom;
     transition    : all 0.3s ease-in-out;
     margin        : 0;
+    border-radius: 15px;
 }
 
 .folio-entries .entry__link::before {
@@ -3989,6 +4000,7 @@ td:last-child {
     position        : absolute;
     top             : 0;
     left            : 0;
+    border-radius: 15px;
 }
 
 .folio-entries .entry {
