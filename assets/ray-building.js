@@ -6,11 +6,12 @@ P.createBuilding=function(){
  this.canvas.dataset.building='loading';this.buildingReady=new Promise((resolve,reject)=>{
   const loader=new window.RayGLTFLoader();loader.setMeshoptDecoder(window.RayMeshoptDecoder);
   const mobile=innerWidth<700||matchMedia('(pointer:coarse)').matches;this.canvas.dataset.modelDetail=mobile?'mobile':'desktop';loader.load('assets/ray-building'+(mobile?'-mobile':'')+'.glb?v=source-8',gltf=>{
-   const root=gltf.scene;root.name='RAY supplied architecture';root.rotation.y=-Math.PI/2;root.position.y=1.25;this.modelMaterials=new Set();
+   const root=gltf.scene;root.name='RAY supplied architecture';root.rotation.y=-Math.PI/2+(window.RayBuildingLandscape.buildingYaw||0);root.position.y=1.25;root.position.z=window.RayBuildingLandscape.buildingShift||0;this.modelMaterials=new Set();
    root.traverse(mesh=>{if(!mesh.isMesh)return;mesh.receiveShadow=true;mesh.castShadow=true;for(const mat of(Array.isArray(mesh.material)?mesh.material:[mesh.material])){
     if(this.modelMaterials.has(mat))continue;this.modelMaterials.add(mat);mat.envMapIntensity=.9;if(mat.map)mat.map.anisotropy=Math.min(8,this.renderer.capabilities.getMaxAnisotropy());
     if(/glass/i.test(mat.name)){mat.depthWrite=false;mat.roughness=.18;mat.envMapIntensity=1.35;}
     if(/windows/i.test(mat.name)){mat.color.set(0x516c73);mat.metalness=.44;mat.roughness=.24;mat.emissive.set(0x000000);mat.envMapIntensity=1.3;this.roomMaterial(mat);}
+    if(/glass|windows/i.test(mat.name)&&this.architectureGlazing)this.architectureGlazing(mat);
     if(/emmis/i.test(mat.name)){mat.userData.rayLamp=true;mat.emissiveIntensity=.1;}
     if(/grass/i.test(mat.name)){mat.roughness=1;mat.color.multiply(new T.Color(0xb8c6a0));}
    }});
@@ -33,5 +34,5 @@ P.decorateArchitecture=function(){
  this.canvas.dataset.sourcePlanting=String(d.plants.length);this.canvas.dataset.roofPlanters=String(d.roofPlanters.length);
 };
 const originalUpdate=P.updateLight;
-P.updateLight=function(dt){const moving=originalUpdate.call(this,dt);if(this.modelMaterials)for(const mat of this.modelMaterials){mat.envMapIntensity=(/glass|windows/i.test(mat.name)?1.25:.9)*(1-this.lightState.night*.83);if(mat.userData.rayLamp)mat.emissiveIntensity=.035+this.lightState.night*1.3;}return moving;};
+P.updateLight=function(dt){const moving=originalUpdate.call(this,dt);this.lightIsMoving=moving;if(this.modelMaterials)for(const mat of this.modelMaterials){mat.envMapIntensity=(mat.userData.rayReflective?2.6:.9)*(1-this.lightState.night*.83);if(mat.userData.rayLamp)mat.emissiveIntensity=.035+this.lightState.night*1.3;}return moving;};
 })();
