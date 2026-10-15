@@ -1,0 +1,10 @@
+RAY clean environment layout
+
+Road centerlines and coastline: OpenStreetMap contributors, under the Open Database License (ODbL) 1.0.
+https://www.openstreetmap.org/copyright
+https://opendatacommons.org/licenses/odbl/1-0/
+
+Building footprints: Miami-Dade County BuildingFootprint2D_gdb public GIS layer.
+https://services.arcgis.com/8Pc9XBTAsYuxx9Ny/arcgis/rest/services/BuildingFootprint2D_gdb/FeatureServer/0
+
+The scene uses authored clean geometry. No Google scanned mesh or source imagery is included in the clean context. Building heights, roof designs, facade details, vegetation and road widths where unspecified are illustrative. Layout data retrieved 2026-10-15.
