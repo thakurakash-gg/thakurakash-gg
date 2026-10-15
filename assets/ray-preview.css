@@ -1,0 +1,25 @@
+/* A real platform view, presented as a full-width invitation to explore. */
+.ray-section{container-type:inline-size}
+.ray-platform-preview{width:100vw;width:100cqw;margin:84px 0 100px;position:relative;left:50%;transform:translateX(-50%);color:#fff}
+.ray-platform-launch{display:block;position:relative;isolation:isolate;overflow:hidden;background:#102c34;aspect-ratio:16/9;max-height:850px;min-height:560px}
+.ray-platform-image{position:absolute;inset:0;z-index:-2}
+.ray-platform-image img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform 1.2s cubic-bezier(.2,.7,.2,1),filter .8s;filter:brightness(.84)}
+.ray-platform-launch:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(4,14,18,.93),rgba(4,14,18,.55) 19%,transparent 40%),linear-gradient(90deg,transparent 62%,rgba(4,14,18,.24)),linear-gradient(0deg,rgba(4,14,18,.3),transparent 24%);pointer-events:none}
+.ray-platform-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:48px;padding:42px 6% 0;text-shadow:0 2px 24px #0005}
+.ray-platform-eyebrow{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:2px;font-weight:400}
+.ray-platform-eyebrow i{width:6px;height:6px;flex:none;border-radius:50%;background:#ff175b;box-shadow:0 0 16px #ff175b66}
+.ray-platform-heading h3{font-size:clamp(38px,4.4vw,78px);font-weight:600;line-height:1.01;letter-spacing:-.055em;margin:20px 0 0}
+.ray-platform-heading p{font-size:clamp(13px,1.15vw,18px);line-height:1.65;margin:34px 0 0;max-width:330px;color:#eeeee9}
+.ray-platform-action{position:absolute;right:6%;bottom:15%;display:flex;flex-direction:column;align-items:flex-end;gap:15px}
+.ray-platform-button{display:inline-flex;gap:28px;align-items:center;border-radius:50px;padding:17px 18px 17px 25px;background:#f0f0e9;color:#111b1e;font-size:14px;font-weight:500;box-shadow:0 5px 30px #0002;transition:background .3s,transform .3s}
+.ray-platform-button>span{display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:#14282d;color:#fff;font-size:19px;transition:transform .35s}
+.ray-platform-note{font-size:8px;letter-spacing:1.45px;text-shadow:0 2px 8px #000}
+.ray-platform-launch:hover .ray-platform-image img{transform:scale(1.012);filter:brightness(.94)}
+.ray-platform-launch:hover .ray-platform-button{background:#fff;transform:translateY(-3px)}
+.ray-platform-launch:hover .ray-platform-button>span{transform:rotate(45deg)}
+.ray-platform-launch:focus-visible{outline:2px solid #ff175b;outline-offset:-5px}
+.ray-platform-caption{display:flex;justify-content:space-between;gap:25px;margin:0 6%;padding-top:18px;font-size:9px;letter-spacing:1.3px;color:#a9afb0}
+.ray-platform-caption>span+span{letter-spacing:.3px;font-size:10px;text-align:right}
+@media(min-width:1800px){.ray-platform-launch{aspect-ratio:2.2}.ray-platform-image img{object-position:center 45%}}
+@media(max-width:700px){.ray-platform-preview{margin:48px 0 65px}.ray-platform-launch{aspect-ratio:auto;min-height:0;max-height:none;display:flex;flex-direction:column;background:#10252c}.ray-platform-heading{order:0;padding:30px 6% 24px;display:block}.ray-platform-heading h3{font-size:42px;margin-top:16px}.ray-platform-heading p{margin:20px 0 0;font-size:14px;line-height:1.6}.ray-platform-image{position:relative;order:1;inset:auto;z-index:0;aspect-ratio:16/9}.ray-platform-image img{object-fit:contain;filter:none}.ray-platform-launch:before{display:none}.ray-platform-action{order:2;position:relative;right:auto;bottom:auto;align-items:flex-start;padding:24px 6% 30px;gap:12px}.ray-platform-button{padding:13px 15px 13px 21px;font-size:13px}.ray-platform-caption{font-size:8px;line-height:1.6;display:block}.ray-platform-caption>span{display:block}.ray-platform-caption>span+span{text-align:left;margin-top:7px;font-size:9px}}
+@media(prefers-reduced-motion:reduce){.ray-platform-preview *{transition:none!important}.ray-platform-launch:hover .ray-platform-image img,.ray-platform-launch:hover .ray-platform-button,.ray-platform-launch:hover .ray-platform-button>span{transform:none}}
