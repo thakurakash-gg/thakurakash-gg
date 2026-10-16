@@ -36,6 +36,7 @@ float finishNoise(vec2 p) {
 }
 `;
   P.roomMaterial = function (mat) {
+    mat.userData.rayParallaxRooms = true;
     mat.customProgramCacheKey = () => "ray-box-rooms-v1";
     mat.onBeforeCompile = (shader) => {
       surfaceCoordinates(shader);

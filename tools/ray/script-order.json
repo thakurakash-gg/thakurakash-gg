@@ -20,5 +20,7 @@
   "assets/ray/architecture/building.js",
   "assets/ray/architecture/rooftops.js",
   "assets/ray/architecture/surfaces.js",
+  "assets/ray/architecture/life.js",
+  "assets/ray/core/diagnostics.js",
   "assets/ray/ui/experience.js"
 ]
