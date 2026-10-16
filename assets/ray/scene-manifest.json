@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "scene-63f075feb0b505c5",
+  "version": "scene-817fa26868c9e873",
   "scripts": [
     "assets/three.min.js?v=170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa",
     "assets/vendor/ray-meshopt-decoder.js?v=9b10924e7fd05ed742f243f9ca87d70cf581267adb156646876a2b8ea3cb3db1",
@@ -10,7 +10,7 @@
     "assets/ray/environment/neighborhood.js?v=307019e616a31ab62b157ff9cb1353bbf4a3cd29c34c560531665acfc80ddaeb",
     "assets/ray/environment/roads.js?v=75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2",
     "assets/ray/environment/villas.js?v=953e2b5ea6558888723c2d66e19f0e5e14cc8a3d5beddfdb003430df4ba97bc1",
-    "assets/ray/environment/ocean.js?v=916c7f371d630e0172fe6b4615dc725f48d960a609a3b1717141795e68a42c22",
+    "assets/ray/environment/ocean.js?v=15e62dcd4ad8af44a594f478feda76d40d62abc697975d518d8309f978517d40",
     "assets/ray/core/quality.js?v=ad3c1ed63e11c2827c079df7043f57e1a8407b6153734c9f6daad100b4df991e",
     "assets/ray/core/world.js?v=824ff2d6754ffe81d66e1b2a9f20d4393358ab09258d7953437e28c4ef1582be",
     "assets/ray/data/club-deck.js?v=9ab4cee3cfcecd32d0f8ac89f0cadbad297a3b217679cb0f373bd0f74c5c89d1",
@@ -66,9 +66,9 @@
       "sha256": "953e2b5ea6558888723c2d66e19f0e5e14cc8a3d5beddfdb003430df4ba97bc1"
     },
     {
-      "url": "assets/ray/environment/ocean.js?v=916c7f371d630e0172fe6b4615dc725f48d960a609a3b1717141795e68a42c22",
-      "bytes": 5990,
-      "sha256": "916c7f371d630e0172fe6b4615dc725f48d960a609a3b1717141795e68a42c22"
+      "url": "assets/ray/environment/ocean.js?v=15e62dcd4ad8af44a594f478feda76d40d62abc697975d518d8309f978517d40",
+      "bytes": 7570,
+      "sha256": "15e62dcd4ad8af44a594f478feda76d40d62abc697975d518d8309f978517d40"
     },
     {
       "url": "assets/ray/core/quality.js?v=ad3c1ed63e11c2827c079df7043f57e1a8407b6153734c9f6daad100b4df991e",
