@@ -74,3 +74,14 @@ The glazing capture used a 4.5 km far plane while the sky sphere has an 8 km rad
 ## 26.1.2 â€” lighting-switch corruption
 
 A longer GPU reproduction showed 48,083 invalid atlas texels while all six centre samples were finite. The ocean used an unbounded Fresnel pow base and a main-camera projected reflection inside cubemap captures. Capture now uses analytic water shading, bounded Fresnel and a guarded projection divide. Full-atlas half-float validation rejects invalid texels in any roughness level before replacement. The reusable validation buffer is about 6 MiB at 768 Ã— 1024 and is read only after a lighting transition settles.
+
+
+## 26.2.0–26.3.1 — cached light and private authoring delivery
+
+There are 1,400 additional baked open-land trees (5,693 context trees total). They reuse the existing foliage batches; additional broadleaf trees use two crown clusters. The placement bake excludes roads, sidewalks, building footprints, driveways, pools and the project plot, and enforces an 8 m spacing radius. Instancing avoids extra draw calls but does not eliminate vertex and fill cost.
+
+The four 256-pixel-face reflection environments are prepared while the loading bar is visible. Subsequent lighting changes perform no cube captures or readbacks. A single 768 × 1024 HDR atlas blends their radiance using the same interpolation coefficient as the lighting. It keeps the glazing texture binding stable, supports interrupted transitions and stops drawing when settled. The four prepared atlases consume about 24 MiB, with another 6 MiB for the blend target. Compact devices keep the simpler sky reflection path.
+
+The night guidance ribbon follows only NE 123rd Street, Broad Causeway and 96th Street, including one-way bridge segments, across the full mapped extent. Local streets use the regular soft street lighting. Yacht navigation, mast and deck lights share the existing vessel template batches.
+
+The Blender file is a separate private artifact. No export button, authoring page or Blender exporter is included in the platform UI or published site.

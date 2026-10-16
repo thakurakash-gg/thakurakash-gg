@@ -1,6 +1,29 @@
 {
   "releases": [
     {
+      "version": "26.3.1",
+      "date": "2026-10-16",
+      "title": "Continuous glass lighting and bridge-only highway guidance",
+      "sceneVersion": "scene-b6eebb0483dee4b9",
+      "preview": "26.3.1",
+      "changes": {
+        "Fixed": [
+          "Glazing keeps one HDR texture binding and blends the prepared reflection atlases continuously with the lighting, including interrupted switches.",
+          "The glowing line follows only the Northeast 123rd Street / Broad Causeway / 96th Street corridor, including one-way bridge sections and the full mapped road extent.",
+          "The temporary Blender authoring control and page have been removed; the Blender file is delivered separately."
+        ]
+      },
+      "validation": [
+        "Automated persistent-binding, interrupted-fade, normalized-weight, settled-pass and bridge-only geometry regressions.",
+        "Full scene/cache integrity and existing reflection regressions."
+      ],
+      "limitations": [
+        "Lighting naturally changes reflected colours; the abrupt end-of-transition map swap has been removed.",
+        "Physical low-end-device testing remains pending."
+      ],
+      "commits": []
+    },
+    {
       "version": "26.3.0",
       "date": "2026-10-16",
       "title": "Night road guidance and illuminated vessels",

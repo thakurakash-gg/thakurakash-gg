@@ -32,8 +32,8 @@
     let majorSegments = 0,
       localSegments = 0;
     for (const road of this.d.roads) {
-      if (road.k === "service" || road.w < 4.5 || road.o) continue;
-      const major = /motorway|trunk|primary|secondary/.test(road.k) || road.w >= 13;
+      if (!["Northeast 123rd Street", "Broad Causeway", "96th Street"].includes(road.n)) continue;
+      const major = true;
       const width = major ? 4.6 : 1.5;
       let distance = 0;
       for (let i = 0; i < road.p.length - 1; i++) {
@@ -42,7 +42,7 @@
           dx = b[0] - a[0],
           dz = b[1] - a[1],
           length = Math.hypot(dx, dz);
-        if (length < 0.2 || Math.min(Math.hypot(...a), Math.hypot(...b)) > 1500) {
+        if (length < 0.2) {
           distance += length;
           continue;
         }
@@ -80,14 +80,14 @@
       uniforms: { night: w.skyUniforms.night },
       vertexShader: `attribute float roadImportance;varying vec2 vRoad;varying float vMajor,vDistance;
         void main(){vRoad=uv;vMajor=roadImportance;vec4 p=modelMatrix*vec4(position,1.);
-        vDistance=length(cameraPosition-p.xyz);gl_Position=projectionMatrix*viewMatrix*p;}`,
+        vDistance=length(p.xz);gl_Position=projectionMatrix*viewMatrix*p;}`,
       fragmentShader: `precision highp float;uniform float night;varying vec2 vRoad;varying float vMajor,vDistance;
         void main(){float across=abs(vRoad.x);float aa=max(fwidth(vRoad.x),.015);
         float core=1.-smoothstep(.055,.10+aa,across);
         float halo=exp(-across*across*7.)*.24*(1.-smoothstep(.78,1.,across));
         float localDashes=mix(.28,1.,smoothstep(.1,.16,fract(vRoad.y/9.))*(1.-smoothstep(.66,.72,fract(vRoad.y/9.))));
         float strength=mix(.38*localDashes,1.,vMajor)*night*night;
-        float fade=1.-smoothstep(1050.,1700.,vDistance);
+        float fade=1.-smoothstep(1250.,1780.,vDistance);
         vec3 color=mix(vec3(1.,.72,.39),vec3(1.,.88,.51),vMajor);
         gl_FragColor=vec4(color*1.8,(core+halo)*strength*fade);}`,
     });

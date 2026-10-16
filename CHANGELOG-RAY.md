@@ -4,6 +4,29 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.3.1](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.3.1) — 2026-10-16
+
+Continuous glass lighting and bridge-only highway guidance
+
+- Scene/cache ID: `scene-b6eebb0483dee4b9`
+- Preview label: `26.3.1`
+
+### Fixed
+
+- Glazing keeps one HDR texture binding and blends the prepared reflection atlases continuously with the lighting, including interrupted switches.
+- The glowing line follows only the Northeast 123rd Street / Broad Causeway / 96th Street corridor, including one-way bridge sections and the full mapped road extent.
+- The temporary Blender authoring control and page have been removed; the Blender file is delivered separately.
+
+### Validation
+
+- Automated persistent-binding, interrupted-fade, normalized-weight, settled-pass and bridge-only geometry regressions.
+- Full scene/cache integrity and existing reflection regressions.
+
+### Known limits
+
+- Lighting naturally changes reflected colours; the abrupt end-of-transition map swap has been removed.
+- Physical low-end-device testing remains pending.
+
 ## [26.3.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.3.0) — 2026-10-16
 
 Night road guidance and illuminated vessels

@@ -1,8 +1,8 @@
 {
   "schema": 2,
-  "version": "scene-d6bcebe4d9091132",
+  "version": "scene-b6eebb0483dee4b9",
   "release": {
-    "version": "26.3.0",
+    "version": "26.3.1",
     "date": "2026-10-16",
     "changelog": "CHANGELOG-RAY.md"
   },
@@ -28,9 +28,10 @@
     "assets/ray/environment/foliage.js?v=68ee556da5d9b17f78220c50ce386fa26559a9a0c5a6eff44ccf0a5bee655065",
     "assets/ray/architecture/building.js?v=157d7c54e5ac3552a611a4b05e4b0a90e5c40868d878dcc8b5223c942f76e600",
     "assets/ray/architecture/rooftops.js?v=c6e5a7455415d0ebf276b50f942b5e49da5f81a8fd2dc46d344ca1c7bfaf14c0",
+    "assets/ray/architecture/glass-transition.js?v=eedf24490d7737c35b0abf8e7b166b0d0b9c36bc23bda9b2245b2d81f8b0d072",
     "assets/ray/architecture/surfaces.js?v=a263fecccd13a1b015e269daaf409ca15a8375d9d3b537fe4dcea1da31a3646e",
     "assets/ray/architecture/life.js?v=89deecdd75b0ee11232c5d12d569b13a459a85c0b3ac3f18fcb51766bcfe227b",
-    "assets/ray/environment/night.js?v=4d704ea7ccb017ff1c101b70792ef4f022062be0c3b26c4a47c6d720c0b4a6d3",
+    "assets/ray/environment/night.js?v=6f2dfe9ae42da79791b8780afaee7d4f98e0c036298944c8418d310fd17cbeb8",
     "assets/ray/core/diagnostics.js?v=0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9",
     "assets/ray/ui/experience.js?v=420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0"
   ],
@@ -141,6 +142,11 @@
       "sha256": "c6e5a7455415d0ebf276b50f942b5e49da5f81a8fd2dc46d344ca1c7bfaf14c0"
     },
     {
+      "url": "assets/ray/architecture/glass-transition.js?v=eedf24490d7737c35b0abf8e7b166b0d0b9c36bc23bda9b2245b2d81f8b0d072",
+      "bytes": 4218,
+      "sha256": "eedf24490d7737c35b0abf8e7b166b0d0b9c36bc23bda9b2245b2d81f8b0d072"
+    },
+    {
       "url": "assets/ray/architecture/surfaces.js?v=a263fecccd13a1b015e269daaf409ca15a8375d9d3b537fe4dcea1da31a3646e",
       "bytes": 13697,
       "sha256": "a263fecccd13a1b015e269daaf409ca15a8375d9d3b537fe4dcea1da31a3646e"
@@ -151,9 +157,9 @@
       "sha256": "89deecdd75b0ee11232c5d12d569b13a459a85c0b3ac3f18fcb51766bcfe227b"
     },
     {
-      "url": "assets/ray/environment/night.js?v=4d704ea7ccb017ff1c101b70792ef4f022062be0c3b26c4a47c6d720c0b4a6d3",
-      "bytes": 4638,
-      "sha256": "4d704ea7ccb017ff1c101b70792ef4f022062be0c3b26c4a47c6d720c0b4a6d3"
+      "url": "assets/ray/environment/night.js?v=6f2dfe9ae42da79791b8780afaee7d4f98e0c036298944c8418d310fd17cbeb8",
+      "bytes": 4539,
+      "sha256": "6f2dfe9ae42da79791b8780afaee7d4f98e0c036298944c8418d310fd17cbeb8"
     },
     {
       "url": "assets/ray/core/diagnostics.js?v=0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9",
