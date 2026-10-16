@@ -1,6 +1,27 @@
 {
   "releases": [
     {
+      "version": "26.3.2",
+      "date": "2026-10-16",
+      "title": "Smooth warm plaster and rounded inlet shore",
+      "sceneVersion": "scene-e39cd3990cc78fe8",
+      "preview": "26.3.2",
+      "changes": {
+        "Changed": [
+          "Building walls use a continuous warm-white plaster finish with subtle grain and no panel or tile joints.",
+          "The inlet peninsula corners use smooth curves in both the ground surface and shore walls; the ocean distance field is rebaked to the revised edge."
+        ]
+      },
+      "validation": [
+        "Coast bake checks validity, keeps maximum boundary displacement to 1.046 m and limits changed land area to 10.163 square metres.",
+        "Existing full scene, cache, glass-transition and reflection regression checks."
+      ],
+      "limitations": [
+        "Physical low-end-device testing remains pending."
+      ],
+      "commits": []
+    },
+    {
       "version": "26.3.1",
       "date": "2026-10-16",
       "title": "Continuous glass lighting and bridge-only highway guidance",

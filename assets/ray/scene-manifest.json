@@ -1,8 +1,8 @@
 {
   "schema": 2,
-  "version": "scene-b6eebb0483dee4b9",
+  "version": "scene-e39cd3990cc78fe8",
   "release": {
-    "version": "26.3.1",
+    "version": "26.3.2",
     "date": "2026-10-16",
     "changelog": "CHANGELOG-RAY.md"
   },
@@ -11,7 +11,7 @@
     "assets/vendor/ray-meshopt-decoder.js?v=68d26aa0d7f88b8b9580ecfa46659a4cec803e26d0dc0d81e3da1f19f0181f65",
     "assets/vendor/ray-gltf-loader.js?v=38ee477e318f1d48c153a854c390a6a7d1d6d62c65ee4b972818cfac7f032173",
     "assets/ray/data/building-landscape.js?v=ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87",
-    "assets/ray/data/neighborhood.js?v=30aaeb7038908c4598fb5ad89987845e188220be97988b31f11e3ea0a133bc22",
+    "assets/ray/data/neighborhood.js?v=cb1fd9dc958fc6ba8cdc574473bb03a3186c7f358577e48db2ab9bbe812e78b7",
     "assets/ray/data/extra-trees.js?v=2eaaa7ca76604068b451ee09baf93ad0d751810958feea9ecfcd0d2eb922544b",
     "assets/ray/environment/neighborhood.js?v=b7a892be5052fc96fa4ad6cfce54f30afacf2fd98b0238de0af052263e89999b",
     "assets/ray/environment/roads.js?v=75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2",
@@ -29,7 +29,7 @@
     "assets/ray/architecture/building.js?v=157d7c54e5ac3552a611a4b05e4b0a90e5c40868d878dcc8b5223c942f76e600",
     "assets/ray/architecture/rooftops.js?v=c6e5a7455415d0ebf276b50f942b5e49da5f81a8fd2dc46d344ca1c7bfaf14c0",
     "assets/ray/architecture/glass-transition.js?v=eedf24490d7737c35b0abf8e7b166b0d0b9c36bc23bda9b2245b2d81f8b0d072",
-    "assets/ray/architecture/surfaces.js?v=a263fecccd13a1b015e269daaf409ca15a8375d9d3b537fe4dcea1da31a3646e",
+    "assets/ray/architecture/surfaces.js?v=336131b1029721bb2cfddffcaec243bff0a832cf6171edee2736e8049c64346e",
     "assets/ray/architecture/life.js?v=89deecdd75b0ee11232c5d12d569b13a459a85c0b3ac3f18fcb51766bcfe227b",
     "assets/ray/environment/night.js?v=6f2dfe9ae42da79791b8780afaee7d4f98e0c036298944c8418d310fd17cbeb8",
     "assets/ray/core/diagnostics.js?v=0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9",
@@ -57,9 +57,9 @@
       "sha256": "ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87"
     },
     {
-      "url": "assets/ray/data/neighborhood.js?v=30aaeb7038908c4598fb5ad89987845e188220be97988b31f11e3ea0a133bc22",
-      "bytes": 25222849,
-      "sha256": "30aaeb7038908c4598fb5ad89987845e188220be97988b31f11e3ea0a133bc22"
+      "url": "assets/ray/data/neighborhood.js?v=cb1fd9dc958fc6ba8cdc574473bb03a3186c7f358577e48db2ab9bbe812e78b7",
+      "bytes": 25226298,
+      "sha256": "cb1fd9dc958fc6ba8cdc574473bb03a3186c7f358577e48db2ab9bbe812e78b7"
     },
     {
       "url": "assets/ray/data/extra-trees.js?v=2eaaa7ca76604068b451ee09baf93ad0d751810958feea9ecfcd0d2eb922544b",
@@ -147,9 +147,9 @@
       "sha256": "eedf24490d7737c35b0abf8e7b166b0d0b9c36bc23bda9b2245b2d81f8b0d072"
     },
     {
-      "url": "assets/ray/architecture/surfaces.js?v=a263fecccd13a1b015e269daaf409ca15a8375d9d3b537fe4dcea1da31a3646e",
-      "bytes": 13697,
-      "sha256": "a263fecccd13a1b015e269daaf409ca15a8375d9d3b537fe4dcea1da31a3646e"
+      "url": "assets/ray/architecture/surfaces.js?v=336131b1029721bb2cfddffcaec243bff0a832cf6171edee2736e8049c64346e",
+      "bytes": 13030,
+      "sha256": "336131b1029721bb2cfddffcaec243bff0a832cf6171edee2736e8049c64346e"
     },
     {
       "url": "assets/ray/architecture/life.js?v=89deecdd75b0ee11232c5d12d569b13a459a85c0b3ac3f18fcb51766bcfe227b",
@@ -177,9 +177,9 @@
       "sha256": "a45f9f1f54a87bef02d287e5e5b27208d3f8963d6ce685df6460aa43d5673719"
     },
     {
-      "url": "assets/ray/textures/shore-distance.png?v=9a8cb56db6ae51a32fa29176e2afc162e1272d38194f1c120824f364cb75ff9b",
-      "bytes": 371540,
-      "sha256": "9a8cb56db6ae51a32fa29176e2afc162e1272d38194f1c120824f364cb75ff9b"
+      "url": "assets/ray/textures/shore-distance.png?v=e76d4c73299acdce640313bd3612ea9e9cfcfbd971d1c3e63097e2665f6cc0e9",
+      "bytes": 371534,
+      "sha256": "e76d4c73299acdce640313bd3612ea9e9cfcfbd971d1c3e63097e2665f6cc0e9"
     },
     {
       "url": "assets/ray/ui/experience.css?v=61e10ae6d7964e5e7556ba844d4940663cab811505e67f6af4008711b0da1cf3",

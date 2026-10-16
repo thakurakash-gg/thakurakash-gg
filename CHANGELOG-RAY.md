@@ -4,6 +4,27 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.3.2](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.3.2) — 2026-10-16
+
+Smooth warm plaster and rounded inlet shore
+
+- Scene/cache ID: `scene-e39cd3990cc78fe8`
+- Preview label: `26.3.2`
+
+### Changed
+
+- Building walls use a continuous warm-white plaster finish with subtle grain and no panel or tile joints.
+- The inlet peninsula corners use smooth curves in both the ground surface and shore walls; the ocean distance field is rebaked to the revised edge.
+
+### Validation
+
+- Coast bake checks validity, keeps maximum boundary displacement to 1.046 m and limits changed land area to 10.163 square metres.
+- Existing full scene, cache, glass-transition and reflection regression checks.
+
+### Known limits
+
+- Physical low-end-device testing remains pending.
+
 ## [26.3.1](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.3.1) — 2026-10-16
 
 Continuous glass lighting and bridge-only highway guidance

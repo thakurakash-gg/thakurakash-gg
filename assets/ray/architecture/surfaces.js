@@ -166,8 +166,7 @@ if(abs(roomN.y)<.65) {
     };
     this.canvas.dataset.windows = "box-projected-parallax-rooms";
     this.canvas.dataset.windowStyles = "6";
-    this.canvas.dataset.windowVariation =
-      "layouts-curtains-finishes-and-lighting";
+    this.canvas.dataset.windowVariation = "layouts-curtains-finishes-and-lighting";
   };
 
   P.wallFinishTexture = function () {
@@ -175,15 +174,14 @@ if(abs(roomN.y)<.65) {
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = 512;
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#c6bdab";
+    ctx.fillStyle = "#f2eee5";
     ctx.fillRect(0, 0, 512, 512);
     let seed = 2719;
-    const random = () =>
-      (seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296;
-    // Larger mineral clouds survive minification; fine grain supplies close-view detail.
-    for (let i = 0; i < 420; i++) {
-      const grey = 110 + Math.floor(random() * 105);
-      ctx.fillStyle = `rgba(${grey + 9},${grey + 3},${grey - 9},${0.025 + random() * 0.055})`;
+    const random = () => (seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296;
+    // Continuous lime-plaster grain: no panel pattern or joints.
+    for (let i = 0; i < 80; i++) {
+      const grey = 223 + Math.floor(random() * 27);
+      ctx.fillStyle = `rgba(${grey + 9},${grey + 3},${grey - 9},${0.02 + random() * 0.025})`;
       ctx.beginPath();
       ctx.ellipse(
         random() * 512,
@@ -196,74 +194,50 @@ if(abs(roomN.y)<.65) {
       );
       ctx.fill();
     }
-    for (let i = 0; i < 44000; i++) {
-      const c = 170 + Math.floor(random() * 67);
-      ctx.fillStyle = `rgba(${c},${c - 3},${c - 11},${0.035 + random() * 0.08})`;
-      ctx.fillRect(
-        random() * 512,
-        random() * 512,
-        1 + random() * 2,
-        1 + random() * 2,
-      );
-    }
-    ctx.strokeStyle = "rgba(81,77,68,.38)";
-    ctx.lineWidth = 1.8;
-    for (let y = 0; y < 512; y += 128) {
-      ctx.beginPath();
-      ctx.moveTo(0, y + 0.5);
-      ctx.lineTo(512, y + 0.5);
-      ctx.stroke();
-      const x = (y / 128) % 2 ? 384 : 128;
-      ctx.beginPath();
-      ctx.moveTo(x + 0.5, y);
-      ctx.lineTo(x + 0.5, y + 128);
-      ctx.stroke();
+    for (let i = 0; i < 20000; i++) {
+      const c = 226 + Math.floor(random() * 27);
+      ctx.fillStyle = `rgba(${c},${c - 3},${c - 11},${0.02 + random() * 0.03})`;
+      ctx.fillRect(random() * 512, random() * 512, 1 + random() * 2, 1 + random() * 2);
     }
     const texture = new T.CanvasTexture(canvas);
     texture.wrapS = texture.wrapT = T.RepeatWrapping;
     texture.colorSpace = T.SRGBColorSpace;
-    texture.anisotropy = Math.min(
-      8,
-      this.renderer.capabilities.getMaxAnisotropy(),
-    );
+    texture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
     this.wallTexture = texture;
     return texture;
   };
   P.applyWallFinish = function (mat) {
     if (mat.userData.rayWallFinish) return;
     mat.userData.rayWallFinish = true;
-    mat.color.set(0xe6dfd1);
+    mat.color.set(0xf5f1e8);
     mat.metalness = 0;
-    mat.roughness = 0.84;
-    mat.customProgramCacheKey = () => "ray-world-limestone-v2";
+    mat.roughness = 0.78;
+    mat.customProgramCacheKey = () => "ray-smooth-warm-plaster-v3";
     mat.onBeforeCompile = (shader) => {
       surfaceCoordinates(shader);
       shader.uniforms.rayWallMap = { value: this.wallFinishTexture() };
-      shader.fragmentShader =
-        `uniform sampler2D rayWallMap;\n${noise}` + shader.fragmentShader;
+      shader.fragmentShader = `uniform sampler2D rayWallMap;\n${noise}` + shader.fragmentShader;
       shader.fragmentShader = shader.fragmentShader.replace(
         "#include <map_fragment>",
         `
 #include <map_fragment>
 vec3 wallN=abs(normalize(raySurfaceNormal));
 vec2 wallUV=wallN.y>max(wallN.x,wallN.z)?raySurfaceWorld.xz:wallN.x>wallN.z?raySurfaceWorld.zy:raySurfaceWorld.xy;
-vec3 stone=texture2D(rayWallMap,wallUV*.32).rgb;
-float mineralCloud=finishNoise(wallUV*.78+vec2(8.1,3.4));
-float panelChoice=finishHash(floor(wallUV/vec2(2.6,.86625)));
-stone*=.91+mineralCloud*.15+panelChoice*.08;
-float wallFacing=1.-smoothstep(.65,.85,wallN.y);
-diffuseColor.rgb*=mix(vec3(.96),stone,.32+wallFacing*.6);
+vec3 plaster=texture2D(rayWallMap,wallUV*.4).rgb;
+float plasterVariation=finishNoise(wallUV*.7+vec2(8.1,3.4));
+plaster*=.985+plasterVariation*.025;
+diffuseColor.rgb*=mix(vec3(1.),plaster,.32);
 `,
       );
       shader.fragmentShader = shader.fragmentShader.replace(
         "#include <normal_fragment_maps>",
         `
 #include <normal_fragment_maps>
-float stoneHeight=dot(stone,vec3(.3333))*.016;
+float plasterHeight=dot(plaster,vec3(.3333))*.0015;
 vec3 sigmaX=dFdx(-vViewPosition),sigmaY=dFdy(-vViewPosition);
 vec3 R1=cross(sigmaY,normal),R2=cross(normal,sigmaX);
 float determinant=dot(sigmaX,R1);
-vec3 gradient=sign(determinant)*(dFdx(stoneHeight)*R1+dFdy(stoneHeight)*R2);
+vec3 gradient=sign(determinant)*(dFdx(plasterHeight)*R1+dFdy(plasterHeight)*R2);
 normal=normalize(max(abs(determinant),.00000001)*normal-gradient);
 `,
       );
@@ -283,8 +257,7 @@ normal=normalize(max(abs(determinant),.00000001)*normal-gradient);
       shader.uniforms.rayPoolTime = this.clockUniform;
       shader.uniforms.rayPoolNight = this.skyUniforms.night;
       shader.fragmentShader =
-        `uniform float rayPoolTime,rayPoolNight;\n${noise}` +
-        shader.fragmentShader;
+        `uniform float rayPoolTime,rayPoolNight;\n${noise}` + shader.fragmentShader;
       shader.fragmentShader = shader.fragmentShader.replace(
         "#include <normal_fragment_maps>",
         `
@@ -314,17 +287,12 @@ totalEmissiveRadiance+=vec3(.018,.09,.095)*causticLine*(1.-rayPoolNight*.85);
   P.decorateArchitecture = function () {
     decorate.call(this);
     for (const mat of this.modelMaterials)
-      if (
-        /^(Painted Plaster Wall|Concrete White|Concrete|White Textured)$/.test(
-          mat.name,
-        )
-      )
+      if (/^(Painted Plaster Wall|Concrete White|Concrete|White Textured)$/.test(mat.name))
         this.applyWallFinish(mat);
     this.applyWallFinish(this.materials.penthouseWall);
     this.applyPoolWater(this.materials.pool);
     this.applyPoolWater(this.context?.mats?.pool);
-    this.canvas.dataset.wallFinish =
-      "visible-mineral-limestone-and-panel-variation";
+    this.canvas.dataset.wallFinish = "smooth-warm-white-plaster";
     this.canvas.dataset.poolWater = "animated-ripples-and-caustics";
   };
 })();
