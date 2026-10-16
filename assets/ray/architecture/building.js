@@ -12,7 +12,7 @@
       loader.setMeshoptDecoder(window.RayMeshoptDecoder);
       this.canvas.dataset.modelDetail = "site-distance";
       loader.load(
-        "assets/ray/models/site.glb?v=render-25",
+        window.RayAssets.get("assets/ray/models/site.glb"),
         (gltf) => {
           const root = gltf.scene;
           root.name = "RAY supplied architecture";

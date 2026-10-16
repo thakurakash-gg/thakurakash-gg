@@ -2,12 +2,25 @@ import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "assets/ray/scene-manifest.json")));
-for (const asset of manifest.assets)
-  assert(fs.existsSync(path.join(root, asset.url.split("?")[0])), asset.url);
+assert.equal(manifest.schema, 2, "Regenerate the content-versioned scene manifest");
+for (const asset of manifest.assets) {
+  const bytes = fs.readFileSync(path.join(root, asset.url.split("?")[0]));
+  assert.equal(bytes.length, asset.bytes, `Stale manifest: ${asset.url}`);
+  assert.equal(
+    crypto.createHash("sha256").update(bytes).digest("hex"),
+    asset.sha256,
+    `Stale manifest: ${asset.url}`,
+  );
+  assert.equal(new URL(asset.url, "https://ray.test/").searchParams.get("v"), asset.sha256);
+}
+execFileSync(process.execPath, [path.join(root, "tools/ray/check-cache.mjs")], {
+  stdio: "inherit",
+});
 for (const folder of ["core", "environment", "architecture", "ui"])
   for (const name of fs.readdirSync(path.join(root, "assets/ray", folder))) {
     if (name.endsWith(".js"))

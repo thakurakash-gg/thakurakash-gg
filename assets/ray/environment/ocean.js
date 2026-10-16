@@ -19,7 +19,7 @@
       resolveWater = resolve;
     });
     const field = new T.TextureLoader().load(
-      "assets/ray/textures/shore-distance.png?v=roadside-12",
+      window.RayAssets.get("assets/ray/textures/shore-distance.png"),
       () => {
         w.wake();
         resolveWater();

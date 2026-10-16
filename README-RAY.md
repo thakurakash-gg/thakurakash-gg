@@ -51,7 +51,11 @@ npm --prefix tools/ray run check
 
 Use localhost for the preview; service workers need HTTPS or localhost. Rebuild the manifest after editing runtime assets. To rebuild the optimized model, run `npm --prefix tools/ray run model:optimize`, inspect the curves and glazing, then regenerate the manifest.
 
-For a release, increment the release token in HTML, script-order, boot, model URL and manifest generator, and increment the cache name in `ray-sw.js`. This prevents an older cached resource set from mixing with a newer scene.
+For every release, run the manifest generator after editing or formatting assets. It computes SHA-256 URLs for every scene asset, derives the release ID from their contents plus the bootstrap and worker, and updates bootstrap/style URLs in the HTML. There are no manual release tokens to synchronize. The checker rejects an outdated manifest.
+
+On every launch the bootstrap requests the current manifest from the network, bypassing both HTTP and service-worker caches. Matching checksums reuse stored bytes; changed files download under new content keys. Every preload is verified, and scripts, the building and the shoreline texture consume those exact staged bytes. A partial deployment cannot silently display the previous building. Only after the scene finishes preparing is its release saved as the offline fallback. The previous completed release is retained; older scene caches are cleaned afterward. Offline launches use the last completed release when the bootstrap is available in the browser cache. Scene data attributes expose version, cachedVersion, releaseSource and cacheHits for diagnosis.
+
+Run `node tools/ray/check-cache.mjs` for cache/update regression coverage. Keep commit/push milestones small; regenerate and validate the manifest immediately before publishing runtime changes.
 
 ## Regression checks
 
