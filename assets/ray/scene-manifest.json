@@ -1,9 +1,9 @@
 {
   "schema": 2,
-  "version": "scene-e39cd3990cc78fe8",
+  "version": "scene-beb1885afdbd4c6b",
   "release": {
-    "version": "26.3.2",
-    "date": "2026-10-16",
+    "version": "26.4.0",
+    "date": "2026-10-17",
     "changelog": "CHANGELOG-RAY.md"
   },
   "scripts": [
@@ -11,8 +11,8 @@
     "assets/vendor/ray-meshopt-decoder.js?v=68d26aa0d7f88b8b9580ecfa46659a4cec803e26d0dc0d81e3da1f19f0181f65",
     "assets/vendor/ray-gltf-loader.js?v=38ee477e318f1d48c153a854c390a6a7d1d6d62c65ee4b972818cfac7f032173",
     "assets/ray/data/building-landscape.js?v=ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87",
-    "assets/ray/data/neighborhood.js?v=cb1fd9dc958fc6ba8cdc574473bb03a3186c7f358577e48db2ab9bbe812e78b7",
-    "assets/ray/data/extra-trees.js?v=2eaaa7ca76604068b451ee09baf93ad0d751810958feea9ecfcd0d2eb922544b",
+    "assets/ray/data/neighborhood.js?v=6f87d5d773e3a2b24c7739f47940122094c69dec64d4aa2f1fe92094a635a672",
+    "assets/ray/data/extra-trees.js?v=938492ec7a50e8d486e39332300eade510a804ae0423631e24b1d654921f5392",
     "assets/ray/environment/neighborhood.js?v=b7a892be5052fc96fa4ad6cfce54f30afacf2fd98b0238de0af052263e89999b",
     "assets/ray/environment/roads.js?v=75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2",
     "assets/ray/environment/villas.js?v=953e2b5ea6558888723c2d66e19f0e5e14cc8a3d5beddfdb003430df4ba97bc1",
@@ -31,6 +31,7 @@
     "assets/ray/architecture/glass-transition.js?v=eedf24490d7737c35b0abf8e7b166b0d0b9c36bc23bda9b2245b2d81f8b0d072",
     "assets/ray/architecture/surfaces.js?v=336131b1029721bb2cfddffcaec243bff0a832cf6171edee2736e8049c64346e",
     "assets/ray/architecture/life.js?v=89deecdd75b0ee11232c5d12d569b13a459a85c0b3ac3f18fcb51766bcfe227b",
+    "assets/ray/architecture/courtyard.js?v=e8728182ce069fad7df52e8f055a041a28f5aa7f47a0a1091743209a4ce1c907",
     "assets/ray/environment/night.js?v=6f2dfe9ae42da79791b8780afaee7d4f98e0c036298944c8418d310fd17cbeb8",
     "assets/ray/core/diagnostics.js?v=0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9",
     "assets/ray/ui/experience.js?v=420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0"
@@ -57,14 +58,14 @@
       "sha256": "ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87"
     },
     {
-      "url": "assets/ray/data/neighborhood.js?v=cb1fd9dc958fc6ba8cdc574473bb03a3186c7f358577e48db2ab9bbe812e78b7",
-      "bytes": 25226298,
-      "sha256": "cb1fd9dc958fc6ba8cdc574473bb03a3186c7f358577e48db2ab9bbe812e78b7"
+      "url": "assets/ray/data/neighborhood.js?v=6f87d5d773e3a2b24c7739f47940122094c69dec64d4aa2f1fe92094a635a672",
+      "bytes": 25226733,
+      "sha256": "6f87d5d773e3a2b24c7739f47940122094c69dec64d4aa2f1fe92094a635a672"
     },
     {
-      "url": "assets/ray/data/extra-trees.js?v=2eaaa7ca76604068b451ee09baf93ad0d751810958feea9ecfcd0d2eb922544b",
-      "bytes": 33386,
-      "sha256": "2eaaa7ca76604068b451ee09baf93ad0d751810958feea9ecfcd0d2eb922544b"
+      "url": "assets/ray/data/extra-trees.js?v=938492ec7a50e8d486e39332300eade510a804ae0423631e24b1d654921f5392",
+      "bytes": 32594,
+      "sha256": "938492ec7a50e8d486e39332300eade510a804ae0423631e24b1d654921f5392"
     },
     {
       "url": "assets/ray/environment/neighborhood.js?v=b7a892be5052fc96fa4ad6cfce54f30afacf2fd98b0238de0af052263e89999b",
@@ -155,6 +156,11 @@
       "url": "assets/ray/architecture/life.js?v=89deecdd75b0ee11232c5d12d569b13a459a85c0b3ac3f18fcb51766bcfe227b",
       "bytes": 15183,
       "sha256": "89deecdd75b0ee11232c5d12d569b13a459a85c0b3ac3f18fcb51766bcfe227b"
+    },
+    {
+      "url": "assets/ray/architecture/courtyard.js?v=e8728182ce069fad7df52e8f055a041a28f5aa7f47a0a1091743209a4ce1c907",
+      "bytes": 6523,
+      "sha256": "e8728182ce069fad7df52e8f055a041a28f5aa7f47a0a1091743209a4ce1c907"
     },
     {
       "url": "assets/ray/environment/night.js?v=6f2dfe9ae42da79791b8780afaee7d4f98e0c036298944c8418d310fd17cbeb8",

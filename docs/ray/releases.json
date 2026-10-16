@@ -1,6 +1,36 @@
 {
   "releases": [
     {
+      "version": "26.4.0",
+      "date": "2026-10-17",
+      "title": "Clear roads, repaired coastal ground and a planted dining courtyard",
+      "sceneVersion": "scene-beb1885afdbd4c6b",
+      "preview": "26.4.0",
+      "changes": {
+        "Fixed": [
+          "Moved 1,028 context trees onto verified green ground using both polygon outlines and the rendered graded road and sidewalk meshes. All 5,693 tree bases keep clearance; shared foliage instancing is preserved.",
+          "Repaired self-intersecting coastal ground contours that made triangulation leave a missing wedge beside the inlet."
+        ],
+        "Added": [
+          "A lightweight dining garden between the towers: six dining tables, 36 chairs, seven planted beds, four palms and warm lanterns, using existing materials and shared instance geometry."
+        ]
+      },
+      "validation": [
+        "Independent geometry checks cover every tree against both rendered road and paving meshes.",
+        "Rendered ground triangle areas are checked against the coastal outlines.",
+        "Full cache, reflection, lighting transition and scene regression checks; browser inspection.",
+        "Browser asset budget: 16,930 added triangles, 583 instance placements, nine added batches, zero new materials and zero added real-time lights."
+      ],
+      "limitations": [
+        "Natural foliage can overhang the edge of green planting areas; trunks are kept at least 3.5 m from road surfaces and 1.65 m from paving.",
+        "Physical low-end-device testing remains pending."
+      ],
+      "commits": [
+        "ed076af",
+        "5eb7358"
+      ]
+    },
+    {
       "version": "26.3.2",
       "date": "2026-10-16",
       "title": "Smooth warm plaster and rounded inlet shore",

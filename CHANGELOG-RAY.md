@@ -4,6 +4,36 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.4.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.4.0) — 2026-10-17
+
+Clear roads, repaired coastal ground and a planted dining courtyard
+
+- Scene/cache ID: `scene-beb1885afdbd4c6b`
+- Preview label: `26.4.0`
+
+### Fixed
+
+- Moved 1,028 context trees onto verified green ground using both polygon outlines and the rendered graded road and sidewalk meshes. All 5,693 tree bases keep clearance; shared foliage instancing is preserved.
+- Repaired self-intersecting coastal ground contours that made triangulation leave a missing wedge beside the inlet.
+
+### Added
+
+- A lightweight dining garden between the towers: six dining tables, 36 chairs, seven planted beds, four palms and warm lanterns, using existing materials and shared instance geometry.
+
+### Validation
+
+- Independent geometry checks cover every tree against both rendered road and paving meshes.
+- Rendered ground triangle areas are checked against the coastal outlines.
+- Full cache, reflection, lighting transition and scene regression checks; browser inspection.
+- Browser asset budget: 16,930 added triangles, 583 instance placements, nine added batches, zero new materials and zero added real-time lights.
+
+### Known limits
+
+- Natural foliage can overhang the edge of green planting areas; trunks are kept at least 3.5 m from road surfaces and 1.65 m from paving.
+- Physical low-end-device testing remains pending.
+
+Commits: [ed076af](https://github.com/thakurakash-gg/thakurakash-gg/commit/ed076af), [5eb7358](https://github.com/thakurakash-gg/thakurakash-gg/commit/5eb7358).
+
 ## [26.3.2](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.3.2) — 2026-10-16
 
 Smooth warm plaster and rounded inlet shore

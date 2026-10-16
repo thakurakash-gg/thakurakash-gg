@@ -23,6 +23,7 @@
   "assets/ray/architecture/glass-transition.js",
   "assets/ray/architecture/surfaces.js",
   "assets/ray/architecture/life.js",
+  "assets/ray/architecture/courtyard.js",
   "assets/ray/environment/night.js",
   "assets/ray/core/diagnostics.js",
   "assets/ray/ui/experience.js"

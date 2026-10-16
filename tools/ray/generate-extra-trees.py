@@ -14,7 +14,7 @@ from shapely.prepared import prep
 from planting_geometry import green_ground
 
 data = json.loads(
-    (root / "assets/ray/data/neighborhood.js").read_text().split("=", 1)[1].strip().rstrip(";")
+    (root / "assets/ray/data/neighborhood.js").read_text(encoding="utf8").split("=", 1)[1].strip().rstrip(";")
 )
 
 

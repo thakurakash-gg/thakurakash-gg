@@ -1,7 +1,6 @@
 """Offline planting constraints derived from the surfaces the viewer actually renders."""
 
 import json
-import math
 import sys
 from pathlib import Path
 
@@ -57,13 +56,6 @@ def green_ground(data):
         if villa.get("pool"):
             obstacles.append(polygon(villa["pool"]["water"]))
     return ground.difference(shapely.union_all(obstacles)).buffer(0)
-
-
-def canopy_radius(tree):
-    # Crown geometry is bounded by 1.8 local metres; cluster offset <= .42 * size.
-    # This includes full desktop crowns and palm fronds, independent of mobile LOD.
-    _, _, height, palm = tree
-    return 6.1 if palm else height * 0.54 * (0.42 + 1.8 * 0.7)
 
 
 class PlantingSpace:

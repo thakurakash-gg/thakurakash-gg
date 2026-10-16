@@ -2,7 +2,7 @@
 
 import json
 import math
-from planting_geometry import ROOT, PlantingSpace, canopy_radius, green_ground, read_data
+from planting_geometry import ROOT, PlantingSpace, green_ground, read_data
 import shapely
 
 data = read_data()
