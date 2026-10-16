@@ -4,6 +4,29 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.1.1](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.1.1) — 2026-10-16
+
+Prevent black glazing after lighting changes
+
+- Scene/cache ID: `scene-deb1dade10b588d7`
+- Preview label: `26.1.1`
+
+### Fixed
+
+- Reflection capture includes the complete sky sphere and excludes glazing that samples the same probe.
+- The initial sky and later reflection captures share one retained PMREM generator.
+- Invalid or empty reflection maps cannot replace the last valid environment; a prepared sky map is available as a fallback.
+
+### Validation
+
+- Scene/cache integrity and regression checks.
+- Automated sky-range, generator reuse, invalid-probe fallback, safe replacement and scene-state restoration tests.
+- Browser reproduction at the low-angle waterfront view with repeated lighting transitions.
+
+### Known limits
+
+- Physical Android and low-end GPU validation remains pending.
+
 ## [26.1.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.1.0) — 2026-10-16
 
 Visible wall finishes and varied parallax rooms

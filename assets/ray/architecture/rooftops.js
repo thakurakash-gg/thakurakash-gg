@@ -236,7 +236,9 @@
     }));
     glass.userData.rayReflective = true;
     this.modelMaterials.add(glass);
-    this.materials.penthouseWall = this.material("penthouseWall", 0xd6cbb4, { roughness: 0.78 });
+    this.materials.penthouseWall = this.material("penthouseWall", 0xd6cbb4, {
+      roughness: 0.78,
+    });
     const light = (this.materials.penthouseLight = this.material("penthouseLight", 0xf3e8d0, {
       emissive: 0xffd59d,
       emissiveIntensity: 0.1,
@@ -376,8 +378,38 @@
       }
     }
   };
+  P.inspectGlassProbe = function (target) {
+    const sample = new Uint16Array(4);
+    let energy = 0;
+    const values = [];
+    // Sample each base cube face in the PMREM atlas. Readback happens only on a
+    // lighting change, never during orbiting or the normal animation loop.
+    const size = target.width / 3;
+    for (const [x, y] of [
+      [0.5, 0.5],
+      [1.5, 0.5],
+      [2.5, 0.5],
+      [0.5, 1.5],
+      [1.5, 1.5],
+      [2.5, 1.5],
+    ]) {
+      sample.fill(0);
+      this.renderer.readRenderTargetPixels(
+        target,
+        Math.floor(x * size),
+        Math.floor(y * size),
+        1,
+        1,
+        sample,
+      );
+      const rgb = Array.from(sample.slice(0, 3), (value) => T.DataUtils.fromHalfFloat(value));
+      values.push(rgb);
+      if (!rgb.every(Number.isFinite)) return { valid: false, energy: 0, values };
+      energy += rgb.reduce((sum, value) => sum + Math.max(0, value), 0);
+    }
+    return { valid: energy > 0.00001, energy, values };
+  };
   P.captureGlassEnvironment = function () {
-    // Reuse the shared sky probe on narrow screens to keep the lighter renderer stable.
     if (this.quality.compact || !this.quality.hdr) {
       this.glassCaptureMood = this.mood;
       this.canvas.dataset.glass = "blue-sky-reflections";
@@ -388,35 +420,70 @@
       generateMipmaps: true,
       minFilter: T.LinearMipmapLinearFilter,
     });
-    this.glassCubeCamera ??= new T.CubeCamera(2, 4500, this.glassCubeTarget);
+    // The sky sphere has an 8 km radius. The old 4.5 km far plane clipped it
+    // completely, producing black sky pixels in the reflection environment.
+    this.glassCubeCamera ??= new T.CubeCamera(2, this.camera.far, this.glassCubeTarget);
     this.glassCubeCamera.position.set(0, 38, window.RayBuildingLandscape.buildingShift || 0);
-    const sky = this.sky.position.clone(),
-      shadowUpdate = this.renderer.shadowMap.needsUpdate,
-      visible = this.modelRoot.visible;
+    const sky = this.sky.position.clone();
+    const background = this.scene.background;
+    const shadowUpdate = this.renderer.shadowMap.needsUpdate;
+    const hidden = [];
+    let environment;
     try {
-      this.modelRoot.visible = false;
+      // Exclude all glazing using this probe, including the added penthouses.
+      this.scene.traverse((object) => {
+        const materials = object.material
+          ? Array.isArray(object.material)
+            ? object.material
+            : [object.material]
+          : [];
+        if (object === this.modelRoot || materials.some((mat) => mat.userData.rayReflective)) {
+          hidden.push([object, object.visible]);
+          object.visible = false;
+        }
+      });
       this.sky.position.copy(this.glassCubeCamera.position);
+      this.scene.background = this.skyUniforms.horizon.value;
       this.renderer.shadowMap.needsUpdate = false;
       this.glassCubeCamera.update(this.renderer, this.scene);
+      this.pmremGenerator ??= new T.PMREMGenerator(this.renderer);
+      environment = this.pmremGenerator.fromCubemap(this.glassCubeTarget.texture);
+      const probe = this.inspectGlassProbe(environment);
+      this.canvas.dataset.glassProbe = JSON.stringify({
+        mood: this.mood,
+        valid: probe.valid,
+        energy: probe.energy,
+      });
+      if (!probe.valid) throw Error("Glass reflection probe contained invalid or empty radiance");
+      delete this.canvas.dataset.glassProbeError;
+      const old = this.glassEnvironment;
+      this.glassEnvironment = environment;
+      for (const mat of this.modelMaterials)
+        if (mat.userData.rayReflective) {
+          mat.envMap = environment.texture;
+          mat.needsUpdate = true;
+        }
+      environment = null;
+      old?.dispose();
+      this.canvas.dataset.glass = "validated-blue-scene-reflections";
+    } catch (error) {
+      environment?.dispose();
+      // Preserve the last valid reflection, or use the already prepared sky map.
+      const fallback = this.glassEnvironment?.texture || this.scene.environment;
+      for (const mat of this.modelMaterials)
+        if (mat.userData.rayReflective) {
+          mat.envMap = fallback;
+          mat.needsUpdate = true;
+        }
+      this.canvas.dataset.glass = "validated-sky-fallback";
+      this.canvas.dataset.glassProbeError = error.message;
     } finally {
+      for (const [object, visible] of hidden) object.visible = visible;
       this.renderer.shadowMap.needsUpdate = shadowUpdate;
-      this.modelRoot.visible = visible;
       this.sky.position.copy(sky);
+      this.scene.background = background;
+      this.glassCaptureMood = this.mood;
     }
-    const generator = new T.PMREMGenerator(this.renderer),
-      environment = generator.fromCubemap(this.glassCubeTarget.texture);
-    generator.dispose();
-    const old = this.glassEnvironment;
-    this.glassEnvironment = environment;
-    for (const mat of this.modelMaterials)
-      if (mat.userData.rayReflective) {
-        mat.envMap = environment.texture;
-        mat.needsUpdate = true;
-      }
-    old?.dispose();
-    this.glassCaptureMood = this.mood;
-    this.renderer.shadowMap.needsUpdate = true;
-    this.canvas.dataset.glass = "blue-scene-reflections";
   };
   const present = P.renderPresentation;
   P.renderPresentation = function () {

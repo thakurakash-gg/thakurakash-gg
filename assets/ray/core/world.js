@@ -100,7 +100,11 @@
         emissive: 0xe5b26d,
         emissiveIntensity: 0,
       });
-      this.material("lamp", 0xe6dac2, { roughness: 0.4, emissive: 0xffd399, emissiveIntensity: 0 });
+      this.material("lamp", 0xe6dac2, {
+        roughness: 0.4,
+        emissive: 0xffd399,
+        emissiveIntensity: 0,
+      });
       this.material("darkglass", 0x3e697a, {
         roughness: 0.23,
         metalness: 0.48,
@@ -124,7 +128,10 @@
       this.material("roof", 0xb48066, { roughness: 0.9 });
       this.material("white", 0xe6e4d6, { roughness: 0.5 });
       this.material("hull", 0xecede5, { roughness: 0.35, metalness: 0.08 });
-      this.material("boatglass", 0x214d63, { roughness: 0.14, metalness: 0.55 });
+      this.material("boatglass", 0x214d63, {
+        roughness: 0.14,
+        metalness: 0.55,
+      });
       this.material("trunk", 0x8c8065, { roughness: 1 });
       this.material("leaf", 0x426c48, { roughness: 0.95, side: T.DoubleSide });
       this.material("crown", 0x5e7850, { roughness: 1 });
@@ -201,7 +208,18 @@
         batch = { geometry, material, items: [] };
         this.batches.set(key, batch);
       }
-      batch.items.push({ x, y: y + (this.elevation || 0), z, sx, sy, sz, ry, rx, rz, color });
+      batch.items.push({
+        x,
+        y: y + (this.elevation || 0),
+        z,
+        sx,
+        sy,
+        sz,
+        ry,
+        rx,
+        rz,
+        color,
+      });
     }
     box(mat, x, y, z, w, h, d, ry = 0, color = null) {
       this.addBatch(
@@ -239,7 +257,11 @@
       s.quadraticCurveTo(x, z + d, x, z + d - r);
       s.lineTo(x, z + r);
       s.quadraticCurveTo(x, z, x + r, z);
-      const g = new T.ExtrudeGeometry(s, { depth: h, bevelEnabled: false, curveSegments: 6 });
+      const g = new T.ExtrudeGeometry(s, {
+        depth: h,
+        bevelEnabled: false,
+        curveSegments: 6,
+      });
       g.rotateX(-Math.PI / 2);
       return g;
     }
@@ -337,11 +359,11 @@ gl_FragColor=vec4(color,1.);
         this.canvas.dataset.environmentFallback = "ambient";
         return;
       }
-      const pmrem = new T.PMREMGenerator(this.renderer);
-      this.environment = pmrem.fromEquirectangular(texture);
+      // Keep one generator alive for the initial sky and later glass captures.
+      this.pmremGenerator = new T.PMREMGenerator(this.renderer);
+      this.environment = this.pmremGenerator.fromEquirectangular(texture);
       this.scene.environment = this.environment.texture;
       texture.dispose();
-      pmrem.dispose();
     }
     createLights() {
       this.hemi = new T.HemisphereLight(0xcbdfea, 0x9d9177, 0.75);
@@ -384,7 +406,11 @@ gl_FragColor=vec4(color,1.);
       return shape;
     }
     shapeGeometry(shape, h) {
-      const g = new T.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false, curveSegments: 18 });
+      const g = new T.ExtrudeGeometry(shape, {
+        depth: h,
+        bevelEnabled: false,
+        curveSegments: 18,
+      });
       g.rotateX(-Math.PI / 2);
       return g;
     }
@@ -1451,7 +1477,11 @@ gl_FragColor=vec4(color,1.);
         .map((b) => [b.group.position.x.toFixed(2), b.group.position.z.toFixed(2)].join(","))
         .join(";");
       if (this.onCamera)
-        this.onCamera({ angle: degrees, radius: radius / this.fitFactor, auto: this.auto });
+        this.onCamera({
+          angle: degrees,
+          radius: radius / this.fitFactor,
+          auto: this.auto,
+        });
       if (!this.paused || cameraMoves || lightingMoves || this.auto) this.wake();
     }
   }

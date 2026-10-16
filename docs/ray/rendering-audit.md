@@ -66,3 +66,7 @@ Browser verification covers initial loading, repeat loads, release changes while
 ## Version 26.1.0 facade refinement
 
 The earlier finish was too subtle at normal viewing distances. The revision strengthens the limestone mineral clouds, panel color differences and relief, and includes the source generic concrete material. Window interiors now choose among six stable layouts with distinct furniture, finishes, mirrored arrangements, depths, curtain/shade positions and lighting. Each pixel uses only three furniture intersection queries, with no additional material objects. The tested material-object count remains 118 plus the presentation material; the revised desktop shaders reported 43 customization hooks and 118 compiled variants. See the versioned changelog for the exact scene/cache ID.
+
+## Version 26.1.1 reflection fix
+
+The glazing capture used a 4.5 km far plane while the sky sphere has an 8 km radius, clipping the sky from the reflection map. The capture now uses the main camera far range and excludes source and added glazing to avoid sampling its own reflection. A single PMREM generator remains alive for the initial sky and lighting updates. Sparse half-float map readback validates finite, nonempty radiance only when lighting changes; an invalid capture preserves the previous valid environment or uses the prepared sky map. Automated tests cover those paths and scene-state restoration. The browser regression recreates the low-angle waterfront camera and cycles lighting, including afternoon after night.
