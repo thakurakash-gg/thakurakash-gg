@@ -70,3 +70,7 @@ The earlier finish was too subtle at normal viewing distances. The revision stre
 ## Version 26.1.1 reflection fix
 
 The glazing capture used a 4.5 km far plane while the sky sphere has an 8 km radius, clipping the sky from the reflection map. The capture now uses the main camera far range and excludes source and added glazing to avoid sampling its own reflection. A single PMREM generator remains alive for the initial sky and lighting updates. Sparse half-float map readback validates finite, nonempty radiance only when lighting changes; an invalid capture preserves the previous valid environment or uses the prepared sky map. Automated tests cover those paths and scene-state restoration. The browser regression recreates the low-angle waterfront camera and cycles lighting, including afternoon after night.
+
+## 26.1.2 — lighting-switch corruption
+
+A longer GPU reproduction showed 48,083 invalid atlas texels while all six centre samples were finite. The ocean used an unbounded Fresnel pow base and a main-camera projected reflection inside cubemap captures. Capture now uses analytic water shading, bounded Fresnel and a guarded projection divide. Full-atlas half-float validation rejects invalid texels in any roughness level before replacement. The reusable validation buffer is about 6 MiB at 768 × 1024 and is read only after a lighting transition settles.

@@ -1,6 +1,29 @@
 {
   "releases": [
     {
+      "version": "26.1.2",
+      "date": "2026-10-16",
+      "title": "Stable glazing through repeated lighting switches",
+      "sceneVersion": "scene-353870cd70740200",
+      "preview": "26.1.2",
+      "changes": {
+        "Fixed": [
+          "Ocean Fresnel uses a non-negative, bounded base and projected reflection sampling rejects the projection horizon.",
+          "Glass cubemap captures use analytic water shading instead of the main camera's planar image, preventing reflection feedback.",
+          "Reflection validation scans every atlas texel, including roughness mip levels, and rejects any NaN or infinity before material assignment."
+        ]
+      },
+      "validation": [
+        "Reproduced the prior black-glass failure after repeated lighting changes at the low-angle waterfront view; the old centre samples passed while 48,083 atlas texels were invalid.",
+        "Automated single-invalid-texel regression outside the old sample locations, water capture mode restoration and fallback tests.",
+        "Repeated completed day/night lighting transitions checked in the browser with zero invalid atlas texels."
+      ],
+      "limitations": [
+        "Physical Android and low-end GPU validation remains pending."
+      ],
+      "commits": []
+    },
+    {
       "version": "26.1.1",
       "date": "2026-10-16",
       "title": "Prevent black glazing after lighting changes",

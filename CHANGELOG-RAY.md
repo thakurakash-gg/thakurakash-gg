@@ -4,6 +4,29 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.1.2](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.1.2) — 2026-10-16
+
+Stable glazing through repeated lighting switches
+
+- Scene/cache ID: `scene-353870cd70740200`
+- Preview label: `26.1.2`
+
+### Fixed
+
+- Ocean Fresnel uses a non-negative, bounded base and projected reflection sampling rejects the projection horizon.
+- Glass cubemap captures use analytic water shading instead of the main camera's planar image, preventing reflection feedback.
+- Reflection validation scans every atlas texel, including roughness mip levels, and rejects any NaN or infinity before material assignment.
+
+### Validation
+
+- Reproduced the prior black-glass failure after repeated lighting changes at the low-angle waterfront view; the old centre samples passed while 48,083 atlas texels were invalid.
+- Automated single-invalid-texel regression outside the old sample locations, water capture mode restoration and fallback tests.
+- Repeated completed day/night lighting transitions checked in the browser with zero invalid atlas texels.
+
+### Known limits
+
+- Physical Android and low-end GPU validation remains pending.
+
 ## [26.1.1](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.1.1) — 2026-10-16
 
 Prevent black glazing after lighting changes

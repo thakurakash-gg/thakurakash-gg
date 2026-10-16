@@ -32,6 +32,8 @@
     field.generateMipmaps = false;
     const uniforms = {
       reflectionMap: { value: w.mirrorTarget.texture },
+      // A planar image belongs to the main camera, never a cubemap camera.
+      reflectionPass: { value: 0 },
       reflectionMatrix: { value: w.textureMatrix },
       shoreField: { value: field },
       rayTime: w.clockUniform,
@@ -109,7 +111,7 @@ uniform sampler2D reflectionMap;
 uniform sampler2D shoreField;
 uniform highp float rayTime;
 uniform vec3 sunDirection, deep, shallow, light, horizon;
-uniform float exposure;
+uniform float exposure, reflectionPass;
 ${spectrum}
 void main() {
   vec4 shore=texture2D(shoreField,clamp((world.xz+1900.)/3800.,.001,.999));
@@ -122,11 +124,18 @@ void main() {
   vec3 rippleB=waterNoise(mat2(.793,-.609,.609,.793)*flow*1.037+13.7);
   slope+=detail*(rippleA.yz*.021+mat2(.793,.609,-.609,.793)*rippleB.yz*.012);
   vec3 normal=normalize(vec3(-slope.x,1.,-slope.y)), eye=normalize(cameraPosition-world);
-  float fresnel=pow(1.-max(0.,dot(eye,normal)),4.);
+  // Normalization can round a dot product slightly above one. pow() is
+  // undefined for a negative base, even when its exponent is an integer.
+  float fresnel=pow(clamp(1.-dot(eye,normal),0.,1.),4.);
   vec3 color=mix(deep,shallow,exp(-d/65.)*.74);
-  vec2 reflectedUV=reflectionCoord.xy/reflectionCoord.w+normal.xz*.013;
-  float edge=smoothstep(0.,.05,min(min(reflectedUV.x,reflectedUV.y),min(1.-reflectedUV.x,1.-reflectedUV.y)));
-  vec3 reflected=mix(horizon,texture2D(reflectionMap,clamp(reflectedUV,.001,.999)).rgb,edge);
+  vec3 reflected=horizon;
+  // Glass captures still see shaded water, without reprojecting an unrelated
+  // camera image or feeding the building's previous reflection back into itself.
+  if(reflectionPass<.5 && reflectionCoord.w>.0001) {
+    vec2 reflectedUV=reflectionCoord.xy/reflectionCoord.w+normal.xz*.013;
+    float edge=smoothstep(0.,.05,min(min(reflectedUV.x,reflectedUV.y),min(1.-reflectedUV.x,1.-reflectedUV.y)));
+    reflected=mix(horizon,texture2D(reflectionMap,clamp(reflectedUV,.001,.999)).rgb,edge);
+  }
   color=mix(color,reflected,.19+fresnel*.58);
   float sun=max(0.,dot(reflect(-normalize(sunDirection),normal),eye));
   color+=light*(pow(sun,110.)*.26+pow(sun,28.)*.012);
@@ -160,11 +169,7 @@ void main() {
     for (let j = 0; j < radii.length; j++)
       for (let i = 0; i < sides; i++) {
         const angle = (i / sides) * Math.PI * 2;
-        positions.push(
-          Math.cos(angle) * radii[j],
-          0,
-          Math.sin(angle) * radii[j],
-        );
+        positions.push(Math.cos(angle) * radii[j], 0, Math.sin(angle) * radii[j]);
         if (j < radii.length - 1) {
           const a = j * sides + i,
             b = j * sides + ((i + 1) % sides);
@@ -172,10 +177,7 @@ void main() {
         }
       }
     const geometry = new T.BufferGeometry();
-    geometry.setAttribute(
-      "position",
-      new T.Float32BufferAttribute(positions, 3),
-    );
+    geometry.setAttribute("position", new T.Float32BufferAttribute(positions, 3));
     geometry.setIndex(indices);
     material.extensions.derivatives = true;
     w.water = w.mesh(geometry, material, 0, -0.12, 0);

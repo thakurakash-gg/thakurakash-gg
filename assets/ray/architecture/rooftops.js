@@ -379,6 +379,25 @@
     }
   };
   P.inspectGlassProbe = function (target) {
+    // A single NaN outside the face centres contaminates the roughness mips.
+    // Scan the complete atlas only when lighting settles; reuse its CPU buffer.
+    const length = target.width * target.height * 4;
+    if (this.glassProbePixels?.length !== length) this.glassProbePixels = new Uint16Array(length);
+    const pixels = this.glassProbePixels;
+    pixels.fill(0);
+    this.renderer.readRenderTargetPixels(target, 0, 0, target.width, target.height, pixels);
+    let invalidTexels = 0;
+    for (let index = 0; index < length; index += 4) {
+      // Half-float exponent 31 represents both infinity and NaN.
+      if (
+        (pixels[index] & 0x7c00) === 0x7c00 ||
+        (pixels[index + 1] & 0x7c00) === 0x7c00 ||
+        (pixels[index + 2] & 0x7c00) === 0x7c00
+      )
+        invalidTexels++;
+    }
+    this.canvas.dataset.glassAtlasInvalid = String(invalidTexels);
+    if (invalidTexels) return { valid: false, energy: 0, invalidTexels };
     const sample = new Uint16Array(4);
     let energy = 0;
     const values = [];
@@ -428,6 +447,9 @@
     const background = this.scene.background;
     const shadowUpdate = this.renderer.shadowMap.needsUpdate;
     const hidden = [];
+    const waterPasses = (this.waterUniforms || [])
+      .filter((uniforms) => uniforms.reflectionPass)
+      .map((uniforms) => [uniforms.reflectionPass, uniforms.reflectionPass.value]);
     let environment;
     try {
       // Exclude all glazing using this probe, including the added penthouses.
@@ -445,6 +467,7 @@
       this.sky.position.copy(this.glassCubeCamera.position);
       this.scene.background = this.skyUniforms.horizon.value;
       this.renderer.shadowMap.needsUpdate = false;
+      for (const [uniform] of waterPasses) uniform.value = 1;
       this.glassCubeCamera.update(this.renderer, this.scene);
       this.pmremGenerator ??= new T.PMREMGenerator(this.renderer);
       environment = this.pmremGenerator.fromCubemap(this.glassCubeTarget.texture);
@@ -453,6 +476,7 @@
         mood: this.mood,
         valid: probe.valid,
         energy: probe.energy,
+        invalidTexels: probe.invalidTexels || 0,
       });
       if (!probe.valid) throw Error("Glass reflection probe contained invalid or empty radiance");
       delete this.canvas.dataset.glassProbeError;
@@ -478,6 +502,7 @@
       this.canvas.dataset.glass = "validated-sky-fallback";
       this.canvas.dataset.glassProbeError = error.message;
     } finally {
+      for (const [uniform, value] of waterPasses) uniform.value = value;
       for (const [object, visible] of hidden) object.visible = visible;
       this.renderer.shadowMap.needsUpdate = shadowUpdate;
       this.sky.position.copy(sky);

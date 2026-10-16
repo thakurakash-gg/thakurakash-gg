@@ -19,6 +19,11 @@ class ProbeCamera extends THREE.CubeCamera {
       this.children.every((camera) => camera.far > 8000),
       "The reflection camera must include the sky sphere",
     );
+    assert.equal(
+      world.waterUniforms[0].reflectionPass.value,
+      1,
+      "Cubemap water must not sample a main-camera planar reflection",
+    );
     assert.equal(world.modelRoot.visible, false);
     assert.equal(addition.visible, false, "Added glazing must not sample its own capture");
     if (failCapture) throw Error("Simulated capture failure");
@@ -70,6 +75,7 @@ Object.assign(world, {
   sky,
   skyUniforms: { horizon: { value: new THREE.Color(0xaabbcc) } },
   quality: { compact: false, hdr: true },
+  waterUniforms: [{ reflectionPass: { value: 0 } }],
   camera: new THREE.PerspectiveCamera(40, 1, 2, 11000),
   canvas: { dataset: {} },
   mood: "morning",
@@ -79,20 +85,19 @@ Object.assign(world, {
     shadowMap: { needsUpdate: true },
     readRenderTargetPixels(target, x, y, w, h, buffer) {
       assert(x >= 0 && x < target.width && y >= 0 && y < target.height);
-      buffer.set(
-        invalid
-          ? [0x7e00, 0x7e00, 0x7e00, 0x3c00]
-          : [
-              THREE.DataUtils.toHalfFloat(0.2),
-              THREE.DataUtils.toHalfFloat(0.3),
-              THREE.DataUtils.toHalfFloat(0.4),
-              0x3c00,
-            ],
-      );
+      for (let index = 0; index < buffer.length; index += 4)
+        buffer.set([0x3266, 0x34cd, 0x3666, 0x3c00], index);
+      // The regression was away from face centres, in the filtered atlas.
+      if (invalid && buffer.length > 4) buffer[buffer.length - 8] = 0x7e00;
     },
   },
 });
 const restored = () => {
+  assert.equal(
+    world.waterUniforms[0].reflectionPass.value,
+    0,
+    "Water capture mode must restore even when capture throws",
+  );
   assert.equal(modelRoot.visible, true);
   assert.equal(addition.visible, true);
   assert.equal(scene.background, originalBackground);
@@ -120,6 +125,11 @@ assert.equal(
   "Invalid radiance must not replace the last valid probe",
 );
 assert.equal(material.envMap, second.texture);
+assert.equal(
+  world.canvas.dataset.glassAtlasInvalid,
+  "1",
+  "A single invalid texel outside the old sample points must be detected",
+);
 assert(!second.wasDisposed);
 assert(targets.at(-1).wasDisposed);
 world.glassEnvironment = null;
@@ -139,6 +149,9 @@ world.quality.compact = true;
 world.captureGlassEnvironment();
 assert.equal(captures, count);
 assert.equal(conversions, 4);
+const ocean = fs.readFileSync(path.join(root, "assets/ray/environment/ocean.js"), "utf8");
+assert.match(ocean, /pow\(clamp\(1\.-dot\(eye,normal\),0\.,1\.\),4\.\)/);
+assert.match(ocean, /reflectionPass<\.5 && reflectionCoord\.w>\.0001/);
 console.log(
-  "Pass: sky capture range, shared generator, valid environment replacement, rejected invalid probes, fallback and capture-state restoration.",
+  "Pass: sky capture range, shared generator, full-atlas invalid-texel rejection, camera-independent ocean capture, fallback and state restoration.",
 );
