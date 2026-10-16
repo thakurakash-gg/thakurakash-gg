@@ -9,20 +9,13 @@ except ImportError:
 from shapely.geometry import Polygon, Point
 from shapely.ops import unary_union
 from shapely.prepared import prep
+from planting_geometry import green_ground
 
 data = json.loads((root/'assets/ray/data/neighborhood.js').read_text().split('=',1)[1].strip().rstrip(';'))
 def shape(rings):
     return Polygon([p[:2] for p in rings[0]], [[p[:2] for p in r] for r in rings[1:]]).buffer(0)
-land = unary_union([shape(r) for r in data['groundSurfaces']]).buffer(-4)
-obstacles = [shape(r).buffer(3) for r in data['roadSurfaces'] + data['pavingSurfaces']]
-obstacles += [Polygon(b['p']).buffer(5) for b in data['buildings']]
-obstacles += [shape(r).buffer(3) for r in data['projectGroundOutline']]
-obstacles += [shape(r).buffer(2) for r in data['neighborPool']['deck']]
-for b in data['buildings']:
-    v = b.get('v', {})
-    if v.get('drive'): obstacles += [unary_union([shape(r) for r in v['drive']]).buffer(2)]
-    if v.get('pool'): obstacles += [shape(v['pool']['water']).buffer(3)]
-allowed = prep(land.difference(unary_union(obstacles)))
+# Include graded meshes and leave room for trunks inside green ground.
+allowed = prep(green_ground(data).buffer(-1))
 rng = random.Random(26120)
 grid = {}
 def cell(x,z): return math.floor(x/8), math.floor(z/8)
