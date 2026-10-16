@@ -1,0 +1,153 @@
+{
+  "version": "render-25",
+  "scripts": [
+    "assets/three.min.js",
+    "assets/vendor/ray-meshopt-decoder.js?v=render-25",
+    "assets/vendor/ray-gltf-loader.js?v=render-25",
+    "assets/ray/data/building-landscape.js?v=render-25",
+    "assets/ray/data/neighborhood.js?v=render-25",
+    "assets/ray/environment/neighborhood.js?v=render-25",
+    "assets/ray/environment/roads.js?v=render-25",
+    "assets/ray/environment/villas.js?v=render-25",
+    "assets/ray/environment/ocean.js?v=render-25",
+    "assets/ray/core/quality.js?v=render-25",
+    "assets/ray/core/world.js?v=render-25",
+    "assets/ray/data/club-deck.js?v=render-25",
+    "assets/ray/architecture/waterfront-club.js?v=render-25",
+    "assets/ray/core/reflections.js?v=render-25",
+    "assets/ray/core/batching.js?v=render-25",
+    "assets/ray/environment/birds.js?v=render-25",
+    "assets/ray/core/presentation.js?v=render-25",
+    "assets/ray/environment/foliage.js?v=render-25",
+    "assets/ray/architecture/building.js?v=render-25",
+    "assets/ray/architecture/rooftops.js?v=render-25",
+    "assets/ray/ui/experience.js?v=render-25"
+  ],
+  "assets": [
+    {
+      "url": "assets/three.min.js",
+      "bytes": 669884,
+      "sha256": "170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa"
+    },
+    {
+      "url": "assets/vendor/ray-meshopt-decoder.js?v=render-25",
+      "bytes": 29828,
+      "sha256": "9b10924e7fd05ed742f243f9ca87d70cf581267adb156646876a2b8ea3cb3db1"
+    },
+    {
+      "url": "assets/vendor/ray-gltf-loader.js?v=render-25",
+      "bytes": 115655,
+      "sha256": "dab0300bbccb7bc6aadda41994d1f055586ac20569e0d14408ff7d098b400b83"
+    },
+    {
+      "url": "assets/ray/data/building-landscape.js?v=render-25",
+      "bytes": 49982,
+      "sha256": "ba51b51e4f9d4f38355944715502c4193f3bb1ff3184aafb376a9124a0c677b8"
+    },
+    {
+      "url": "assets/ray/data/neighborhood.js?v=render-25",
+      "bytes": 25222850,
+      "sha256": "617cf45b1ab5572dc3b2fe58473a383359e10c8e57195967a828a3e0ab4dff96"
+    },
+    {
+      "url": "assets/ray/environment/neighborhood.js?v=render-25",
+      "bytes": 28391,
+      "sha256": "307019e616a31ab62b157ff9cb1353bbf4a3cd29c34c560531665acfc80ddaeb"
+    },
+    {
+      "url": "assets/ray/environment/roads.js?v=render-25",
+      "bytes": 5208,
+      "sha256": "75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2"
+    },
+    {
+      "url": "assets/ray/environment/villas.js?v=render-25",
+      "bytes": 11047,
+      "sha256": "953e2b5ea6558888723c2d66e19f0e5e14cc8a3d5beddfdb003430df4ba97bc1"
+    },
+    {
+      "url": "assets/ray/environment/ocean.js?v=render-25",
+      "bytes": 5982,
+      "sha256": "f478689ed97590915be932632d2cbac1d2fa0eeec0294a30156d9f8a860c15db"
+    },
+    {
+      "url": "assets/ray/core/quality.js?v=render-25",
+      "bytes": 2759,
+      "sha256": "ad3c1ed63e11c2827c079df7043f57e1a8407b6153734c9f6daad100b4df991e"
+    },
+    {
+      "url": "assets/ray/core/world.js?v=render-25",
+      "bytes": 54201,
+      "sha256": "824ff2d6754ffe81d66e1b2a9f20d4393358ab09258d7953437e28c4ef1582be"
+    },
+    {
+      "url": "assets/ray/data/club-deck.js?v=render-25",
+      "bytes": 2184,
+      "sha256": "9ab4cee3cfcecd32d0f8ac89f0cadbad297a3b217679cb0f373bd0f74c5c89d1"
+    },
+    {
+      "url": "assets/ray/architecture/waterfront-club.js?v=render-25",
+      "bytes": 24447,
+      "sha256": "f83a7615baf14f658baa94a126299392464564160fbc549ed98c781ff5211b8c"
+    },
+    {
+      "url": "assets/ray/core/reflections.js?v=render-25",
+      "bytes": 764,
+      "sha256": "1a687af5bcdce00fd9f5237d690824517f05222833e6d176ab6264c6df3d6084"
+    },
+    {
+      "url": "assets/ray/core/batching.js?v=render-25",
+      "bytes": 3446,
+      "sha256": "8f0984e3600ac5fa00fba12e9cce45e38c202ec8e04f8e44aa574aa5a42ab556"
+    },
+    {
+      "url": "assets/ray/environment/birds.js?v=render-25",
+      "bytes": 3240,
+      "sha256": "6d4af87cbe9c1ce96a20d8647f28b106385ea810719075e888d005a6336cef3c"
+    },
+    {
+      "url": "assets/ray/core/presentation.js?v=render-25",
+      "bytes": 4197,
+      "sha256": "b597017f7fd250dea44b01e4f3943feee8ca77b0eb0dbec94798296a30a0716c"
+    },
+    {
+      "url": "assets/ray/environment/foliage.js?v=render-25",
+      "bytes": 9743,
+      "sha256": "015b5ff3f36ac8ae13e2f0ba90ff477ae37d68cc7c60579aed132f522fae9d32"
+    },
+    {
+      "url": "assets/ray/architecture/building.js?v=render-25",
+      "bytes": 7827,
+      "sha256": "89147c018fd97fc3deb7cfa5b0467933a96d21d88a607c92ccceaaec71ab3891"
+    },
+    {
+      "url": "assets/ray/architecture/rooftops.js?v=render-25",
+      "bytes": 14796,
+      "sha256": "99f2b4f6415731897cb56be7dc4c634c4f1495b4aecaf6bdb0bf04faeda7d305"
+    },
+    {
+      "url": "assets/ray/ui/experience.js?v=render-25",
+      "bytes": 10564,
+      "sha256": "5f670b97f9dddc07d8cd27b3a572aceb3ca4aac1b37525e2fa75348d1d9cfd25"
+    },
+    {
+      "url": "assets/ray/models/site.glb?v=render-25",
+      "bytes": 10461088,
+      "sha256": "a45f9f1f54a87bef02d287e5e5b27208d3f8963d6ce685df6460aa43d5673719"
+    },
+    {
+      "url": "assets/ray/textures/shore-distance.png?v=roadside-12",
+      "bytes": 371540,
+      "sha256": "9a8cb56db6ae51a32fa29176e2afc162e1272d38194f1c120824f364cb75ff9b"
+    },
+    {
+      "url": "assets/ray/ui/experience.css?v=render-25",
+      "bytes": 22826,
+      "sha256": "61e10ae6d7964e5e7556ba844d4940663cab811505e67f6af4008711b0da1cf3"
+    },
+    {
+      "url": "assets/ray/ui/miami-map.css?v=render-25",
+      "bytes": 5618,
+      "sha256": "29c05422d2cd35f7c4b7fc00647233274ee3ef31492be94a0c403cc7dd8f1ae4"
+    }
+  ]
+}

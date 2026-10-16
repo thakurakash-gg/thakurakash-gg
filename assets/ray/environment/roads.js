@@ -1,0 +1,134 @@
+/* Graded road meshes and exact triangle sampling keep traffic on the carriageway. */
+(() => {
+  "use strict";
+  const T = window.THREE,
+    P = window.RayCleanContext.prototype;
+  P.prepareStreetLightField = function () {
+    const size = 2048,
+      canvas = document.createElement("canvas");
+    canvas.width = canvas.height = size;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, size, size);
+    for (const [x, z, y, yaw, side, height, width] of this.d.streetLights || []) {
+      const nx = Math.cos(yaw) * side,
+        nz = -Math.sin(yaw) * side,
+        cx = (0.5 + (x + nx * 2.1) / 4096) * size,
+        cy = (0.5 - (z + nz * 2.1) / 4096) * size,
+        radius = (Math.max(19, Math.min(27, height * 2.7)) * size) / 4096;
+      const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+      glow.addColorStop(0, "rgba(255,255,255,.16)");
+      glow.addColorStop(0.18, "rgba(255,255,255,.145)");
+      glow.addColorStop(0.42, "rgba(255,255,255,.085)");
+      glow.addColorStop(0.7, "rgba(255,255,255,.022)");
+      glow.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
+    }
+    const texture = new T.CanvasTexture(canvas);
+    texture.colorSpace = T.NoColorSpace;
+    texture.wrapS = texture.wrapT = T.ClampToEdgeWrapping;
+    texture.minFilter = T.LinearMipmapLinearFilter;
+    texture.magFilter = T.LinearFilter;
+    this.streetLightField = texture;
+  };
+  P.gradedMesh = function (data, offset = 0) {
+    const p = [],
+      uv = [];
+    for (let i = 0; i < data.vertices.length; i += 3) {
+      const [x, z, y] = data.vertices.slice(i, i + 3);
+      p.push(x, y + offset, z);
+      uv.push(x * 0.16, z * 0.16);
+    }
+    const g = new T.BufferGeometry();
+    g.setAttribute("position", new T.Float32BufferAttribute(p, 3));
+    g.setAttribute("uv", new T.Float32BufferAttribute(uv, 2));
+    g.setIndex(data.indices);
+    g.computeVertexNormals();
+    return g;
+  };
+  P.prepareRoadSampler = function () {
+    this.roadCells = new Map();
+    const m = this.d.roadMesh;
+    if (!m) return;
+    const v = m.vertices,
+      cell = 8;
+    for (let i = 0; i < m.indices.length; i += 3) {
+      const t = m.indices.slice(i, i + 3).map((j) => v.slice(j * 3, j * 3 + 3)),
+        xs = t.map((p) => p[0]),
+        zs = t.map((p) => p[1]);
+      for (let x = Math.floor(Math.min(...xs) / cell); x <= Math.floor(Math.max(...xs) / cell); x++)
+        for (
+          let z = Math.floor(Math.min(...zs) / cell);
+          z <= Math.floor(Math.max(...zs) / cell);
+          z++
+        ) {
+          const key = x + "," + z;
+          if (!this.roadCells.has(key)) this.roadCells.set(key, []);
+          this.roadCells.get(key).push(t);
+        }
+    }
+  };
+  P.roadSurfaceHeight = function (x, z, fallback = 1.255) {
+    const faces = this.roadCells?.get(Math.floor(x / 8) + "," + Math.floor(z / 8)) || [];
+    for (const [a, b, c] of faces) {
+      const den = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1]);
+      if (Math.abs(den) < 1e-9) continue;
+      const u = ((b[1] - c[1]) * (x - c[0]) + (c[0] - b[0]) * (z - c[1])) / den,
+        v = ((c[1] - a[1]) * (x - c[0]) + (a[0] - c[0]) * (z - c[1])) / den;
+      if (u >= -0.0001 && v >= -0.0001 && u + v <= 1.0001)
+        return u * a[2] + v * b[2] + (1 - u - v) * c[2] + 0.025;
+    }
+    return fallback;
+  };
+  P.roadStripe = function (x, z, dir, length, width, fallback) {
+    const p = [],
+      uv = [];
+    for (const [a, b] of [
+      [-1, -1],
+      [-1, 1],
+      [1, -1],
+      [1, -1],
+      [-1, 1],
+      [1, 1],
+    ]) {
+      const px = x + (dir.x * a * length) / 2 - (dir.z * b * width) / 2,
+        pz = z + (dir.z * a * length) / 2 + (dir.x * b * width) / 2;
+      p.push(px, this.roadSurfaceHeight(px, pz, fallback) + 0.012, pz);
+      uv.push(a, b);
+    }
+    const g = new T.BufferGeometry();
+    g.setAttribute("position", new T.Float32BufferAttribute(p, 3));
+    g.setAttribute("uv", new T.Float32BufferAttribute(uv, 2));
+    g.computeVertexNormals();
+    this.add("road-markings", g, this.w.materials.marking);
+  };
+  P.createNeighborPool = function () {
+    const d = this.d.neighborPool;
+    if (!d) return;
+    const deck = this.material("neighbor-pool-deck", 0xd4d0bf, {
+        map: this.texture("paving"),
+        roughness: 0.86,
+      }),
+      coping = this.material("neighbor-pool-coping", 0xe4e1d3, { roughness: 0.7 });
+    for (const r of d.deck) this.add("neighbor-pool-deck", this.surface(r, 1.29, 0.3), deck);
+    for (const r of d.coping) this.add("neighbor-pool-coping", this.surface(r, 1.4, 0.2), coping);
+    for (const r of d.water)
+      this.add("neighbor-pool-water", this.surface(r, 1.385, 0.2), this.w.materials.pool);
+    for (const [x, z, yaw] of d.loungers) {
+      this.w.box("frame", x, 1.43, z, 0.76, 0.13, 2, yaw);
+      this.w.box("ivory", x, 1.55, z, 0.69, 0.12, 1.9, yaw);
+      this.w.box(
+        "ivory",
+        x - Math.sin(yaw) * 0.68,
+        1.72,
+        z - Math.cos(yaw) * 0.68,
+        0.69,
+        0.27,
+        0.48,
+        yaw,
+      );
+    }
+    this.w.canvas.dataset.neighborPool = "curved-waterfront-pool";
+  };
+})();

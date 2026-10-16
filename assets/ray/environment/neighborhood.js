@@ -1,0 +1,769 @@
+/* Clean modeled context, shared junction geometry and connected traffic routes. */
+(() => {
+  "use strict";
+  const T = window.THREE;
+  class RayCleanContext {
+    constructor(world, data) {
+      this.w = world;
+      this.d = data;
+      this.parts = new Map();
+      this.cars = [];
+      this.trafficParts = [];
+      this.dummy = new T.Object3D();
+      this.mats = {};
+      this.night = { value: 0 };
+    }
+    material(name, color, extra = {}) {
+      const m = new T.MeshStandardMaterial({ color, roughness: 0.83, fog: false, ...extra });
+      m.onBeforeCompile = (shader) => {
+        shader.uniforms.contextHorizon = this.w.skyUniforms.horizon;
+        shader.vertexShader = "varying vec3 contextWorld;\n" + shader.vertexShader;
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <project_vertex>",
+          "#include <project_vertex>\nvec4 contextPosition=vec4(transformed,1.);\n#ifdef USE_INSTANCING\ncontextPosition=instanceMatrix*contextPosition;\n#endif\ncontextWorld=(modelMatrix*contextPosition).xyz;",
+        );
+        shader.fragmentShader =
+          "varying vec3 contextWorld;uniform vec3 contextHorizon;\n" + shader.fragmentShader;
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <tonemapping_fragment>",
+          "float edgeFade=smoothstep(1050.,1780.,length(contextWorld.xz));float airFade=(1.-exp(-pow(distance(cameraPosition,contextWorld)*.00017,2.)))*.32;gl_FragColor.rgb=mix(gl_FragColor.rgb,contextHorizon,max(edgeFade,airFade));\n#include <tonemapping_fragment>",
+        );
+      };
+      const ground = [
+        "land",
+        "road",
+        "walk",
+        "apron",
+        "garden",
+        "villa-driveway",
+        "neighbor-pool-deck",
+      ].includes(name);
+      if (ground) {
+        const compile = m.onBeforeCompile;
+        m.onBeforeCompile = (shader) => {
+          compile(shader);
+          shader.uniforms.streetLightField = { value: this.streetLightField };
+          shader.uniforms.streetLightNight = this.night;
+          shader.fragmentShader =
+            "uniform sampler2D streetLightField;uniform float streetLightNight;\n" +
+            shader.fragmentShader;
+          shader.fragmentShader = shader.fragmentShader.replace(
+            "#include <emissivemap_fragment>",
+            "#include <emissivemap_fragment>\nvec2 streetUv=contextWorld.xz/4096.+.5;float streetGlow=texture2D(streetLightField,streetUv).r;totalEmissiveRadiance+=vec3(1.,.79,.48)*streetGlow*streetLightNight*.65;",
+          );
+        };
+      }
+      m.customProgramCacheKey = () =>
+        ground ? "ray-ground-soft-streetlights-18" : "ray-context-18";
+      this.mats[name] = m;
+      return m;
+    }
+    texture(kind) {
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 512;
+      const ctx = canvas.getContext("2d");
+      let seed = 1729;
+      const rand = () => {
+        seed = (seed * 1664525 + 1013904223) >>> 0;
+        return seed / 4294967296;
+      };
+      if (kind === "facade" || kind === "emission") {
+        ctx.fillStyle = kind === "emission" ? "#000" : "#e1dfd5";
+        ctx.fillRect(0, 0, 512, 512);
+        for (let row = 0; row < 4; row++)
+          for (let col = 0; col < 4; col++) {
+            const x = col * 128 + 30,
+              y = row * 128 + 39,
+              lit = rand() < 0.31;
+            if (kind === "emission") {
+              if (lit) {
+                ctx.fillStyle = ["#ba955d", "#d4ae73", "#8f7e60"][col % 3];
+                ctx.fillRect(x + 4, y + 5, 64, 61);
+              }
+              continue;
+            }
+            ctx.fillStyle = "#aaa99e";
+            ctx.fillRect(x - 4, y - 4, 80, 77);
+            ctx.fillStyle = "#404b4c";
+            ctx.fillRect(x, y, 72, 69);
+            const gradient = ctx.createLinearGradient(x, y, x + 72, y + 65);
+            gradient.addColorStop(0, "#596263");
+            gradient.addColorStop(0.55, "#82918b");
+            gradient.addColorStop(1, "#414c4c");
+            ctx.fillStyle = gradient;
+            ctx.fillRect(x + 3, y + 3, 66, 62);
+            ctx.fillStyle = col % 3 === 0 ? "#a8a69a" : "#737c75";
+            ctx.fillRect(x + 5, y + 4, 61, 12 + rand() * 18);
+            ctx.fillStyle = "#b7b5a8";
+            ctx.fillRect(x + 34, y, 2, 67);
+            ctx.fillRect(x - 5, y + 70, 82, 4);
+            ctx.fillStyle = "#c4c0b3";
+            ctx.fillRect(x - 7, y + 74, 85, 3);
+          }
+      } else {
+        const base =
+            kind === "grass"
+              ? [119, 130, 92]
+              : kind === "roof"
+                ? [133, 122, 106]
+                : kind === "asphalt"
+                  ? [70, 74, 73]
+                  : kind === "concrete"
+                    ? [163, 167, 168]
+                    : [186, 181, 165],
+          pixels = ctx.createImageData(512, 512);
+        for (let y = 0; y < 512; y++)
+          for (let x = 0; x < 512; x++) {
+            const i = (y * 512 + x) * 4,
+              large = Math.sin(x * 0.043) * Math.cos(y * 0.031) * 3 + Math.sin((x + y) * 0.009) * 4,
+              noise = (rand() - 0.5) * (kind === "grass" ? 17 : 10);
+            for (let k = 0; k < 3; k++) pixels.data[i + k] = base[k] + large + noise;
+            pixels.data[i + 3] = 255;
+          }
+        ctx.putImageData(pixels, 0, 0);
+        if (kind === "roof") {
+          ctx.strokeStyle = "#6e675d";
+          for (let x = 0; x < 512; x += 16) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, 512);
+            ctx.stroke();
+          }
+          ctx.strokeStyle = "#a19885";
+          for (let y = 0; y < 512; y += 24) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(512, y);
+            ctx.stroke();
+          }
+        }
+        if (kind === "paving") {
+          ctx.strokeStyle = "#918f83";
+          for (let n = 0; n < 512; n += 64) {
+            ctx.beginPath();
+            ctx.moveTo(n, 0);
+            ctx.lineTo(n, 512);
+            ctx.moveTo(0, n);
+            ctx.lineTo(512, n);
+            ctx.stroke();
+          }
+        }
+      }
+      const map = new T.CanvasTexture(canvas);
+      map.colorSpace = T.SRGBColorSpace;
+      map.wrapS = map.wrapT = T.RepeatWrapping;
+      map.anisotropy = Math.min(8, this.w.renderer.capabilities.getMaxAnisotropy());
+      return map;
+    }
+    add(key, geo, mat) {
+      geo = geo.index ? geo.toNonIndexed() : geo;
+      let p = this.parts.get(key);
+      if (!p) {
+        p = { material: mat, geometries: [] };
+        this.parts.set(key, p);
+      }
+      p.geometries.push(geo);
+    }
+    shape(rings) {
+      const make = (points) => {
+        const p = new T.Shape();
+        points.forEach(([x, z], i) => (i ? p.lineTo(x, -z) : p.moveTo(x, -z)));
+        return p;
+      };
+      const s = make(rings[0]);
+      for (const r of rings.slice(1)) s.holes.push(make(r));
+      return s;
+    }
+    extrude(rings, height, y) {
+      const g = new T.ExtrudeGeometry(this.shape(rings), {
+        depth: height,
+        bevelEnabled: false,
+        curveSegments: 1,
+      });
+      g.rotateX(-Math.PI / 2);
+      g.translate(0, y, 0);
+      return g;
+    }
+    banks(rings) {
+      const a = [];
+      for (const ring of rings)
+        for (let i = 0; i < ring.length - 1; i++) {
+          const p = ring[i],
+            q = ring[i + 1];
+          a.push(
+            p[0],
+            -1.2,
+            p[1],
+            q[0],
+            1.18,
+            q[1],
+            p[0],
+            1.18,
+            p[1],
+            p[0],
+            -1.2,
+            p[1],
+            q[0],
+            -1.2,
+            q[1],
+            q[0],
+            1.18,
+            q[1],
+          );
+        }
+      const g = new T.BufferGeometry();
+      g.setAttribute("position", new T.Float32BufferAttribute(a, 3));
+      g.computeVertexNormals();
+      return g;
+    }
+    networkSurface(rings, offset = 0) {
+      const lookup = new Map();
+      for (const r of rings)
+        for (const [x, z, y] of r) lookup.set(x.toFixed(2) + "," + z.toFixed(2), y);
+      const g = this.surface(rings, 0, 0.16),
+        p = g.attributes.position;
+      for (let i = 0; i < p.count; i++) {
+        const y = lookup.get(p.getX(i).toFixed(2) + "," + p.getZ(i).toFixed(2)) ?? 1.23;
+        p.setY(i, y + offset);
+      }
+      g.computeVertexNormals();
+      return g;
+    }
+    curbFaces(rings) {
+      const a = [];
+      for (const r of rings)
+        for (let i = 0; i < r.length - 1; i++) {
+          const p = r[i],
+            q = r[i + 1];
+          a.push(
+            p[0],
+            p[2] + 0.02,
+            p[1],
+            p[0],
+            p[2] + 0.15,
+            p[1],
+            q[0],
+            q[2] + 0.15,
+            q[1],
+            p[0],
+            p[2] + 0.02,
+            p[1],
+            q[0],
+            q[2] + 0.15,
+            q[1],
+            q[0],
+            q[2] + 0.02,
+            q[1],
+          );
+        }
+      const g = new T.BufferGeometry();
+      g.setAttribute("position", new T.Float32BufferAttribute(a, 3));
+      g.computeVertexNormals();
+      return g;
+    }
+    surface(rings, y, scale = 0.2) {
+      const g = new T.ShapeGeometry(this.shape(rings));
+      g.rotateX(-Math.PI / 2);
+      g.translate(0, y, 0);
+      const pos = g.attributes.position,
+        uv = g.attributes.uv;
+      for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i) * scale, pos.getZ(i) * scale);
+      return g;
+    }
+    color(geo, color) {
+      const a = new Float32Array(geo.attributes.position.count * 3),
+        c = new T.Color(color);
+      for (let i = 0; i < a.length; i += 3) {
+        a[i] = c.r;
+        a[i + 1] = c.g;
+        a[i + 2] = c.b;
+      }
+      geo.setAttribute("color", new T.BufferAttribute(a, 3));
+      return geo;
+    }
+    facade(b) {
+      const positions = [],
+        uv = [];
+      for (let i = 0; i < b.p.length - 1; i++) {
+        const a = b.p[i],
+          c = b.p[i + 1],
+          length = Math.hypot(c[0] - a[0], c[1] - a[1]);
+        if (length < 0.2) continue;
+        const y = 1.16,
+          h = b.h,
+          verts = [
+            [a[0], y, a[1]],
+            [a[0], y + h, a[1]],
+            [c[0], y, c[1]],
+            [c[0], y, c[1]],
+            [a[0], y + h, a[1]],
+            [c[0], y + h, c[1]],
+          ];
+        for (const v of verts) positions.push(...v);
+        const u0 = (b.s % 4) * 0.25,
+          u1 = u0 + length / 14;
+        uv.push(u0, 0, u0, h / 12.8, u1, 0, u1, 0, u0, h / 12.8, u1, h / 12.8);
+      }
+      const g = new T.BufferGeometry();
+      g.setAttribute("position", new T.Float32BufferAttribute(positions, 3));
+      g.setAttribute("uv", new T.Float32BufferAttribute(uv, 2));
+      g.computeVertexNormals();
+      return g;
+    }
+    build() {
+      this.prepareRoadSampler();
+      this.prepareStreetLightField();
+      const w = this.w,
+        grass = this.texture("grass"),
+        asphaltMap = this.texture("asphalt"),
+        pavingMap = this.texture("paving"),
+        roofMap = this.texture("roof");
+      const landMat = this.material("land", 0xd9dcc3, { map: grass, roughness: 0.98 }),
+        asphalt = this.material("road", 0xffffff, { map: asphaltMap, roughness: 0.91 }),
+        walk = this.material("walk", 0xffffff, { map: pavingMap }),
+        bank = this.material("bank", 0x8b9580),
+        bridge = this.material("bridge", 0xa6aaa5);
+      const walls = this.material("walls", 0xffffff, {
+          map: this.texture("facade"),
+          emissiveMap: this.texture("emission"),
+          emissive: 0xffe6b5,
+          emissiveIntensity: 0,
+          vertexColors: true,
+          side: T.DoubleSide,
+        }),
+        roofs = this.material("roofs", 0xffffff, {
+          vertexColors: true,
+          map: roofMap,
+          roughness: 0.94,
+        }),
+        apron = this.material("apron", 0xcec9b9, { map: pavingMap }),
+        beds = this.material("garden", 0x596848, { map: grass });
+      for (const ring of this.d.projectForecourt || [])
+        this.add("roadside-forecourt", this.networkSurface(ring), apron);
+      for (const rings of this.d.land) this.add("land-sides", this.banks(rings), bank);
+      for (const rings of this.d.groundSurfaces || this.d.land)
+        this.add("land", this.surface(rings, 1.18, 0.035), landMat);
+      for (const rings of this.d.projectGround || [])
+        this.add("project-foundation", this.surface(rings, 0.92, 0.035), landMat);
+      for (const r of this.d.gardenBeds || [])
+        this.add("garden-beds", this.surface(r, 1.215, 0.12), beds);
+      for (const r of this.d.buildingAprons || [])
+        this.add("building-aprons", this.surface(r, 1.225, 0.2), apron);
+      for (const r of this.d.pavingSurfaces || [])
+        this.add("sidewalks", this.networkSurface(r, 0.15), walk);
+      for (const r of this.d.curbSurfaces || this.d.pavingSurfaces || [])
+        this.add("curb-faces", this.curbFaces(r), walk);
+      if (this.d.roadMesh)
+        this.add("graded-asphalt", this.gradedMesh(this.d.roadMesh, 0.025), asphalt);
+      if (this.d.pavingMesh)
+        this.add("graded-sidewalks", this.gradedMesh(this.d.pavingMesh, 0.15), walk);
+      for (const r of this.d.roadSurfaces || [])
+        this.add("asphalt", this.networkSurface(r, 0.025), asphalt);
+      for (const [x, z, base, top, width, depth] of this.d.bridgeSupports || [])
+        w.box("ivory", x, (base + top) / 2, z, width, top - base, depth);
+      for (const edge of this.d.bridgeEdges || []) {
+        this.ribbon(edge, 0.12, 0.9, "bridge-rails", bridge);
+        for (const p of edge) w.box("frame", p[0], p[2] + 0.45, p[1], 0.08, 0.9, 0.08);
+      }
+      for (const road of this.d.roads) {
+        const points = road.p.map(([x, z], i) => [x, z, road.y?.[i] ?? 1.23]);
+        if (points.length < 2) continue;
+        const elevated = Math.max(...points.map((p) => p[2])) > 1.24;
+        if (elevated && !this.d.networkJoined) {
+          this.ribbon(points, road.w + 2.5, -0.28, "bridge-deck", bridge);
+          this.ribbon(points, road.w, 0, "raised-asphalt", asphalt);
+          for (const side of [-1, 1])
+            this.ribbon(this.offset(points, (road.w / 2 + 1) * side), 1, 0.09, "raised-walk", walk);
+        }
+        const major = ["primary", "primary_link", "secondary", "trunk", "tertiary"].includes(
+            road.k,
+          ),
+          near = Math.min(...points.map((p) => Math.hypot(p[0], p[1])));
+        if ((major || road.n === "North Bayshore Drive") && near < 1200) {
+          const path = this.polyline(points);
+          for (let s = 4; s < path.length - 3; s += 12) {
+            const p = path.at(s),
+              dir = p.dir,
+              yaw = -Math.atan2(dir.z, dir.x);
+            if (Math.hypot(p.x, p.z) > 1250) continue;
+            this.roadStripe(p.x, p.z, dir, 3.4, 0.12, p.y + 0.025);
+            if (road.l > 2)
+              for (const side of [-1, 1])
+                this.roadStripe(
+                  p.x - dir.z * side * 3.15,
+                  p.z + dir.x * side * 3.15,
+                  dir,
+                  3.4,
+                  0.1,
+                  p.y + 0.025,
+                );
+          }
+        }
+      }
+      const concreteRoofs = this.material("concrete-roofs", 0xffffff, {
+        vertexColors: true,
+        map: this.texture("concrete"),
+        roughness: 0.94,
+      });
+      const concreteColors = [0xb7bbbd, 0xa6adaf, 0xbfc2c0, 0xadb2b4, 0xb1b6b5];
+      const wallColors = [0xddd9c9, 0xbec4b8, 0xc9c8b9, 0xd3cebd, 0xe0ddd0],
+        roofColors = [0xc5a58c, 0xa6a392, 0xa7aaa2, 0xbfbcb0, 0xb89b86];
+      for (const b of this.d.buildings) {
+        if (b.v) {
+          this.villa(b);
+          continue;
+        }
+        const [x, z] = b.c,
+          [width, depth, yaw] = b.r,
+          h = b.h,
+          near = Math.hypot(x, z) < 950;
+        this.add("buildings", this.color(this.facade(b), wallColors[b.s % 5]), walls);
+        this.add(
+          b.t ? "roofs" : "concrete-flat-roofs",
+          this.color(
+            this.surface([b.p], 1.18 + h, 0.16),
+            b.t ? roofColors[b.s % 5] : concreteColors[b.s % 5],
+          ),
+          b.t ? roofs : concreteRoofs,
+        );
+        if (b.t) {
+          const geo = this.hipRoof(width, depth, Math.min(1.7, depth * 0.13));
+          geo.rotateY(yaw);
+          geo.translate(x, h + 1.16, z);
+          this.add("roofs", this.color(geo, roofColors[b.s % 5]), roofs);
+        } else if (near) {
+          for (let edge = 0; edge < b.p.length - 1; edge++) {
+            const a = b.p[edge],
+              p = b.p[edge + 1],
+              dx = p[0] - a[0],
+              dz = p[1] - a[1],
+              l = Math.hypot(dx, dz);
+            w.box(
+              "ivory",
+              (a[0] + p[0]) / 2,
+              h + 1.35,
+              (a[1] + p[1]) / 2,
+              l,
+              0.35,
+              0.18,
+              -Math.atan2(dz, dx),
+            );
+          }
+          if (width > 12 && depth > 8) {
+            w.box("frame", x, h + 1.52, z, 2, 0.65, 1.3, yaw);
+            w.box("bronze", x, h + 1.87, z, 1.85, 0.06, 1.2, yaw);
+          }
+        }
+        if (h > 15 && near)
+          for (let floor = 3.15; floor < h - 0.7; floor += 3.15)
+            this.add(
+              "balcony-bands",
+              this.color(this.extrude([b.p], 0.12, floor + 1.15), 0xaaa995),
+              roofs,
+            );
+      }
+      this.createNeighborPool();
+      for (const [x, z, h, palm] of this.d.trees) {
+        const d = Math.hypot(x, z);
+        if (d > 1100) continue;
+        const size = 1 - T.MathUtils.smoothstep(d, 930, 1120);
+        if (palm) w.palm(x, z, h * size, 1.15);
+        else w.tree(x, z, h * 0.54 * size, 1.15);
+      }
+      this.createStreetLights();
+      this.flush();
+      this.createTraffic();
+      w.canvas.dataset.villas = String(this.d.villaSummary?.count || 0);
+      w.canvas.dataset.roadSurface = "graded-junctions-16";
+      w.canvas.dataset.environment = "miami-villas-connected-marina";
+      w.canvas.dataset.mappedBuildings = String(this.d.buildings.length);
+      w.canvas.dataset.mappedRoads = String(this.d.roads.length);
+      w.canvas.dataset.plantedTrees = String(this.d.trees.length);
+      return this;
+    }
+    offset(points, distance) {
+      return points.map((p, i) => {
+        const a = points[Math.max(0, i - 1)],
+          b = points[Math.min(points.length - 1, i + 1)],
+          dx = b[0] - a[0],
+          dz = b[1] - a[1],
+          l = Math.hypot(dx, dz) || 1;
+        return [p[0] - (dz / l) * distance, p[1] + (dx / l) * distance, p[2]];
+      });
+    }
+    ribbon(points, width, offset, key, material) {
+      const pos = [],
+        uv = [],
+        indices = [];
+      let distance = 0;
+      for (let i = 0; i < points.length; i++) {
+        if (i)
+          distance += Math.hypot(points[i][0] - points[i - 1][0], points[i][1] - points[i - 1][1]);
+        const a = points[Math.max(0, i - 1)],
+          b = points[Math.min(points.length - 1, i + 1)],
+          dx = b[0] - a[0],
+          dz = b[1] - a[1],
+          l = Math.hypot(dx, dz) || 1;
+        for (const side of [-1, 1]) {
+          pos.push(
+            points[i][0] - (((dz / l) * width) / 2) * side,
+            (points[i][2] ?? 1.2) + offset,
+            points[i][1] + (((dx / l) * width) / 2) * side,
+          );
+          uv.push(distance * 0.16, side * width * 0.08);
+        }
+        if (i < points.length - 1) {
+          const a = i * 2;
+          indices.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
+        }
+      }
+      const g = new T.BufferGeometry();
+      g.setAttribute("position", new T.Float32BufferAttribute(pos, 3));
+      g.setAttribute("uv", new T.Float32BufferAttribute(uv, 2));
+      g.setIndex(indices);
+      g.computeVertexNormals();
+      material.side = T.DoubleSide;
+      this.add(key, g, material);
+    }
+    hipRoof(w, d, h) {
+      const p = [
+          [-w / 2, 0, -d / 2],
+          [w / 2, 0, -d / 2],
+          [w / 2, 0, d / 2],
+          [-w / 2, 0, d / 2],
+          [-w * 0.3, h, 0],
+          [w * 0.3, h, 0],
+        ],
+        ids = [0, 4, 1, 1, 4, 5, 1, 5, 2, 2, 5, 3, 3, 5, 4, 3, 4, 0],
+        a = [],
+        uv = [];
+      ids.forEach((i) => {
+        a.push(...p[i]);
+        uv.push(p[i][0] * 0.2, p[i][2] * 0.2);
+      });
+      const g = new T.BufferGeometry();
+      g.setAttribute("position", new T.Float32BufferAttribute(a, 3));
+      g.setAttribute("uv", new T.Float32BufferAttribute(uv, 2));
+      g.computeVertexNormals();
+      return g;
+    }
+    merge(geometries) {
+      const attrs = ["position", "normal", "uv", "color"],
+        total = geometries.reduce((s, g) => s + g.attributes.position.count, 0),
+        g = new T.BufferGeometry();
+      for (const name of attrs) {
+        if (!geometries.some((g) => g.attributes[name])) continue;
+        const n = name === "uv" ? 2 : 3,
+          a = new Float32Array(total * n);
+        let cursor = 0;
+        for (const src of geometries) {
+          const count = src.attributes.position.count;
+          if (src.attributes[name]) a.set(src.attributes[name].array, cursor * n);
+          else if (name === "color") a.fill(1, cursor * n, (cursor + count) * n);
+          cursor += count;
+        }
+        g.setAttribute(name, new T.BufferAttribute(a, n));
+      }
+      geometries.forEach((g) => g.dispose());
+      g.computeBoundingSphere();
+      return g;
+    }
+    flush() {
+      for (const [key, part] of this.parts) {
+        const mesh = new T.Mesh(this.merge(part.geometries), part.material);
+        mesh.receiveShadow = true;
+        mesh.castShadow =
+          ["buildings", "roofs", "balcony-bands", "villa-walls", "concrete-flat-roofs"].includes(
+            key,
+          ) || key.startsWith("villa-roof-");
+        mesh.name = "Clean context / " + key;
+        this.w.scene.add(mesh);
+      }
+      this.parts.clear();
+    }
+    polyline(points) {
+      const lengths = [0];
+      for (let i = 1; i < points.length; i++)
+        lengths.push(
+          lengths[i - 1] +
+            Math.hypot(points[i][0] - points[i - 1][0], points[i][1] - points[i - 1][1]),
+        );
+      const length = lengths.at(-1);
+      return {
+        length,
+        points,
+        lengths,
+        at(distance) {
+          const d = Math.max(0, Math.min(length - 0.0001, distance));
+          let low = 0,
+            high = lengths.length - 1;
+          while (high - low > 1) {
+            const mid = (low + high) >> 1;
+            if (lengths[mid] < d) low = mid;
+            else high = mid;
+          }
+          const a = points[low],
+            b = points[low + 1],
+            l = lengths[low + 1] - lengths[low],
+            t = (d - lengths[low]) / l;
+          return {
+            x: T.MathUtils.lerp(a[0], b[0], t),
+            z: T.MathUtils.lerp(a[1], b[1], t),
+            y: T.MathUtils.lerp(a[2], b[2], t),
+            width: a[3] || 7,
+            dir: { x: (b[0] - a[0]) / l, z: (b[1] - a[1]) / l },
+          };
+        },
+      };
+    }
+    createStreetLights() {
+      const w = this.w,
+        steel = this.material("lamp-steel", 0x414b4b, { metalness: 0.68, roughness: 0.4 }),
+        lamp = this.material("street-lamp", 0xf3e6ce, { emissive: 0xffdc95, emissiveIntensity: 0 }),
+        pole = new T.CylinderGeometry(0.07, 0.13, 1, 7),
+        arm = new T.CylinderGeometry(0.055, 0.055, 1, 6),
+        luminaire = new T.BoxGeometry(0.36, 0.05, 0.88);
+      this.lampPositions = [];
+      for (const [x, z, y, yaw, side, height, width] of this.d.streetLights || []) {
+        const tx = Math.sin(yaw),
+          tz = Math.cos(yaw),
+          nx = tz * side,
+          nz = -tx * side;
+        w.addBatch("street-poles", pole, steel, x, y + height / 2, z, 1, height, 1);
+        w.box("bronze", x, y + 0.18, z, 0.34, 0.36, 0.34);
+        const armLength = 2.1;
+        w.addBatch(
+          "street-arms",
+          arm,
+          steel,
+          x + (nx * armLength) / 2,
+          y + height - 0.1,
+          z + (nz * armLength) / 2,
+          1,
+          armLength,
+          1,
+          yaw,
+          null,
+          0,
+          Math.PI / 2,
+        );
+        w.box(
+          "frame",
+          x + nx * armLength,
+          y + height - 0.13,
+          z + nz * armLength,
+          0.48,
+          0.12,
+          1.1,
+          yaw,
+        );
+        w.addBatch(
+          "street-luminaires",
+          luminaire,
+          lamp,
+          x + nx * armLength,
+          y + height - 0.21,
+          z + nz * armLength,
+          1,
+          1,
+          1,
+          yaw,
+        );
+        this.lampPositions.push([x, z]);
+      }
+      w.canvas.dataset.streetLights = String(this.lampPositions.length);
+      w.canvas.dataset.streetLightStyle = "wide-soft-ground-falloff";
+    }
+    createTraffic() {
+      const routes = (this.d.trafficRoutes || [])
+        .map((p) => this.polyline(p))
+        .filter((p) => p.length > 160);
+      if (!routes.length) return;
+      for (let i = 0; i < 56; i++)
+        this.cars.push({
+          route: routes[i % routes.length],
+          offset: (i * 0.6180339) % 1,
+          speed: 8.5 + (i % 7) * 0.7,
+          color: new T.Color([0xdeddd5, 0x53626b, 0x343a3e, 0x813a38, 0x9daeb0, 0x696e70][i % 6]),
+        });
+      const w = this.w,
+        parts = [];
+      const add = (g, mat, dy = 0, dz = 0) => {
+        g.translate(0, dy, dz);
+        parts.push({ geo: g, mat });
+      };
+      add(
+        w.rounded(1.82, 4.4, 0.73, 0.35),
+        new T.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3, metalness: 0.46 }),
+        0.3,
+      );
+      add(
+        w.rounded(1.52, 2.2, 0.68, 0.28),
+        new T.MeshStandardMaterial({ color: 0x253c43, roughness: 0.15, metalness: 0.4 }),
+        1.03,
+        -0.25,
+      );
+      const wheels = [];
+      for (const x of [-0.91, 0.91])
+        for (const z of [-1.35, 1.35]) {
+          const g = new T.CylinderGeometry(0.31, 0.31, 0.19, 10);
+          g.rotateZ(Math.PI / 2);
+          g.translate(x, 0.33, z);
+          wheels.push(g);
+        }
+      add(
+        this.merge(wheels.map((g) => g.toNonIndexed())),
+        new T.MeshStandardMaterial({ color: 0x25282a, roughness: 0.9 }),
+      );
+      const lamps = [];
+      for (const x of [-0.62, 0.62]) {
+        const g = new T.BoxGeometry(0.4, 0.16, 0.08);
+        g.translate(x, 0.79, 2.18);
+        lamps.push(g);
+      }
+      add(
+        this.merge(lamps.map((g) => g.toNonIndexed())),
+        new T.MeshBasicMaterial({ color: 0xffe9bd }),
+      );
+      for (let i = 0; i < parts.length; i++) {
+        const p = parts[i],
+          mesh = new T.InstancedMesh(p.geo, p.mat, this.cars.length);
+        mesh.frustumCulled = false;
+        mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
+        if (i === 0) this.cars.forEach((c, n) => mesh.setColorAt(n, c.color));
+        w.scene.add(mesh);
+        this.trafficParts.push(mesh);
+      }
+      w.canvas.dataset.cars = String(this.cars.length);
+      w.canvas.dataset.traffic = "connected-junction-routes";
+      this.update(0);
+    }
+    update(time) {
+      this.night.value = this.w.lightState?.night || 0;
+      for (const m of Object.values(this.mats))
+        m.envMapIntensity = 0.9 * (1 - this.night.value * 0.94);
+      this.mats.walls.emissiveIntensity = this.night.value * 0.62;
+      this.mats["street-lamp"].emissiveIntensity = this.night.value * 5;
+      this.cars.forEach((car, i) => {
+        const r = car.route,
+          d = (car.offset * r.length + time * car.speed) % r.length,
+          p = r.at(d),
+          dir = p.dir,
+          lane = Math.min(p.width * 0.23, 2.7);
+        const cx = p.x - dir.z * lane,
+          cz = p.z + dir.x * lane,
+          roadY = this.roadSurfaceHeight(cx, cz, p.y + 0.025),
+          front = this.roadSurfaceHeight(cx + dir.x * 1.5, cz + dir.z * 1.5, roadY),
+          back = this.roadSurfaceHeight(cx - dir.x * 1.5, cz - dir.z * 1.5, roadY);
+        this.dummy.position.set(cx, roadY + 0.02, cz);
+        this.dummy.rotation.set(-Math.atan2(front - back, 3), Math.atan2(dir.x, dir.z), 0, "YXZ");
+        this.dummy.updateMatrix();
+        if (i === 0)
+          this.w.canvas.dataset.carPosition = [p.x, p.z].map((v) => v.toFixed(2)).join(",");
+        for (const part of this.trafficParts) part.setMatrixAt(i, this.dummy.matrix);
+      });
+      for (const part of this.trafficParts) part.instanceMatrix.needsUpdate = true;
+    }
+  }
+  window.RayCleanContext = RayCleanContext;
+})();
