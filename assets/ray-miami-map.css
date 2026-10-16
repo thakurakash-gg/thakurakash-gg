@@ -13,3 +13,5 @@
 @media(max-width:700px){.route-map-dialog{padding:18px}.route-map-large{height:49svh}.route-map-footer{display:block}.route-map-footer>a{display:inline-block;margin-top:8px}.route-map-dialog .dialog-heading h2{max-width:240px}.route-map-dialog .dialog-heading small{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.miami-route-flow,.miami-destination-pulse{animation:none!important}}
 .miami-city-label{fill:#d8e7e5;stroke:#14282f;stroke-width:3;paint-order:stroke;letter-spacing:5px;font-size:19px;font-family:Arial,sans-serif;opacity:.8}
+
+.navigation-actions{display:flex;align-items:center;gap:10px}.navigation-title .navigation-actions>svg{width:22px;height:22px}.minimize-map{display:grid;place-items:center;width:27px;height:27px;border:1px solid #ffffff40;border-radius:50%;font-size:20px;line-height:1;color:#f1ead8;transition:background .2s}.minimize-map:hover{background:#ffffff18}.navigation.is-minimized .navigation-title{margin-bottom:0}.navigation-content[hidden]{display:none}.navigation-content>span{display:block;font-size:9px;color:#dce8e5a3;margin:5px 0 12px}
