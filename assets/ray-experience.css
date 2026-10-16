@@ -18,3 +18,7 @@
 .terrain-status{position:absolute;left:104px;bottom:83px;padding:9px 14px;border-radius:20px;font-size:10px;color:#e4e9e7;pointer-events:none}.terrain-status[hidden]{display:none}@media(max-width:700px){.terrain-status{left:23px;bottom:245px;max-width:75vw;font-size:9px}}
 
 .context-attribution{position:absolute;right:32px;bottom:83px;font-size:8px;color:#e2eaead0}.context-attribution a{border-bottom:1px solid #ffffff40}.map-credits{font-size:9px!important}@media(max-width:700px){.context-attribution{right:18px;bottom:116px;font-size:6px;color:#fff9}}
+
+/* Startup attribution stays available in the existing information panel. */
+.view-travel{position:absolute;left:50%;transform:translateX(-50%)}@media(max-width:1050px){.view-travel{position:static;transform:none}}
+.context-attribution{right:24px;bottom:22px;font-size:11px;line-height:1.5;background:#102b35d9;color:#fff;padding:8px 12px;border-radius:4px}.context-attribution[hidden]{display:none}@media(max-width:700px){.context-attribution{right:18px;bottom:120px;max-width:calc(100% - 36px);font-size:10px}}
