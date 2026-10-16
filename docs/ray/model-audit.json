@@ -1,0 +1,156 @@
+{
+  "modelBytes": 10461088,
+  "uniqueTriangles": 841223,
+  "placedTriangles": 1020284,
+  "modelMaterialDefinitions": 37,
+  "largestMaterialGroups": [
+    {
+      "name": "steel",
+      "triangles": 377840
+    },
+    {
+      "name": "Metal Black",
+      "triangles": 234931
+    },
+    {
+      "name": "Painted Plaster Wall",
+      "triangles": 93483
+    },
+    {
+      "name": "Atlas",
+      "triangles": 48539
+    },
+    {
+      "name": "wood_Light",
+      "triangles": 45466
+    },
+    {
+      "name": "Concrete White",
+      "triangles": 43984
+    },
+    {
+      "name": "Glass",
+      "triangles": 37138
+    },
+    {
+      "name": "Rusty Metal",
+      "triangles": 29943
+    },
+    {
+      "name": "Wood Walnut",
+      "triangles": 27060
+    },
+    {
+      "name": "Wood Oak",
+      "triangles": 25742
+    },
+    {
+      "name": "Wood_Log",
+      "triangles": 12130
+    },
+    {
+      "name": "Rope_Mat",
+      "triangles": 7804
+    },
+    {
+      "name": "White Textured",
+      "triangles": 7722
+    },
+    {
+      "name": "White Glossy Metal",
+      "triangles": 4696
+    },
+    {
+      "name": "Emmisive",
+      "triangles": 4503
+    },
+    {
+      "name": "Bronze",
+      "triangles": 2863
+    },
+    {
+      "name": "Concrete",
+      "triangles": 2446
+    },
+    {
+      "name": "Wood black",
+      "triangles": 2367
+    },
+    {
+      "name": "Windows Parallax",
+      "triangles": 2156
+    },
+    {
+      "name": "Marble",
+      "triangles": 1586
+    },
+    {
+      "name": "Lawn Grass",
+      "triangles": 1202
+    },
+    {
+      "name": "Black Matt",
+      "triangles": 1175
+    },
+    {
+      "name": "Wood",
+      "triangles": 1001
+    },
+    {
+      "name": "Wood Brown Polished Oak",
+      "triangles": 781
+    },
+    {
+      "name": "GolfBall",
+      "triangles": 746
+    },
+    {
+      "name": "Wood Planks",
+      "triangles": 726
+    },
+    {
+      "name": "Golf_Dirt",
+      "triangles": 704
+    },
+    {
+      "name": "Golf Bentgrass",
+      "triangles": 376
+    },
+    {
+      "name": "Pavement",
+      "triangles": 357
+    },
+    {
+      "name": "Grass",
+      "triangles": 336
+    },
+    {
+      "name": "Golf Hole",
+      "triangles": 138
+    },
+    {
+      "name": "Pool Ceramic Tile",
+      "triangles": 107
+    },
+    {
+      "name": "Pavement Tiles",
+      "triangles": 82
+    },
+    {
+      "name": "Dotted Parking Tile",
+      "triangles": 72
+    },
+    {
+      "name": "Marble Beige Travertine",
+      "triangles": 48
+    },
+    {
+      "name": "Right Turn Arrow Road Marking",
+      "triangles": 20
+    },
+    {
+      "name": "Forward Arrow Road Marking",
+      "triangles": 14
+    }
+  ]
+}
