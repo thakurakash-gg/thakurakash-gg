@@ -49,6 +49,9 @@ execFileSync(process.execPath, [path.join(root, "tools/ray/check-transitions.mjs
 execFileSync(process.execPath, [path.join(root, "tools/ray/check-planting.mjs")], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [path.join(root, "tools/ray/check-terrain.mjs")], {
+  stdio: "inherit",
+});
 for (const folder of ["core", "environment", "architecture", "ui"])
   for (const name of fs.readdirSync(path.join(root, "assets/ray", folder))) {
     if (name.endsWith(".js"))

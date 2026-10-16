@@ -26,9 +26,9 @@ def read_data():
 
 
 def polygon(rings):
-    return Polygon(
-        [p[:2] for p in rings[0]], [[p[:2] for p in ring] for ring in rings[1:]]
-    ).buffer(0)
+    return Polygon([p[:2] for p in rings[0]], [[p[:2] for p in ring] for ring in rings[1:]]).buffer(
+        0
+    )
 
 
 def mesh_footprint(mesh):
@@ -42,9 +42,7 @@ def green_ground(data):
         [polygon(r) for r in data["groundSurfaces"] + data.get("gardenBeds", [])]
     )
     obstacles = [
-        polygon(r)
-        for key in ["buildingAprons", "projectGroundOutline"]
-        for r in data.get(key, [])
+        polygon(r) for key in ["buildingAprons", "projectGroundOutline"] for r in data.get(key, [])
     ]
     # Allow natural canopy overhang while keeping trunks well outside carriageways.
     obstacles += [polygon(r).buffer(2.5) for r in data["roadSurfaces"]]
