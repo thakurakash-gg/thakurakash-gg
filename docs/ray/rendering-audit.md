@@ -12,7 +12,7 @@ This pass adds world-projected limestone grain and joints to the supplied buildi
 
 ## Material and shader counts
 
-The optimized GLB defines **37 materials**. A warmed desktop scene reports:
+The optimized GLB defines **37 materials**. The version 26.0.0 desktop baseline reports:
 
 | Measurement | Count |
 | --- | ---: |
@@ -62,3 +62,7 @@ The release is recorded as complete only after decoding, shader preparation and 
 Run `node tools/ray/manifest.mjs` after changes, then `node tools/ray/check.mjs`. The checks cover manifest integrity, bootstrap version, service-worker update/caching behavior, geometry budgets, finite resident animation, fixed standing positions, pause stability, adaptive resolution, mapped roads and source floor instances.
 
 Browser verification covers initial loading, repeat loads, release changes while reusing unchanged files, day/night shaders, rooftop and waterfront views and a phone-sized viewport. These are desktop-browser checks; physical Android/iPhone and low-end GPU performance remain hardware validation, not inferred from a resized window.
+
+## Version 26.1.0 facade refinement
+
+The earlier finish was too subtle at normal viewing distances. The revision strengthens the limestone mineral clouds, panel color differences and relief, and includes the source generic concrete material. Window interiors now choose among six stable layouts with distinct furniture, finishes, mirrored arrangements, depths, curtain/shade positions and lighting. Each pixel uses only three furniture intersection queries, with no additional material objects. The tested material-object count remains 118 plus the presentation material; the revised desktop shaders reported 43 customization hooks and 118 compiled variants. See the versioned changelog for the exact scene/cache ID.

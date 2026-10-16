@@ -4,7 +4,33 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
-## 26.0.0 — 2026-10-16
+## [26.1.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.1.0) — 2026-10-16
+
+Visible wall finishes and varied parallax rooms
+
+- Scene/cache ID: `scene-cf2780f26088a52f`
+- Preview label: `26.1.0`
+
+### Changed
+
+- Wall finishes use stronger mineral variation, surface relief and panel tones at normal viewing distances; generic concrete is included in the finish assignment.
+- All six room styles share a fixed budget of three furniture ray queries per pixel.
+
+### Added
+
+- Six stable room layouts: living room, bedroom, dining room, study, media lounge and quiet sitting room.
+- Window-specific furniture mirroring, room depth, wall/fabric/wood palettes, curtain openings, roller shades and warm/cool light variation.
+
+### Validation
+
+- Scene integrity, syntax, cache/update, release-note binding and existing animation/road checks.
+- Fresh browser shader compilation and closer daytime/nighttime facade views checked.
+
+### Known limits
+
+- Physical Android and low-end GPU validation remains pending.
+
+## [26.0.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.0.0) — 2026-10-16
 
 Life, water and reliable caching
 
@@ -40,7 +66,7 @@ Life, water and reliable caching
 
 Commits: [215524b](https://github.com/thakurakash-gg/thakurakash-gg/commit/215524b), [5ce29c1](https://github.com/thakurakash-gg/thakurakash-gg/commit/5ce29c1), [81014ad](https://github.com/thakurakash-gg/thakurakash-gg/commit/81014ad), [62af9c2](https://github.com/thakurakash-gg/thakurakash-gg/commit/62af9c2), [26f47c0](https://github.com/thakurakash-gg/thakurakash-gg/commit/26f47c0), [99956da](https://github.com/thakurakash-gg/thakurakash-gg/commit/99956da).
 
-## 25.0.0 — 2026-10-16
+## [25.0.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v25.0.0) — 2026-10-16
 
 Organized renderer and staged loading
 

@@ -1,6 +1,31 @@
 {
   "releases": [
     {
+      "version": "26.1.0",
+      "date": "2026-10-16",
+      "title": "Visible wall finishes and varied parallax rooms",
+      "sceneVersion": "scene-cf2780f26088a52f",
+      "preview": "26.1.0",
+      "changes": {
+        "Changed": [
+          "Wall finishes use stronger mineral variation, surface relief and panel tones at normal viewing distances; generic concrete is included in the finish assignment.",
+          "All six room styles share a fixed budget of three furniture ray queries per pixel."
+        ],
+        "Added": [
+          "Six stable room layouts: living room, bedroom, dining room, study, media lounge and quiet sitting room.",
+          "Window-specific furniture mirroring, room depth, wall/fabric/wood palettes, curtain openings, roller shades and warm/cool light variation."
+        ]
+      },
+      "validation": [
+        "Scene integrity, syntax, cache/update, release-note binding and existing animation/road checks.",
+        "Fresh browser shader compilation and closer daytime/nighttime facade views checked."
+      ],
+      "limitations": [
+        "Physical Android and low-end GPU validation remains pending."
+      ],
+      "commits": []
+    },
+    {
       "version": "26.0.0",
       "date": "2026-10-16",
       "title": "Life, water and reliable caching",

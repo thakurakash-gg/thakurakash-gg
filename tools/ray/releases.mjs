@@ -44,7 +44,7 @@ export function renderChangelog(history) {
   ];
   for (const release of history.releases) {
     text.push(
-      `## ${release.version} — ${release.date}`,
+      `## [${release.version}](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v${release.version}) — ${release.date}`,
       "",
       release.title,
       "",

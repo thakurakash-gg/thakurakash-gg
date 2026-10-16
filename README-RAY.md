@@ -72,3 +72,5 @@ Developer-only counts are exposed on the scene canvas by `core/diagnostics.js`. 
 ## Release notes
 
 [CHANGELOG-RAY.md](CHANGELOG-RAY.md) records product versions, dates, changes, validation, limits and exact scene/cache IDs. The source is `docs/ray/releases.json`; the manifest tool generates the Markdown and attaches the latest release metadata to the scene manifest. When runtime assets change, add a new MAJOR.MINOR.PATCH entry with its new scene ID and meaningful notes. The generator reports the new ID if it is not documented yet, and the checker prevents a stale changelog or mismatched release from being published. Documentation-only changes need no asset-cache invalidation.
+
+For a runtime release, obtain its new cache ID with `node tools/ray/manifest.mjs --scene-id`, add the release entry, then run the manifest generator and checker. Publish an annotated `ray-vMAJOR.MINOR.PATCH` Git tag for the tested release so the changelog links to the exact code snapshot.

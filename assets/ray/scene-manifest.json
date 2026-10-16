@@ -1,8 +1,8 @@
 {
   "schema": 2,
-  "version": "scene-97ef0124be34b244",
+  "version": "scene-cf2780f26088a52f",
   "release": {
-    "version": "26.0.0",
+    "version": "26.1.0",
     "date": "2026-10-16",
     "changelog": "CHANGELOG-RAY.md"
   },
@@ -27,7 +27,7 @@
     "assets/ray/environment/foliage.js?v=015b5ff3f36ac8ae13e2f0ba90ff477ae37d68cc7c60579aed132f522fae9d32",
     "assets/ray/architecture/building.js?v=157d7c54e5ac3552a611a4b05e4b0a90e5c40868d878dcc8b5223c942f76e600",
     "assets/ray/architecture/rooftops.js?v=99f2b4f6415731897cb56be7dc4c634c4f1495b4aecaf6bdb0bf04faeda7d305",
-    "assets/ray/architecture/surfaces.js?v=1d00204fd3fc1b471c7c88c833485886421b5eb16abe23b9761d81ecef8872e3",
+    "assets/ray/architecture/surfaces.js?v=a263fecccd13a1b015e269daaf409ca15a8375d9d3b537fe4dcea1da31a3646e",
     "assets/ray/architecture/life.js?v=89deecdd75b0ee11232c5d12d569b13a459a85c0b3ac3f18fcb51766bcfe227b",
     "assets/ray/core/diagnostics.js?v=0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9",
     "assets/ray/ui/experience.js?v=5f670b97f9dddc07d8cd27b3a572aceb3ca4aac1b37525e2fa75348d1d9cfd25"
@@ -134,9 +134,9 @@
       "sha256": "99f2b4f6415731897cb56be7dc4c634c4f1495b4aecaf6bdb0bf04faeda7d305"
     },
     {
-      "url": "assets/ray/architecture/surfaces.js?v=1d00204fd3fc1b471c7c88c833485886421b5eb16abe23b9761d81ecef8872e3",
-      "bytes": 9062,
-      "sha256": "1d00204fd3fc1b471c7c88c833485886421b5eb16abe23b9761d81ecef8872e3"
+      "url": "assets/ray/architecture/surfaces.js?v=a263fecccd13a1b015e269daaf409ca15a8375d9d3b537fe4dcea1da31a3646e",
+      "bytes": 13697,
+      "sha256": "a263fecccd13a1b015e269daaf409ca15a8375d9d3b537fe4dcea1da31a3646e"
     },
     {
       "url": "assets/ray/architecture/life.js?v=89deecdd75b0ee11232c5d12d569b13a459a85c0b3ac3f18fcb51766bcfe227b",

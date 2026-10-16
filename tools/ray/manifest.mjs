@@ -35,6 +35,10 @@ const assets = [...new Set([...order, ...extra])].map((name) => {
 const bootHash = hash(read("assets/ray/core/boot.js"));
 const workerHash = hash(read("ray-sw.js"));
 const version = `scene-${hash(JSON.stringify({ assets, bootHash, workerHash })).slice(0, 16)}`;
+if (process.argv.includes("--scene-id")) {
+  console.log(version);
+  process.exit(0);
+}
 const history = JSON.parse(read("docs/ray/releases.json"));
 const release = validateReleases(history, version);
 const manifest = {
