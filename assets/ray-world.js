@@ -72,7 +72,7 @@ class RayWorld{
  for(const x of [-30,6,41,77]){const start=head(x)-.5,end=59.05,length=end-start;this.addBatch('dock-gangways',this.boxGeometry,this.materials.wood,x,1.055,(start+end)/2,2.1,.38,length,0,null,Math.atan(.65/length));}
  dock(-30,71,2.5,28);dock(77,77,2.5,40);
  dock(-12,48.5,36,1.6); // Short inner finger in the first basin.
- const link=window.RayBuildingLandscape?.marinaLink;if(link){const dx=link.end[0]-link.start[0],dz=link.end[1]-link.start[1],length=Math.hypot(dx,dz),slope=Math.atan2(link.topEnd-link.topStart,length),mx=(link.start[0]+link.end[0])/2,mz=(link.start[1]+link.end[1])/2,top=(link.topStart+link.topEnd)/2,angle=-Math.atan2(dz,dx);this.addBatch('marina-club-link',this.boxGeometry,this.materials.wood,mx,top-.18,mz,length+.35,.36,link.width,angle,null,0,slope);for(const side of[-1,1])this.addBatch('marina-club-link-edge',this.boxGeometry,this.materials.ivory,mx-dz/length*side*(link.width/2-.05),top+.035,mz+dx/length*side*(link.width/2-.05),length+.35,.07,.06,angle,null,0,slope);}
+ const link=window.RayBuildingLandscape?.marinaLink;if(link)this.createClubLink(link);
 
  for(const[x,z,width]of(window.RayBuildingLandscape?.endFingers||[[89,57.5,24],[89,95,24]]))dock(x,z,width,1.65);
  const moor=(x,z,scale,type=1,rotation=0)=>{const boat=this.makeBoat(scale,type);boat.position.set(x,.13,z);boat.rotation.y=rotation;this.scene.add(boat);};
