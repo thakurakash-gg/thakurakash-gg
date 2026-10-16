@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { validateReleases, renderChangelog } from "./releases.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const read = (name) => {
@@ -34,12 +35,16 @@ const assets = [...new Set([...order, ...extra])].map((name) => {
 const bootHash = hash(read("assets/ray/core/boot.js"));
 const workerHash = hash(read("ray-sw.js"));
 const version = `scene-${hash(JSON.stringify({ assets, bootHash, workerHash })).slice(0, 16)}`;
+const history = JSON.parse(read("docs/ray/releases.json"));
+const release = validateReleases(history, version);
 const manifest = {
   schema: 2,
   version,
+  release: { version: release.version, date: release.date, changelog: "CHANGELOG-RAY.md" },
   scripts: order.map((name) => assets.find((asset) => asset.url.split("?")[0] === name).url),
   assets,
 };
+fs.writeFileSync(path.join(root, "CHANGELOG-RAY.md"), renderChangelog(history));
 fs.writeFileSync(
   path.join(root, "assets/ray/scene-manifest.json"),
   JSON.stringify(manifest, null, 2) + "\n",

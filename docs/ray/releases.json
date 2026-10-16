@@ -1,0 +1,65 @@
+{
+  "releases": [
+    {
+      "version": "26.0.0",
+      "date": "2026-10-16",
+      "title": "Life, water and reliable caching",
+      "sceneVersion": "scene-97ef0124be34b244",
+      "preview": "life-26",
+      "changes": {
+        "Added": [
+          "World-projected wall finishes, box-projected window interiors and animated pool water.",
+          "Layered rooftop palms, 64 terrace details and 31 residents, including 13 walkers.",
+          "Live material/shader diagnostics and a reproducible building geometry audit.",
+          "Versioned changelog and release metadata linked to the scene cache ID."
+        ],
+        "Changed": [
+          "Ocean waves use a directional spectrum, advected noise and shoreward distance-field crests.",
+          "Traffic uses 104 cars on the high-capability profile and 76 on the balanced profile."
+        ],
+        "Fixed": [
+          "Scene resources receive content-based cache keys and checksum verification before display.",
+          "Text line endings are normalized before hashing so Windows and published Git bytes match."
+        ]
+      },
+      "validation": [
+        "Automated cache/update, asset integrity, resident animation, adaptive resolution and mapped-road checks passed.",
+        "Published desktop day/night views, phone-sized layout and repeat cached loads checked."
+      ],
+      "limitations": [
+        "Physical Android and low-end GPU validation remains pending.",
+        "The ocean uses analytic waves and noise; a full FFT simulation is not implemented."
+      ],
+      "commits": [
+        "215524b",
+        "5ce29c1",
+        "81014ad",
+        "62af9c2",
+        "26f47c0",
+        "99956da"
+      ]
+    },
+    {
+      "version": "25.0.0",
+      "date": "2026-10-16",
+      "title": "Organized renderer and staged loading",
+      "sceneVersion": "render-25",
+      "preview": "render-25",
+      "changes": {
+        "Changed": [
+          "Organized scene source into core, environment, architecture, data and UI modules.",
+          "Reduced the supplied building to 841,223 unique stored triangles and 1,020,284 placed triangles, preserving repeated-floor GPU instancing.",
+          "Added whole-scene preloading, progress and persistent resource caching.",
+          "Retained adaptive pixel density, reflection budgets, complete mapped roads and instanced house fittings/foliage."
+        ]
+      },
+      "validation": [
+        "Source/resource checks and browser loading, cache and scene checks completed for the earlier release."
+      ],
+      "limitations": [
+        "Historical entry reconstructed from the published commit; older preview milestones are not individually backfilled."
+      ],
+      "commits": ["fff768c"]
+    }
+  ]
+}

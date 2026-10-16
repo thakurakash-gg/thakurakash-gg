@@ -1,6 +1,11 @@
 {
   "schema": 2,
   "version": "scene-97ef0124be34b244",
+  "release": {
+    "version": "26.0.0",
+    "date": "2026-10-16",
+    "changelog": "CHANGELOG-RAY.md"
+  },
   "scripts": [
     "assets/three.min.js?v=170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa",
     "assets/vendor/ray-meshopt-decoder.js?v=68d26aa0d7f88b8b9580ecfa46659a4cec803e26d0dc0d81e3da1f19f0181f65",

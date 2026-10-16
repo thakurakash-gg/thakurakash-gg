@@ -68,3 +68,7 @@ Also inspect the exterior, waterfront, rooftop and overhead cameras in daylight 
 The wall, parallax-room and pool-water shaders are in `architecture/surfaces.js`. Shared rooftop palm geometry, terrace props and articulated residents are in `architecture/life.js`. The ocean keeps the shoreline field but uses an irregular directional spectrum and advected noise. These additions preserve the source tower outline and the mapped site placement.
 
 Developer-only counts are exposed on the scene canvas by `core/diagnostics.js`. The distinction between model definitions, scene material objects and compiled shader programs matters when comparing budgets. See [the rendering and geometry audit](docs/ray/rendering-audit.md) for counts, the heaviest meshes, the FFT decision and validation limits. Run `node tools/ray/audit-model.mjs` to refresh the source-model report.
+
+## Release notes
+
+[CHANGELOG-RAY.md](CHANGELOG-RAY.md) records product versions, dates, changes, validation, limits and exact scene/cache IDs. The source is `docs/ray/releases.json`; the manifest tool generates the Markdown and attaches the latest release metadata to the scene manifest. When runtime assets change, add a new MAJOR.MINOR.PATCH entry with its new scene ID and meaningful notes. The generator reports the new ID if it is not documented yet, and the checker prevents a stale changelog or mismatched release from being published. Documentation-only changes need no asset-cache invalidation.

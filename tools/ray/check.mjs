@@ -5,9 +5,18 @@ import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { validateReleases, renderChangelog } from "./releases.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "assets/ray/scene-manifest.json")));
 assert.equal(manifest.schema, 2, "Regenerate the content-versioned scene manifest");
+const history = JSON.parse(fs.readFileSync(path.join(root, "docs/ray/releases.json")));
+const release = validateReleases(history, manifest.version);
+assert.equal(manifest.release.version, release.version, "Release metadata is stale");
+assert.equal(
+  fs.readFileSync(path.join(root, "CHANGELOG-RAY.md"), "utf8").replace(/\r\n/g, "\n"),
+  renderChangelog(history),
+  "Regenerate the changelog with the manifest tool",
+);
 const html = fs.readFileSync(path.join(root, "ray-experience.html"), "utf8");
 const bootHash = crypto
   .createHash("sha256")
