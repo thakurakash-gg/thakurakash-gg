@@ -26,6 +26,21 @@ const report = {
   uniqueTriangles: unique,
   placedTriangles: placed,
   modelMaterialDefinitions: gltf.materials.length,
+  largestStoredMeshes: gltf.meshes
+    .map((mesh, index) => ({
+      index,
+      name: mesh.name || `Mesh ${index}`,
+      triangles: mesh.primitives.reduce(
+        (sum, primitive) =>
+          sum + gltf.accessors[primitive.indices ?? primitive.attributes.POSITION].count / 3,
+        0,
+      ),
+      materials: mesh.primitives.map(
+        (primitive) => gltf.materials[primitive.material]?.name || "Unnamed",
+      ),
+    }))
+    .sort((a, b) => b.triangles - a.triangles)
+    .slice(0, 15),
   largestMaterialGroups: [...materials]
     .map(([name, triangles]) => ({ name, triangles }))
     .sort((a, b) => b.triangles - a.triangles),

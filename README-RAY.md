@@ -62,3 +62,9 @@ Run `node tools/ray/check-cache.mjs` for cache/update regression coverage. Keep 
 The checker validates source syntax and asset paths, the high-density device profile, adaptive resolution bounds, neighborhood road/pavement coverage, and exported floor instancing. Never remove `roadSurfaces` or `pavingSurfaces` when retaining `roadMesh` and `pavingMesh`: these datasets cover different parts of the mapped network.
 
 Also inspect the exterior, waterfront, rooftop and overhead cameras in daylight and at night. Test a narrow viewport, drag through a complete orbit, and reload to confirm `data-cache-hits` increases on the scene canvas. Actual FPS and Android GPU behavior still require representative physical-device testing.
+
+## Current finishes and activity
+
+The wall, parallax-room and pool-water shaders are in `architecture/surfaces.js`. Shared rooftop palm geometry, terrace props and articulated residents are in `architecture/life.js`. The ocean keeps the shoreline field but uses an irregular directional spectrum and advected noise. These additions preserve the source tower outline and the mapped site placement.
+
+Developer-only counts are exposed on the scene canvas by `core/diagnostics.js`. The distinction between model definitions, scene material objects and compiled shader programs matters when comparing budgets. See [the rendering and geometry audit](docs/ray/rendering-audit.md) for counts, the heaviest meshes, the FFT decision and validation limits. Run `node tools/ray/audit-model.mjs` to refresh the source-model report.

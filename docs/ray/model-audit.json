@@ -3,6 +3,132 @@
   "uniqueTriangles": 841223,
   "placedTriangles": 1020284,
   "modelMaterialDefinitions": 37,
+  "largestStoredMeshes": [
+    {
+      "index": 33,
+      "name": "Upper floor / Metal Black",
+      "triangles": 113830,
+      "materials": [
+        "Metal Black"
+      ]
+    },
+    {
+      "index": 25,
+      "name": "Upper floor / steel",
+      "triangles": 100150,
+      "materials": [
+        "steel"
+      ]
+    },
+    {
+      "index": 14,
+      "name": "Cube.055",
+      "triangles": 93483,
+      "materials": [
+        "Painted Plaster Wall"
+      ]
+    },
+    {
+      "index": 3,
+      "name": "Cube.084",
+      "triangles": 75409,
+      "materials": [
+        "Rusty Metal",
+        "wood_Light"
+      ]
+    },
+    {
+      "index": 10,
+      "name": "Plane.094",
+      "triangles": 43984,
+      "materials": [
+        "Concrete White"
+      ]
+    },
+    {
+      "index": 23,
+      "name": "Football-Argentina-1978.data.004",
+      "triangles": 41397,
+      "materials": [
+        "Atlas"
+      ]
+    },
+    {
+      "index": 12,
+      "name": "Mesh.002",
+      "triangles": 27396,
+      "materials": [
+        "Grass",
+        "Wood Walnut"
+      ]
+    },
+    {
+      "index": 19,
+      "name": "Cube.403",
+      "triangles": 25742,
+      "materials": [
+        "Wood Oak"
+      ]
+    },
+    {
+      "index": 28,
+      "name": "Upper floor / steel",
+      "triangles": 25581,
+      "materials": [
+        "steel"
+      ]
+    },
+    {
+      "index": 29,
+      "name": "Upper floor / steel",
+      "triangles": 25578,
+      "materials": [
+        "steel"
+      ]
+    },
+    {
+      "index": 27,
+      "name": "Upper floor / steel",
+      "triangles": 24608,
+      "materials": [
+        "steel"
+      ]
+    },
+    {
+      "index": 21,
+      "name": "Plane.046",
+      "triangles": 20935,
+      "materials": [
+        "Rope_Mat",
+        "Wood",
+        "Wood_Log"
+      ]
+    },
+    {
+      "index": 46,
+      "name": "Upper floor / Glass",
+      "triangles": 18473,
+      "materials": [
+        "Glass"
+      ]
+    },
+    {
+      "index": 30,
+      "name": "Upper floor / steel",
+      "triangles": 14005,
+      "materials": [
+        "steel"
+      ]
+    },
+    {
+      "index": 43,
+      "name": "Upper floor / Metal Black",
+      "triangles": 11151,
+      "materials": [
+        "Metal Black"
+      ]
+    }
+  ],
   "largestMaterialGroups": [
     {
       "name": "steel",

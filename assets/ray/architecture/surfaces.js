@@ -173,7 +173,7 @@ vec3 sigmaX=dFdx(-vViewPosition),sigmaY=dFdy(-vViewPosition);
 vec3 R1=cross(sigmaY,normal),R2=cross(normal,sigmaX);
 float determinant=dot(sigmaX,R1);
 vec3 gradient=sign(determinant)*(dFdx(stoneHeight)*R1+dFdy(stoneHeight)*R2);
-normal=normalize(abs(determinant)*normal-gradient);
+normal=normalize(max(abs(determinant),.00000001)*normal-gradient);
 `,
       );
     };

@@ -4,7 +4,20 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const read = (name) => fs.readFileSync(path.join(root, name));
+const read = (name) => {
+  const file = path.join(root, name);
+  const bytes = fs.readFileSync(file);
+  if (!/\.(js|css|json)$/.test(name)) return bytes;
+  // GitHub Pages serves Git's LF text; normalize before hashing on Windows too.
+  const normalized = Buffer.from(
+    bytes
+      .toString("utf8")
+      .replace(/\r\n/g, "\n")
+      .replace(/^\uFEFF/, ""),
+  );
+  if (!bytes.equals(normalized)) fs.writeFileSync(file, normalized);
+  return normalized;
+};
 const hash = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const order = JSON.parse(read("tools/ray/script-order.json")).map((url) => url.split("?")[0]);
 const extra = [
@@ -35,13 +48,12 @@ fs.writeFileSync(
 // Each published HTML points at the current bootstrap, even under the previous worker.
 const htmlPath = path.join(root, "ray-experience.html");
 let html = fs.readFileSync(htmlPath, "utf8");
-for (const name of ["assets/ray/core/boot.js", ...extra.filter((name) => name.endsWith(".css"))]) {
-  const digest = name.endsWith("boot.js")
-    ? bootHash
-    : assets.find((asset) => asset.url.split("?")[0] === name).sha256;
-  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  html = html.replaceAll(new RegExp(`${escaped}\\?[^"\\s]+`, "g"), `${name}?v=${digest}`);
-}
+const versions = new Map(assets.map((asset) => [asset.url.split("?")[0], asset.sha256]));
+versions.set("assets/ray/core/boot.js", bootHash);
+html = html.replace(/(src|href)="([^"]+)"/g, (attribute, kind, url) => {
+  const name = url.split("?")[0];
+  return versions.has(name) ? `${kind}="${name}?v=${versions.get(name)}"` : attribute;
+});
 fs.writeFileSync(htmlPath, html);
 console.log(
   `${version}: ${assets.length} content-versioned resources, ${Math.round(assets.reduce((total, asset) => total + asset.bytes, 0) / 1000000)} MB before HTTP compression.`,

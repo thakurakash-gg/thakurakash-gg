@@ -8,6 +8,15 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "assets/ray/scene-manifest.json")));
 assert.equal(manifest.schema, 2, "Regenerate the content-versioned scene manifest");
+const html = fs.readFileSync(path.join(root, "ray-experience.html"), "utf8");
+const bootHash = crypto
+  .createHash("sha256")
+  .update(fs.readFileSync(path.join(root, "assets/ray/core/boot.js")))
+  .digest("hex");
+assert(
+  html.includes(`assets/ray/core/boot.js?v=${bootHash}`),
+  "The HTML bootstrap version is stale",
+);
 for (const asset of manifest.assets) {
   const bytes = fs.readFileSync(path.join(root, asset.url.split("?")[0]));
   assert.equal(bytes.length, asset.bytes, `Stale manifest: ${asset.url}`);
