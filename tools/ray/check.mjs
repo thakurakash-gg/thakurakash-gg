@@ -52,6 +52,9 @@ execFileSync(process.execPath, [path.join(root, "tools/ray/check-planting.mjs")]
 execFileSync(process.execPath, [path.join(root, "tools/ray/check-terrain.mjs")], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [path.join(root, "tools/ray/check-frame-stability.mjs")], {
+  stdio: "inherit",
+});
 for (const folder of ["core", "environment", "architecture", "ui"])
   for (const name of fs.readdirSync(path.join(root, "assets/ray", folder))) {
     if (name.endsWith(".js"))
@@ -77,7 +80,7 @@ const world = {
   mirrorTarget: { width: 768, height: 1200 },
   frameMs: 45,
   renderCostMs: 30,
-  renderer: { getPixelRatio: () => ratio, setPixelRatio: (value) => (ratio = value), setSize() {} },
+  renderer: { getPixelRatio: () => ratio, setDrawingBufferSize: (w, h, value) => (ratio = value) },
 };
 for (let frame = 0; frame < 5000; frame++) context.window.RayAdaptQuality.call(world, frame * 20);
 assert(ratio >= 1, "Resolution must not fall below CSS pixel density");

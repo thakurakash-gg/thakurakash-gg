@@ -1,8 +1,8 @@
 {
   "schema": 2,
-  "version": "scene-beb1885afdbd4c6b",
+  "version": "scene-147c0d23c3f0a480",
   "release": {
-    "version": "26.4.0",
+    "version": "26.4.1",
     "date": "2026-10-17",
     "changelog": "CHANGELOG-RAY.md"
   },
@@ -17,8 +17,8 @@
     "assets/ray/environment/roads.js?v=75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2",
     "assets/ray/environment/villas.js?v=953e2b5ea6558888723c2d66e19f0e5e14cc8a3d5beddfdb003430df4ba97bc1",
     "assets/ray/environment/ocean.js?v=94168794625cb2ae8ca82617adf87491228164dbdb5f5dcae844549eabc2cacf",
-    "assets/ray/core/quality.js?v=ad3c1ed63e11c2827c079df7043f57e1a8407b6153734c9f6daad100b4df991e",
-    "assets/ray/core/world.js?v=c9e2c77471c73fe216cc7dd0b6a276d521e73faf14f5bcf9fd032859dd4bc0e2",
+    "assets/ray/core/quality.js?v=553c1d99d2b7d76faf75e2a374b0d4524de47ef66902a327545766379d32c082",
+    "assets/ray/core/world.js?v=9352198da0527d61f722c80f1da8c84a775c7151919df0b2dbbccb5a3e2044ba",
     "assets/ray/data/club-deck.js?v=7ad6250458069a61e4ef8b8ab4762488f7f29240cdba4c9d69a01fb885b3a478",
     "assets/ray/architecture/waterfront-club.js?v=f83a7615baf14f658baa94a126299392464564160fbc549ed98c781ff5211b8c",
     "assets/ray/core/reflections.js?v=1a687af5bcdce00fd9f5237d690824517f05222833e6d176ab6264c6df3d6084",
@@ -88,14 +88,14 @@
       "sha256": "94168794625cb2ae8ca82617adf87491228164dbdb5f5dcae844549eabc2cacf"
     },
     {
-      "url": "assets/ray/core/quality.js?v=ad3c1ed63e11c2827c079df7043f57e1a8407b6153734c9f6daad100b4df991e",
-      "bytes": 2759,
-      "sha256": "ad3c1ed63e11c2827c079df7043f57e1a8407b6153734c9f6daad100b4df991e"
+      "url": "assets/ray/core/quality.js?v=553c1d99d2b7d76faf75e2a374b0d4524de47ef66902a327545766379d32c082",
+      "bytes": 3420,
+      "sha256": "553c1d99d2b7d76faf75e2a374b0d4524de47ef66902a327545766379d32c082"
     },
     {
-      "url": "assets/ray/core/world.js?v=c9e2c77471c73fe216cc7dd0b6a276d521e73faf14f5bcf9fd032859dd4bc0e2",
-      "bytes": 55221,
-      "sha256": "c9e2c77471c73fe216cc7dd0b6a276d521e73faf14f5bcf9fd032859dd4bc0e2"
+      "url": "assets/ray/core/world.js?v=9352198da0527d61f722c80f1da8c84a775c7151919df0b2dbbccb5a3e2044ba",
+      "bytes": 55782,
+      "sha256": "9352198da0527d61f722c80f1da8c84a775c7151919df0b2dbbccb5a3e2044ba"
     },
     {
       "url": "assets/ray/data/club-deck.js?v=7ad6250458069a61e4ef8b8ab4762488f7f29240cdba4c9d69a01fb885b3a478",

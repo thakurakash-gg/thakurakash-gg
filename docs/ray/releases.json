@@ -1,6 +1,32 @@
 {
   "releases": [
     {
+      "version": "26.4.1",
+      "date": "2026-10-17",
+      "title": "Stable frames during adaptive quality and mobile resizing",
+      "sceneVersion": "scene-147c0d23c3f0a480",
+      "preview": "26.4.1",
+      "changes": {
+        "Fixed": [
+          "Adaptive resolution changes run before rendering, so resizing the drawing buffer cannot erase the completed visible frame.",
+          "Browser viewport resize events queue their buffer changes until the next render, including phone browser-bar and orientation changes.",
+          "Resolution changes use one drawing-buffer update, and reflection capture is refreshed in the same frame."
+        ],
+        "Changed": [
+          "Quality recovery requires 12 seconds of sustained headroom and a 30-second cooldown after downgrading; compact devices retain their initial reflection budget."
+        ]
+      },
+      "validation": [
+        "Regression executes the actual render loop with canvas-clear tracking for high and compact device profiles. The previous ordering reproduces a blank final frame.",
+        "Viewport resize events preserve the visible buffer until the render transaction; recovery cooldown and sustained quality restoration checks.",
+        "Full scene, tree placement, shoreline, cache, glass-reflection and transition regression checks."
+      ],
+      "limitations": [
+        "Browser portrait verification is not a physical Android hardware test."
+      ],
+      "commits": []
+    },
+    {
       "version": "26.4.0",
       "date": "2026-10-17",
       "title": "Clear roads, repaired coastal ground and a planted dining courtyard",

@@ -19,6 +19,7 @@
       pixelRatio: Math.max(1, maximumRatio),
       shadowSize: limited ? 2048 : 4096,
       reflectionScale: limited ? 0.55 : 0.7,
+      reflectionMaximum: limited ? 0.55 : 0.7,
       reflectionMinimum: 0.4,
       contactScale: 1,
       contactShading: !limited,
@@ -37,12 +38,12 @@
       this.performanceStart = now;
       return;
     }
-    if (now - this.performanceStart < 5000 || now - (this.lastQualityChange || 0) < 2500) return;
+    if (now - this.performanceStart < 5000 || now - (this.lastQualityChange || 0) < 3000) return;
     this.performanceSamples = (this.performanceSamples || 0) + 1;
     if (this.performanceSamples < 90) return;
     this.performanceSamples = 0;
     const slow = this.frameMs > 25 && this.renderCostMs > 9;
-    const headroom = this.frameMs < 19 && this.renderCostMs < 11;
+    const headroom = this.frameMs < 18 && this.renderCostMs < 8.5;
     const current = renderer.getPixelRatio();
     let next = current;
     if (slow) {
@@ -52,16 +53,34 @@
         quality.reflectionScale -= 0.1;
       else next = Math.max(1, current - 0.1);
       this.lastQualityChange = now;
-    } else if (headroom && current < quality.pixelRatio) {
-      next = Math.min(quality.pixelRatio, current + 0.05);
-      this.lastQualityChange = now;
-    } else if (headroom && quality.reflectionScale < 0.7) {
-      quality.reflectionScale = Math.min(0.7, quality.reflectionScale + 0.025);
-      this.lastQualityChange = now;
+      this.lastQualityDowngrade = now;
+      this.qualityHeadroomSince = null;
+    } else if (headroom) {
+      this.qualityHeadroomSince ??= now;
+      // Require sustained spare capacity; never undo a downgrade a few seconds later.
+      if (
+        now - this.qualityHeadroomSince < 12000 ||
+        now - (this.lastQualityDowngrade ?? -Infinity) < 30000 ||
+        now - (this.lastQualityChange || 0) < 8000
+      )
+        return;
+      if (current < quality.pixelRatio) {
+        next = Math.min(quality.pixelRatio, current + 0.05);
+        this.lastQualityChange = now;
+      } else if (quality.reflectionScale < quality.reflectionMaximum) {
+        quality.reflectionScale = Math.min(
+          quality.reflectionMaximum,
+          quality.reflectionScale + 0.025,
+        );
+        this.lastQualityChange = now;
+      }
+    } else {
+      this.qualityHeadroomSince = null;
     }
     if (Math.abs(next - current) > 0.01) {
-      renderer.setPixelRatio(next);
-      renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight, false);
+      renderer.setDrawingBufferSize(this.canvas.clientWidth, this.canvas.clientHeight, next);
+      this.lastMirror = 0;
+      this.canvas.dataset.pixelRatio = next.toFixed(2);
     }
   };
 })();

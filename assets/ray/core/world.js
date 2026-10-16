@@ -1386,7 +1386,9 @@ gl_FragColor=vec4(color,1.);
     resize() {
       const w = this.canvas.clientWidth,
         h = this.canvas.clientHeight;
-      this.renderer.setSize(w, h, false);
+      // Changing canvas dimensions clears its visible buffer. Apply this only inside a frame,
+      // immediately before the scene is drawn again (including mobile browser-bar resizes).
+      this.pendingViewportSize = { width: w, height: h };
       this.camera.aspect = w / h;
       this.camera.fov = w < 700 ? 51 : 40;
       this.camera.updateProjectionMatrix();
@@ -1409,6 +1411,14 @@ gl_FragColor=vec4(color,1.);
         this.frameMs = (this.frameMs || 33) * 0.9 + (now - this.last) * 0.1;
         this.canvas.dataset.frameMs = this.frameMs.toFixed(1);
       }
+      if (this.pendingViewportSize) {
+        const { width, height } = this.pendingViewportSize;
+        this.renderer.setDrawingBufferSize(width, height, this.renderer.getPixelRatio());
+        this.pendingViewportSize = null;
+        this.lastMirror = 0;
+      }
+      // Resolution changes must precede every render pass, never clear a completed frame.
+      window.RayAdaptQuality.call(this, now);
       const dt = this.last ? Math.min(0.08, (now - this.last) / 1000) : 0.033;
       this.last = now;
       if (!this.paused) this.time += dt;
@@ -1475,7 +1485,6 @@ gl_FragColor=vec4(color,1.);
       }
       this.renderPresentation();
       this.renderCostMs = performance.now() - this.frameStarted;
-      window.RayAdaptQuality.call(this, now);
       const degrees = ((((theta * 180) / Math.PI) % 360) + 360) % 360;
       this.canvas.dataset.angle = degrees.toFixed(1);
       this.canvas.dataset.camera = [

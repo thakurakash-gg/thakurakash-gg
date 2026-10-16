@@ -4,6 +4,33 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.4.1](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.4.1) — 2026-10-17
+
+Stable frames during adaptive quality and mobile resizing
+
+- Scene/cache ID: `scene-147c0d23c3f0a480`
+- Preview label: `26.4.1`
+
+### Fixed
+
+- Adaptive resolution changes run before rendering, so resizing the drawing buffer cannot erase the completed visible frame.
+- Browser viewport resize events queue their buffer changes until the next render, including phone browser-bar and orientation changes.
+- Resolution changes use one drawing-buffer update, and reflection capture is refreshed in the same frame.
+
+### Changed
+
+- Quality recovery requires 12 seconds of sustained headroom and a 30-second cooldown after downgrading; compact devices retain their initial reflection budget.
+
+### Validation
+
+- Regression executes the actual render loop with canvas-clear tracking for high and compact device profiles. The previous ordering reproduces a blank final frame.
+- Viewport resize events preserve the visible buffer until the render transaction; recovery cooldown and sustained quality restoration checks.
+- Full scene, tree placement, shoreline, cache, glass-reflection and transition regression checks.
+
+### Known limits
+
+- Browser portrait verification is not a physical Android hardware test.
+
 ## [26.4.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.4.0) — 2026-10-17
 
 Clear roads, repaired coastal ground and a planted dining courtyard
