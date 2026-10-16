@@ -15,3 +15,14 @@
 .miami-city-label{fill:#d8e7e5;stroke:#14282f;stroke-width:3;paint-order:stroke;letter-spacing:5px;font-size:19px;font-family:Arial,sans-serif;opacity:.8}
 
 .navigation-actions{display:flex;align-items:center;gap:10px}.navigation-title .navigation-actions>svg{width:22px;height:22px}.minimize-map{display:grid;place-items:center;width:27px;height:27px;border:1px solid #ffffff40;border-radius:50%;font-size:20px;line-height:1;color:#f1ead8;transition:background .2s}.minimize-map:hover{background:#ffffff18}.navigation.is-minimized .navigation-title{margin-bottom:0}.navigation-content[hidden]{display:none}.navigation-content>span{display:block;font-size:9px;color:#dce8e5a3;margin:5px 0 12px}
+
+/* Minimized navigation docks as a small map tab against the right edge. */
+.navigation{transition:width .22s ease,right .22s ease,padding .22s ease}
+.navigation.is-minimized{right:0;width:42px;height:48px;padding:0;border-radius:12px 0 0 12px;border-right:0;overflow:hidden}
+.navigation.is-minimized .navigation-title{width:100%;height:100%;margin:0;display:block}
+.navigation.is-minimized .navigation-title>span,.navigation.is-minimized .navigation-actions>svg{display:none}
+.navigation.is-minimized .navigation-actions{display:block;width:100%;height:100%}
+.navigation.is-minimized .minimize-map{width:100%;height:100%;border:0;border-radius:0;background:transparent}
+.navigation.is-minimized .minimize-map:hover{background:#ffffff18}
+.navigation.is-minimized .minimize-map svg{width:19px;height:19px;stroke:#eef2ec;stroke-width:1.4}
+@media(prefers-reduced-motion:reduce){.navigation{transition:none}}
