@@ -1,7 +1,7 @@
 /* Analytic ocean with traveling wave fronts guided by a shoreline distance field. */
 (()=>{const T=window.THREE;
 window.RayCreateOcean=function(w){
- w.mirrorTarget=new T.WebGLRenderTarget(innerWidth<700?320:1024,innerWidth<700?512:576,{minFilter:T.LinearFilter,magFilter:T.LinearFilter,type:T.HalfFloatType});w.mirrorCamera=new T.PerspectiveCamera();w.textureMatrix=new T.Matrix4();
+ w.mirrorTarget=new T.WebGLRenderTarget(w.quality.reflectionWidth,w.quality.reflectionHeight,{minFilter:T.LinearFilter,magFilter:T.LinearFilter,type:w.quality.hdr?T.HalfFloatType:T.UnsignedByteType});w.mirrorCamera=new T.PerspectiveCamera();w.textureMatrix=new T.Matrix4();
  const field=new T.TextureLoader().load('assets/ray-shore-field.png?v=roadside-12',()=>w.wake());field.flipY=false;field.colorSpace=T.NoColorSpace;field.minFilter=T.LinearFilter;field.magFilter=T.LinearFilter;field.generateMipmaps=false;
  const uniforms={reflectionMap:{value:w.mirrorTarget.texture},reflectionMatrix:{value:w.textureMatrix},shoreField:{value:field},rayTime:w.clockUniform,sunDirection:{value:new T.Vector3(-.5,.7,.5)},deep:{value:new T.Color(0x164957)},shallow:{value:new T.Color(0x428f91)},light:{value:new T.Color(0xffe9bf)},horizon:{value:new T.Color(0xc5dbe5)},exposure:{value:1}};w.waterUniforms.push(uniforms);
  const vertex=`precision highp float;uniform highp float rayTime;uniform mat4 reflectionMatrix;uniform sampler2D shoreField;varying vec4 reflectionCoord;varying vec3 world;
@@ -11,6 +11,6 @@ window.RayCreateOcean=function(w){
  #include <tonemapping_fragment>
  #include <colorspace_fragment>
  }`;
- const material=new T.ShaderMaterial({uniforms,vertexShader:vertex,fragmentShader:fragment});const radii=[];for(let r=0;r<=600;r+=4)radii.push(r);for(let r=660;r<=1980;r+=60)radii.push(r);for(let r=2250;r<=6000;r+=250)radii.push(r);const sides=320,positions=[],indices=[];for(let j=0;j<radii.length;j++)for(let i=0;i<sides;i++){const angle=i/sides*Math.PI*2;positions.push(Math.cos(angle)*radii[j],0,Math.sin(angle)*radii[j]);if(j<radii.length-1){const a=j*sides+i,b=j*sides+(i+1)%sides;indices.push(a,b,a+sides,b,b+sides,a+sides);}}const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));geometry.setIndex(indices);w.water=w.mesh(geometry,material,0,-.12,0);w.water.castShadow=false;w.water.receiveShadow=false;w.canvas.dataset.water='shoreward-waves';
+ const material=new T.ShaderMaterial({uniforms,vertexShader:vertex,fragmentShader:fragment});const radii=[];for(let r=0;r<=600;r+=4)radii.push(r);for(let r=660;r<=1980;r+=60)radii.push(r);for(let r=2250;r<=6000;r+=250)radii.push(r);const sides=w.quality.compact?192:320,positions=[],indices=[];for(let j=0;j<radii.length;j++)for(let i=0;i<sides;i++){const angle=i/sides*Math.PI*2;positions.push(Math.cos(angle)*radii[j],0,Math.sin(angle)*radii[j]);if(j<radii.length-1){const a=j*sides+i,b=j*sides+(i+1)%sides;indices.push(a,b,a+sides,b,b+sides,a+sides);}}const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));geometry.setIndex(indices);w.water=w.mesh(geometry,material,0,-.12,0);w.water.castShadow=false;w.water.receiveShadow=false;w.canvas.dataset.water='shoreward-waves';
  };
 })();

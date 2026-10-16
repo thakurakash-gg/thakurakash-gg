@@ -5,7 +5,7 @@ P.createVegetation=function(){};
 P.createBuilding=function(){
  this.canvas.dataset.building='loading';this.buildingReady=new Promise((resolve,reject)=>{
   const loader=new window.RayGLTFLoader();loader.setMeshoptDecoder(window.RayMeshoptDecoder);
-  const mobile=innerWidth<700||matchMedia('(pointer:coarse)').matches;this.canvas.dataset.modelDetail=mobile?'mobile':'desktop';loader.load('assets/ray-building'+(mobile?'-mobile':'')+'.glb?v=source-8',gltf=>{
+  const mobile=this.quality.compact;this.canvas.dataset.modelDetail=mobile?'balanced':'desktop';loader.load('assets/ray-building'+(mobile?'-balanced':'')+'.glb?v=source-8',gltf=>{
    const root=gltf.scene;root.name='RAY supplied architecture';root.rotation.y=-Math.PI/2+(window.RayBuildingLandscape.buildingYaw||0);root.position.y=1.25;root.position.z=window.RayBuildingLandscape.buildingShift||0;this.modelMaterials=new Set();
    root.traverse(mesh=>{if(!mesh.isMesh)return;mesh.receiveShadow=true;mesh.castShadow=true;for(const mat of(Array.isArray(mesh.material)?mesh.material:[mesh.material])){
     if(this.modelMaterials.has(mat))continue;this.modelMaterials.add(mat);mat.envMapIntensity=.9;if(mat.map)mat.map.anisotropy=Math.min(8,this.renderer.capabilities.getMaxAnisotropy());
@@ -16,7 +16,7 @@ P.createBuilding=function(){
     if(/grass/i.test(mat.name)){mat.roughness=1;mat.color.multiply(new T.Color(0xb8c6a0));}
    }});
    this.scene.add(root);this.modelRoot=root;this.decorateArchitecture();this.flush();this.renderer.shadowMap.needsUpdate=true;this.lastMirror=0;this.canvas.dataset.building='source-model';this.canvas.dataset.buildingSize='207.2 × 87.7 m';document.getElementById('terrain-status').hidden=true;document.getElementById('load-state').hidden=true;this.wake();resolve(root);
-  },event=>{const status=document.getElementById('terrain-status');status.hidden=false;status.textContent=event.total?'Preparing the architecture · '+Math.round(event.loaded/event.total*100)+'%':'Preparing the architecture…';},error=>{const status=document.getElementById('terrain-status');status.hidden=false;status.textContent='The architecture could not load. Refresh to try again.';this.canvas.dataset.building='error';console.error('RAY architecture load failed',error);reject(error);});
+  },event=>{const status=document.getElementById('terrain-status');status.hidden=false;status.textContent=event.total?'Preparing the architecture · '+Math.min(100,Math.round(event.loaded/event.total*100))+'%':'Preparing the architecture…';},error=>{const status=document.getElementById('terrain-status');status.hidden=false;status.textContent='The architecture could not load. Refresh to try again.';this.canvas.dataset.building='error';console.error('RAY architecture load failed',error);reject(error);});
  });this.buildingReady.catch(()=>{});
 };
 P.roomMaterial=function(mat){mat.onBeforeCompile=shader=>{

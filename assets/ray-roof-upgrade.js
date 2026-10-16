@@ -53,7 +53,7 @@ P.createPenthouses=function(roof){
 };
 P.captureGlassEnvironment=function(){
  // Reuse the shared sky probe on narrow screens to keep the lighter renderer stable.
- if(innerWidth<700){this.glassCaptureMood=this.mood;this.canvas.dataset.glass='blue-sky-reflections';return;}
+ if(this.quality.compact||!this.quality.hdr){this.glassCaptureMood=this.mood;this.canvas.dataset.glass='blue-sky-reflections';return;}
  this.glassCubeTarget??=new T.WebGLCubeRenderTarget(256,{type:T.HalfFloatType,generateMipmaps:true,minFilter:T.LinearMipmapLinearFilter});this.glassCubeCamera??=new T.CubeCamera(2,4500,this.glassCubeTarget);this.glassCubeCamera.position.set(0,38,window.RayBuildingLandscape.buildingShift||0);
  const sky=this.sky.position.clone(),shadowUpdate=this.renderer.shadowMap.needsUpdate,visible=this.modelRoot.visible;try{this.modelRoot.visible=false;this.sky.position.copy(this.glassCubeCamera.position);this.renderer.shadowMap.needsUpdate=false;this.glassCubeCamera.update(this.renderer,this.scene);}finally{this.renderer.shadowMap.needsUpdate=shadowUpdate;this.modelRoot.visible=visible;this.sky.position.copy(sky);}
  const generator=new T.PMREMGenerator(this.renderer),environment=generator.fromCubemap(this.glassCubeTarget.texture);generator.dispose();const old=this.glassEnvironment;this.glassEnvironment=environment;for(const mat of this.modelMaterials)if(mat.userData.rayReflective){mat.envMap=environment.texture;mat.needsUpdate=true;}old?.dispose();this.glassCaptureMood=this.mood;this.renderer.shadowMap.needsUpdate=true;this.canvas.dataset.glass='blue-scene-reflections';
