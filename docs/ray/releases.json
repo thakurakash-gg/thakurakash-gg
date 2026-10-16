@@ -1,6 +1,33 @@
 {
   "releases": [
     {
+      "version": "26.5.0",
+      "date": "2026-10-17",
+      "title": "Sharp villa roofs and merged static fittings",
+      "sceneVersion": "scene-13292b359027a838",
+      "preview": "26.5.0",
+      "changes": {
+        "Fixed": [
+          "Replaced the nearby villas' square-grid pitched roofs with planar hip and valley faces. Ridges stay sharp and continuous rather than stepping along grid diagonals."
+        ],
+        "Changed": [
+          "Baked 38,782 two-triangle villa window, frame and door fittings into 34 indexed static meshes grouped by material and neighborhood block. Existing spatial culling is retained.",
+          "Reduced 1,302 pitched villa roofs from 177,155 to 28,488 triangles; the 214 flat roofs are preserved. Trees and larger suitable repeated assets remain instanced."
+        ]
+      },
+      "validation": [
+        "All pitched roof faces checked for planarity within 2.5 mm and continuous shared ridge heights; maximum measured plane error 1.15 mm.",
+        "Merged fitting regression checks exact corner positions, triangle indices and compact attribute buffers. Full neighborhood audit confirms 38,782 fittings and 34 batches.",
+        "Offline full-villa geometry audit: 290,107 to 141,440 triangles and 30,792,180 to 12,253,892 buffer bytes (60% reduction), with the same 165 spatial material batches; excludes separately shared trim boxes.",
+        "Full frame stability, cache, glass, lighting, tree placement, terrain and scene checks; desktop and portrait browser inspection."
+      ],
+      "limitations": [
+        "Fitting merging retains the previous draw-call count; it removes per-instance transforms. Fitting buffers grow by about 1.1 MB, offset by the roof geometry reduction.",
+        "Physical Android and low-end GPU performance measurements remain pending."
+      ],
+      "commits": ["37c0bb3"]
+    },
+    {
       "version": "26.4.1",
       "date": "2026-10-17",
       "title": "Stable frames during adaptive quality and mobile resizing",
@@ -21,9 +48,7 @@
         "Viewport resize events preserve the visible buffer until the render transaction; recovery cooldown and sustained quality restoration checks.",
         "Full scene, tree placement, shoreline, cache, glass-reflection and transition regression checks."
       ],
-      "limitations": [
-        "Browser portrait verification is not a physical Android hardware test."
-      ],
+      "limitations": ["Browser portrait verification is not a physical Android hardware test."],
       "commits": []
     },
     {
@@ -51,10 +76,7 @@
         "Natural foliage can overhang the edge of green planting areas; trunks are kept at least 3.5 m from road surfaces and 1.65 m from paving.",
         "Physical low-end-device testing remains pending."
       ],
-      "commits": [
-        "ed076af",
-        "5eb7358"
-      ]
+      "commits": ["ed076af", "5eb7358"]
     },
     {
       "version": "26.3.2",
@@ -72,9 +94,7 @@
         "Coast bake checks validity, keeps maximum boundary displacement to 1.046 m and limits changed land area to 10.163 square metres.",
         "Existing full scene, cache, glass-transition and reflection regression checks."
       ],
-      "limitations": [
-        "Physical low-end-device testing remains pending."
-      ],
+      "limitations": ["Physical low-end-device testing remains pending."],
       "commits": []
     },
     {
@@ -164,9 +184,7 @@
         "Automated single-invalid-texel regression outside the old sample locations, water capture mode restoration and fallback tests.",
         "Repeated completed day/night lighting transitions checked in the browser with zero invalid atlas texels."
       ],
-      "limitations": [
-        "Physical Android and low-end GPU validation remains pending."
-      ],
+      "limitations": ["Physical Android and low-end GPU validation remains pending."],
       "commits": []
     },
     {
@@ -187,9 +205,7 @@
         "Automated sky-range, generator reuse, invalid-probe fallback, safe replacement and scene-state restoration tests.",
         "Browser reproduction at the low-angle waterfront view with repeated lighting transitions."
       ],
-      "limitations": [
-        "Physical Android and low-end GPU validation remains pending."
-      ],
+      "limitations": ["Physical Android and low-end GPU validation remains pending."],
       "commits": []
     },
     {
@@ -212,9 +228,7 @@
         "Scene integrity, syntax, cache/update, release-note binding and existing animation/road checks.",
         "Fresh browser shader compilation and closer daytime/nighttime facade views checked."
       ],
-      "limitations": [
-        "Physical Android and low-end GPU validation remains pending."
-      ],
+      "limitations": ["Physical Android and low-end GPU validation remains pending."],
       "commits": []
     },
     {
@@ -247,14 +261,7 @@
         "Physical Android and low-end GPU validation remains pending.",
         "The ocean uses analytic waves and noise; a full FFT simulation is not implemented."
       ],
-      "commits": [
-        "215524b",
-        "5ce29c1",
-        "81014ad",
-        "62af9c2",
-        "26f47c0",
-        "99956da"
-      ]
+      "commits": ["215524b", "5ce29c1", "81014ad", "62af9c2", "26f47c0", "99956da"]
     },
     {
       "version": "25.0.0",
@@ -276,9 +283,7 @@
       "limitations": [
         "Historical entry reconstructed from the published commit; older preview milestones are not individually backfilled."
       ],
-      "commits": [
-        "fff768c"
-      ]
+      "commits": ["fff768c"]
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "schema": 2,
-  "version": "scene-147c0d23c3f0a480",
+  "version": "scene-13292b359027a838",
   "release": {
-    "version": "26.4.1",
+    "version": "26.5.0",
     "date": "2026-10-17",
     "changelog": "CHANGELOG-RAY.md"
   },
@@ -11,18 +11,18 @@
     "assets/vendor/ray-meshopt-decoder.js?v=68d26aa0d7f88b8b9580ecfa46659a4cec803e26d0dc0d81e3da1f19f0181f65",
     "assets/vendor/ray-gltf-loader.js?v=38ee477e318f1d48c153a854c390a6a7d1d6d62c65ee4b972818cfac7f032173",
     "assets/ray/data/building-landscape.js?v=ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87",
-    "assets/ray/data/neighborhood.js?v=6f87d5d773e3a2b24c7739f47940122094c69dec64d4aa2f1fe92094a635a672",
+    "assets/ray/data/neighborhood.js?v=9f55fc97bdb784921397a8f83fdc7ad4541e9ec2b07fbabe2e73fc388651e8f2",
     "assets/ray/data/extra-trees.js?v=938492ec7a50e8d486e39332300eade510a804ae0423631e24b1d654921f5392",
     "assets/ray/environment/neighborhood.js?v=b7a892be5052fc96fa4ad6cfce54f30afacf2fd98b0238de0af052263e89999b",
     "assets/ray/environment/roads.js?v=75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2",
-    "assets/ray/environment/villas.js?v=953e2b5ea6558888723c2d66e19f0e5e14cc8a3d5beddfdb003430df4ba97bc1",
+    "assets/ray/environment/villas.js?v=e5c5d4e4632e70dad1bf37d6b0f707929bec8547c271199c82cd38a794db9d28",
     "assets/ray/environment/ocean.js?v=94168794625cb2ae8ca82617adf87491228164dbdb5f5dcae844549eabc2cacf",
     "assets/ray/core/quality.js?v=553c1d99d2b7d76faf75e2a374b0d4524de47ef66902a327545766379d32c082",
     "assets/ray/core/world.js?v=9352198da0527d61f722c80f1da8c84a775c7151919df0b2dbbccb5a3e2044ba",
     "assets/ray/data/club-deck.js?v=7ad6250458069a61e4ef8b8ab4762488f7f29240cdba4c9d69a01fb885b3a478",
     "assets/ray/architecture/waterfront-club.js?v=f83a7615baf14f658baa94a126299392464564160fbc549ed98c781ff5211b8c",
     "assets/ray/core/reflections.js?v=1a687af5bcdce00fd9f5237d690824517f05222833e6d176ab6264c6df3d6084",
-    "assets/ray/core/batching.js?v=8f0984e3600ac5fa00fba12e9cce45e38c202ec8e04f8e44aa574aa5a42ab556",
+    "assets/ray/core/batching.js?v=aa0ff01fec71773cc84ddcf65c1880eee5419589137e7ba7c451ea2326666134",
     "assets/ray/environment/birds.js?v=6d4af87cbe9c1ce96a20d8647f28b106385ea810719075e888d005a6336cef3c",
     "assets/ray/core/presentation.js?v=b597017f7fd250dea44b01e4f3943feee8ca77b0eb0dbec94798296a30a0716c",
     "assets/ray/environment/foliage.js?v=68ee556da5d9b17f78220c50ce386fa26559a9a0c5a6eff44ccf0a5bee655065",
@@ -58,9 +58,9 @@
       "sha256": "ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87"
     },
     {
-      "url": "assets/ray/data/neighborhood.js?v=6f87d5d773e3a2b24c7739f47940122094c69dec64d4aa2f1fe92094a635a672",
-      "bytes": 25226733,
-      "sha256": "6f87d5d773e3a2b24c7739f47940122094c69dec64d4aa2f1fe92094a635a672"
+      "url": "assets/ray/data/neighborhood.js?v=9f55fc97bdb784921397a8f83fdc7ad4541e9ec2b07fbabe2e73fc388651e8f2",
+      "bytes": 23343112,
+      "sha256": "9f55fc97bdb784921397a8f83fdc7ad4541e9ec2b07fbabe2e73fc388651e8f2"
     },
     {
       "url": "assets/ray/data/extra-trees.js?v=938492ec7a50e8d486e39332300eade510a804ae0423631e24b1d654921f5392",
@@ -78,9 +78,9 @@
       "sha256": "75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2"
     },
     {
-      "url": "assets/ray/environment/villas.js?v=953e2b5ea6558888723c2d66e19f0e5e14cc8a3d5beddfdb003430df4ba97bc1",
-      "bytes": 11047,
-      "sha256": "953e2b5ea6558888723c2d66e19f0e5e14cc8a3d5beddfdb003430df4ba97bc1"
+      "url": "assets/ray/environment/villas.js?v=e5c5d4e4632e70dad1bf37d6b0f707929bec8547c271199c82cd38a794db9d28",
+      "bytes": 11415,
+      "sha256": "e5c5d4e4632e70dad1bf37d6b0f707929bec8547c271199c82cd38a794db9d28"
     },
     {
       "url": "assets/ray/environment/ocean.js?v=94168794625cb2ae8ca82617adf87491228164dbdb5f5dcae844549eabc2cacf",
@@ -113,9 +113,9 @@
       "sha256": "1a687af5bcdce00fd9f5237d690824517f05222833e6d176ab6264c6df3d6084"
     },
     {
-      "url": "assets/ray/core/batching.js?v=8f0984e3600ac5fa00fba12e9cce45e38c202ec8e04f8e44aa574aa5a42ab556",
-      "bytes": 3446,
-      "sha256": "8f0984e3600ac5fa00fba12e9cce45e38c202ec8e04f8e44aa574aa5a42ab556"
+      "url": "assets/ray/core/batching.js?v=aa0ff01fec71773cc84ddcf65c1880eee5419589137e7ba7c451ea2326666134",
+      "bytes": 4168,
+      "sha256": "aa0ff01fec71773cc84ddcf65c1880eee5419589137e7ba7c451ea2326666134"
     },
     {
       "url": "assets/ray/environment/birds.js?v=6d4af87cbe9c1ce96a20d8647f28b106385ea810719075e888d005a6336cef3c",

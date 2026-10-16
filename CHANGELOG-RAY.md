@@ -4,6 +4,36 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.5.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.5.0) — 2026-10-17
+
+Sharp villa roofs and merged static fittings
+
+- Scene/cache ID: `scene-13292b359027a838`
+- Preview label: `26.5.0`
+
+### Fixed
+
+- Replaced the nearby villas' square-grid pitched roofs with planar hip and valley faces. Ridges stay sharp and continuous rather than stepping along grid diagonals.
+
+### Changed
+
+- Baked 38,782 two-triangle villa window, frame and door fittings into 34 indexed static meshes grouped by material and neighborhood block. Existing spatial culling is retained.
+- Reduced 1,302 pitched villa roofs from 177,155 to 28,488 triangles; the 214 flat roofs are preserved. Trees and larger suitable repeated assets remain instanced.
+
+### Validation
+
+- All pitched roof faces checked for planarity within 2.5 mm and continuous shared ridge heights; maximum measured plane error 1.15 mm.
+- Merged fitting regression checks exact corner positions, triangle indices and compact attribute buffers. Full neighborhood audit confirms 38,782 fittings and 34 batches.
+- Offline full-villa geometry audit: 290,107 to 141,440 triangles and 30,792,180 to 12,253,892 buffer bytes (60% reduction), with the same 165 spatial material batches; excludes separately shared trim boxes.
+- Full frame stability, cache, glass, lighting, tree placement, terrain and scene checks; desktop and portrait browser inspection.
+
+### Known limits
+
+- Fitting merging retains the previous draw-call count; it removes per-instance transforms. Fitting buffers grow by about 1.1 MB, offset by the roof geometry reduction.
+- Physical Android and low-end GPU performance measurements remain pending.
+
+Commits: [37c0bb3](https://github.com/thakurakash-gg/thakurakash-gg/commit/37c0bb3).
+
 ## [26.4.1](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.4.1) — 2026-10-17
 
 Stable frames during adaptive quality and mobile resizing
