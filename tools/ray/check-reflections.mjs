@@ -113,7 +113,7 @@ world.captureGlassEnvironment();
 restored();
 const second = world.glassEnvironment;
 assert.notEqual(first, second);
-assert(first.wasDisposed);
+assert(!first.wasDisposed, "Prepared moods must remain available for later selection");
 assert.equal(world.pmremGenerator, pmrem, "Repeated captures must reuse the generator");
 invalid = true;
 world.mood = "night";
@@ -133,6 +133,7 @@ assert.equal(
 assert(!second.wasDisposed);
 assert(targets.at(-1).wasDisposed);
 world.glassEnvironment = null;
+world.mood = "initial-failure";
 world.captureGlassEnvironment();
 assert.equal(
   material.envMap,
@@ -149,6 +150,25 @@ world.quality.compact = true;
 world.captureGlassEnvironment();
 assert.equal(captures, count);
 assert.equal(conversions, 4);
+world.quality.compact = false;
+invalid = false;
+failCapture = false;
+for (const mood of ["evening", "night"]) {
+  world.mood = mood;
+  world.captureGlassEnvironment();
+}
+const preparedCaptures = captures;
+for (let index = 0; index < 100; index++) {
+  world.mood = ["morning", "afternoon", "evening", "night"][index % 4];
+  world.captureGlassEnvironment();
+  assert.equal(material.envMap, world.glassEnvironments.get(world.mood).target.texture);
+}
+assert.equal(
+  captures,
+  preparedCaptures,
+  "Repeated lighting switches must reuse prepared maps without new GPU captures",
+);
+assert.equal(world.glassEnvironments.size, 4);
 const ocean = fs.readFileSync(path.join(root, "assets/ray/environment/ocean.js"), "utf8");
 assert.match(ocean, /pow\(clamp\(1\.-dot\(eye,normal\),0\.,1\.\),4\.\)/);
 assert.match(ocean, /reflectionPass<\.5 && reflectionCoord\.w>\.0001/);

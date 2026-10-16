@@ -4,6 +4,7 @@
   "assets/vendor/ray-gltf-loader.js",
   "assets/ray/data/building-landscape.js",
   "assets/ray/data/neighborhood.js",
+  "assets/ray/data/extra-trees.js",
   "assets/ray/environment/neighborhood.js",
   "assets/ray/environment/roads.js",
   "assets/ray/environment/villas.js",

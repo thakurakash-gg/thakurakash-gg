@@ -4,6 +4,31 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.2.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.2.0) — 2026-10-16
+
+Denser instanced trees and prepared lighting reflections
+
+- Scene/cache ID: `scene-a283a720f99a9c3e`
+- Preview label: `26.2.0`
+
+### Added
+
+- 1,400 additional open-land trees share the existing trunk, crown, palm and contact-shadow instance batches.
+
+### Changed
+
+- All four glass reflection environments are prepared under the loading bar and reused during daytime switching.
+- Additional background trees use two shared leaf clusters to limit added geometry and alpha overdraw.
+
+### Validation
+
+- Placement bake excludes roads, sidewalks, buildings, project grounds, pools and driveways; minimum tree spacing is 8 m.
+- Automated repeated lighting selection must not create more reflection captures after preparation.
+
+### Known limits
+
+- More vegetation adds vertex and fill work despite sharing draw calls; physical low-end device testing remains pending.
+
 ## [26.1.2](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.1.2) — 2026-10-16
 
 Stable glazing through repeated lighting switches

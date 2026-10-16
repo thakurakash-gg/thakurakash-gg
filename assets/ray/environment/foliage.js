@@ -179,7 +179,7 @@
     g.computeVertexNormals();
     return g;
   };
-  P.tree = function (x, z, size = 4, y = 1) {
+  P.tree = function (x, z, size = 4, y = 1, maximumClusters = Infinity) {
     if (size < 0.3) return;
     const trunk = (this.treeTrunk ??= new T.CylinderGeometry(0.13, 0.26, 1, 7)),
       geo = (this.crownGeo ??= this.leafCluster());
@@ -194,7 +194,10 @@
       size * 1.3,
       1,
     );
-    const clusters = innerWidth < 700 ? 2 : Math.hypot(x, z) < 650 ? 5 : 2;
+    const clusters = Math.min(
+      maximumClusters,
+      innerWidth < 700 ? 2 : Math.hypot(x, z) < 650 ? 5 : 2,
+    );
     for (let i = 0; i < clusters; i++) {
       const a = i * 2.399,
         r = size * (i === 0 ? 0.1 : 0.42);

@@ -1,8 +1,8 @@
 {
   "schema": 2,
-  "version": "scene-353870cd70740200",
+  "version": "scene-a283a720f99a9c3e",
   "release": {
-    "version": "26.1.2",
+    "version": "26.2.0",
     "date": "2026-10-16",
     "changelog": "CHANGELOG-RAY.md"
   },
@@ -12,25 +12,26 @@
     "assets/vendor/ray-gltf-loader.js?v=38ee477e318f1d48c153a854c390a6a7d1d6d62c65ee4b972818cfac7f032173",
     "assets/ray/data/building-landscape.js?v=ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87",
     "assets/ray/data/neighborhood.js?v=30aaeb7038908c4598fb5ad89987845e188220be97988b31f11e3ea0a133bc22",
-    "assets/ray/environment/neighborhood.js?v=262f4f23886d61f111f203bcead4e51b10dfb3289bdfe1710d863301f72fa5fd",
+    "assets/ray/data/extra-trees.js?v=2eaaa7ca76604068b451ee09baf93ad0d751810958feea9ecfcd0d2eb922544b",
+    "assets/ray/environment/neighborhood.js?v=b7a892be5052fc96fa4ad6cfce54f30afacf2fd98b0238de0af052263e89999b",
     "assets/ray/environment/roads.js?v=75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2",
     "assets/ray/environment/villas.js?v=953e2b5ea6558888723c2d66e19f0e5e14cc8a3d5beddfdb003430df4ba97bc1",
     "assets/ray/environment/ocean.js?v=94168794625cb2ae8ca82617adf87491228164dbdb5f5dcae844549eabc2cacf",
     "assets/ray/core/quality.js?v=ad3c1ed63e11c2827c079df7043f57e1a8407b6153734c9f6daad100b4df991e",
-    "assets/ray/core/world.js?v=5782ccd16b067916392bd819e4046bfd1f7f3d113d473533dc9ed49c2dc7d896",
+    "assets/ray/core/world.js?v=c7a8ea44fed1e945542f6c450041a588c0807919f261fd9cd661c3b301efcd6f",
     "assets/ray/data/club-deck.js?v=7ad6250458069a61e4ef8b8ab4762488f7f29240cdba4c9d69a01fb885b3a478",
     "assets/ray/architecture/waterfront-club.js?v=f83a7615baf14f658baa94a126299392464564160fbc549ed98c781ff5211b8c",
     "assets/ray/core/reflections.js?v=1a687af5bcdce00fd9f5237d690824517f05222833e6d176ab6264c6df3d6084",
     "assets/ray/core/batching.js?v=8f0984e3600ac5fa00fba12e9cce45e38c202ec8e04f8e44aa574aa5a42ab556",
     "assets/ray/environment/birds.js?v=6d4af87cbe9c1ce96a20d8647f28b106385ea810719075e888d005a6336cef3c",
     "assets/ray/core/presentation.js?v=b597017f7fd250dea44b01e4f3943feee8ca77b0eb0dbec94798296a30a0716c",
-    "assets/ray/environment/foliage.js?v=015b5ff3f36ac8ae13e2f0ba90ff477ae37d68cc7c60579aed132f522fae9d32",
+    "assets/ray/environment/foliage.js?v=68ee556da5d9b17f78220c50ce386fa26559a9a0c5a6eff44ccf0a5bee655065",
     "assets/ray/architecture/building.js?v=157d7c54e5ac3552a611a4b05e4b0a90e5c40868d878dcc8b5223c942f76e600",
-    "assets/ray/architecture/rooftops.js?v=d855f2727d708da897830299dc0b9a63c9ee112b81c4411b37135a3829cd9d47",
+    "assets/ray/architecture/rooftops.js?v=c6e5a7455415d0ebf276b50f942b5e49da5f81a8fd2dc46d344ca1c7bfaf14c0",
     "assets/ray/architecture/surfaces.js?v=a263fecccd13a1b015e269daaf409ca15a8375d9d3b537fe4dcea1da31a3646e",
     "assets/ray/architecture/life.js?v=89deecdd75b0ee11232c5d12d569b13a459a85c0b3ac3f18fcb51766bcfe227b",
     "assets/ray/core/diagnostics.js?v=0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9",
-    "assets/ray/ui/experience.js?v=5f670b97f9dddc07d8cd27b3a572aceb3ca4aac1b37525e2fa75348d1d9cfd25"
+    "assets/ray/ui/experience.js?v=420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0"
   ],
   "assets": [
     {
@@ -59,9 +60,14 @@
       "sha256": "30aaeb7038908c4598fb5ad89987845e188220be97988b31f11e3ea0a133bc22"
     },
     {
-      "url": "assets/ray/environment/neighborhood.js?v=262f4f23886d61f111f203bcead4e51b10dfb3289bdfe1710d863301f72fa5fd",
-      "bytes": 29601,
-      "sha256": "262f4f23886d61f111f203bcead4e51b10dfb3289bdfe1710d863301f72fa5fd"
+      "url": "assets/ray/data/extra-trees.js?v=2eaaa7ca76604068b451ee09baf93ad0d751810958feea9ecfcd0d2eb922544b",
+      "bytes": 33386,
+      "sha256": "2eaaa7ca76604068b451ee09baf93ad0d751810958feea9ecfcd0d2eb922544b"
+    },
+    {
+      "url": "assets/ray/environment/neighborhood.js?v=b7a892be5052fc96fa4ad6cfce54f30afacf2fd98b0238de0af052263e89999b",
+      "bytes": 28913,
+      "sha256": "b7a892be5052fc96fa4ad6cfce54f30afacf2fd98b0238de0af052263e89999b"
     },
     {
       "url": "assets/ray/environment/roads.js?v=75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2",
@@ -84,9 +90,9 @@
       "sha256": "ad3c1ed63e11c2827c079df7043f57e1a8407b6153734c9f6daad100b4df991e"
     },
     {
-      "url": "assets/ray/core/world.js?v=5782ccd16b067916392bd819e4046bfd1f7f3d113d473533dc9ed49c2dc7d896",
-      "bytes": 54522,
-      "sha256": "5782ccd16b067916392bd819e4046bfd1f7f3d113d473533dc9ed49c2dc7d896"
+      "url": "assets/ray/core/world.js?v=c7a8ea44fed1e945542f6c450041a588c0807919f261fd9cd661c3b301efcd6f",
+      "bytes": 54545,
+      "sha256": "c7a8ea44fed1e945542f6c450041a588c0807919f261fd9cd661c3b301efcd6f"
     },
     {
       "url": "assets/ray/data/club-deck.js?v=7ad6250458069a61e4ef8b8ab4762488f7f29240cdba4c9d69a01fb885b3a478",
@@ -119,9 +125,9 @@
       "sha256": "b597017f7fd250dea44b01e4f3943feee8ca77b0eb0dbec94798296a30a0716c"
     },
     {
-      "url": "assets/ray/environment/foliage.js?v=015b5ff3f36ac8ae13e2f0ba90ff477ae37d68cc7c60579aed132f522fae9d32",
-      "bytes": 9743,
-      "sha256": "015b5ff3f36ac8ae13e2f0ba90ff477ae37d68cc7c60579aed132f522fae9d32"
+      "url": "assets/ray/environment/foliage.js?v=68ee556da5d9b17f78220c50ce386fa26559a9a0c5a6eff44ccf0a5bee655065",
+      "bytes": 9817,
+      "sha256": "68ee556da5d9b17f78220c50ce386fa26559a9a0c5a6eff44ccf0a5bee655065"
     },
     {
       "url": "assets/ray/architecture/building.js?v=157d7c54e5ac3552a611a4b05e4b0a90e5c40868d878dcc8b5223c942f76e600",
@@ -129,9 +135,9 @@
       "sha256": "157d7c54e5ac3552a611a4b05e4b0a90e5c40868d878dcc8b5223c942f76e600"
     },
     {
-      "url": "assets/ray/architecture/rooftops.js?v=d855f2727d708da897830299dc0b9a63c9ee112b81c4411b37135a3829cd9d47",
-      "bytes": 18686,
-      "sha256": "d855f2727d708da897830299dc0b9a63c9ee112b81c4411b37135a3829cd9d47"
+      "url": "assets/ray/architecture/rooftops.js?v=c6e5a7455415d0ebf276b50f942b5e49da5f81a8fd2dc46d344ca1c7bfaf14c0",
+      "bytes": 20437,
+      "sha256": "c6e5a7455415d0ebf276b50f942b5e49da5f81a8fd2dc46d344ca1c7bfaf14c0"
     },
     {
       "url": "assets/ray/architecture/surfaces.js?v=a263fecccd13a1b015e269daaf409ca15a8375d9d3b537fe4dcea1da31a3646e",
@@ -149,9 +155,9 @@
       "sha256": "0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9"
     },
     {
-      "url": "assets/ray/ui/experience.js?v=5f670b97f9dddc07d8cd27b3a572aceb3ca4aac1b37525e2fa75348d1d9cfd25",
-      "bytes": 10564,
-      "sha256": "5f670b97f9dddc07d8cd27b3a572aceb3ca4aac1b37525e2fa75348d1d9cfd25"
+      "url": "assets/ray/ui/experience.js?v=420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0",
+      "bytes": 10711,
+      "sha256": "420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0"
     },
     {
       "url": "assets/ray/models/site.glb?v=a45f9f1f54a87bef02d287e5e5b27208d3f8963d6ce685df6460aa43d5673719",

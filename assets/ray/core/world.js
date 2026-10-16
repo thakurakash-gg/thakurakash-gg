@@ -1388,7 +1388,7 @@ gl_FragColor=vec4(color,1.);
     render(now) {
       this.frameStarted = performance.now();
       this.frame = 0;
-      if (document.hidden) return;
+      if (document.hidden || this.preparingGlass) return;
       if (this.last) {
         this.frameMs = (this.frameMs || 33) * 0.9 + (now - this.last) * 0.1;
         this.canvas.dataset.frameMs = this.frameMs.toFixed(1);

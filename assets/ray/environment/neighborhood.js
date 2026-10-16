@@ -22,15 +22,13 @@
       });
       m.onBeforeCompile = (shader) => {
         shader.uniforms.contextHorizon = this.w.skyUniforms.horizon;
-        shader.vertexShader =
-          "varying vec3 contextWorld;\n" + shader.vertexShader;
+        shader.vertexShader = "varying vec3 contextWorld;\n" + shader.vertexShader;
         shader.vertexShader = shader.vertexShader.replace(
           "#include <project_vertex>",
           "#include <project_vertex>\nvec4 contextPosition=vec4(transformed,1.);\n#ifdef USE_INSTANCING\ncontextPosition=instanceMatrix*contextPosition;\n#endif\ncontextWorld=(modelMatrix*contextPosition).xyz;",
         );
         shader.fragmentShader =
-          "varying vec3 contextWorld;uniform vec3 contextHorizon;\n" +
-          shader.fragmentShader;
+          "varying vec3 contextWorld;uniform vec3 contextHorizon;\n" + shader.fragmentShader;
         shader.fragmentShader = shader.fragmentShader.replace(
           "#include <tonemapping_fragment>",
           "float edgeFade=smoothstep(1050.,1780.,length(contextWorld.xz));float airFade=(1.-exp(-pow(distance(cameraPosition,contextWorld)*.00017,2.)))*.32;gl_FragColor.rgb=mix(gl_FragColor.rgb,contextHorizon,max(edgeFade,airFade));\n#include <tonemapping_fragment>",
@@ -122,12 +120,9 @@
         for (let y = 0; y < 512; y++)
           for (let x = 0; x < 512; x++) {
             const i = (y * 512 + x) * 4,
-              large =
-                Math.sin(x * 0.043) * Math.cos(y * 0.031) * 3 +
-                Math.sin((x + y) * 0.009) * 4,
+              large = Math.sin(x * 0.043) * Math.cos(y * 0.031) * 3 + Math.sin((x + y) * 0.009) * 4,
               noise = (rand() - 0.5) * (kind === "grass" ? 17 : 10);
-            for (let k = 0; k < 3; k++)
-              pixels.data[i + k] = base[k] + large + noise;
+            for (let k = 0; k < 3; k++) pixels.data[i + k] = base[k] + large + noise;
             pixels.data[i + 3] = 255;
           }
         ctx.putImageData(pixels, 0, 0);
@@ -162,10 +157,7 @@
       const map = new T.CanvasTexture(canvas);
       map.colorSpace = T.SRGBColorSpace;
       map.wrapS = map.wrapT = T.RepeatWrapping;
-      map.anisotropy = Math.min(
-        8,
-        this.w.renderer.capabilities.getMaxAnisotropy(),
-      );
+      map.anisotropy = Math.min(8, this.w.renderer.capabilities.getMaxAnisotropy());
       return map;
     }
     add(key, geo, mat) {
@@ -232,13 +224,11 @@
     networkSurface(rings, offset = 0) {
       const lookup = new Map();
       for (const r of rings)
-        for (const [x, z, y] of r)
-          lookup.set(x.toFixed(2) + "," + z.toFixed(2), y);
+        for (const [x, z, y] of r) lookup.set(x.toFixed(2) + "," + z.toFixed(2), y);
       const g = this.surface(rings, 0, 0.16),
         p = g.attributes.position;
       for (let i = 0; i < p.count; i++) {
-        const y =
-          lookup.get(p.getX(i).toFixed(2) + "," + p.getZ(i).toFixed(2)) ?? 1.23;
+        const y = lookup.get(p.getX(i).toFixed(2) + "," + p.getZ(i).toFixed(2)) ?? 1.23;
         p.setY(i, y + offset);
       }
       g.computeVertexNormals();
@@ -282,8 +272,7 @@
       g.translate(0, y, 0);
       const pos = g.attributes.position,
         uv = g.attributes.uv;
-      for (let i = 0; i < pos.count; i++)
-        uv.setXY(i, pos.getX(i) * scale, pos.getZ(i) * scale);
+      for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i) * scale, pos.getZ(i) * scale);
       return g;
     }
     color(geo, color) {
@@ -362,16 +351,11 @@
         beds = this.material("garden", 0x596848, { map: grass });
       for (const ring of this.d.projectForecourt || [])
         this.add("roadside-forecourt", this.networkSurface(ring), apron);
-      for (const rings of this.d.land)
-        this.add("land-sides", this.banks(rings), bank);
+      for (const rings of this.d.land) this.add("land-sides", this.banks(rings), bank);
       for (const rings of this.d.groundSurfaces || this.d.land)
         this.add("land", this.surface(rings, 1.18, 0.035), landMat);
       for (const rings of this.d.projectGround || [])
-        this.add(
-          "project-foundation",
-          this.surface(rings, 0.92, 0.035),
-          landMat,
-        );
+        this.add("project-foundation", this.surface(rings, 0.92, 0.035), landMat);
       for (const r of this.d.gardenBeds || [])
         this.add("garden-beds", this.surface(r, 1.215, 0.12), beds);
       for (const r of this.d.buildingAprons || [])
@@ -381,25 +365,16 @@
       for (const r of this.d.curbSurfaces || this.d.pavingSurfaces || [])
         this.add("curb-faces", this.curbFaces(r), walk);
       if (this.d.roadMesh)
-        this.add(
-          "graded-asphalt",
-          this.gradedMesh(this.d.roadMesh, 0.025),
-          asphalt,
-        );
+        this.add("graded-asphalt", this.gradedMesh(this.d.roadMesh, 0.025), asphalt);
       if (this.d.pavingMesh)
-        this.add(
-          "graded-sidewalks",
-          this.gradedMesh(this.d.pavingMesh, 0.15),
-          walk,
-        );
+        this.add("graded-sidewalks", this.gradedMesh(this.d.pavingMesh, 0.15), walk);
       for (const r of this.d.roadSurfaces || [])
         this.add("asphalt", this.networkSurface(r, 0.025), asphalt);
       for (const [x, z, base, top, width, depth] of this.d.bridgeSupports || [])
         w.box("ivory", x, (base + top) / 2, z, width, top - base, depth);
       for (const edge of this.d.bridgeEdges || []) {
         this.ribbon(edge, 0.12, 0.9, "bridge-rails", bridge);
-        for (const p of edge)
-          w.box("frame", p[0], p[2] + 0.45, p[1], 0.08, 0.9, 0.08);
+        for (const p of edge) w.box("frame", p[0], p[2] + 0.45, p[1], 0.08, 0.9, 0.08);
       }
       for (const road of this.d.roads) {
         const points = road.p.map(([x, z], i) => [x, z, road.y?.[i] ?? 1.23]);
@@ -409,21 +384,11 @@
           this.ribbon(points, road.w + 2.5, -0.28, "bridge-deck", bridge);
           this.ribbon(points, road.w, 0, "raised-asphalt", asphalt);
           for (const side of [-1, 1])
-            this.ribbon(
-              this.offset(points, (road.w / 2 + 1) * side),
-              1,
-              0.09,
-              "raised-walk",
-              walk,
-            );
+            this.ribbon(this.offset(points, (road.w / 2 + 1) * side), 1, 0.09, "raised-walk", walk);
         }
-        const major = [
-            "primary",
-            "primary_link",
-            "secondary",
-            "trunk",
-            "tertiary",
-          ].includes(road.k),
+        const major = ["primary", "primary_link", "secondary", "trunk", "tertiary"].includes(
+            road.k,
+          ),
           near = Math.min(...points.map((p) => Math.hypot(p[0], p[1])));
         if ((major || road.n === "North Bayshore Drive") && near < 1200) {
           const path = this.polyline(points);
@@ -463,11 +428,7 @@
           [width, depth, yaw] = b.r,
           h = b.h,
           near = Math.hypot(x, z) < 950;
-        this.add(
-          "buildings",
-          this.color(this.facade(b), wallColors[b.s % 5]),
-          walls,
-        );
+        this.add("buildings", this.color(this.facade(b), wallColors[b.s % 5]), walls);
         this.add(
           b.t ? "roofs" : "concrete-flat-roofs",
           this.color(
@@ -513,12 +474,14 @@
             );
       }
       this.createNeighborPool();
-      for (const [x, z, h, palm] of this.d.trees) {
+      const extraTrees = window.RayExtraTrees || [];
+      const trees = [...this.d.trees, ...extraTrees];
+      for (const [index, [x, z, h, palm]] of trees.entries()) {
         const d = Math.hypot(x, z);
         if (d > 1100) continue;
         const size = 1 - T.MathUtils.smoothstep(d, 930, 1120);
         if (palm) w.palm(x, z, h * size, 1.15);
-        else w.tree(x, z, h * 0.54 * size, 1.15);
+        else w.tree(x, z, h * 0.54 * size, 1.15, index >= this.d.trees.length ? 2 : Infinity);
       }
       this.createStreetLights();
       this.flush();
@@ -528,7 +491,8 @@
       w.canvas.dataset.environment = "miami-villas-connected-marina";
       w.canvas.dataset.mappedBuildings = String(this.d.buildings.length);
       w.canvas.dataset.mappedRoads = String(this.d.roads.length);
-      w.canvas.dataset.plantedTrees = String(this.d.trees.length);
+      w.canvas.dataset.plantedTrees = String(trees.length);
+      w.canvas.dataset.additionalTrees = String(extraTrees.length);
       return this;
     }
     offset(points, distance) {
@@ -548,10 +512,7 @@
       let distance = 0;
       for (let i = 0; i < points.length; i++) {
         if (i)
-          distance += Math.hypot(
-            points[i][0] - points[i - 1][0],
-            points[i][1] - points[i - 1][1],
-          );
+          distance += Math.hypot(points[i][0] - points[i - 1][0], points[i][1] - points[i - 1][1]);
         const a = points[Math.max(0, i - 1)],
           b = points[Math.min(points.length - 1, i + 1)],
           dx = b[0] - a[0],
@@ -611,10 +572,8 @@
         let cursor = 0;
         for (const src of geometries) {
           const count = src.attributes.position.count;
-          if (src.attributes[name])
-            a.set(src.attributes[name].array, cursor * n);
-          else if (name === "color")
-            a.fill(1, cursor * n, (cursor + count) * n);
+          if (src.attributes[name]) a.set(src.attributes[name].array, cursor * n);
+          else if (name === "color") a.fill(1, cursor * n, (cursor + count) * n);
           cursor += count;
         }
         g.setAttribute(name, new T.BufferAttribute(a, n));
@@ -628,13 +587,9 @@
         const mesh = new T.Mesh(this.merge(part.geometries), part.material);
         mesh.receiveShadow = true;
         mesh.castShadow =
-          [
-            "buildings",
-            "roofs",
-            "balcony-bands",
-            "villa-walls",
-            "concrete-flat-roofs",
-          ].includes(key) || key.startsWith("villa-roof-");
+          ["buildings", "roofs", "balcony-bands", "villa-walls", "concrete-flat-roofs"].includes(
+            key,
+          ) || key.startsWith("villa-roof-");
         mesh.name = "Clean context / " + key;
         this.w.scene.add(mesh);
       }
@@ -645,10 +600,7 @@
       for (let i = 1; i < points.length; i++)
         lengths.push(
           lengths[i - 1] +
-            Math.hypot(
-              points[i][0] - points[i - 1][0],
-              points[i][1] - points[i - 1][1],
-            ),
+            Math.hypot(points[i][0] - points[i - 1][0], points[i][1] - points[i - 1][1]),
         );
       const length = lengths.at(-1);
       return {
@@ -692,23 +644,12 @@
         arm = new T.CylinderGeometry(0.055, 0.055, 1, 6),
         luminaire = new T.BoxGeometry(0.36, 0.05, 0.88);
       this.lampPositions = [];
-      for (const [x, z, y, yaw, side, height, width] of this.d.streetLights ||
-        []) {
+      for (const [x, z, y, yaw, side, height, width] of this.d.streetLights || []) {
         const tx = Math.sin(yaw),
           tz = Math.cos(yaw),
           nx = tz * side,
           nz = -tx * side;
-        w.addBatch(
-          "street-poles",
-          pole,
-          steel,
-          x,
-          y + height / 2,
-          z,
-          1,
-          height,
-          1,
-        );
+        w.addBatch("street-poles", pole, steel, x, y + height / 2, z, 1, height, 1);
         w.box("bronze", x, y + 0.18, z, 0.34, 0.36, 0.34);
         const armLength = 2.1;
         w.addBatch(
@@ -764,9 +705,7 @@
           route: routes[i % routes.length],
           offset: (i * 0.6180339) % 1,
           speed: 8.5 + (i % 7) * 0.7,
-          color: new T.Color(
-            [0xdeddd5, 0x53626b, 0x343a3e, 0x813a38, 0x9daeb0, 0x696e70][i % 6],
-          ),
+          color: new T.Color([0xdeddd5, 0x53626b, 0x343a3e, 0x813a38, 0x9daeb0, 0x696e70][i % 6]),
         });
       const w = this.w,
         parts = [];
@@ -843,33 +782,16 @@
         const cx = p.x - dir.z * lane,
           cz = p.z + dir.x * lane,
           roadY = this.roadSurfaceHeight(cx, cz, p.y + 0.025),
-          front = this.roadSurfaceHeight(
-            cx + dir.x * 1.5,
-            cz + dir.z * 1.5,
-            roadY,
-          ),
-          back = this.roadSurfaceHeight(
-            cx - dir.x * 1.5,
-            cz - dir.z * 1.5,
-            roadY,
-          );
+          front = this.roadSurfaceHeight(cx + dir.x * 1.5, cz + dir.z * 1.5, roadY),
+          back = this.roadSurfaceHeight(cx - dir.x * 1.5, cz - dir.z * 1.5, roadY);
         this.dummy.position.set(cx, roadY + 0.02, cz);
-        this.dummy.rotation.set(
-          -Math.atan2(front - back, 3),
-          Math.atan2(dir.x, dir.z),
-          0,
-          "YXZ",
-        );
+        this.dummy.rotation.set(-Math.atan2(front - back, 3), Math.atan2(dir.x, dir.z), 0, "YXZ");
         this.dummy.updateMatrix();
         if (i === 0)
-          this.w.canvas.dataset.carPosition = [p.x, p.z]
-            .map((v) => v.toFixed(2))
-            .join(",");
-        for (const part of this.trafficParts)
-          part.setMatrixAt(i, this.dummy.matrix);
+          this.w.canvas.dataset.carPosition = [p.x, p.z].map((v) => v.toFixed(2)).join(",");
+        for (const part of this.trafficParts) part.setMatrixAt(i, this.dummy.matrix);
       });
-      for (const part of this.trafficParts)
-        part.instanceMatrix.needsUpdate = true;
+      for (const part of this.trafficParts) part.instanceMatrix.needsUpdate = true;
     }
   }
   window.RayCleanContext = RayCleanContext;

@@ -269,6 +269,9 @@
       await world.waterReady;
       window.RayLoad?.update(94, "Finishing light and materials");
       if (world.renderer.compileAsync) await world.renderer.compileAsync(world.scene, world.camera);
+      await world.prepareGlassEnvironments((fraction) =>
+        window.RayLoad?.update(94 + fraction * 5, "Preparing lighting presets"),
+      );
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       window.RayLoad?.complete();
       setTimeout(() => {

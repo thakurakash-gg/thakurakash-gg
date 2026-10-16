@@ -428,10 +428,53 @@
     }
     return { valid: energy > 0.00001, energy, values };
   };
+  P.useGlassEnvironment = function (environment, probe) {
+    this.glassEnvironment = environment;
+    for (const mat of this.modelMaterials)
+      if (mat.userData.rayReflective && mat.envMap !== environment.texture) {
+        mat.envMap = environment.texture;
+        mat.needsUpdate = true;
+      }
+    this.canvas.dataset.glassProbe = JSON.stringify({ mood: this.mood, ...probe });
+    this.canvas.dataset.glass = "validated-blue-scene-reflections";
+    this.glassCaptureMood = this.mood;
+  };
+  P.prepareGlassEnvironments = async function (progress = () => {}) {
+    const originalMood = this.mood;
+    this.preparingGlass = true;
+    try {
+      const moods =
+        this.quality.compact || !this.quality.hdr
+          ? [originalMood]
+          : ["morning", "afternoon", "evening", "night"];
+      for (const [index, mood] of moods.entries()) {
+        this.applyLighting(mood, true);
+        this.updateLight(1);
+        this.captureGlassEnvironment();
+        progress((index + 1) / moods.length);
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+      }
+      this.reflectionsPrepared = true;
+    } finally {
+      this.applyLighting(originalMood, true);
+      this.updateLight(1);
+      this.captureGlassEnvironment();
+      this.preparingGlass = false;
+      this.renderer.shadowMap.needsUpdate = true;
+      this.last = 0;
+      this.wake();
+    }
+  };
   P.captureGlassEnvironment = function () {
     if (this.quality.compact || !this.quality.hdr) {
       this.glassCaptureMood = this.mood;
       this.canvas.dataset.glass = "blue-sky-reflections";
+      return;
+    }
+    this.glassEnvironments ??= new Map();
+    const cached = this.glassEnvironments.get(this.mood);
+    if (cached) {
+      this.useGlassEnvironment(cached.target, cached.probe);
       return;
     }
     this.glassCubeTarget ??= new T.WebGLCubeRenderTarget(256, {
@@ -469,6 +512,9 @@
       this.renderer.shadowMap.needsUpdate = false;
       for (const [uniform] of waterPasses) uniform.value = 1;
       this.glassCubeCamera.update(this.renderer, this.scene);
+      this.canvas.dataset.glassCaptures = String(
+        (Number(this.canvas.dataset.glassCaptures) || 0) + 1,
+      );
       this.pmremGenerator ??= new T.PMREMGenerator(this.renderer);
       environment = this.pmremGenerator.fromCubemap(this.glassCubeTarget.texture);
       const probe = this.inspectGlassProbe(environment);
@@ -480,16 +526,11 @@
       });
       if (!probe.valid) throw Error("Glass reflection probe contained invalid or empty radiance");
       delete this.canvas.dataset.glassProbeError;
-      const old = this.glassEnvironment;
-      this.glassEnvironment = environment;
-      for (const mat of this.modelMaterials)
-        if (mat.userData.rayReflective) {
-          mat.envMap = environment.texture;
-          mat.needsUpdate = true;
-        }
+      const summary = { valid: true, energy: probe.energy, invalidTexels: 0 };
+      this.glassEnvironments.set(this.mood, { target: environment, probe: summary });
+      this.useGlassEnvironment(environment, summary);
       environment = null;
-      old?.dispose();
-      this.canvas.dataset.glass = "validated-blue-scene-reflections";
+      this.canvas.dataset.preparedGlassMoods = String(this.glassEnvironments.size);
     } catch (error) {
       environment?.dispose();
       // Preserve the last valid reflection, or use the already prepared sky map.
@@ -512,7 +553,13 @@
   };
   const present = P.renderPresentation;
   P.renderPresentation = function () {
-    if (this.modelRoot && this.glassCaptureMood !== this.mood && !this.lightIsMoving)
+    if (
+      this.reflectionsPrepared &&
+      !this.preparingGlass &&
+      this.modelRoot &&
+      this.glassCaptureMood !== this.mood &&
+      !this.lightIsMoving
+    )
       this.captureGlassEnvironment();
     present.call(this);
   };

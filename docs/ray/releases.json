@@ -1,6 +1,30 @@
 {
   "releases": [
     {
+      "version": "26.2.0",
+      "date": "2026-10-16",
+      "title": "Denser instanced trees and prepared lighting reflections",
+      "sceneVersion": "scene-a283a720f99a9c3e",
+      "preview": "26.2.0",
+      "changes": {
+        "Added": [
+          "1,400 additional open-land trees share the existing trunk, crown, palm and contact-shadow instance batches."
+        ],
+        "Changed": [
+          "All four glass reflection environments are prepared under the loading bar and reused during daytime switching.",
+          "Additional background trees use two shared leaf clusters to limit added geometry and alpha overdraw."
+        ]
+      },
+      "validation": [
+        "Placement bake excludes roads, sidewalks, buildings, project grounds, pools and driveways; minimum tree spacing is 8 m.",
+        "Automated repeated lighting selection must not create more reflection captures after preparation."
+      ],
+      "limitations": [
+        "More vegetation adds vertex and fill work despite sharing draw calls; physical low-end device testing remains pending."
+      ],
+      "commits": []
+    },
+    {
       "version": "26.1.2",
       "date": "2026-10-16",
       "title": "Stable glazing through repeated lighting switches",
