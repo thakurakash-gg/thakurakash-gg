@@ -177,9 +177,13 @@
     const positions = [],
       uv = [];
     for (let i = 0; i < v.roof.length; i += 3) {
-      const x = v.roof[i] / 20,
-        z = v.roof[i + 1] / 20;
-      positions.push(cx + c * x + s * z, y + h + v.roof[i + 2] / 100, cz - s * x + c * z);
+      const x = v.roof[i] / (v.roofScale || 20),
+        z = v.roof[i + 1] / (v.roofScale || 20);
+      positions.push(
+        cx + c * x + s * z,
+        y + h + v.roof[i + 2] / (v.roofHeightScale || 100),
+        cz - s * x + c * z,
+      );
       uv.push(x * 0.12, z * 0.12);
     }
     let roof = new T.BufferGeometry();
@@ -188,6 +192,14 @@
     roof.setIndex(v.tri);
     roof = roof.toNonIndexed();
     roof.computeVertexNormals();
+    if (v.roofPlanes) {
+      const normal = roof.attributes.normal;
+      let start = 0;
+      for (const [end, nx, ny, nz] of v.roofPlanes) {
+        for (let i = start; i < end; i++) normal.setXYZ(i, c * nx + s * nz, ny, -s * nx + c * nz);
+        start = end;
+      }
+    }
     const colors = [0xb96e4e, 0x947365, 0xb5c2c4, 0x5d6565, 0xe0dfd6, 0xbfa08a, 0xd0d9d6],
       roofMat = [2, 6].includes(v.style) ? m.metal : v.style === 4 ? m.flat : m.tile;
     this.add(
