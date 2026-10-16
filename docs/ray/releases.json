@@ -1,6 +1,28 @@
 {
   "releases": [
     {
+      "version": "26.3.0",
+      "date": "2026-10-16",
+      "title": "Night road guidance and illuminated vessels",
+      "sceneVersion": "scene-d6bcebe4d9091132",
+      "preview": "26.3.0",
+      "changes": {
+        "Added": [
+          "Night-only warm highway guidance lines with broad soft halos, plus dimmer local-street lighting in one merged ribbon.",
+          "Shared yacht deck strips, port/starboard navigation lights, mast lights and warm cabin illumination."
+        ]
+      },
+      "validation": [
+        "Browser day/night appearance and reflection-cache reuse checked.",
+        "Full scene/cache and invalid-reflection regression checks."
+      ],
+      "limitations": [
+        "Stylized road guidance is a presentation layer; it is not a live navigation route.",
+        "Physical Android and low-end hardware testing remains pending."
+      ],
+      "commits": []
+    },
+    {
       "version": "26.2.0",
       "date": "2026-10-16",
       "title": "Denser instanced trees and prepared lighting reflections",

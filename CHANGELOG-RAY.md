@@ -4,6 +4,28 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.3.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.3.0) — 2026-10-16
+
+Night road guidance and illuminated vessels
+
+- Scene/cache ID: `scene-d6bcebe4d9091132`
+- Preview label: `26.3.0`
+
+### Added
+
+- Night-only warm highway guidance lines with broad soft halos, plus dimmer local-street lighting in one merged ribbon.
+- Shared yacht deck strips, port/starboard navigation lights, mast lights and warm cabin illumination.
+
+### Validation
+
+- Browser day/night appearance and reflection-cache reuse checked.
+- Full scene/cache and invalid-reflection regression checks.
+
+### Known limits
+
+- Stylized road guidance is a presentation layer; it is not a live navigation route.
+- Physical Android and low-end hardware testing remains pending.
+
 ## [26.2.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.2.0) — 2026-10-16
 
 Denser instanced trees and prepared lighting reflections

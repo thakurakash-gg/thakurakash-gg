@@ -999,6 +999,22 @@ gl_FragColor=vec4(color,1.);
           add(new T.BoxGeometry(0.08, 0.08, 0.3), "frame", side * 1.67, 1.25, z);
         }
       add(this.rounded(2.4, 1.15, 0.12, 0.23), "wood", 0, 0.62, -6.1);
+      // Emissive navigation lights and warm deck strips remain part of the
+      // shared yacht templates, including the two moving vessels.
+      if (this.materials.shipWarm) {
+        for (const side of [-1, 1]) {
+          add(new T.BoxGeometry(0.045, 0.045, 4.6), "shipWarm", side * 1.42, 1.24, -0.7);
+          add(
+            new T.SphereGeometry(0.11, 8, 5),
+            side < 0 ? "shipPort" : "shipStarboard",
+            side * 1.35,
+            2.52,
+            0.8,
+          );
+        }
+        add(new T.SphereGeometry(0.12, 8, 5), "shipWarm", 0, type ? 4.4 : 3.4, -1.7);
+        add(new T.BoxGeometry(1.85, 0.045, 0.05), "shipWarm", 0, 1.5, -4.8);
+      }
       // Deck plank seams remain geometry-free, using a shared static material map.
       const merged = this.mergeBoat(group);
       this.yachtTemplates[type] = merged;
