@@ -19,5 +19,6 @@
   "assets/ray/environment/foliage.js",
   "assets/ray/architecture/building.js",
   "assets/ray/architecture/rooftops.js",
+  "assets/ray/architecture/surfaces.js",
   "assets/ray/ui/experience.js"
 ]

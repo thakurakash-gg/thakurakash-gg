@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "scene-817fa26868c9e873",
+  "version": "scene-ad4bde6441b37b27",
   "scripts": [
     "assets/three.min.js?v=170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa",
     "assets/vendor/ray-meshopt-decoder.js?v=9b10924e7fd05ed742f243f9ca87d70cf581267adb156646876a2b8ea3cb3db1",
@@ -22,6 +22,7 @@
     "assets/ray/environment/foliage.js?v=015b5ff3f36ac8ae13e2f0ba90ff477ae37d68cc7c60579aed132f522fae9d32",
     "assets/ray/architecture/building.js?v=157d7c54e5ac3552a611a4b05e4b0a90e5c40868d878dcc8b5223c942f76e600",
     "assets/ray/architecture/rooftops.js?v=99f2b4f6415731897cb56be7dc4c634c4f1495b4aecaf6bdb0bf04faeda7d305",
+    "assets/ray/architecture/surfaces.js?v=6fa10d3be9d99429eae2877657ab47dd2703af2cc2dfb3ff3cac8121199566b6",
     "assets/ray/ui/experience.js?v=5f670b97f9dddc07d8cd27b3a572aceb3ca4aac1b37525e2fa75348d1d9cfd25"
   ],
   "assets": [
@@ -124,6 +125,11 @@
       "url": "assets/ray/architecture/rooftops.js?v=99f2b4f6415731897cb56be7dc4c634c4f1495b4aecaf6bdb0bf04faeda7d305",
       "bytes": 14796,
       "sha256": "99f2b4f6415731897cb56be7dc4c634c4f1495b4aecaf6bdb0bf04faeda7d305"
+    },
+    {
+      "url": "assets/ray/architecture/surfaces.js?v=6fa10d3be9d99429eae2877657ab47dd2703af2cc2dfb3ff3cac8121199566b6",
+      "bytes": 9005,
+      "sha256": "6fa10d3be9d99429eae2877657ab47dd2703af2cc2dfb3ff3cac8121199566b6"
     },
     {
       "url": "assets/ray/ui/experience.js?v=5f670b97f9dddc07d8cd27b3a572aceb3ca4aac1b37525e2fa75348d1d9cfd25",
