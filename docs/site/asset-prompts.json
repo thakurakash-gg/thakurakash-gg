@@ -1,0 +1,34 @@
+{
+  "tool": "Built-in image_gen",
+  "common": "Use case: stylized-concept. Asset type: individual portrait for the joyful Team page of Kazeyami Innovations. Make an ORIGINAL fictional anime-style studio character, NOT a depiction or likeness of a real person and not a character from an existing franchise. Consistent art direction: premium contemporary anime editorial illustration, bold clean black ink outlines, charming expressive eyes, refined cel shading, slight print-grain texture, off-white solid background with a few small playful coral-pink and electric-lime geometric doodles. Professional creative studio energy. Chest/waist-up three-quarter portrait, complete head and hands and props inside frame with generous margins. Vertical portrait aspect about 4:5. Crisp, beautifully drawn, upbeat, visually distinctive. No text, names, letters, logos, watermarks or UI. This is one character only, same coherent ensemble style. Subject: ",
+  "cast": [
+    [
+      "siya",
+      "A cheerful young fictional female UI/UX artist with a short dark bob and pink hair clip, lavender oversized jacket, holding a pen tablet and stylus; playful confident expression."
+    ],
+    [
+      "pragati",
+      "A warm cheerful fictional female HR professional with dark wavy shoulder-length hair, mint cardigan over cream blouse, holding a notebook with colored sticky tabs, smiling and waving."
+    ],
+    [
+      "dk",
+      "A playful fictional male developer with tousled dark-blue hair, round spectacles, cream hoodie with coral cuffs, compact laptop held at an angle, amused expression."
+    ],
+    [
+      "deepraj",
+      "A calm confident fictional male senior developer with swept-back dark hair and a single silver streak, thin spectacles, navy jacket, open laptop balanced in one hand, friendly grin."
+    ],
+    [
+      "shayan",
+      "An energetic fictional male technical artist with curly dark hair and headphones around his neck, sage utility jacket and black shirt, manipulating a small floating wireframe geometric shape, delighted expression."
+    ],
+    [
+      "akash",
+      "A joyful fictional male 3D artist with slightly spiky dark hair and orange-tinted glasses pushed above his forehead, coral studio sweatshirt, holding a small purple geometric cat sculpture in one hand and a digital stylus in the other."
+    ],
+    [
+      "hammer",
+      "A charismatic fictional male Unreal artist with windswept silver-blue hair, black jacket with bright lime details, holding a tiny luminous architectural diorama on his palm, broad mischievous smile."
+    ]
+  ]
+}

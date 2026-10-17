@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en" data-studio-version="1.0.0">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#111211" />
+    <title>Let's make something happen | Kazeyami Innovations</title>
+    <meta
+      name="description"
+      content="Connect with Kazeyami Innovations in Lucknow to discuss architectural visualization, design, 3D, branding or technology."
+    />
+    <link
+      rel="preload"
+      href="assets/studio/manrope-variable.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link rel="stylesheet" href="assets/studio/studio.css" />
+    <script src="assets/studio/enquiry.js" defer></script>
+    <script src="assets/studio/studio.js" defer></script>
+  </head>
+  <body class="studio-site paper" id="top">
+    <a href="#main" class="studio-skip">Skip to content</a>
+    <header class="studio-header">
+      <a class="studio-brand" href="index.html" aria-label="Kazeyami Innovations home"
+        ><img
+          src="assets/kazeyami-logo-white.png"
+          alt="Kazeyami Innovations"
+          width="2665"
+          height="760" /></a
+      ><a class="header-note" href="about.html">INDEPENDENT MINDS.<br />CONNECTED POSSIBILITIES.</a>
+      <div class="studio-header-actions">
+        <a class="header-work" href="portfolio.html">Selected work ↗</a
+        ><button
+          class="studio-menu-toggle"
+          aria-haspopup="dialog"
+          aria-controls="studio-menu"
+          aria-expanded="false"
+        >
+          Menu <span class="menu-glyph" aria-hidden="true"><i></i><i></i></span>
+        </button>
+      </div>
+    </header>
+    <dialog id="studio-menu" class="studio-menu" aria-labelledby="menu-title">
+      <div class="menu-top">
+        <span id="menu-title">KAZEYAMI / A WAY IN</span
+        ><button data-close-menu aria-label="Close navigation">
+          Close <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <nav aria-label="Main navigation">
+        <a href="index.html"
+          ><span class="menu-index">01</span><span>Home</span><small>The first impression</small
+          ><b aria-hidden="true">↗</b></a
+        ><a href="about.html"
+          ><span class="menu-index">02</span><span>About</span><small>A little about us</small
+          ><b aria-hidden="true">↗</b></a
+        ><a href="portfolio.html"
+          ><span class="menu-index">03</span><span>Portfolio</span
+          ><small>Ideas out in the world</small><b aria-hidden="true">↗</b></a
+        ><a href="services.html"
+          ><span class="menu-index">04</span><span>Services</span><small>What we bring</small
+          ><b aria-hidden="true">↗</b></a
+        ><a href="team.html"
+          ><span class="menu-index">05</span><span>Team</span
+          ><small>Different minds, shared curiosity</small><b aria-hidden="true">↗</b></a
+        ><a href="connect.html" aria-current="page"
+          ><span class="menu-index">06</span><span>Connect</span
+          ><small>The start of something</small><b aria-hidden="true">↗</b></a
+        >
+      </nav>
+      <div class="menu-bottom">
+        <a href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a
+        ><span>LUCKNOW, INDIA / OPEN TO THE WORLD</span>
+      </div>
+    </dialog>
+    <main id="main">
+      <section class="connect-hero content-pad">
+        <div class="page-rail">
+          <span>05 / LET’S CONNECT</span><span>THE START OF SOMETHING</span>
+        </div>
+        <h1>Good things start<br />with a <em>hello.</em><span aria-hidden="true">↗</span></h1>
+        <div class="connect-first">
+          <p>
+            A half-formed idea. A detailed brief.<br />A question worth asking. We’re listening.
+          </p>
+          <a href="mailto:hr@kazeyami.com">hr@kazeyami.com</a
+          ><button class="copy-email" aria-label="Copy studio email address">Copy email ↗</button
+          ><span id="copy-status" role="status"></span>
+        </div>
+      </section>
+      <section class="enquiry-section content-pad">
+        <div class="enquiry-intro">
+          <span class="micro">LET’S MAKE IT CONCRETE</span>
+          <h2>What are you<br />imagining?</h2>
+          <p>
+            Share a little context. The form prepares an email draft for you to review and send.
+          </p>
+          <div class="contact-address">
+            <span class="micro">FIND OUR STUDIO</span>
+            <p>Lucknow, Uttar Pradesh<br />India · 226012</p>
+            <a
+              href="https://www.linkedin.com/company/kazeyami"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="underline-link"
+              >Find us on LinkedIn ↗</a
+            >
+          </div>
+        </div>
+        <form id="studio-brief" class="studio-brief">
+          <div>
+            <label for="name">Your name *</label
+            ><input
+              id="name"
+              name="name"
+              autocomplete="name"
+              placeholder="What should we call you?"
+              required
+              maxlength="120"
+            />
+          </div>
+          <div>
+            <label for="company">Company</label
+            ><input
+              id="company"
+              name="company"
+              autocomplete="organization"
+              placeholder="Your company / studio"
+              maxlength="160"
+            />
+          </div>
+          <div>
+            <label for="email">Email address *</label
+            ><input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="you@company.com"
+              required
+              maxlength="200"
+            />
+          </div>
+          <div>
+            <label for="phone">Phone / WhatsApp</label
+            ><input
+              id="phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              placeholder="+91 · Your number"
+              maxlength="50"
+            />
+          </div>
+          <div>
+            <label for="country">Country</label
+            ><input
+              id="country"
+              name="country"
+              autocomplete="country-name"
+              value="India"
+              maxlength="100"
+            />
+          </div>
+          <div>
+            <label for="service">A direction in mind?</label
+            ><select id="service" name="service">
+              <option>Architectural visualization</option>
+              <option>RAY / NEXIV experience</option>
+              <option>3D animation & miniatures</option>
+              <option>UI / UX design</option>
+              <option>Branding & communication</option>
+              <option>Film & motion</option>
+              <option>Products & technology</option>
+              <option>A combination</option>
+            </select>
+          </div>
+          <div class="full-field">
+            <label for="message">A little about your project *</label
+            ><textarea
+              id="message"
+              name="message"
+              rows="4"
+              required
+              maxlength="3000"
+              placeholder="The idea, who it’s for, what you need and when…"
+            ></textarea>
+          </div>
+          <div class="full-field brief-bottom">
+            <button class="circle-link" type="submit">
+              <span class="circle-arrow" aria-hidden="true">↗</span><span>Prepare my enquiry</span>
+            </button>
+            <p id="brief-status" role="status">
+              Your email app opens a draft. Nothing is sent automatically.
+            </p>
+          </div>
+        </form>
+      </section>
+      <section id="faq" class="connect-faq content-pad">
+        <div class="section-rail">
+          <span>BEFORE WE BEGIN</span><span>A FEW USEFUL ANSWERS</span>
+        </div>
+        <h2>A little clarity.</h2>
+        <details>
+          <summary>What should I include in my brief?<span aria-hidden="true">+</span></summary>
+          <p>
+            Tell us about the project, its audience and how you plan to use the work. Include plans
+            or models if available, references, the deliverables you need and your target date.
+          </p>
+        </details>
+        <details>
+          <summary>
+            Which visualization format fits my project?<span aria-hidden="true">+</span>
+          </summary>
+          <p>
+            Still images communicate key views. Films show a space through motion. A 360° tour
+            connects fixed viewpoints, while RAY offers an interactive way to explore. We can
+            discuss the right format for your brief.
+          </p>
+        </details>
+        <details>
+          <summary>How do pricing and timelines work?<span aria-hidden="true">+</span></summary>
+          <p>
+            They depend on scope, complexity, available source material and required deliverables.
+            Share your brief so we can discuss an appropriate quotation and schedule.
+          </p>
+        </details>
+        <details>
+          <summary>
+            Can my project combine different services?<span aria-hidden="true">+</span>
+          </summary>
+          <p>
+            Yes. Kazeyami connects design, branding, technology, 3D and architectural visualization.
+            Tell us what you are planning and we can explore the scope together.
+          </p>
+        </details>
+      </section>
+    </main>
+    <footer class="studio-footer compact-footer">
+      <div class="footer-info">
+        <a href="index.html" class="footer-name">KAZEYAMI<br /><span>INNOVATIONS</span></a>
+        <p>Design & technology innovation studio.<br />Lucknow, Uttar Pradesh · India · 226012</p>
+        <div>
+          <a href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a
+          ><a
+            href="https://www.linkedin.com/company/kazeyami"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn ↗</a
+          >
+        </div>
+      </div>
+      <div class="footer-base">
+        <span>© 2026 Kazeyami Innovations Pvt. Ltd.</span
+        ><a href="portfolio.html">3D / NEXIV / BRAND & UI/UX</a><span>IMAGINED WITH PURPOSE.</span>
+      </div>
+    </footer>
+  </body>
+</html>
