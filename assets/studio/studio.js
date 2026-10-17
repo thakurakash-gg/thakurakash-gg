@@ -215,6 +215,11 @@
         2,
         "0",
       );
+      if (matchMedia("(max-width: 600px)").matches)
+        $(".selected-character").scrollIntoView({
+          behavior: reduce.matches ? "instant" : "smooth",
+          block: "start",
+        });
       $("#cast-status").textContent =
         "Selected " + data.name + ", " + data.role + ".";
     }),

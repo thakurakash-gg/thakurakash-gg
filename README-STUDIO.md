@@ -1,43 +1,61 @@
 # Kazeyami studio website
 
-The studio website has six main pages and a dedicated NEXIV brand page. It uses static HTML, locally hosted Manrope, CSS and small shared scripts. The RAY 3D experience has its own runtime and release history; this redesign does not rebuild its scene.
+Studio release **2.0.0** is a complete presentation redesign. The public site is a static build with 11 pages, a shared dark/light visual system, locally hosted typography and small page-specific interactions. The RAY scene remains independently versioned at 26.5.0.
 
-| Page                | Purpose                                                                                                           |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| index.html          | Minimal home with the existing Experience Center background film                                                  |
-| about.html          | Company, retained interactive logo playground, and Define / Develop / Deliver process                             |
-| portfolio.html      | Filters for 3D, NEXIV, Brand / UI/UX and ventures; real project film viewer                                       |
-| nexiv.html          | Kazeyami → NEXIV → RAY hierarchy, product introduction and prototype link                                         |
-| services.html       | Six service families with expandable deliverables                                                                 |
-| team.html           | Seven real people and roles, original fictional anime avatars, profiles and cast remix                            |
-| connect.html        | Studio contact, full enquiry form, address, LinkedIn and retained FAQ                                             |
-| 3d.html             | Retained medical, miniature, game-asset and game-development practice; project case studies and image interaction |
-| design.html         | Retained UI/UX, film and branding practice                                                                        |
-| products.html       | Retained Kazeyami Tools and Mock Yatra entries                                                                    |
-| ray.html            | Retained detailed RAY product presentation, now under NEXIV                                                       |
-| ray-experience.html | Existing interactive 3D prototype, unchanged                                                                      |
+## Page map
 
-## Editing and release
+| Page | What visitors can do |
+| --- | --- |
+| index.html | Watch and switch between three actual studio project films; pause playback; enter the work |
+| about.html | Learn about the studio, play with its existing 3D logo scene, and read the project process |
+| portfolio.html | Filter actual project films and clearly labeled practices; discover NEXIV → RAY |
+| services.html | Explore six service families and their deliverables |
+| team.html | Select seven original anime alter egos to see exact real names and studio roles |
+| connect.html | Find studio contact details, prepare a reviewable email enquiry, and read the FAQ |
+| nexiv.html | Understand the Kazeyami → NEXIV → RAY hierarchy and launch the exterior demo |
+| ray.html | Explore the platform story, live-demo preview and retained Experience Center film |
+| 3d.html | Preview AMD and Mario films, read retained process/delivery case studies, and use image effects |
+| design.html | Explore brand, UI/UX and motion practice through a labeled interactive design study |
+| products.html | Find NEXIV, Kazeyami Tools and Mock Yatra with honest introduction statuses |
 
-Edit page content directly in the HTML. For rebuilding the shared shell and main pages, edit tools/site/build-pages.py and tools/site/team.json. The builder retains existing detail pages on subsequent runs. New detail pages should use the shared shell.
+## Editing
 
-The presentation styles and behavior live in assets/studio/studio.css, studio.js and enquiry.js. Images and the locally hosted font are in the same folder. Existing project media remains in assets/. The seven original high-resolution PNG portraits are saved privately alongside the project outputs under outputs/Studio-Art/Team; optimized WebP versions are published.
+- **Page content:** tools/site/templates/*.html. These are complete, readable content fragments.
+- **Shared navigation, document head, footer and page metadata:** tools/site/build-pages.py.
+- **Real team roster and editorial character descriptions:** tools/site/team.json.
+- **Design and interactions:** assets/studio/studio.css and studio.js.
+- **Email-draft encoding:** assets/studio/enquiry.js.
+- **Single release version/date:** tools/site/version.json.
+- **Generated outputs:** root HTML files and assets/studio/manifest.json.
 
-The portraits are fictional alter egos, not photographs or claimed likenesses. Exact names and positions come from the user. Character nicknames and focus descriptions are illustrative editorial copy, not biographical claims. Built-in image generation was used; the complete prompt set is recorded in docs/site/asset-prompts.json.
+Do not edit generated page content in isolation: the next build will replace it. Existing RAY runtime files are outside this page builder.
 
-Run from the website root:
+Build and verify from the website root:
 
+    python tools/site/build-pages.py
+    node tools/site/release.mjs
     python tools/site/check-pages.py
     node tools/site/check-enquiry.mjs
-    node tools/site/release.mjs
     node tools/site/release.mjs --check
 
-After formatting or changing presentation CSS/JS, regenerate the release keys. Shared asset URLs contain content hashes so subsequent visits load the correct files. Studio version 1.0.1 is separate from RAY scene version 26.5.0.
+The optional formatter can run on the 11 marketing pages and shared presentation files before release generation. Do not apply broad formatting globs to the independently managed RAY runtime.
 
-The enquiry form opens an encoded email draft. It does not send a message or claim a successful submission. No enquiry server or tracking was added. Background film autoplay respects reduced motion, data-saving hints and browser playback restrictions; the play button and poster remain available. Native dialogs provide keyboard focus management and Escape handling.
+The release helper fingerprints all presentation assets and writes content hashes into shared CSS/JS URLs. Rebuild release keys after any presentation asset edit. GitHub Pages serves the static site; the studio does not add a second service worker or interfere with the RAY cache.
 
-Inspect home, menu, portfolio filtering and film playback, all team profiles, services, contact fields and the retained project pages on desktop and narrow screens. The previous light/dark preference is available from the footer on editorial pages.
+## Interaction and access
 
-## Original media and licensing
+The home loads one background film at a time. Autoplay respects reduced-motion preferences, data-saving hints and browser restrictions. A poster and explicit playback control remain available. Hidden tabs pause playback.
 
-The existing Experience Center, AMD and Mario media is retained. The new portfolio uses a smaller WebP preview for the Mario image. Manrope is redistributed under the SIL Open Font License; see assets/studio/Manrope-OFL.txt.
+Native dialogs provide Escape handling and focus containment. Portfolio filters, film controls, roster selection and the design study use real buttons with selection states. Mobile team selection scrolls back to the updated character. Phone form controls use readable text sizes.
+
+The enquiry form prepares an encoded mailto draft to hr@kazeyami.com. Nothing is sent automatically, and the site does not claim a completed submission. Native validation checks required name, email and message fields.
+
+## Media and references
+
+Existing Experience Center, AMD and Mario media is retained. AMD and Mario now use compact WebP posters. All seven original avatar images are fictional alter egos, not photographs or claimed likenesses. Exact names and roles were provided by the user. Character nicknames and focus descriptions are illustrative copy, not additional biographical claims. Original image-generation prompts remain in docs/site/asset-prompts.json; full-resolution originals remain in the private project outputs.
+
+The visual research considered the official websites of Active Theory, BUCK and Embark Studios: immersive media, clear work hierarchy and distinct project identities. Their artwork, logos and copy are not included in this site.
+
+Fonts are redistributed under their SIL Open Font Licenses: assets/studio/Manrope-OFL.txt and Space-Grotesk-OFL.txt.
+
+Validation includes all internal resources/anchors, exact team facts, retained content, email encoding, presentation release keys, desktop/phone browser checks and the complete RAY regression suite.

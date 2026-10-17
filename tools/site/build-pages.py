@@ -1,4 +1,5 @@
 """Build the studio's 11 pages from readable templates and shared components."""
+
 from pathlib import Path
 from html import escape
 import json
@@ -6,25 +7,82 @@ import json
 ROOT = Path(__file__).resolve().parents[2]
 TEMPLATES = ROOT / "tools/site/templates"
 RELEASE = json.loads((ROOT / "tools/site/version.json").read_text(encoding="utf8"))
-NAV = [("index.html", "Home"), ("about.html", "About"), ("portfolio.html", "Portfolio"),
-       ("services.html", "Services"), ("team.html", "Team"), ("connect.html", "Connect")]
+NAV = [
+    ("index.html", "Home"),
+    ("about.html", "About"),
+    ("portfolio.html", "Portfolio"),
+    ("services.html", "Services"),
+    ("team.html", "Team"),
+    ("connect.html", "Connect"),
+]
 PAGES = {
-    "index": ("Ideas in. Worlds out.", "Kazeyami Innovations is a creative technology studio building 3D worlds, brands and digital experiences.", ""),
-    "about": ("Built between art and code", "Get to know Kazeyami Innovations: our creative disciplines, how we work, and the people connecting art and technology.", '<script src="assets/three.min.js" defer></script><script src="assets/logo-scene.js" defer></script>'),
-    "portfolio": ("Selected work", "Explore RAY by NEXIV, our AMD medical animation, Mario miniature project, and the studio’s design practice.", ""),
-    "services": ("What we make", "Architectural visualization, 3D animation, game assets, UI/UX, branding, film and technology services by Kazeyami.", ""),
-    "team": ("Meet the makers", "Seven real people. Seven original anime alter egos. Meet Kazeyami’s artists, developers and studio team.", ""),
-    "connect": ("Let’s build your next idea", "Discuss your project with Kazeyami Innovations in Lucknow. Share a brief for 3D, architecture, branding or a digital experience.", ""),
-    "nexiv": ("NEXIV — Home to RAY", "NEXIV is a Kazeyami Innovations product brand. Discover its RAY architectural visualization platform and interactive exterior demo.", ""),
-    "ray": ("RAY by NEXIV — Architecture you can explore", "Experience RAY, NEXIV’s archviz platform. Explore the real-time waterfront exterior prototype and our architectural visualization practice.", '<script src="assets/image-flow.js" defer></script>'),
-    "3d": ("3D — Form, motion and worlds", "Explore Kazeyami’s AMD medical explainer and Mario miniature project, with project films, process and deliverables.", '<script src="assets/portfolio.js" defer></script><script src="assets/image-flow.js" defer></script>'),
-    "design": ("Design with a point of view", "Brand identities, UI/UX and motion design by Kazeyami Innovations. Explore an interactive studio design study.", ""),
-    "products": ("Ideas we’re building", "Explore NEXIV and RAY, Kazeyami Tools and Mock Yatra: product brands and independent ventures connected to Kazeyami.", ""),
+    "index": (
+        "Ideas in. Worlds out.",
+        "Kazeyami Innovations is a creative technology studio building 3D worlds, brands and digital experiences.",
+        "",
+    ),
+    "about": (
+        "Built between art and code",
+        "Get to know Kazeyami Innovations: our creative disciplines, how we work, and the people connecting art and technology.",
+        '<script src="assets/three.min.js" defer></script><script src="assets/logo-scene.js" defer></script>',
+    ),
+    "portfolio": (
+        "Selected work",
+        "Explore RAY by NEXIV, our AMD medical animation, Mario miniature project, and the studio’s design practice.",
+        "",
+    ),
+    "services": (
+        "What we make",
+        "Architectural visualization, 3D animation, game assets, UI/UX, branding, film and technology services by Kazeyami.",
+        "",
+    ),
+    "team": (
+        "Meet the makers",
+        "Seven real people. Seven original anime alter egos. Meet Kazeyami’s artists, developers and studio team.",
+        "",
+    ),
+    "connect": (
+        "Let’s build your next idea",
+        "Discuss your project with Kazeyami Innovations in Lucknow. Share a brief for 3D, architecture, branding or a digital experience.",
+        "",
+    ),
+    "nexiv": (
+        "NEXIV — Home to RAY",
+        "NEXIV is a Kazeyami Innovations product brand. Discover its RAY architectural visualization platform and interactive exterior demo.",
+        "",
+    ),
+    "ray": (
+        "RAY by NEXIV — Architecture you can explore",
+        "Experience RAY, NEXIV’s archviz platform. Explore the real-time waterfront exterior prototype and our architectural visualization practice.",
+        '<script src="assets/image-flow.js" defer></script>',
+    ),
+    "3d": (
+        "3D — Form, motion and worlds",
+        "Explore Kazeyami’s AMD medical explainer and Mario miniature project, with project films, process and deliverables.",
+        '<script src="assets/portfolio.js" defer></script><script src="assets/image-flow.js" defer></script>',
+    ),
+    "design": (
+        "Design with a point of view",
+        "Brand identities, UI/UX and motion design by Kazeyami Innovations. Explore an interactive studio design study.",
+        "",
+    ),
+    "products": (
+        "Ideas we’re building",
+        "Explore NEXIV and RAY, Kazeyami Tools and Mock Yatra: product brands and independent ventures connected to Kazeyami.",
+        "",
+    ),
 }
 
+
 def header(active):
-    desktop = "".join(f'<a href="{url}"' + (' aria-current="page"' if url == active else '') + f'>{label}</a>' for url, label in NAV[:-1])
-    mobile = "".join(f'<a href="{url}"><span>0{i}</span>{label}<b aria-hidden="true">↗</b></a>' for i, (url, label) in enumerate(NAV, 1))
+    desktop = "".join(
+        f'<a href="{url}"' + (' aria-current="page"' if url == active else "") + f">{label}</a>"
+        for url, label in NAV[:-1]
+    )
+    mobile = "".join(
+        f'<a href="{url}"><span>0{i}</span>{label}<b aria-hidden="true">↗</b></a>'
+        for i, (url, label) in enumerate(NAV, 1)
+    )
     return f"""
 <header class="studio-header">
   <a class="studio-brand" href="index.html" aria-label="Kazeyami Innovations home"><img src="assets/kazeyami-logo-white.png" alt="Kazeyami Innovations" width="2665" height="760"></a>
@@ -38,8 +96,13 @@ def header(active):
   <a class="menu-email" href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a>
 </dialog>"""
 
+
 def footer(compact):
-    invitation = '' if compact else '<a class="footer-invitation" href="connect.html"><span class="eyebrow">HAVE A PROJECT IN MIND?</span><strong>Let’s make the next thing.</strong><span class="round-arrow" aria-hidden="true">↗</span></a>'
+    invitation = (
+        ""
+        if compact
+        else '<a class="footer-invitation" href="connect.html"><span class="eyebrow">HAVE A PROJECT IN MIND?</span><strong>Let’s make the next thing.</strong><span class="round-arrow" aria-hidden="true">↗</span></a>'
+    )
     return f"""
 <footer class="studio-footer">{invitation}
   <div class="footer-main">
@@ -50,15 +113,21 @@ def footer(compact):
   <div class="footer-base"><span>© 2026 Kazeyami Innovations Pvt. Ltd.</span><a href="products.html">Products & ventures ↗</a><button class="studio-theme" type="button" aria-label="Switch to light theme">Display: dark ◐</button></div>
 </footer>"""
 
+
 def roster():
     team = json.loads((ROOT / "tools/site/team.json").read_text(encoding="utf8"))
     result = []
     for i, person in enumerate(team, 1):
-        attrs = " ".join(f'data-{key}="{escape(value, quote=True)}"' for key, value in person.items())
-        result.append(f"""<button class="roster-person" {attrs} aria-pressed="{'true' if i==1 else 'false'}" aria-label="Select {person['name']}, {person['role']}">
+        attrs = " ".join(
+            f'data-{key}="{escape(value, quote=True)}"' for key, value in person.items()
+        )
+        result.append(
+            f"""<button class="roster-person" {attrs} aria-pressed="{'true' if i==1 else 'false'}" aria-label="Select {person['name']}, {person['role']}">
 <img src="assets/studio/{person['id']}.webp" alt="" width="1122" height="1402" loading="lazy">
-<span class="roster-number">0{i}</span><span><strong>{person['name']}</strong><small>{person['role']}</small></span><span class="roster-cross" aria-hidden="true">↗</span></button>""")
+<span class="roster-number">0{i}</span><span><strong>{person['name']}</strong><small>{person['role']}</small></span><span class="roster-cross" aria-hidden="true">↗</span></button>"""
+        )
     return "\n".join(result)
+
 
 for slug, (title, description, scripts) in PAGES.items():
     filename = slug + ".html"

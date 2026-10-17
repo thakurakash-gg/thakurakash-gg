@@ -74,13 +74,13 @@
     },
     {
       "url": "assets/studio/studio.css",
-      "bytes": 52716,
-      "sha256": "df02c82406de5280a4b3e610c092a6bcc7d7c0abb7701021eb7486a322f92c79"
+      "bytes": 52860,
+      "sha256": "bde0726c6e798e1c5682b0b982a04a23d27dad13c461545dadbd5ffba07714a6"
     },
     {
       "url": "assets/studio/studio.js",
-      "bytes": 9410,
-      "sha256": "a01870acf76373a6d29d0f53c42176400ce04b54513054fb37fee8213c0ec819"
+      "bytes": 9609,
+      "sha256": "8dd7c6227db7e2d36fedeec95e588f87c0cf6cfc684120cc80788f6bfbd9caba"
     }
   ]
 }

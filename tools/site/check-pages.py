@@ -54,7 +54,10 @@ for name in pages:
     assert doc.h1 == 1, f"{name}: needs one page title"
     assert doc.meta and all(doc.alts), f"{name}: missing description or alt"
     assert "studio-menu" in doc.ids and "assets/site.js" not in source
-    assert "assets/studio/studio.css" in source and "assets/studio/studio.js" in source, f"{name}: missing shared shell assets"
+    assert (
+        "assets/studio/studio.css" in source and "assets/studio/studio.js" in source
+    ), f"{name}: missing shared shell assets"
+    assert "assets/site.css" not in source, f"{name}: legacy style collision"
     assert "studio-site" in source, f"{name}: missing studio body class"
 for name, doc in documents.items():
     for link in doc.links:
@@ -68,6 +71,10 @@ for name, doc in documents.items():
                 unquote(parts.fragment) in documents[target.name].ids
             ), f"{name}: broken anchor {link}"
 team = json.loads((ROOT / "tools/site/team.json").read_text(encoding="utf8"))
+version = json.loads((ROOT / "tools/site/version.json").read_text(encoding="utf8"))["version"]
+for name in pages:
+    assert f'data-studio-version="{version}"' in (ROOT / name).read_text(encoding="utf8")
+    assert (ROOT / "tools/site/templates" / name).exists(), f"Missing editable template: {name}"
 expected = {
     "Siya Baranwal": "UI/UX Artist",
     "Pragati Saxena": "HR",

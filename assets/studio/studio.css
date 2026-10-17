@@ -43,6 +43,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 body.studio-light {
+  --pink: #c9124a;
   --bg: #f0efe9;
   --panel: #e5e4de;
   --text: #161719;
@@ -103,7 +104,7 @@ h4 {
   letter-spacing: -0.045em;
 }
 h1 {
-  font-size: clamp(44px, 6.4vw, 92px);
+  font-size: clamp(44px, 5.2vw, 76px);
 }
 h2 {
   font-size: clamp(32px, 4vw, 58px);
@@ -189,7 +190,8 @@ textarea:focus-visible {
   justify-content: space-between;
   gap: 30px;
   border-bottom: 1px solid var(--line);
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 20;
   background: var(--bg);
 }
@@ -317,8 +319,8 @@ dialog::backdrop {
   transform: translateY(-2px);
 }
 .button.primary {
-  background: var(--pink);
-  border-color: var(--pink);
+  background: #e21850;
+  border-color: #e21850;
   color: white;
 }
 .button.primary:hover {
@@ -1041,7 +1043,7 @@ figcaption a {
   grid-template-columns: 1.5fr 1fr;
 }
 .team-intro h1 {
-  font-size: clamp(44px, 5.8vw, 84px);
+  font-size: clamp(44px, 5.2vw, 76px);
 }
 .team-select {
   display: grid;
@@ -1074,6 +1076,13 @@ figcaption a {
   object-fit: contain;
   margin: auto;
   mix-blend-mode: multiply;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
   z-index: 1;
   transition: opacity 0.18s;
 }
@@ -1529,7 +1538,7 @@ figcaption a {
   position: absolute;
   bottom: 30px;
   left: 30px;
-  background: var(--pink);
+  background: #e21850;
   color: white;
   padding: 15px 25px;
   font-size: 12px;
@@ -2719,7 +2728,7 @@ figcaption a {
     gap: 22px;
   }
   .nexiv-title {
-    font-size: 110px;
+    font-size: clamp(88px, 28vw, 110px);
   }
   .product-preview {
     padding-bottom: 40px;
