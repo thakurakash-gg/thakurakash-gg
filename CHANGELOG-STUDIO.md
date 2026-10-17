@@ -1,5 +1,20 @@
 # Studio website changelog
 
+## 3.0.0 — 2026-10-17
+
+Rebuild the home as a complete studio presentation after reviewing studio work on Awwwards and official reference websites.
+
+- Add substantive home sections for selected projects, studio, NEXIV/RAY, services, seven team members and contact. Header links now scroll to the corresponding sections.
+- Replace the film-only entrance with a restrained introduction and a small Three.js display using Kazeyami’s own project media.
+- Use a warm gallery foundation with sage, forest, lilac and clay surfaces; remove repeated decorative arrows and asterisks, and simplify headings and copy.
+- Keep film viewing, case studies, service disclosures, enquiry, the original team avatars and standalone practice pages.
+- Link home team portraits to their selected profiles.
+- Limit the new gallery to 11 measured draw calls and 3,778 triangles; cap pixel area and device ratio, reduce shadows on memory-constrained devices, and pause rendering/video off-screen and in hidden tabs.
+- Provide static previews for reduced-motion/data-saving preferences and WebGL failure; load the 3D library only when the gallery is requested or visible.
+- Remove unused 2.0 home styles and document the research, source structure and rendering checks.
+
+Validation: page/resource/anchor checks, home-section and team facts, email encoding, real Three.js geometry and rendering-policy checks, desktop/phone browser QA and independent RAY regressions. RAY remains at 26.5.0.
+
 ## 2.0.0 — 2026-10-17
 
 A complete redesign around the studio’s actual work, with a consistent visual system across all 11 presentation pages.

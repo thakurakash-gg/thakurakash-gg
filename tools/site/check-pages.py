@@ -70,6 +70,12 @@ for name, doc in documents.items():
             assert (
                 unquote(parts.fragment) in documents[target.name].ids
             ), f"{name}: broken anchor {link}"
+home_source = (ROOT / "index.html").read_text(encoding="utf8")
+for section in ["work", "studio", "nexiv", "services", "team", "connect"]:
+    assert section in documents["index.html"].ids, f"Missing home section: {section}"
+assert "home-gallery.js" in home_source and "gallery.css" in home_source
+assert home_source.count('class="home-person"') == 7
+assert "{{HOME_CAST}}" not in home_source and "{{ROSTER}}" not in home_source
 team = json.loads((ROOT / "tools/site/team.json").read_text(encoding="utf8"))
 version = json.loads((ROOT / "tools/site/version.json").read_text(encoding="utf8"))["version"]
 for name in pages:

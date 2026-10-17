@@ -29,8 +29,8 @@
     },
     {
       "url": "assets/studio/gallery.css",
-      "bytes": 23029,
-      "sha256": "d005f1aa7a4f3f3589c379bc4dcc1bf612bb7dc3a150990e19342177f4a789ca"
+      "bytes": 23695,
+      "sha256": "932f46dd5763361c79531f98cc7afdd242727a4564222a214c42f028c253d155"
     },
     {
       "url": "assets/studio/hammer.webp",
@@ -39,8 +39,8 @@
     },
     {
       "url": "assets/studio/home-gallery.js",
-      "bytes": 13940,
-      "sha256": "f818c506b7086b004e5e7254692c27e4b5ba3d99d356804dd0f0171c4bd0f67d"
+      "bytes": 15006,
+      "sha256": "7771057721dcb797ab4b1289d089d2e8be45ce38a4ac2c6a37b02efb5e6aa472"
     },
     {
       "url": "assets/studio/Manrope-OFL.txt",
@@ -84,8 +84,8 @@
     },
     {
       "url": "assets/studio/studio.css",
-      "bytes": 52860,
-      "sha256": "bde0726c6e798e1c5682b0b982a04a23d27dad13c461545dadbd5ffba07714a6"
+      "bytes": 44823,
+      "sha256": "fbb5afe523a125258f6f819f090e50de168de4cd65537014a16e1ec31e76da08"
     },
     {
       "url": "assets/studio/studio.js",

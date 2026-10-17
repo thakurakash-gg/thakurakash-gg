@@ -75,11 +75,21 @@ PAGES = {
 
 
 def home_url(url):
-    return {"index.html":"#top","about.html":"#studio","portfolio.html":"#work","services.html":"#services","team.html":"#team","connect.html":"#connect"}.get(url,url)
+    return {
+        "index.html": "#top",
+        "about.html": "#studio",
+        "portfolio.html": "#work",
+        "services.html": "#services",
+        "team.html": "#team",
+        "connect.html": "#connect",
+    }.get(url, url)
+
 
 def header(active):
     desktop = "".join(
-        f'<a href="{home_url(url) if active == "index.html" else url}"' + (' aria-current="page"' if url == active else "") + f">{label}</a>"
+        f'<a href="{home_url(url) if active == "index.html" else url}"'
+        + (' aria-current="page"' if url == active else "")
+        + f">{label}</a>"
         for url, label in NAV[:-1]
     )
     mobile = "".join(
@@ -113,7 +123,7 @@ def footer(compact):
     <p>3D, design & digital experiences.<br>Lucknow, Uttar Pradesh · India · 226012</p>
     <div class="footer-links"><a href="mailto:hr@kazeyami.com">hr@kazeyami.com</a><a href="https://www.linkedin.com/company/kazeyami" target="_blank" rel="noopener noreferrer">LinkedIn</a></div>
   </div>
-  <div class="footer-base"><span>© 2026 Kazeyami Innovations Pvt. Ltd.</span><a href="products.html">Products & ventures ↗</a><a href="about.html">About the studio</a></div>
+  <div class="footer-base"><span>© 2026 Kazeyami Innovations Pvt. Ltd.</span><a href="products.html">Products & ventures</a><a href="about.html">About the studio</a></div>
 </footer>"""
 
 
@@ -133,14 +143,22 @@ def roster():
 
 
 def home_cast():
-    team=json.loads((ROOT / "tools/site/team.json").read_text(encoding="utf8"))
-    return "\n".join(f'<a href="team.html?member={p["id"]}" class="home-person"><span class="home-person-image"><img src="assets/studio/{p["id"]}.webp" alt="Anime alter ego for {p["name"]}" width="1122" height="1402" loading="lazy"></span><strong>{p["name"]}</strong><small>{p["role"]}</small></a>' for p in team)
+    team = json.loads((ROOT / "tools/site/team.json").read_text(encoding="utf8"))
+    return "\n".join(
+        f'<a href="team.html?member={p["id"]}" class="home-person"><span class="home-person-image"><img src="assets/studio/{p["id"]}.webp" alt="Anime alter ego for {p["name"]}" width="1122" height="1402" loading="lazy"></span><strong>{p["name"]}</strong><small>{p["role"]}</small></a>'
+        for p in team
+    )
 
 
 for slug, (title, description, scripts) in PAGES.items():
     filename = slug + ".html"
     active = filename if filename in dict(NAV) else "portfolio.html"
-    content = (TEMPLATES / filename).read_text(encoding="utf8").replace("{{ROSTER}}", roster()).replace("{{HOME_CAST}}", home_cast())
+    content = (
+        (TEMPLATES / filename)
+        .read_text(encoding="utf8")
+        .replace("{{ROSTER}}", roster())
+        .replace("{{HOME_CAST}}", home_cast())
+    )
     document = f"""<!doctype html>
 <html lang="en" data-studio-version="{RELEASE['version']}">
 <head>

@@ -16,11 +16,11 @@
       type="font/ttf"
       crossorigin
     />
-    <link rel="stylesheet" href="assets/studio/studio.css?v=bde0726c6e798e1c" />
-    <link rel="stylesheet" href="assets/studio/gallery.css?v=d005f1aa7a4f3f35" />
+    <link rel="stylesheet" href="assets/studio/studio.css?v=fbb5afe523a12525" />
+    <link rel="stylesheet" href="assets/studio/gallery.css?v=932f46dd5763361c" />
     <script src="assets/studio/enquiry.js?v=d6d9591c3a9921b3" defer></script>
     <script src="assets/studio/studio.js?v=82788806740b6458" defer></script>
-    <script src="assets/studio/home-gallery.js?v=f818c506b7086b00" defer></script>
+    <script src="assets/studio/home-gallery.js?v=7771057721dcb797" defer></script>
   </head>
   <body class="studio-site page-index" id="top">
     <a href="#main" class="studio-skip">Skip to content</a>
@@ -106,9 +106,16 @@
           </div>
           <canvas aria-hidden="true"></canvas>
           <div class="gallery-caption">
-            <span>Studies in space, form and motion.</span
+            <span>Selected studio work.</span
             ><span id="gallery-hint">A selection from the studio</span>
           </div>
+          <button
+            id="gallery-view"
+            type="button"
+            aria-label="Change the 3D gallery view"
+          >
+            Change view</button
+          ><span id="gallery-status" class="sr-only" role="status"></span>
           <button id="gallery-motion" type="button" aria-pressed="false">
             Pause motion
           </button>
@@ -137,7 +144,7 @@
       >
         <div class="home-section-heading">
           <span class="section-label">Selected work</span>
-          <h2 id="work-title">A closer look at<br />what we do.</h2>
+          <h2 id="work-title">Selected projects.</h2>
           <a class="plain-link" href="portfolio.html">View the portfolio</a>
         </div>
         <article class="home-project-wide">
@@ -223,7 +230,7 @@
         <span class="section-label">About the studio</span>
         <div>
           <h2 id="studio-title">
-            Different disciplines.<br />A shared way of working.
+            Artists and developers,<br />working together.
           </h2>
           <div class="home-studio-copy">
             <p>
@@ -245,7 +252,7 @@
         <div class="nexiv-intro content-pad">
           <span class="section-label">Our product brand / NEXIV</span>
           <div>
-            <h2 id="nexiv-title">Architecture,<br />open to exploration.</h2>
+            <h2 id="nexiv-title">Meet RAY,<br />our archviz platform.</h2>
             <p>
               RAY is NEXIV’s archviz platform, created within Kazeyami. The
               waterfront prototype lets you orbit the building, change the
@@ -283,7 +290,7 @@
       >
         <div class="home-section-heading">
           <span class="section-label">What we can help with</span>
-          <h2 id="services-title">The right craft<br />for the project.</h2>
+          <h2 id="services-title">What we do.</h2>
           <a class="plain-link" href="services.html">All services</a>
         </div>
         <div class="home-services-grid">
@@ -369,7 +376,7 @@
       >
         <div class="home-section-heading">
           <span class="section-label">The people behind the work</span>
-          <h2 id="team-title">A studio is<br />the people in it.</h2>
+          <h2 id="team-title">The Kazeyami team.</h2>
           <a class="plain-link" href="team.html">Meet the full team</a>
         </div>
         <div class="home-cast">
@@ -506,7 +513,7 @@
       </div>
       <div class="footer-base">
         <span>© 2026 Kazeyami Innovations Pvt. Ltd.</span
-        ><a href="products.html">Products & ventures ↗</a
+        ><a href="products.html">Products & ventures</a
         ><a href="about.html">About the studio</a>
       </div>
     </footer>

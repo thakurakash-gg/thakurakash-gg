@@ -713,8 +713,8 @@ h3 {
   background: #e7e8df;
 }
 .page-design .design-canvas {
-  background: #d1d9e3;
-  color: #263e4b;
+  background: #d8bd9c;
+  color: #483a2e;
   --study-accent: #b0c1cd;
 }
 .page-design .design-canvas[data-palette="mint"] {
@@ -1256,5 +1256,44 @@ h3 {
   .studio-gallery canvas,
   .gallery-fallback {
     transition: none;
+  }
+}
+
+#gallery-view {
+  position: absolute;
+  z-index: 4;
+  right: 130px;
+  bottom: 15px;
+  font-size: 10px;
+  border: 1px solid #4b666055;
+  border-radius: 3px;
+  background: #f4f3ed88;
+  padding: 7px 12px;
+  color: #263e3a;
+  backdrop-filter: blur(10px);
+}
+.gallery-caption > span:last-child {
+  padding-right: 240px;
+}
+@media (max-width: 600px) {
+  #gallery-view {
+    right: 109px;
+    bottom: 13px;
+    font-size: 8px;
+    padding: 7px 9px;
+  }
+  .gallery-caption {
+    max-width: 130px;
+  }
+  .gallery-caption > span:last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery-caption {
+    top: 15px;
+    bottom: auto;
+    max-width: none;
   }
 }

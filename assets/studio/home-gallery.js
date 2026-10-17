@@ -29,6 +29,7 @@
   const shortDevice =
     (navigator.deviceMemory && navigator.deviceMemory <= 4) ||
     navigator.hardwareConcurrency <= 4;
+  let viewIndex = 0;
   const requestDraw = () => {
     if (!active && ready && visible && !document.hidden) {
       active = true;
@@ -164,19 +165,19 @@
       height = stage.clientHeight;
     const aspect = width / Math.max(1, height),
       phone = width < 650;
-    const baseHeight = phone ? 8.7 : 5.6;
+    const baseHeight = phone ? 9.6 : Math.max(5.6, 12.9 / aspect);
     camera.left = (-baseHeight * aspect) / 2;
     camera.right = (baseHeight * aspect) / 2;
     camera.top = baseHeight / 2;
     camera.bottom = -baseHeight / 2;
     camera.updateProjectionMatrix();
-    cards[0].group.position.set(0, phone ? 0.15 : 0.2, 0.7);
+    cards[0].group.position.set(0, 0.32, 0.7);
     cards[1].group.position.set(
       phone ? -1.95 : -4.18,
       phone ? 1.75 : 0.2,
       -0.7,
     );
-    cards[2].group.position.set(phone ? 1.9 : 4.12, phone ? -1.55 : -0.1, -0.3);
+    cards[2].group.position.set(phone ? 1.9 : 4.12, phone ? 1.2 : -0.1, -0.3);
     const cap = shortDevice ? 1.15 : 1.6;
     resolution = Math.min(
       devicePixelRatio || 1,
@@ -328,6 +329,7 @@
       ready = false;
       hint.textContent = "Selected work from the studio";
       motionButton.hidden = true;
+      document.querySelector("#gallery-view").hidden = true;
       renderer?.dispose();
     }
   }
@@ -341,6 +343,8 @@
       () => {
         const texture = textureSettings(new T.VideoTexture(video));
         texture.generateMipmaps = false;
+        const previous = cards[0].imageMaterial.map;
+        if (previous && !previous.isVideoTexture) previous.dispose();
         cards[0].imageMaterial.map = texture;
         cards[0].imageMaterial.needsUpdate = true;
         sync();
@@ -416,7 +420,33 @@
     stage.classList.remove("is-ready");
     hint.textContent = "Selected work from the studio";
     motionButton.hidden = true;
+    document.querySelector("#gallery-view").hidden = true;
   });
+  document
+    .querySelector("#gallery-view")
+    .addEventListener("click", async () => {
+      if (!ready) {
+        await boot();
+        if (!ready) return;
+      }
+      const views = [
+        { yaw: 0, tilt: 0, label: "Front view" },
+        { yaw: -0.23, tilt: -0.035, label: "Left view" },
+        { yaw: 0.23, tilt: 0.025, label: "Right view" },
+      ];
+      viewIndex = (viewIndex + 1) % views.length;
+      targetYaw = views[viewIndex].yaw;
+      targetTilt = views[viewIndex].tilt;
+      document.querySelector("#gallery-status").textContent =
+        views[viewIndex].label;
+      if (reduce.matches) {
+        yaw = targetYaw;
+        tilt = targetTilt;
+        display.rotation.set(tilt, yaw, 0);
+        renderer.render(scene, camera);
+      }
+      requestDraw();
+    });
   motionButton.addEventListener("click", () => {
     wanted = !wanted;
     if (!ready) boot();
