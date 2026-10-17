@@ -1047,6 +1047,7 @@ button:hover > .image-arrow {
 }
 .ray-browser img {
   width: 100%;
+  height: auto;
   display: block;
   filter: brightness(0.88);
 }
@@ -1244,6 +1245,7 @@ button:hover > .image-arrow {
 }
 .artist-image img {
   width: 100%;
+  height: auto;
   aspect-ratio: 4/5;
   object-fit: cover;
   display: block;

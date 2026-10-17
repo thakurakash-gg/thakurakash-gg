@@ -32,7 +32,7 @@ Run from the website root:
     node tools/site/release.mjs
     node tools/site/release.mjs --check
 
-After formatting or changing presentation CSS/JS, regenerate the release keys. Shared asset URLs contain content hashes so subsequent visits load the correct files. Studio version 1.0.0 is separate from RAY scene version 26.5.0.
+After formatting or changing presentation CSS/JS, regenerate the release keys. Shared asset URLs contain content hashes so subsequent visits load the correct files. Studio version 1.0.1 is separate from RAY scene version 26.5.0.
 
 The enquiry form opens an encoded email draft. It does not send a message or claim a successful submission. No enquiry server or tracking was added. Background film autoplay respects reduced motion, data-saving hints and browser playback restrictions; the play button and poster remain available. Native dialogs provide keyboard focus management and Escape handling.
 

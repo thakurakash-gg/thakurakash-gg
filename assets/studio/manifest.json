@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "date": "2026-10-17",
   "assets": [
     {
@@ -59,8 +59,8 @@
     },
     {
       "url": "assets/studio/studio.css",
-      "bytes": 47682,
-      "sha256": "b196609619455ae6655ff85642e4f98dcc14fb40bee2be080ca7169ef0cae279"
+      "bytes": 47714,
+      "sha256": "3e6e19f35cc9395f415c3a7c711944608b0f2a4928dd21363cd342fdd867c1ab"
     },
     {
       "url": "assets/studio/studio.js",

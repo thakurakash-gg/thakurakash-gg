@@ -1,5 +1,10 @@
 # Studio website changelog
 
+## 1.0.1 — 2026-10-17
+
+- Correct portrait and RAY-preview image scaling when explicit image dimensions are present, so card heights follow their responsive width.
+- Verified the complete cast at desktop and phone widths with no horizontal overflow.
+
 ## 1.0.0 — 2026-10-17
 
 A six-page redesign for Kazeyami Innovations, with NEXIV as the brand behind RAY.

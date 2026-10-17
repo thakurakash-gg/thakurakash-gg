@@ -18,7 +18,7 @@ const assets = fs
     }
     return { url: "assets/studio/" + name, bytes: bytes.length, sha256: hash(bytes) };
   });
-const source = JSON.stringify({ version: "1.0.0", date: "2026-10-17", assets }, null, 2) + "\n";
+const source = JSON.stringify({ version: "1.0.1", date: "2026-10-17", assets }, null, 2) + "\n";
 const check = process.argv.includes("--check");
 if (check) {
   if (fs.readFileSync(path.join(directory, "manifest.json"), "utf8") !== source)
@@ -39,7 +39,7 @@ for (const name of [
 ]) {
   const filename = path.join(root, name),
     before = fs.readFileSync(filename, "utf8");
-  let after = before.replace(/<html[^>]*>/, '<html lang="en" data-studio-version="1.0.0">');
+  let after = before.replace(/<html[^>]*>/, '<html lang="en" data-studio-version="1.0.1">');
   for (const asset of assets) {
     if (!/\.(css|js)$/.test(asset.url)) continue;
     const pattern = new RegExp(
@@ -52,4 +52,4 @@ for (const name of [
     if (after !== before) throw Error("Stale page version: " + name);
   } else fs.writeFileSync(filename, after);
 }
-console.log("Studio 1.0.0: " + assets.length + " fingerprinted assets; 11 page links verified.");
+console.log("Studio 1.0.1: " + assets.length + " fingerprinted assets; 11 page links verified.");
