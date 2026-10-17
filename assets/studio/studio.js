@@ -1,43 +1,49 @@
-/* Shared presentation behavior. The RAY renderer is not loaded on studio pages. */
+/* Shared studio presentation behavior; RAY keeps its own rendering runtime. */
 (() => {
   "use strict";
   const $ = (selector, root = document) => root.querySelector(selector);
-  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  const $$ = (selector, root = document) => [
+    ...root.querySelectorAll(selector),
+  ];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+
+  // A new design preference avoids inheriting incompatible legacy page themes.
   const themeButton = $(".studio-theme");
-  const themeEligible = document.body.matches(".paper, .legacy-page");
-  let night = false;
+  let light = false;
   try {
-    night = localStorage.getItem("kazeyami-theme") === "dark";
+    light = localStorage.getItem("kazeyami-studio-display-v2") === "light";
   } catch {}
-  function updateTheme() {
-    document.body.classList.toggle("studio-night", night && themeEligible);
-    const brand = $(".studio-brand img");
-    if (brand)
-      brand.src =
+  function renderTheme() {
+    document.body.classList.toggle("studio-light", light);
+    const logo = $(".studio-brand img");
+    if (logo)
+      logo.src =
         "assets/" +
-        ((night && themeEligible) || document.body.matches(".cinematic, .ink-page")
-          ? "kazeyami-logo-white.png"
-          : "kazeyami-logo.png");
+        (light && !document.body.matches(".page-index")
+          ? "kazeyami-logo.png"
+          : "kazeyami-logo-white.png");
     if (themeButton) {
-      themeButton.textContent = night ? "Display: night ◑" : "Display: day ◐";
+      themeButton.textContent = light ? "Display: light ◑" : "Display: dark ◐";
       themeButton.setAttribute(
         "aria-label",
-        night ? "Switch to light theme" : "Switch to dark theme",
+        light ? "Switch to dark theme" : "Switch to light theme",
       );
     }
   }
+  renderTheme();
   themeButton?.addEventListener("click", () => {
-    night = !night;
+    light = !light;
     try {
-      localStorage.setItem("kazeyami-theme", night ? "dark" : "light");
+      localStorage.setItem(
+        "kazeyami-studio-display-v2",
+        light ? "light" : "dark",
+      );
     } catch {}
-    updateTheme();
+    renderTheme();
   });
-  updateTheme();
 
-  const menu = $("#studio-menu");
-  const menuToggle = $(".studio-menu-toggle");
+  const menu = $("#studio-menu"),
+    menuToggle = $(".studio-menu-toggle");
   menuToggle?.addEventListener("click", () => {
     menu.showModal();
     menuToggle.setAttribute("aria-expanded", "true");
@@ -48,90 +54,131 @@
     menuToggle.focus();
   });
 
-  // One intentional background film; respect reduced motion and data-saving settings.
-  const reel = $("#studio-reel") || $("#hero-video");
-  const reelButton = $(".reel-toggle") || $(".video-toggle");
+  const reel = $("#studio-reel"),
+    reelButton = $(".reel-toggle");
   if (reel && reelButton) {
-    let wanted = !reducedMotion.matches && !navigator.connection?.saveData;
-    let resumeWhenVisible = false;
-    const updateLabel = () => {
-      const label = reel.paused ? "Play background film" : "Pause background film";
-      reelButton.setAttribute("aria-label", label);
-      if ($(".reel-label", reelButton)) {
-        $(".reel-label", reelButton).textContent = reel.paused ? "Play film" : "Pause film";
-        $(".play-state", reelButton).textContent = reel.paused ? "▷" : "Ⅱ";
-      } else reelButton.textContent = reel.paused ? "Play video" : "Pause video";
-    };
-    reel.addEventListener("play", updateLabel);
-    reel.addEventListener("pause", updateLabel);
-    reel.addEventListener("timeupdate", () => {
-      const display = $("#film-time");
-      if (display) {
-        const seconds = Math.floor(reel.currentTime);
-        display.textContent =
-          String(Math.floor(seconds / 60)).padStart(2, "0") +
-          ":" +
-          String(seconds % 60).padStart(2, "0");
+    let wantsPlayback = !reduce.matches && !navigator.connection?.saveData;
+    let resume = false;
+    function labels() {
+      reelButton.setAttribute(
+        "aria-label",
+        reel.paused ? "Play background film" : "Pause background film",
+      );
+      $(".play-state", reelButton).textContent = reel.paused ? "▷" : "Ⅱ";
+    }
+    function loadFilm(source, play) {
+      if (reel.getAttribute("src") !== source) {
+        reel.src = source;
+        reel.load();
       }
+      if (play) reel.play().catch(labels);
+    }
+    reel.addEventListener("play", labels);
+    reel.addEventListener("pause", labels);
+    reel.addEventListener("timeupdate", () => {
+      const s = Math.floor(reel.currentTime);
+      $("#film-time").textContent =
+        String(Math.floor(s / 60)).padStart(2, "0") +
+        ":" +
+        String(s % 60).padStart(2, "0");
+      $("#reel-progress").style.width =
+        (reel.duration
+          ? Math.min(100, (reel.currentTime / reel.duration) * 100)
+          : 0) + "%";
     });
     reelButton.addEventListener("click", () => {
-      wanted = reel.paused;
-      if (wanted) reel.play().catch(updateLabel);
+      wantsPlayback = reel.paused;
+      if (wantsPlayback) loadFilm(reel.dataset.initialVideo, true);
       else reel.pause();
     });
-    reducedMotion.addEventListener("change", (event) => {
+    const channels = $$(".channel-button");
+    channels.forEach((button, index) =>
+      button.addEventListener("click", () => {
+        channels.forEach((c) =>
+          c.setAttribute("aria-pressed", String(c === button)),
+        );
+        reel.pause();
+        reel.poster = button.dataset.poster;
+        reel.dataset.initialVideo = button.dataset.video;
+        $("#channel-number").textContent = "/ 0" + (index + 1);
+        $("#channel-title").textContent = button.dataset.title;
+        $("#channel-description").textContent = button.dataset.description;
+        $("#channel-link").href = button.dataset.link;
+        $("#film-time").textContent = "00:00";
+        $("#reel-progress").style.width = "0%";
+        loadFilm(button.dataset.video, wantsPlayback);
+      }),
+    );
+    reduce.addEventListener("change", (event) => {
       if (event.matches) {
-        wanted = false;
+        wantsPlayback = false;
         reel.pause();
       }
     });
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
-        resumeWhenVisible = wanted && !reel.paused;
+        resume = wantsPlayback && !reel.paused;
         reel.pause();
-      } else if (resumeWhenVisible && wanted) reel.play().catch(updateLabel);
+      } else if (resume && wantsPlayback) reel.play().catch(labels);
     });
-    if (wanted) reel.play().catch(updateLabel);
-    updateLabel();
+    if (wantsPlayback) loadFilm(reel.dataset.initialVideo, true);
+    labels();
+    const oldRoutes = {
+      studio: "about.html",
+      process: "about.html#process",
+      services: "services.html",
+      contact: "connect.html",
+      faq: "connect.html#faq",
+      ray: "ray.html",
+      "three-d": "3d.html",
+      work: "3d.html#work",
+      design: "design.html",
+      products: "products.html",
+    };
+    const destination = oldRoutes[location.hash.slice(1)];
+    if (destination) location.replace(destination);
   }
 
-  const filters = $$("[data-filter]");
-  const entries = $$("[data-category]");
-  function applyFilter(value) {
-    let count = 0;
-    entries.forEach((entry) => {
-      entry.hidden = value !== "all" && entry.dataset.category !== value;
-      if (!entry.hidden) count++;
-    });
-    filters.forEach((button) =>
-      button.setAttribute("aria-pressed", String(button.dataset.filter === value)),
-    );
-    const status = $("#work-status");
-    if (status)
-      status.textContent = "Showing " + count + " portfolio " + (count === 1 ? "entry" : "entries");
-  }
+  const entries = $$("[data-category]"),
+    filters = $$("[data-filter]");
   filters.forEach((button) =>
-    button.addEventListener("click", () => applyFilter(button.dataset.filter)),
+    button.addEventListener("click", () => {
+      let count = 0;
+      entries.forEach((entry) => {
+        entry.hidden =
+          button.dataset.filter !== "all" &&
+          entry.dataset.category !== button.dataset.filter;
+        if (!entry.hidden) count++;
+      });
+      filters.forEach((filter) =>
+        filter.setAttribute("aria-pressed", String(filter === button)),
+      );
+      $("#work-status").textContent =
+        "Showing " +
+        count +
+        " work and practice " +
+        (count === 1 ? "entry." : "entries.");
+    }),
   );
 
   const films = {
     medical: {
       title: "AMD — Medical explainer",
       video: "assets/amd-medical-explainer.mp4",
-      poster: "assets/amd-medical-poster.png",
+      poster: "assets/studio/amd-preview.webp",
       description:
-        "Medical and anatomical visualization, clear pacing and a carefully composed explanation. Explore the full project for services, process and delivery details.",
+        "3D modeling and animation make the sequence easier to follow. Explore the project’s process, review approach and deliverables.",
     },
     miniature: {
-      title: "Mario — Miniature toy",
+      title: "Mario — Miniature",
       video: "assets/mario-miniature.mp4",
       poster: "assets/studio/mario-preview.webp",
       description:
-        "Character form, sculpted details and separated components for 3D-print design. Explore the full project for the modeling and preparation process.",
+        "A character sculpt developed with printable form and separated components in mind. Explore the modeling and preparation process.",
     },
   };
-  const filmDialog = $("#studio-film");
-  const filmPlayer = filmDialog && $("video", filmDialog);
+  const filmDialog = $("#studio-film"),
+    filmPlayer = filmDialog && $("video", filmDialog);
   $$("[data-film]").forEach((button) =>
     button.addEventListener("click", () => {
       const film = films[button.dataset.film];
@@ -145,64 +192,71 @@
   );
   $("[data-close-film]")?.addEventListener("click", () => filmDialog.close());
   filmDialog?.addEventListener("close", () => filmPlayer.pause());
-  filmDialog?.addEventListener("click", (event) => {
-    if (event.target === filmDialog) {
-      const bounds = filmDialog.getBoundingClientRect();
-      if (
-        event.clientX < bounds.left ||
-        event.clientX > bounds.right ||
-        event.clientY < bounds.top ||
-        event.clientY > bounds.bottom
-      )
-        filmDialog.close();
-    }
-  });
 
-  const artists = $$(".artist-card");
-  const artistDialog = $("#artist-dialog");
-  artists.forEach((button) =>
+  // The roster is the source of truth; content is rendered with textContent.
+  const roster = $$(".roster-person");
+  roster.forEach((button, index) =>
     button.addEventListener("click", () => {
-      const image = $("img", button);
-      $(".artist-dialog-image").src = image.src;
-      $(".artist-dialog-image").alt = image.alt;
-      $("#artist-name").textContent = button.dataset.name;
-      $("#artist-role").textContent = button.dataset.role;
-      $("#artist-tag").textContent = button.dataset.tag;
-      $("#artist-focus").textContent = button.dataset.focus;
-      $("#artist-link").href = button.dataset.link;
-      $("#artist-link").textContent = button.dataset.cta + " ↗";
-      artistDialog.showModal();
+      roster.forEach((person) =>
+        person.setAttribute("aria-pressed", String(person === button)),
+      );
+      const data = button.dataset;
+      const portrait = $("#selected-portrait");
+      portrait.src = "assets/studio/" + data.id + ".webp";
+      portrait.alt = "Original fictional anime avatar for " + data.name;
+      $("#selected-name").textContent = data.name;
+      $("#selected-role").textContent = data.role;
+      $("#selected-tag").textContent = data.tag;
+      $("#selected-focus").textContent = data.focus;
+      $("#selected-link").href = data.link;
+      $("#selected-link").textContent = data.cta + " ↗";
+      $("#selected-index").textContent = String(index + 1).padStart(2, "0");
+      $(".character-big-index").textContent = String(index + 1).padStart(
+        2,
+        "0",
+      );
+      $("#cast-status").textContent =
+        "Selected " + data.name + ", " + data.role + ".";
     }),
   );
-  $("[data-close-artist]")?.addEventListener("click", () => artistDialog.close());
-  $(".cast-shuffle")?.addEventListener("click", () => {
-    const shuffled = [...artists];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    const grid = $(".cast-grid");
-    shuffled.forEach((card) => grid.insertBefore(card, $(".cast-signoff")));
-    $("#cast-status").textContent = "Cast remixed. All seven studio members are here.";
-  });
+
+  const study = $(".design-canvas");
+  $$("[data-study-palette]").forEach((button) =>
+    button.addEventListener("click", () => {
+      study.dataset.palette = button.dataset.studyPalette;
+      $$("[data-study-palette]").forEach((b) =>
+        b.setAttribute("aria-pressed", String(b === button)),
+      );
+      $("#study-status").textContent =
+        "Palette changed to " + button.textContent + ".";
+    }),
+  );
+  $$("[data-study-layout]").forEach((button) =>
+    button.addEventListener("click", () => {
+      study.dataset.layout = button.dataset.studyLayout;
+      $$("[data-study-layout]").forEach((b) =>
+        b.setAttribute("aria-pressed", String(b === button)),
+      );
+      $("#study-status").textContent =
+        "Layout changed to " + button.textContent + ".";
+    }),
+  );
 
   $(".copy-email")?.addEventListener("click", async () => {
-    const status = $("#copy-status");
     try {
       await navigator.clipboard.writeText("hr@kazeyami.com");
-      status.textContent = "Email copied.";
+      $("#copy-status").textContent = "Email copied.";
     } catch {
-      status.textContent = "hr@kazeyami.com — select the email above to copy.";
+      $("#copy-status").textContent = "Select hr@kazeyami.com above to copy.";
     }
   });
   $("#studio-brief")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const values = Object.fromEntries(new FormData(event.currentTarget));
-    const draft = window.StudioBrief.build(values);
     const link = document.createElement("a");
-    link.href = draft;
+    link.href = window.StudioBrief.build(values);
     link.click();
     $("#brief-status").textContent =
-      "Email draft requested. Review it in your email app before sending. You can also write directly to hr@kazeyami.com.";
+      "Draft requested. Review it in your email app before sending, or write directly to hr@kazeyami.com.";
   });
 })();

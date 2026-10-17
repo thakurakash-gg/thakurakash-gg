@@ -1,137 +1,174 @@
 <!doctype html>
-<html lang="en" data-studio-version="1.0.1">
+<html lang="en" data-studio-version="2.0.0">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#111211" />
+    <meta name="theme-color" content="#101113" />
     <title>NEXIV — Home to RAY | Kazeyami Innovations</title>
     <meta
       name="description"
-      content="NEXIV is a Kazeyami Innovations brand. Discover RAY, its architectural visualization platform, and explore the browser-based waterfront prototype."
+      content="NEXIV is a Kazeyami Innovations product brand. Discover its RAY architectural visualization platform and interactive exterior demo."
     />
     <link
       rel="preload"
-      href="assets/studio/manrope-variable.ttf"
+      href="assets/studio/space-grotesk-variable.ttf"
       as="font"
       type="font/ttf"
       crossorigin
     />
-    <link rel="stylesheet" href="assets/studio/studio.css?v=3e6e19f35cc9395f" />
+    <link rel="stylesheet" href="assets/studio/studio.css?v=df02c82406de5280" />
     <script src="assets/studio/enquiry.js?v=d6d9591c3a9921b3" defer></script>
-    <script src="assets/studio/studio.js?v=dcd1ce130e2b1061" defer></script>
+    <script src="assets/studio/studio.js?v=a01870acf76373a6" defer></script>
   </head>
-  <body class="studio-site ink-page" id="top">
+  <body class="studio-site page-nexiv" id="top">
     <a href="#main" class="studio-skip">Skip to content</a>
+
     <header class="studio-header">
-      <a class="studio-brand" href="index.html" aria-label="Kazeyami Innovations home"
+      <a
+        class="studio-brand"
+        href="index.html"
+        aria-label="Kazeyami Innovations home"
         ><img
           src="assets/kazeyami-logo-white.png"
           alt="Kazeyami Innovations"
           width="2665"
-          height="760" /></a
-      ><a class="header-note" href="about.html">INDEPENDENT MINDS.<br />CONNECTED POSSIBILITIES.</a>
-      <div class="studio-header-actions">
-        <a class="header-work" href="portfolio.html">Selected work ↗</a
-        ><button
-          class="studio-menu-toggle"
-          aria-haspopup="dialog"
-          aria-controls="studio-menu"
-          aria-expanded="false"
-        >
-          Menu <span class="menu-glyph" aria-hidden="true"><i></i><i></i></span>
-        </button>
-      </div>
+          height="760"
+      /></a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a><a href="about.html">About</a
+        ><a href="portfolio.html" aria-current="page">Portfolio</a
+        ><a href="services.html">Services</a><a href="team.html">Team</a>
+      </nav>
+      <a class="header-connect" href="connect.html"
+        >Let’s connect <span aria-hidden="true">↗</span></a
+      >
+      <button
+        class="studio-menu-toggle"
+        aria-haspopup="dialog"
+        aria-controls="studio-menu"
+        aria-expanded="false"
+        aria-label="Open navigation"
+      >
+        Menu <span aria-hidden="true">☰</span>
+      </button>
     </header>
     <dialog id="studio-menu" class="studio-menu" aria-labelledby="menu-title">
-      <div class="menu-top">
-        <span id="menu-title">KAZEYAMI / A WAY IN</span
-        ><button data-close-menu aria-label="Close navigation">
-          Close <span aria-hidden="true">×</span>
-        </button>
+      <div class="dialog-bar">
+        <span id="menu-title">EXPLORE KAZEYAMI</span
+        ><button data-close-menu aria-label="Close navigation">Close ×</button>
       </div>
-      <nav aria-label="Main navigation">
-        <a href="index.html"
-          ><span class="menu-index">01</span><span>Home</span><small>The first impression</small
-          ><b aria-hidden="true">↗</b></a
+      <nav aria-label="Mobile navigation">
+        <a href="index.html"><span>01</span>Home<b aria-hidden="true">↗</b></a
         ><a href="about.html"
-          ><span class="menu-index">02</span><span>About</span><small>A little about us</small
-          ><b aria-hidden="true">↗</b></a
+          ><span>02</span>About<b aria-hidden="true">↗</b></a
         ><a href="portfolio.html"
-          ><span class="menu-index">03</span><span>Portfolio</span
-          ><small>Ideas out in the world</small><b aria-hidden="true">↗</b></a
+          ><span>03</span>Portfolio<b aria-hidden="true">↗</b></a
         ><a href="services.html"
-          ><span class="menu-index">04</span><span>Services</span><small>What we bring</small
-          ><b aria-hidden="true">↗</b></a
-        ><a href="team.html"
-          ><span class="menu-index">05</span><span>Team</span
-          ><small>Different minds, shared curiosity</small><b aria-hidden="true">↗</b></a
+          ><span>04</span>Services<b aria-hidden="true">↗</b></a
+        ><a href="team.html"><span>05</span>Team<b aria-hidden="true">↗</b></a
         ><a href="connect.html"
-          ><span class="menu-index">06</span><span>Connect</span
-          ><small>The start of something</small><b aria-hidden="true">↗</b></a
+          ><span>06</span>Connect<b aria-hidden="true">↗</b></a
         >
       </nav>
-      <div class="menu-bottom">
-        <a href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a
-        ><span>LUCKNOW, INDIA / OPEN TO THE WORLD</span>
-      </div>
+      <a class="menu-email" href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a>
     </dialog>
     <main id="main">
-      <section class="nexiv-hero content-pad">
-        <div class="page-rail">
-          <a href="portfolio.html">PORTFOLIO / NEXIV</a><span>A BRAND BY KAZEYAMI INNOVATIONS</span>
+      <section class="product-hero content-pad">
+        <div class="breadcrumb">
+          <a href="portfolio.html">PORTFOLIO</a><span>/</span><span>NEXIV</span>
         </div>
-        <h1>NEXIV<span class="nexiv-dot" aria-hidden="true">.</span></h1>
-        <div class="intro-split">
-          <span class="micro">THE BRAND BEHIND RAY</span>
-          <p>A home for experiences that bring architecture closer.</p>
+        <div class="intro-grid">
+          <div>
+            <span class="eyebrow">A PRODUCT BRAND BY KAZEYAMI INNOVATIONS</span>
+            <h1 class="nexiv-title">NEXIV<em>.</em></h1>
+          </div>
+          <p>
+            Our product brand for a more<br />interactive way to see
+            architecture.<br />Meet its archviz platform, <strong>RAY.</strong>
+          </p>
         </div>
       </section>
-      <section class="nexiv-product content-pad">
-        <div class="brand-family">
-          <span>KAZEYAMI INNOVATIONS</span><span aria-hidden="true">→</span><strong>NEXIV</strong
-          ><span aria-hidden="true">→</span><strong>RAY</strong>
-        </div>
+      <section class="product-preview content-pad">
         <a class="ray-browser" href="ray-experience.html"
           ><div class="browser-bar">
             <span class="browser-dots" aria-hidden="true">● ● ●</span
-            ><span>RAY / INTERACTIVE EXTERIOR PROTOTYPE</span><span>↗</span>
+            ><span>NEXIV → RAY / LIVE EXTERIOR PROTOTYPE</span
+            ><span aria-hidden="true">↗</span>
           </div>
           <img
             src="assets/ray/media/ray-platform-preview.webp"
-            alt="Launch RAY's real 3D waterfront web experience with camera and lighting controls"
+            alt="RAY waterfront exterior prototype with orbit, map and daylight controls"
             width="1280"
             height="720"
-            loading="lazy"
-          /><span class="launch-pill">Enter the web experience ↗</span></a
+            fetchpriority="high"
+          /><span class="launch-pill">Launch exterior demo ↗</span></a
         >
-        <div class="nexiv-product-copy">
+        <div class="product-line">
           <div>
-            <span class="micro">THE ARCHVIZ PLATFORM / BY NEXIV</span>
-            <h2>This is <em>RAY.</em></h2>
+            <span class="eyebrow">THE ARCHVIZ PLATFORM</span>
+            <h2>RAY by NEXIV.</h2>
           </div>
+          <p>
+            Architecture becomes an experience.<br />A place to explore, not
+            just an image to view.
+          </p>
+          <a class="text-link" href="ray.html">Discover the platform ↗</a>
+        </div>
+      </section>
+      <section class="features-section content-pad">
+        <div class="section-heading">
           <div>
+            <span class="eyebrow">TRY THE WATERFRONT PROTOTYPE</span>
+            <h2>Your point of view.<br />Your time of day.</h2>
+          </div>
+          <p>
+            A focused exterior study.<br />Open it in your browser and explore.
+          </p>
+        </div>
+        <div class="three-columns">
+          <article>
+            <span class="eyebrow">01 / ORBIT</span>
+            <h3>Find your angle.</h3>
             <p>
-              Move beyond the plan and into the place. RAY brings architectural vision into an
-              experience people can explore, with real-time views, materials and presentation.
+              Rotate around the twin towers, zoom into the waterfront and
+              discover the surrounding neighborhood.
             </p>
-            <p class="muted">
-              Try the waterfront exterior prototype: orbit the building, change the daylight and
-              discover the site from your own point of view.
+          </article>
+          <article>
+            <span class="eyebrow">02 / DAYLIGHT</span>
+            <h3>Change the atmosphere.</h3>
+            <p>
+              Switch between morning, afternoon, evening and night to see the
+              scene in a different light.
             </p>
-            <a class="underline-link" href="ray.html">Discover the RAY platform ↗</a>
-          </div>
+          </article>
+          <article>
+            <span class="eyebrow">03 / CONTEXT</span>
+            <h3>See the bigger picture.</h3>
+            <p>
+              Use the location map and camera positions to understand the
+              building in its waterfront setting.
+            </p>
+          </article>
         </div>
       </section>
     </main>
+
     <footer class="studio-footer">
       <a class="footer-invitation" href="connect.html"
-        ><span>Have something in mind?</span><strong>Let’s make it real.</strong
-        ><b aria-hidden="true">↗</b></a
+        ><span class="eyebrow">HAVE A PROJECT IN MIND?</span
+        ><strong>Let’s make the next thing.</strong
+        ><span class="round-arrow" aria-hidden="true">↗</span></a
       >
-      <div class="footer-info">
-        <a href="index.html" class="footer-name">KAZEYAMI<br /><span>INNOVATIONS</span></a>
-        <p>Design & technology innovation studio.<br />Lucknow, Uttar Pradesh · India · 226012</p>
-        <div>
+      <div class="footer-main">
+        <a class="footer-wordmark" href="index.html"
+          >KAZEYAMI<span>INNOVATIONS</span></a
+        >
+        <p>
+          Art. Code. Everything in between.<br />Lucknow, Uttar Pradesh · India
+          · 226012
+        </p>
+        <div class="footer-links">
           <a href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a
           ><a
             href="https://www.linkedin.com/company/kazeyami"
@@ -143,9 +180,13 @@
       </div>
       <div class="footer-base">
         <span>© 2026 Kazeyami Innovations Pvt. Ltd.</span
-        ><a href="portfolio.html">3D / NEXIV / BRAND & UI/UX</a
-        ><button class="studio-theme" type="button" aria-label="Switch to dark theme">
-          Display: day ◐
+        ><a href="products.html">Products & ventures ↗</a
+        ><button
+          class="studio-theme"
+          type="button"
+          aria-label="Switch to light theme"
+        >
+          Display: dark ◐
         </button>
       </div>
     </footer>

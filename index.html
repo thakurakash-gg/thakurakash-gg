@@ -1,149 +1,210 @@
 <!doctype html>
-<html lang="en" data-studio-version="1.0.1">
+<html lang="en" data-studio-version="2.0.0">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#111211" />
-    <title>Ideas beyond the ordinary | Kazeyami Innovations</title>
+    <meta name="theme-color" content="#101113" />
+    <title>Ideas in. Worlds out. | Kazeyami Innovations</title>
     <meta
       name="description"
-      content="Kazeyami Innovations is a design and technology studio in Lucknow. Explore 3D, NEXIV and RAY, branding and digital experiences."
+      content="Kazeyami Innovations is a creative technology studio building 3D worlds, brands and digital experiences."
     />
     <link
       rel="preload"
-      href="assets/studio/manrope-variable.ttf"
+      href="assets/studio/space-grotesk-variable.ttf"
       as="font"
       type="font/ttf"
       crossorigin
     />
-    <link rel="stylesheet" href="assets/studio/studio.css?v=3e6e19f35cc9395f" />
+    <link rel="stylesheet" href="assets/studio/studio.css?v=df02c82406de5280" />
     <script src="assets/studio/enquiry.js?v=d6d9591c3a9921b3" defer></script>
-    <script src="assets/studio/studio.js?v=dcd1ce130e2b1061" defer></script>
-    <script>
-      const oldRoutes = {
-        studio: "about.html",
-        process: "about.html#process",
-        services: "services.html",
-        contact: "connect.html",
-        faq: "connect.html#faq",
-        ray: "ray.html",
-        "three-d": "3d.html",
-        work: "3d.html#work",
-        design: "design.html",
-        products: "products.html",
-      };
-      if (oldRoutes[location.hash.slice(1)]) location.replace(oldRoutes[location.hash.slice(1)]);
-    </script>
+    <script src="assets/studio/studio.js?v=a01870acf76373a6" defer></script>
   </head>
-  <body class="studio-site cinematic" id="top">
+  <body class="studio-site page-index" id="top">
     <a href="#main" class="studio-skip">Skip to content</a>
+
     <header class="studio-header">
-      <a class="studio-brand" href="index.html" aria-label="Kazeyami Innovations home"
+      <a
+        class="studio-brand"
+        href="index.html"
+        aria-label="Kazeyami Innovations home"
         ><img
           src="assets/kazeyami-logo-white.png"
           alt="Kazeyami Innovations"
           width="2665"
-          height="760" /></a
-      ><a class="header-note" href="about.html">INDEPENDENT MINDS.<br />CONNECTED POSSIBILITIES.</a>
-      <div class="studio-header-actions">
-        <a class="header-work" href="portfolio.html">Selected work ↗</a
-        ><button
-          class="studio-menu-toggle"
-          aria-haspopup="dialog"
-          aria-controls="studio-menu"
-          aria-expanded="false"
-        >
-          Menu <span class="menu-glyph" aria-hidden="true"><i></i><i></i></span>
-        </button>
-      </div>
+          height="760"
+      /></a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="index.html" aria-current="page">Home</a
+        ><a href="about.html">About</a><a href="portfolio.html">Portfolio</a
+        ><a href="services.html">Services</a><a href="team.html">Team</a>
+      </nav>
+      <a class="header-connect" href="connect.html"
+        >Let’s connect <span aria-hidden="true">↗</span></a
+      >
+      <button
+        class="studio-menu-toggle"
+        aria-haspopup="dialog"
+        aria-controls="studio-menu"
+        aria-expanded="false"
+        aria-label="Open navigation"
+      >
+        Menu <span aria-hidden="true">☰</span>
+      </button>
     </header>
     <dialog id="studio-menu" class="studio-menu" aria-labelledby="menu-title">
-      <div class="menu-top">
-        <span id="menu-title">KAZEYAMI / A WAY IN</span
-        ><button data-close-menu aria-label="Close navigation">
-          Close <span aria-hidden="true">×</span>
-        </button>
+      <div class="dialog-bar">
+        <span id="menu-title">EXPLORE KAZEYAMI</span
+        ><button data-close-menu aria-label="Close navigation">Close ×</button>
       </div>
-      <nav aria-label="Main navigation">
-        <a href="index.html" aria-current="page"
-          ><span class="menu-index">01</span><span>Home</span><small>The first impression</small
-          ><b aria-hidden="true">↗</b></a
+      <nav aria-label="Mobile navigation">
+        <a href="index.html"><span>01</span>Home<b aria-hidden="true">↗</b></a
         ><a href="about.html"
-          ><span class="menu-index">02</span><span>About</span><small>A little about us</small
-          ><b aria-hidden="true">↗</b></a
+          ><span>02</span>About<b aria-hidden="true">↗</b></a
         ><a href="portfolio.html"
-          ><span class="menu-index">03</span><span>Portfolio</span
-          ><small>Ideas out in the world</small><b aria-hidden="true">↗</b></a
+          ><span>03</span>Portfolio<b aria-hidden="true">↗</b></a
         ><a href="services.html"
-          ><span class="menu-index">04</span><span>Services</span><small>What we bring</small
-          ><b aria-hidden="true">↗</b></a
-        ><a href="team.html"
-          ><span class="menu-index">05</span><span>Team</span
-          ><small>Different minds, shared curiosity</small><b aria-hidden="true">↗</b></a
+          ><span>04</span>Services<b aria-hidden="true">↗</b></a
+        ><a href="team.html"><span>05</span>Team<b aria-hidden="true">↗</b></a
         ><a href="connect.html"
-          ><span class="menu-index">06</span><span>Connect</span
-          ><small>The start of something</small><b aria-hidden="true">↗</b></a
+          ><span>06</span>Connect<b aria-hidden="true">↗</b></a
         >
       </nav>
-      <div class="menu-bottom">
-        <a href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a
-        ><span>LUCKNOW, INDIA / OPEN TO THE WORLD</span>
-      </div>
+      <a class="menu-email" href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a>
     </dialog>
     <main id="main">
-      <section class="home-cinema" aria-labelledby="home-title">
-        <video
-          id="studio-reel"
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          poster="assets/experience-center-poster.jpg"
-          aria-label="Kazeyami experience center architectural film"
-        >
-          <source src="assets/experience-center.mp4" type="video/mp4" />
-        </video>
-        <div class="cinema-shade" aria-hidden="true"></div>
-        <div class="home-topline">
-          <span class="live-dot">DESIGN. TECHNOLOGY. A LITTLE CURIOSITY.</span
-          ><span>LUCKNOW, INDIA ↗</span>
+      <section class="home-stage" aria-labelledby="home-title">
+        <div class="home-media" aria-hidden="true">
+          <video
+            id="studio-reel"
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster="assets/experience-center-poster.jpg"
+            data-initial-video="assets/experience-center.mp4"
+          ></video>
         </div>
-        <div class="home-title">
-          <p class="kicker">WE ARE KAZEYAMI INNOVATIONS</p>
-          <h1 id="home-title">Ideas, beyond<br />the <em>ordinary.</em></h1>
-          <a class="circle-link light-link" href="about.html"
-            ><span class="circle-arrow" aria-hidden="true">↗</span><span>Enter the studio</span></a
+        <div class="home-overlay" aria-hidden="true"></div>
+        <div class="home-meta">
+          <span class="eyebrow"
+            ><i class="status-dot" aria-hidden="true"></i> CREATIVE TECHNOLOGY
+            STUDIO</span
+          ><span class="eyebrow">LUCKNOW, INDIA / MADE FOR EVERYWHERE</span>
+        </div>
+        <div class="home-content">
+          <p class="eyebrow home-kazeyami">KAZEYAMI INNOVATIONS</p>
+          <h1 id="home-title">
+            IDEAS IN.<br /><span>WORLDS OUT.</span><i aria-hidden="true">✳</i>
+          </h1>
+          <p class="home-description">
+            We turn ideas into 3D worlds, brands<br class="desktop-break" />
+            and digital experiences you can step into.
+          </p>
+          <a href="portfolio.html" class="button primary"
+            >Explore our work <span aria-hidden="true">↗</span></a
           >
         </div>
-        <a class="home-focus" href="nexiv.html"
-          ><span>IN FOCUS / OUR PRODUCT WORLD</span><strong>NEXIV <i>→</i> RAY</strong
-          ><small>Architecture, experienced. ↗</small></a
-        >
-        <div class="film-controls">
-          <span>01 / EXPERIENCE CENTER</span>
-          <div>
+        <div class="home-project">
+          <span class="eyebrow"
+            >NOW SHOWING <span id="channel-number">/ 01</span></span
+          >
+          <a id="channel-link" href="ray.html"
+            ><strong id="channel-title">Experience Center</strong
+            ><span aria-hidden="true">↗</span></a
+          >
+          <p id="channel-description">
+            Architecture, light and a sense of place.
+          </p>
+        </div>
+        <div class="home-console">
+          <div
+            class="channel-list"
+            role="group"
+            aria-label="Choose a studio film"
+          >
+            <button
+              class="channel-button"
+              aria-pressed="true"
+              data-channel="space"
+              data-video="assets/experience-center.mp4"
+              data-poster="assets/experience-center-poster.jpg"
+              data-title="Experience Center"
+              data-description="Architecture, light and a sense of place."
+              data-link="ray.html"
+            >
+              <span class="channel-index">01</span
+              ><span>Spaces<small>ARCHITECTURAL FILM</small></span
+              ><span class="channel-indicator" aria-hidden="true">↗</span>
+            </button>
+            <button
+              class="channel-button"
+              aria-pressed="false"
+              data-channel="story"
+              data-video="assets/amd-medical-explainer.mp4"
+              data-poster="assets/studio/amd-preview.webp"
+              data-title="AMD — Medical explainer"
+              data-description="A complex subject. A clear visual story."
+              data-link="3d.html#work"
+            >
+              <span class="channel-index">02</span
+              ><span>Stories<small>3D ANIMATION</small></span
+              ><span class="channel-indicator" aria-hidden="true">↗</span>
+            </button>
+            <button
+              class="channel-button"
+              aria-pressed="false"
+              data-channel="character"
+              data-video="assets/mario-miniature.mp4"
+              data-poster="assets/studio/mario-preview.webp"
+              data-title="Mario — Miniature"
+              data-description="From a character’s silhouette to printable form."
+              data-link="3d.html#work"
+            >
+              <span class="channel-index">03</span
+              ><span>Characters<small>SCULPT & PRINT DESIGN</small></span
+              ><span class="channel-indicator" aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <div class="reel-controls">
             <span id="film-time" aria-hidden="true">00:00</span
             ><button
               class="reel-toggle"
               aria-controls="studio-reel"
               aria-label="Play background film"
             >
-              <span class="play-state" aria-hidden="true">▷</span
-              ><span class="reel-label">Play film</span>
-            </button>
+              <span class="play-state" aria-hidden="true">▷</span></button
+            ><span class="eyebrow">SOUND OFF</span>
+          </div>
+          <div class="reel-progress" aria-hidden="true">
+            <span id="reel-progress"></span>
           </div>
         </div>
       </section>
-      <section class="home-ribbon">
-        <p>Spaces. Stories. Interfaces.<br /><span>Different mediums. The same curiosity.</span></p>
-        <a href="portfolio.html">Explore our work <span aria-hidden="true">↗</span></a>
+      <section class="home-next content-pad">
+        <p>
+          Artists and developers.<br /><strong>One very curious studio.</strong>
+        </p>
+        <div>
+          <a href="about.html"
+            >Get to know Kazeyami <span aria-hidden="true">↗</span></a
+          ><a href="nexiv.html"
+            >Meet NEXIV & RAY <span aria-hidden="true">↗</span></a
+          >
+        </div>
       </section>
     </main>
-    <footer class="studio-footer compact-footer">
-      <div class="footer-info">
-        <a href="index.html" class="footer-name">KAZEYAMI<br /><span>INNOVATIONS</span></a>
-        <p>Design & technology innovation studio.<br />Lucknow, Uttar Pradesh · India · 226012</p>
-        <div>
+
+    <footer class="studio-footer">
+      <div class="footer-main">
+        <a class="footer-wordmark" href="index.html"
+          >KAZEYAMI<span>INNOVATIONS</span></a
+        >
+        <p>
+          Art. Code. Everything in between.<br />Lucknow, Uttar Pradesh · India
+          · 226012
+        </p>
+        <div class="footer-links">
           <a href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a
           ><a
             href="https://www.linkedin.com/company/kazeyami"
@@ -155,9 +216,13 @@
       </div>
       <div class="footer-base">
         <span>© 2026 Kazeyami Innovations Pvt. Ltd.</span
-        ><a href="portfolio.html">3D / NEXIV / BRAND & UI/UX</a
-        ><button class="studio-theme" type="button" aria-label="Switch to dark theme">
-          Display: day ◐
+        ><a href="products.html">Products & ventures ↗</a
+        ><button
+          class="studio-theme"
+          type="button"
+          aria-label="Switch to light theme"
+        >
+          Display: dark ◐
         </button>
       </div>
     </footer>

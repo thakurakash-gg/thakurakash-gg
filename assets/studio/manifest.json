@@ -1,11 +1,16 @@
 {
-  "version": "1.0.1",
+  "version": "2.0.0",
   "date": "2026-10-17",
   "assets": [
     {
       "url": "assets/studio/akash.webp",
       "bytes": 150612,
       "sha256": "331a114d651d935d9f8d7b181475c28d5dcad5a4d6d2b3fd9a55586140326140"
+    },
+    {
+      "url": "assets/studio/amd-preview.webp",
+      "bytes": 41490,
+      "sha256": "756b830a232a64943913eb7f68aa8d6eb4b85b85b819374c2b7a7171f40d53ae"
     },
     {
       "url": "assets/studio/deepraj.webp",
@@ -58,14 +63,24 @@
       "sha256": "9e937ac1ad757ee3860bba95e240f5e7650b3fe90796c27c48b351b1a67eb80e"
     },
     {
+      "url": "assets/studio/Space-Grotesk-OFL.txt",
+      "bytes": 4401,
+      "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943"
+    },
+    {
+      "url": "assets/studio/space-grotesk-variable.ttf",
+      "bytes": 136676,
+      "sha256": "acad6de1fc93436f5c0f1f4137751ef04f1aea3063e7036535970ffcfbd79f72"
+    },
+    {
       "url": "assets/studio/studio.css",
-      "bytes": 47714,
-      "sha256": "3e6e19f35cc9395f415c3a7c711944608b0f2a4928dd21363cd342fdd867c1ab"
+      "bytes": 52716,
+      "sha256": "df02c82406de5280a4b3e610c092a6bcc7d7c0abb7701021eb7486a322f92c79"
     },
     {
       "url": "assets/studio/studio.js",
-      "bytes": 8096,
-      "sha256": "dcd1ce130e2b10613838db9aebb15d517399cd962e5260f302cfc2d3b91ef6b1"
+      "bytes": 9410,
+      "sha256": "a01870acf76373a6d29d0f53c42176400ce04b54513054fb37fee8213c0ec819"
     }
   ]
 }
