@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "date": "2026-10-17",
   "assets": [
     {
@@ -28,9 +28,19 @@
       "sha256": "d6d9591c3a9921b388113c251707065a3c329eb19e796c76a6d0ce9f1c5fb3d1"
     },
     {
+      "url": "assets/studio/gallery.css",
+      "bytes": 23029,
+      "sha256": "d005f1aa7a4f3f3589c379bc4dcc1bf612bb7dc3a150990e19342177f4a789ca"
+    },
+    {
       "url": "assets/studio/hammer.webp",
       "bytes": 237384,
       "sha256": "8812d989d367f231a6c680b4a1827ef3ccf136813dbe4a7a195f955ff70fcd1f"
+    },
+    {
+      "url": "assets/studio/home-gallery.js",
+      "bytes": 13940,
+      "sha256": "f818c506b7086b004e5e7254692c27e4b5ba3d99d356804dd0f0171c4bd0f67d"
     },
     {
       "url": "assets/studio/Manrope-OFL.txt",
@@ -79,8 +89,8 @@
     },
     {
       "url": "assets/studio/studio.js",
-      "bytes": 9609,
-      "sha256": "8dd7c6227db7e2d36fedeec95e588f87c0cf6cfc684120cc80788f6bfbd9caba"
+      "bytes": 6526,
+      "sha256": "82788806740b6458f00e0b82c4454d3201f3737ca4b15b37392a0084e3cfb6c2"
     }
   ]
 }

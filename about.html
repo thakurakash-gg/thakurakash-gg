@@ -1,24 +1,25 @@
 <!doctype html>
-<html lang="en" data-studio-version="2.0.0">
+<html lang="en" data-studio-version="3.0.0">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#101113" />
-    <title>Built between art and code | Kazeyami Innovations</title>
+    <meta name="theme-color" content="#f3f1ec" />
+    <title>The studio | Kazeyami Innovations</title>
     <meta
       name="description"
       content="Get to know Kazeyami Innovations: our creative disciplines, how we work, and the people connecting art and technology."
     />
     <link
       rel="preload"
-      href="assets/studio/space-grotesk-variable.ttf"
+      href="assets/studio/manrope-variable.ttf"
       as="font"
       type="font/ttf"
       crossorigin
     />
     <link rel="stylesheet" href="assets/studio/studio.css?v=bde0726c6e798e1c" />
+    <link rel="stylesheet" href="assets/studio/gallery.css?v=d005f1aa7a4f3f35" />
     <script src="assets/studio/enquiry.js?v=d6d9591c3a9921b3" defer></script>
-    <script src="assets/studio/studio.js?v=8dd7c6227db7e2d3" defer></script>
+    <script src="assets/studio/studio.js?v=82788806740b6458" defer></script>
     <script src="assets/three.min.js" defer></script>
     <script src="assets/logo-scene.js" defer></script>
   </head>
@@ -31,7 +32,7 @@
         href="index.html"
         aria-label="Kazeyami Innovations home"
         ><img
-          src="assets/kazeyami-logo-white.png"
+          src="assets/kazeyami-logo.png"
           alt="Kazeyami Innovations"
           width="2665"
           height="760"
@@ -42,9 +43,7 @@
         ><a href="portfolio.html">Portfolio</a
         ><a href="services.html">Services</a><a href="team.html">Team</a>
       </nav>
-      <a class="header-connect" href="connect.html"
-        >Let’s connect <span aria-hidden="true">↗</span></a
-      >
+      <a class="header-connect" href="connect.html">Let’s connect</a>
       <button
         class="studio-menu-toggle"
         aria-haspopup="dialog"
@@ -52,28 +51,21 @@
         aria-expanded="false"
         aria-label="Open navigation"
       >
-        Menu <span aria-hidden="true">☰</span>
+        Menu
       </button>
     </header>
     <dialog id="studio-menu" class="studio-menu" aria-labelledby="menu-title">
       <div class="dialog-bar">
         <span id="menu-title">EXPLORE KAZEYAMI</span
-        ><button data-close-menu aria-label="Close navigation">Close ×</button>
+        ><button data-close-menu aria-label="Close navigation">Close</button>
       </div>
       <nav aria-label="Mobile navigation">
-        <a href="index.html"><span>01</span>Home<b aria-hidden="true">↗</b></a
-        ><a href="about.html"
-          ><span>02</span>About<b aria-hidden="true">↗</b></a
-        ><a href="portfolio.html"
-          ><span>03</span>Portfolio<b aria-hidden="true">↗</b></a
-        ><a href="services.html"
-          ><span>04</span>Services<b aria-hidden="true">↗</b></a
-        ><a href="team.html"><span>05</span>Team<b aria-hidden="true">↗</b></a
-        ><a href="connect.html"
-          ><span>06</span>Connect<b aria-hidden="true">↗</b></a
-        >
+        <a href="index.html">Home</a><a href="about.html">About</a
+        ><a href="portfolio.html">Portfolio</a
+        ><a href="services.html">Services</a><a href="team.html">Team</a
+        ><a href="connect.html">Connect</a>
       </nav>
-      <a class="menu-email" href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a>
+      <a class="menu-email" href="mailto:hr@kazeyami.com">hr@kazeyami.com</a>
     </dialog>
     <main id="main">
       <section class="page-intro content-pad">
@@ -81,10 +73,10 @@
           <span>01 / THE STUDIO</span><span>ARTISTS + DEVELOPERS</span>
         </div>
         <div class="intro-grid">
-          <h1>Built between<br />art and <em>code.</em></h1>
+          <h1>Artists and developers,<br /><em>working together.</em></h1>
           <p>
-            Some ideas need an artist’s eye.<br />Some need a developer’s
-            mind.<br />We put both in the same room.
+            A design and technology studio based in Lucknow. We work across
+            architecture, 3D, branding and digital products.
           </p>
         </div>
       </section>
@@ -99,7 +91,7 @@
           />
           <figcaption>
             <span>EXPERIENCE CENTER / ARCHITECTURAL VISUALIZATION</span
-            ><a href="ray.html">Explore our archviz world ↗</a>
+            ><a href="ray.html">Explore our archviz world</a>
           </figcaption>
         </figure>
         <div class="split-copy">
@@ -128,20 +120,17 @@
           ><span class="eyebrow">01 / DIMENSION</span>
           <h3>Make it visible.</h3>
           <p>3D, architecture, animation<br />and worlds to explore.</p>
-          <b aria-hidden="true">↗</b></a
-        >
+        </a>
         <a href="design.html"
           ><span class="eyebrow">02 / EXPRESSION</span>
           <h3>Make it yours.</h3>
           <p>Brand identities, interfaces<br />and stories in motion.</p>
-          <b aria-hidden="true">↗</b></a
-        >
+        </a>
         <a href="nexiv.html"
           ><span class="eyebrow">03 / INTERACTION</span>
           <h3>Make it work.</h3>
           <p>Digital experiences, prototypes<br />and products like RAY.</p>
-          <b aria-hidden="true">↗</b></a
-        >
+        </a>
       </section>
       <section class="play-section content-pad">
         <div class="section-heading">
@@ -157,8 +146,7 @@
             KAZEYAMI<br /><span>IN MOTION.</span>
           </div>
           <div class="scene-controls">
-            <button class="scene-action button">
-              Change color & scatter ↗</button
+            <button class="scene-action button">Change color & scatter</button
             ><span class="scene-status" role="status"
               >Move through the shapes · click to scatter</span
             >
@@ -171,7 +159,7 @@
             <span class="eyebrow">HOW WE WORK</span>
             <h2>No mystery.<br />Just a good process.</h2>
           </div>
-          <a href="connect.html" class="text-link">Start a conversation ↗</a>
+          <a href="connect.html" class="text-link">Start a conversation</a>
         </div>
         <div class="three-columns">
           <article>
@@ -206,37 +194,30 @@
     <footer class="studio-footer">
       <a class="footer-invitation" href="connect.html"
         ><span class="eyebrow">HAVE A PROJECT IN MIND?</span
-        ><strong>Let’s make the next thing.</strong
-        ><span class="round-arrow" aria-hidden="true">↗</span></a
+        ><strong>Tell us about your project.</strong></a
       >
       <div class="footer-main">
         <a class="footer-wordmark" href="index.html"
           >KAZEYAMI<span>INNOVATIONS</span></a
         >
         <p>
-          Art. Code. Everything in between.<br />Lucknow, Uttar Pradesh · India
+          3D, design & digital experiences.<br />Lucknow, Uttar Pradesh · India
           · 226012
         </p>
         <div class="footer-links">
-          <a href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a
+          <a href="mailto:hr@kazeyami.com">hr@kazeyami.com</a
           ><a
             href="https://www.linkedin.com/company/kazeyami"
             target="_blank"
             rel="noopener noreferrer"
-            >LinkedIn ↗</a
+            >LinkedIn</a
           >
         </div>
       </div>
       <div class="footer-base">
         <span>© 2026 Kazeyami Innovations Pvt. Ltd.</span
         ><a href="products.html">Products & ventures ↗</a
-        ><button
-          class="studio-theme"
-          type="button"
-          aria-label="Switch to light theme"
-        >
-          Display: dark ◐
-        </button>
+        ><a href="about.html">About the studio</a>
       </div>
     </footer>
   </body>

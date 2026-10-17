@@ -1,24 +1,26 @@
 <!doctype html>
-<html lang="en" data-studio-version="2.0.0">
+<html lang="en" data-studio-version="3.0.0">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#101113" />
-    <title>Ideas in. Worlds out. | Kazeyami Innovations</title>
+    <meta name="theme-color" content="#f3f1ec" />
+    <title>3D, design &amp; digital experiences | Kazeyami Innovations</title>
     <meta
       name="description"
-      content="Kazeyami Innovations is a creative technology studio building 3D worlds, brands and digital experiences."
+      content="Kazeyami Innovations is an independent design and technology studio in Lucknow. Explore our architecture, animation, brands and digital work."
     />
     <link
       rel="preload"
-      href="assets/studio/space-grotesk-variable.ttf"
+      href="assets/studio/manrope-variable.ttf"
       as="font"
       type="font/ttf"
       crossorigin
     />
     <link rel="stylesheet" href="assets/studio/studio.css?v=bde0726c6e798e1c" />
+    <link rel="stylesheet" href="assets/studio/gallery.css?v=d005f1aa7a4f3f35" />
     <script src="assets/studio/enquiry.js?v=d6d9591c3a9921b3" defer></script>
-    <script src="assets/studio/studio.js?v=8dd7c6227db7e2d3" defer></script>
+    <script src="assets/studio/studio.js?v=82788806740b6458" defer></script>
+    <script src="assets/studio/home-gallery.js?v=f818c506b7086b00" defer></script>
   </head>
   <body class="studio-site page-index" id="top">
     <a href="#main" class="studio-skip">Skip to content</a>
@@ -29,19 +31,17 @@
         href="index.html"
         aria-label="Kazeyami Innovations home"
         ><img
-          src="assets/kazeyami-logo-white.png"
+          src="assets/kazeyami-logo.png"
           alt="Kazeyami Innovations"
           width="2665"
           height="760"
       /></a>
       <nav class="desktop-nav" aria-label="Main navigation">
-        <a href="index.html" aria-current="page">Home</a
-        ><a href="about.html">About</a><a href="portfolio.html">Portfolio</a
-        ><a href="services.html">Services</a><a href="team.html">Team</a>
+        <a href="#top" aria-current="page">Home</a><a href="#studio">About</a
+        ><a href="#work">Portfolio</a><a href="#services">Services</a
+        ><a href="#team">Team</a>
       </nav>
-      <a class="header-connect" href="connect.html"
-        >Let’s connect <span aria-hidden="true">↗</span></a
-      >
+      <a class="header-connect" href="#connect">Let’s connect</a>
       <button
         class="studio-menu-toggle"
         aria-haspopup="dialog"
@@ -49,150 +49,440 @@
         aria-expanded="false"
         aria-label="Open navigation"
       >
-        Menu <span aria-hidden="true">☰</span>
+        Menu
       </button>
     </header>
     <dialog id="studio-menu" class="studio-menu" aria-labelledby="menu-title">
       <div class="dialog-bar">
         <span id="menu-title">EXPLORE KAZEYAMI</span
-        ><button data-close-menu aria-label="Close navigation">Close ×</button>
+        ><button data-close-menu aria-label="Close navigation">Close</button>
       </div>
       <nav aria-label="Mobile navigation">
-        <a href="index.html"><span>01</span>Home<b aria-hidden="true">↗</b></a
-        ><a href="about.html"
-          ><span>02</span>About<b aria-hidden="true">↗</b></a
-        ><a href="portfolio.html"
-          ><span>03</span>Portfolio<b aria-hidden="true">↗</b></a
-        ><a href="services.html"
-          ><span>04</span>Services<b aria-hidden="true">↗</b></a
-        ><a href="team.html"><span>05</span>Team<b aria-hidden="true">↗</b></a
-        ><a href="connect.html"
-          ><span>06</span>Connect<b aria-hidden="true">↗</b></a
-        >
+        <a href="#top">Home</a><a href="#studio">About</a
+        ><a href="#work">Portfolio</a><a href="#services">Services</a
+        ><a href="#team">Team</a><a href="#connect">Connect</a>
       </nav>
-      <a class="menu-email" href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a>
+      <a class="menu-email" href="mailto:hr@kazeyami.com">hr@kazeyami.com</a>
     </dialog>
     <main id="main">
-      <section class="home-stage" aria-labelledby="home-title">
-        <div class="home-media" aria-hidden="true">
+      <section class="studio-intro content-pad" aria-labelledby="home-title">
+        <div class="intro-label">
+          <span>Kazeyami Innovations</span
+          ><span>Independent creative studio<br />Lucknow, India</span>
+        </div>
+        <h1 id="home-title">3D, design &<br /><em>digital experiences.</em></h1>
+        <p>
+          We bring artists and developers together to create architectural
+          worlds, animated stories, brands and interfaces.
+        </p>
+      </section>
+      <section
+        class="gallery-section content-pad"
+        aria-label="Interactive studio showcase"
+      >
+        <div id="studio-gallery" class="studio-gallery">
+          <div class="gallery-fallback" aria-hidden="true">
+            <img
+              class="fallback-left"
+              src="assets/studio/amd-preview.webp"
+              alt=""
+              width="1440"
+              height="810"
+            />
+            <img
+              class="fallback-center"
+              src="assets/experience-center-poster.jpg"
+              alt=""
+              width="1440"
+              height="810"
+            />
+            <img
+              class="fallback-right"
+              src="assets/studio/mario-preview.webp"
+              alt=""
+              width="1440"
+              height="810"
+            />
+          </div>
+          <canvas aria-hidden="true"></canvas>
+          <div class="gallery-caption">
+            <span>Studies in space, form and motion.</span
+            ><span id="gallery-hint">A selection from the studio</span>
+          </div>
+          <button id="gallery-motion" type="button" aria-pressed="false">
+            Pause motion
+          </button>
           <video
-            id="studio-reel"
+            id="gallery-video"
             muted
-            loop
             playsinline
+            loop
             preload="none"
             poster="assets/experience-center-poster.jpg"
-            data-initial-video="assets/experience-center.mp4"
+            aria-hidden="true"
+            tabindex="-1"
           ></video>
         </div>
-        <div class="home-overlay" aria-hidden="true"></div>
-        <div class="home-meta">
-          <span class="eyebrow"
-            ><i class="status-dot" aria-hidden="true"></i> CREATIVE TECHNOLOGY
-            STUDIO</span
-          ><span class="eyebrow">LUCKNOW, INDIA / MADE FOR EVERYWHERE</span>
+        <nav class="home-section-nav" aria-label="On this page">
+          <span>Explore the studio</span><a href="#work">Selected work</a
+          ><a href="#studio">About us</a><a href="#services">Services</a
+          ><a href="#team">Our people</a>
+        </nav>
+      </section>
+
+      <section
+        id="work"
+        class="home-work content-pad"
+        aria-labelledby="work-title"
+      >
+        <div class="home-section-heading">
+          <span class="section-label">Selected work</span>
+          <h2 id="work-title">A closer look at<br />what we do.</h2>
+          <a class="plain-link" href="portfolio.html">View the portfolio</a>
         </div>
-        <div class="home-content">
-          <p class="eyebrow home-kazeyami">KAZEYAMI INNOVATIONS</p>
-          <h1 id="home-title">
-            IDEAS IN.<br /><span>WORLDS OUT.</span><i aria-hidden="true">✳</i>
-          </h1>
-          <p class="home-description">
-            We turn ideas into 3D worlds, brands<br class="desktop-break" />
-            and digital experiences you can step into.
-          </p>
-          <a href="portfolio.html" class="button primary"
-            >Explore our work <span aria-hidden="true">↗</span></a
+        <article class="home-project-wide">
+          <button
+            class="project-film-cover"
+            data-film="architecture"
+            aria-label="Watch Experience Center architectural film"
           >
-        </div>
-        <div class="home-project">
-          <span class="eyebrow"
-            >NOW SHOWING <span id="channel-number">/ 01</span></span
-          >
-          <a id="channel-link" href="ray.html"
-            ><strong id="channel-title">Experience Center</strong
-            ><span aria-hidden="true">↗</span></a
-          >
-          <p id="channel-description">
-            Architecture, light and a sense of place.
-          </p>
-        </div>
-        <div class="home-console">
-          <div
-            class="channel-list"
-            role="group"
-            aria-label="Choose a studio film"
-          >
-            <button
-              class="channel-button"
-              aria-pressed="true"
-              data-channel="space"
-              data-video="assets/experience-center.mp4"
-              data-poster="assets/experience-center-poster.jpg"
-              data-title="Experience Center"
-              data-description="Architecture, light and a sense of place."
-              data-link="ray.html"
+            <img
+              src="assets/experience-center-poster.jpg"
+              alt="Experience Center interior visualization with a glass facade, natural light and the Kazeyami studio mark"
+              width="1440"
+              height="810"
+              loading="lazy"
+            /><span>Watch film</span>
+          </button>
+          <div class="project-description">
+            <div>
+              <span class="section-label">Architecture / Film</span>
+              <h3>Experience Center</h3>
+            </div>
+            <p>A space introduced through light, materials and movement.</p>
+            <a class="plain-link" href="ray.html"
+              >Explore architectural visualization</a
             >
-              <span class="channel-index">01</span
-              ><span>Spaces<small>ARCHITECTURAL FILM</small></span
-              ><span class="channel-indicator" aria-hidden="true">↗</span>
-            </button>
-            <button
-              class="channel-button"
-              aria-pressed="false"
-              data-channel="story"
-              data-video="assets/amd-medical-explainer.mp4"
-              data-poster="assets/studio/amd-preview.webp"
-              data-title="AMD — Medical explainer"
-              data-description="A complex subject. A clear visual story."
-              data-link="3d.html#work"
-            >
-              <span class="channel-index">02</span
-              ><span>Stories<small>3D ANIMATION</small></span
-              ><span class="channel-indicator" aria-hidden="true">↗</span>
-            </button>
-            <button
-              class="channel-button"
-              aria-pressed="false"
-              data-channel="character"
-              data-video="assets/mario-miniature.mp4"
-              data-poster="assets/studio/mario-preview.webp"
-              data-title="Mario — Miniature"
-              data-description="From a character’s silhouette to printable form."
-              data-link="3d.html#work"
-            >
-              <span class="channel-index">03</span
-              ><span>Characters<small>SCULPT & PRINT DESIGN</small></span
-              ><span class="channel-indicator" aria-hidden="true">↗</span>
-            </button>
           </div>
-          <div class="reel-controls">
-            <span id="film-time" aria-hidden="true">00:00</span
-            ><button
-              class="reel-toggle"
-              aria-controls="studio-reel"
-              aria-label="Play background film"
+        </article>
+        <div class="home-project-pair">
+          <article>
+            <button
+              class="project-film-cover medical-cover"
+              data-film="medical"
+              aria-label="Watch AMD medical explainer"
             >
-              <span class="play-state" aria-hidden="true">▷</span></button
-            ><span class="eyebrow">SOUND OFF</span>
-          </div>
-          <div class="reel-progress" aria-hidden="true">
-            <span id="reel-progress"></span>
-          </div>
+              <img
+                src="assets/studio/amd-preview.webp"
+                alt="AMD medical explainer showing an eye examination in 3D"
+                width="1440"
+                height="810"
+                loading="lazy"
+              /><span>Watch film</span>
+            </button>
+            <div class="project-description">
+              <div>
+                <span class="section-label">3D / Medical animation</span>
+                <h3>AMD</h3>
+              </div>
+              <p>Using a visual sequence to explain a complex subject.</p>
+              <a class="plain-link" href="3d.html#work">Project & process</a>
+            </div>
+          </article>
+          <article class="miniature-project">
+            <button
+              class="project-film-cover miniature-cover"
+              data-film="miniature"
+              aria-label="Watch Mario miniature project"
+            >
+              <img
+                src="assets/studio/mario-preview.webp"
+                alt="Mario miniature and its separated components for 3D printing"
+                width="1440"
+                height="810"
+                loading="lazy"
+              /><span>Watch film</span>
+            </button>
+            <div class="project-description">
+              <div>
+                <span class="section-label">Sculpting / 3D-print design</span>
+                <h3>Mario miniature</h3>
+              </div>
+              <p>Character, scale and the details that make a model work.</p>
+              <a class="plain-link" href="3d.html#work">Project & process</a>
+            </div>
+          </article>
         </div>
       </section>
-      <section class="home-next content-pad">
-        <p>
-          Artists and developers.<br /><strong>One very curious studio.</strong>
-        </p>
+
+      <section
+        id="studio"
+        class="home-studio content-pad"
+        aria-labelledby="studio-title"
+      >
+        <span class="section-label">About the studio</span>
         <div>
-          <a href="about.html"
-            >Get to know Kazeyami <span aria-hidden="true">↗</span></a
-          ><a href="nexiv.html"
-            >Meet NEXIV & RAY <span aria-hidden="true">↗</span></a
-          >
+          <h2 id="studio-title">
+            Different disciplines.<br />A shared way of working.
+          </h2>
+          <div class="home-studio-copy">
+            <p>
+              Kazeyami Innovations is a design and technology studio based in
+              Lucknow. Our artists and developers work across 3D visualization,
+              animation, branding and digital products.
+            </p>
+            <p>
+              We can build an architectural scene, shape a character or work
+              through an interface. The medium changes. The care we put into it
+              stays the same.
+            </p>
+          </div>
+          <a class="plain-link" href="about.html">More about Kazeyami</a>
         </div>
       </section>
+
+      <section id="nexiv" class="home-nexiv" aria-labelledby="nexiv-title">
+        <div class="nexiv-intro content-pad">
+          <span class="section-label">Our product brand / NEXIV</span>
+          <div>
+            <h2 id="nexiv-title">Architecture,<br />open to exploration.</h2>
+            <p>
+              RAY is NEXIV’s archviz platform, created within Kazeyami. The
+              waterfront prototype lets you orbit the building, change the
+              daylight and find your own view.
+            </p>
+            <div class="nexiv-links">
+              <a class="light-link" href="ray-experience.html"
+                >Launch RAY exterior demo</a
+              ><a class="plain-link" href="nexiv.html">The NEXIV story</a>
+            </div>
+          </div>
+        </div>
+        <a
+          class="home-ray-preview"
+          href="ray-experience.html"
+          aria-label="Launch RAY waterfront exterior prototype"
+          ><img
+            src="assets/ray/media/ray-platform-preview.webp"
+            alt="RAY's twin-tower waterfront prototype with visible camera, daylight and navigation map controls"
+            width="1280"
+            height="720"
+            loading="lazy"
+          /><span>RAY / Interactive exterior prototype</span></a
+        >
+        <div class="nexiv-foot content-pad">
+          <span>Kazeyami Innovations / NEXIV / RAY</span
+          ><span>Explore in your browser. Desktop & mobile.</span>
+        </div>
+      </section>
+
+      <section
+        id="services"
+        class="home-services content-pad"
+        aria-labelledby="services-title"
+      >
+        <div class="home-section-heading">
+          <span class="section-label">What we can help with</span>
+          <h2 id="services-title">The right craft<br />for the project.</h2>
+          <a class="plain-link" href="services.html">All services</a>
+        </div>
+        <div class="home-services-grid">
+          <p>
+            A single discipline or a team across several. We shape the scope
+            around what you need to communicate, build or launch.
+          </p>
+          <div class="home-service-list">
+            <details>
+              <summary>Architectural visualization</summary>
+              <div>
+                <p>
+                  Interior and exterior images, architectural films, 360° tours
+                  and interactive RAY experiences.
+                </p>
+                <a href="ray.html" class="plain-link">Explore architecture</a>
+              </div>
+            </details>
+            <details>
+              <summary>3D & animation</summary>
+              <div>
+                <p>
+                  Medical explainers, character sculpting, miniatures, 3D-print
+                  preparation, game assets and environments.
+                </p>
+                <a href="3d.html" class="plain-link">Explore 3D</a>
+              </div>
+            </details>
+            <details>
+              <summary>Branding & communication</summary>
+              <div>
+                <p>
+                  Visual identities and communication systems that carry a
+                  brand’s character across print, screen and motion.
+                </p>
+                <a href="design.html" class="plain-link">Explore design</a>
+              </div>
+            </details>
+            <details>
+              <summary>UI / UX & development</summary>
+              <div>
+                <p>
+                  User journeys, interface design, interactive prototypes and
+                  working digital experiences.
+                </p>
+                <a href="design.html" class="plain-link"
+                  >Explore digital design</a
+                >
+              </div>
+            </details>
+            <details>
+              <summary>Film & motion</summary>
+              <div>
+                <p>
+                  Editing, motion graphics and 3D animation with attention to
+                  pacing, composition and the story being told.
+                </p>
+                <a href="portfolio.html" class="plain-link"
+                  >Watch selected work</a
+                >
+              </div>
+            </details>
+            <details>
+              <summary>Products & technology</summary>
+              <div>
+                <p>
+                  Product design, technology solutions and independent ventures,
+                  including our own NEXIV brand.
+                </p>
+                <a href="products.html" class="plain-link"
+                  >Products & ventures</a
+                >
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="team"
+        class="home-team content-pad"
+        aria-labelledby="team-title"
+      >
+        <div class="home-section-heading">
+          <span class="section-label">The people behind the work</span>
+          <h2 id="team-title">A studio is<br />the people in it.</h2>
+          <a class="plain-link" href="team.html">Meet the full team</a>
+        </div>
+        <div class="home-cast">
+          <a href="team.html?member=siya" class="home-person"
+            ><span class="home-person-image"
+              ><img
+                src="assets/studio/siya.webp"
+                alt="Anime alter ego for Siya Baranwal"
+                width="1122"
+                height="1402"
+                loading="lazy" /></span
+            ><strong>Siya Baranwal</strong><small>UI/UX Artist</small></a
+          >
+          <a href="team.html?member=pragati" class="home-person"
+            ><span class="home-person-image"
+              ><img
+                src="assets/studio/pragati.webp"
+                alt="Anime alter ego for Pragati Saxena"
+                width="1122"
+                height="1402"
+                loading="lazy" /></span
+            ><strong>Pragati Saxena</strong><small>HR</small></a
+          >
+          <a href="team.html?member=dk" class="home-person"
+            ><span class="home-person-image"
+              ><img
+                src="assets/studio/dk.webp"
+                alt="Anime alter ego for DK"
+                width="1122"
+                height="1402"
+                loading="lazy" /></span
+            ><strong>DK</strong><small>Developer</small></a
+          >
+          <a href="team.html?member=deepraj" class="home-person"
+            ><span class="home-person-image"
+              ><img
+                src="assets/studio/deepraj.webp"
+                alt="Anime alter ego for Deepraj"
+                width="1122"
+                height="1402"
+                loading="lazy" /></span
+            ><strong>Deepraj</strong><small>Senior Developer</small></a
+          >
+          <a href="team.html?member=shayan" class="home-person"
+            ><span class="home-person-image"
+              ><img
+                src="assets/studio/shayan.webp"
+                alt="Anime alter ego for Shayan Ansari"
+                width="1122"
+                height="1402"
+                loading="lazy" /></span
+            ><strong>Shayan Ansari</strong><small>Technical Artist</small></a
+          >
+          <a href="team.html?member=akash" class="home-person"
+            ><span class="home-person-image"
+              ><img
+                src="assets/studio/akash.webp"
+                alt="Anime alter ego for Akash Singh"
+                width="1122"
+                height="1402"
+                loading="lazy" /></span
+            ><strong>Akash Singh</strong><small>3D Artist</small></a
+          >
+          <a href="team.html?member=hammer" class="home-person"
+            ><span class="home-person-image"
+              ><img
+                src="assets/studio/hammer.webp"
+                alt="Anime alter ego for Hammer"
+                width="1122"
+                height="1402"
+                loading="lazy" /></span
+            ><strong>Hammer</strong><small>Unreal Artist</small></a
+          >
+        </div>
+        <p class="home-cast-note">
+          Real people and roles, pictured as original anime alter egos.
+        </p>
+      </section>
+
+      <section
+        id="connect"
+        class="home-connect content-pad"
+        aria-labelledby="connect-title"
+      >
+        <span class="section-label">Start a conversation</span>
+        <h2 id="connect-title">What are you<br />working on?</h2>
+        <div>
+          <p>
+            Tell us about the project, the people it’s for and where you’d like
+            to take it.
+          </p>
+          <a class="contact-email" href="mailto:hr@kazeyami.com"
+            >hr@kazeyami.com</a
+          ><a class="plain-link" href="connect.html">Share a project brief</a>
+        </div>
+      </section>
+      <dialog
+        id="studio-film"
+        class="studio-film"
+        aria-labelledby="studio-film-title"
+      >
+        <div class="dialog-bar">
+          <h2 id="studio-film-title">Project film</h2>
+          <button data-close-film aria-label="Close project film">Close</button>
+        </div>
+        <video controls playsinline preload="none"></video>
+        <div class="film-dialog-copy">
+          <p id="studio-film-description"></p>
+          <a id="studio-film-case" href="3d.html#work" class="plain-link"
+            >Project & process</a
+          >
+        </div>
+      </dialog>
     </main>
 
     <footer class="studio-footer">
@@ -201,29 +491,23 @@
           >KAZEYAMI<span>INNOVATIONS</span></a
         >
         <p>
-          Art. Code. Everything in between.<br />Lucknow, Uttar Pradesh · India
+          3D, design & digital experiences.<br />Lucknow, Uttar Pradesh · India
           · 226012
         </p>
         <div class="footer-links">
-          <a href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a
+          <a href="mailto:hr@kazeyami.com">hr@kazeyami.com</a
           ><a
             href="https://www.linkedin.com/company/kazeyami"
             target="_blank"
             rel="noopener noreferrer"
-            >LinkedIn ↗</a
+            >LinkedIn</a
           >
         </div>
       </div>
       <div class="footer-base">
         <span>© 2026 Kazeyami Innovations Pvt. Ltd.</span
         ><a href="products.html">Products & ventures ↗</a
-        ><button
-          class="studio-theme"
-          type="button"
-          aria-label="Switch to light theme"
-        >
-          Display: dark ◐
-        </button>
+        ><a href="about.html">About the studio</a>
       </div>
     </footer>
   </body>

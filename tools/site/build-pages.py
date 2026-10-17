@@ -17,12 +17,12 @@ NAV = [
 ]
 PAGES = {
     "index": (
-        "Ideas in. Worlds out.",
-        "Kazeyami Innovations is a creative technology studio building 3D worlds, brands and digital experiences.",
-        "",
+        "3D, design & digital experiences",
+        "Kazeyami Innovations is an independent design and technology studio in Lucknow. Explore our architecture, animation, brands and digital work.",
+        '<script src="assets/studio/home-gallery.js" defer></script>',
     ),
     "about": (
-        "Built between art and code",
+        "The studio",
         "Get to know Kazeyami Innovations: our creative disciplines, how we work, and the people connecting art and technology.",
         '<script src="assets/three.min.js" defer></script><script src="assets/logo-scene.js" defer></script>',
     ),
@@ -37,12 +37,12 @@ PAGES = {
         "",
     ),
     "team": (
-        "Meet the makers",
+        "Meet the studio",
         "Seven real people. Seven original anime alter egos. Meet Kazeyami’s artists, developers and studio team.",
         "",
     ),
     "connect": (
-        "Let’s build your next idea",
+        "Contact the studio",
         "Discuss your project with Kazeyami Innovations in Lucknow. Share a brief for 3D, architecture, branding or a digital experience.",
         "",
     ),
@@ -74,26 +74,29 @@ PAGES = {
 }
 
 
+def home_url(url):
+    return {"index.html":"#top","about.html":"#studio","portfolio.html":"#work","services.html":"#services","team.html":"#team","connect.html":"#connect"}.get(url,url)
+
 def header(active):
     desktop = "".join(
-        f'<a href="{url}"' + (' aria-current="page"' if url == active else "") + f">{label}</a>"
+        f'<a href="{home_url(url) if active == "index.html" else url}"' + (' aria-current="page"' if url == active else "") + f">{label}</a>"
         for url, label in NAV[:-1]
     )
     mobile = "".join(
-        f'<a href="{url}"><span>0{i}</span>{label}<b aria-hidden="true">↗</b></a>'
+        f'<a href="{home_url(url) if active == "index.html" else url}">{label}</a>'
         for i, (url, label) in enumerate(NAV, 1)
     )
     return f"""
 <header class="studio-header">
-  <a class="studio-brand" href="index.html" aria-label="Kazeyami Innovations home"><img src="assets/kazeyami-logo-white.png" alt="Kazeyami Innovations" width="2665" height="760"></a>
+  <a class="studio-brand" href="index.html" aria-label="Kazeyami Innovations home"><img src="assets/kazeyami-logo.png" alt="Kazeyami Innovations" width="2665" height="760"></a>
   <nav class="desktop-nav" aria-label="Main navigation">{desktop}</nav>
-  <a class="header-connect" href="connect.html">Let’s connect <span aria-hidden="true">↗</span></a>
-  <button class="studio-menu-toggle" aria-haspopup="dialog" aria-controls="studio-menu" aria-expanded="false" aria-label="Open navigation">Menu <span aria-hidden="true">☰</span></button>
+  <a class="header-connect" href="{home_url("connect.html") if active == "index.html" else "connect.html"}">Let’s connect</a>
+  <button class="studio-menu-toggle" aria-haspopup="dialog" aria-controls="studio-menu" aria-expanded="false" aria-label="Open navigation">Menu</button>
 </header>
 <dialog id="studio-menu" class="studio-menu" aria-labelledby="menu-title">
-  <div class="dialog-bar"><span id="menu-title">EXPLORE KAZEYAMI</span><button data-close-menu aria-label="Close navigation">Close ×</button></div>
+  <div class="dialog-bar"><span id="menu-title">EXPLORE KAZEYAMI</span><button data-close-menu aria-label="Close navigation">Close</button></div>
   <nav aria-label="Mobile navigation">{mobile}</nav>
-  <a class="menu-email" href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a>
+  <a class="menu-email" href="mailto:hr@kazeyami.com">hr@kazeyami.com</a>
 </dialog>"""
 
 
@@ -101,16 +104,16 @@ def footer(compact):
     invitation = (
         ""
         if compact
-        else '<a class="footer-invitation" href="connect.html"><span class="eyebrow">HAVE A PROJECT IN MIND?</span><strong>Let’s make the next thing.</strong><span class="round-arrow" aria-hidden="true">↗</span></a>'
+        else '<a class="footer-invitation" href="connect.html"><span class="eyebrow">HAVE A PROJECT IN MIND?</span><strong>Tell us about your project.</strong></a>'
     )
     return f"""
 <footer class="studio-footer">{invitation}
   <div class="footer-main">
     <a class="footer-wordmark" href="index.html">KAZEYAMI<span>INNOVATIONS</span></a>
-    <p>Art. Code. Everything in between.<br>Lucknow, Uttar Pradesh · India · 226012</p>
-    <div class="footer-links"><a href="mailto:hr@kazeyami.com">hr@kazeyami.com ↗</a><a href="https://www.linkedin.com/company/kazeyami" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div>
+    <p>3D, design & digital experiences.<br>Lucknow, Uttar Pradesh · India · 226012</p>
+    <div class="footer-links"><a href="mailto:hr@kazeyami.com">hr@kazeyami.com</a><a href="https://www.linkedin.com/company/kazeyami" target="_blank" rel="noopener noreferrer">LinkedIn</a></div>
   </div>
-  <div class="footer-base"><span>© 2026 Kazeyami Innovations Pvt. Ltd.</span><a href="products.html">Products & ventures ↗</a><button class="studio-theme" type="button" aria-label="Switch to light theme">Display: dark ◐</button></div>
+  <div class="footer-base"><span>© 2026 Kazeyami Innovations Pvt. Ltd.</span><a href="products.html">Products & ventures ↗</a><a href="about.html">About the studio</a></div>
 </footer>"""
 
 
@@ -129,20 +132,26 @@ def roster():
     return "\n".join(result)
 
 
+def home_cast():
+    team=json.loads((ROOT / "tools/site/team.json").read_text(encoding="utf8"))
+    return "\n".join(f'<a href="team.html?member={p["id"]}" class="home-person"><span class="home-person-image"><img src="assets/studio/{p["id"]}.webp" alt="Anime alter ego for {p["name"]}" width="1122" height="1402" loading="lazy"></span><strong>{p["name"]}</strong><small>{p["role"]}</small></a>' for p in team)
+
+
 for slug, (title, description, scripts) in PAGES.items():
     filename = slug + ".html"
     active = filename if filename in dict(NAV) else "portfolio.html"
-    content = (TEMPLATES / filename).read_text(encoding="utf8").replace("{{ROSTER}}", roster())
+    content = (TEMPLATES / filename).read_text(encoding="utf8").replace("{{ROSTER}}", roster()).replace("{{HOME_CAST}}", home_cast())
     document = f"""<!doctype html>
 <html lang="en" data-studio-version="{RELEASE['version']}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101113">
+<meta name="theme-color" content="#f3f1ec">
 <title>{escape(title)} | Kazeyami Innovations</title>
 <meta name="description" content="{escape(description, quote=True)}">
-<link rel="preload" href="assets/studio/space-grotesk-variable.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="assets/studio/manrope-variable.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="assets/studio/studio.css">
+<link rel="stylesheet" href="assets/studio/gallery.css">
 <script src="assets/studio/enquiry.js" defer></script>
 <script src="assets/studio/studio.js" defer></script>
 {scripts}
