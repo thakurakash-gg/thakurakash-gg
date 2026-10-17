@@ -30,5 +30,15 @@
       "hammer",
       "A charismatic fictional male Unreal artist with windswept silver-blue hair, black jacket with bright lime details, holding a tiny luminous architectural diorama on his palm, broad mischievous smile."
     ]
-  ]
+  ],
+  "savedWebAssets": {
+    "siya": "assets/studio/siya.webp",
+    "pragati": "assets/studio/pragati.webp",
+    "dk": "assets/studio/dk.webp",
+    "deepraj": "assets/studio/deepraj.webp",
+    "shayan": "assets/studio/shayan.webp",
+    "akash": "assets/studio/akash.webp",
+    "hammer": "assets/studio/hammer.webp"
+  },
+  "originalArtwork": "outputs/Studio-Art/Team (alongside outputs/studio/dist)"
 }

@@ -1,0 +1,71 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-17",
+  "assets": [
+    {
+      "url": "assets/studio/akash.webp",
+      "bytes": 150612,
+      "sha256": "331a114d651d935d9f8d7b181475c28d5dcad5a4d6d2b3fd9a55586140326140"
+    },
+    {
+      "url": "assets/studio/deepraj.webp",
+      "bytes": 138932,
+      "sha256": "2dd7838ab95d54d57981f34b00c8be844ddf9d88ae3ab4a49f0586f33d4a7f2f"
+    },
+    {
+      "url": "assets/studio/dk.webp",
+      "bytes": 151014,
+      "sha256": "9fa40558332ca3bc82c0740e2c968e2c2e92a89dc80434565ca05de6dd3a927d"
+    },
+    {
+      "url": "assets/studio/enquiry.js",
+      "bytes": 821,
+      "sha256": "d6d9591c3a9921b388113c251707065a3c329eb19e796c76a6d0ce9f1c5fb3d1"
+    },
+    {
+      "url": "assets/studio/hammer.webp",
+      "bytes": 237384,
+      "sha256": "8812d989d367f231a6c680b4a1827ef3ccf136813dbe4a7a195f955ff70fcd1f"
+    },
+    {
+      "url": "assets/studio/Manrope-OFL.txt",
+      "bytes": 4386,
+      "sha256": "d6a309fcfb963d329a93baf9df66fa5f3c23a4be2b5f67edf24d6cafecde12ac"
+    },
+    {
+      "url": "assets/studio/manrope-variable.ttf",
+      "bytes": 164700,
+      "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6"
+    },
+    {
+      "url": "assets/studio/mario-preview.webp",
+      "bytes": 34554,
+      "sha256": "93a8e1c85894799e986fb2cdeff42f44513a50220e5219600c6e1201f55c0c97"
+    },
+    {
+      "url": "assets/studio/pragati.webp",
+      "bytes": 205964,
+      "sha256": "e825211059d0e68c27b83d73749ed8bb06e411463bd233748a4b093c48dbad20"
+    },
+    {
+      "url": "assets/studio/shayan.webp",
+      "bytes": 179716,
+      "sha256": "d380d3765d44e29b84d4905a21774bceb1fce52018207da153a479222d507d95"
+    },
+    {
+      "url": "assets/studio/siya.webp",
+      "bytes": 163114,
+      "sha256": "9e937ac1ad757ee3860bba95e240f5e7650b3fe90796c27c48b351b1a67eb80e"
+    },
+    {
+      "url": "assets/studio/studio.css",
+      "bytes": 47682,
+      "sha256": "b196609619455ae6655ff85642e4f98dcc14fb40bee2be080ca7169ef0cae279"
+    },
+    {
+      "url": "assets/studio/studio.js",
+      "bytes": 8096,
+      "sha256": "dcd1ce130e2b10613838db9aebb15d517399cd962e5260f302cfc2d3b91ef6b1"
+    }
+  ]
+}

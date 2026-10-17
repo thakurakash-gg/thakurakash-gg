@@ -4,6 +4,37 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  const themeButton = $(".studio-theme");
+  const themeEligible = document.body.matches(".paper, .legacy-page");
+  let night = false;
+  try {
+    night = localStorage.getItem("kazeyami-theme") === "dark";
+  } catch {}
+  function updateTheme() {
+    document.body.classList.toggle("studio-night", night && themeEligible);
+    const brand = $(".studio-brand img");
+    if (brand)
+      brand.src =
+        "assets/" +
+        ((night && themeEligible) || document.body.matches(".cinematic, .ink-page")
+          ? "kazeyami-logo-white.png"
+          : "kazeyami-logo.png");
+    if (themeButton) {
+      themeButton.textContent = night ? "Display: night ◑" : "Display: day ◐";
+      themeButton.setAttribute(
+        "aria-label",
+        night ? "Switch to light theme" : "Switch to dark theme",
+      );
+    }
+  }
+  themeButton?.addEventListener("click", () => {
+    night = !night;
+    try {
+      localStorage.setItem("kazeyami-theme", night ? "dark" : "light");
+    } catch {}
+    updateTheme();
+  });
+  updateTheme();
 
   const menu = $("#studio-menu");
   const menuToggle = $(".studio-menu-toggle");

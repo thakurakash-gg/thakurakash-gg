@@ -128,7 +128,7 @@ body.studio-site {
   display: block;
   width: 100%;
   height: auto;
-  filter: brightness(0);
+  filter: none;
   transition: filter 0.25s;
 }
 .header-note {
@@ -652,7 +652,7 @@ body:has(.artist-dialog[open]) {
 }
 .process-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 45px;
 }
 .process-grid article {
@@ -1087,13 +1087,13 @@ button:hover > .image-arrow {
 .service-list {
   padding-bottom: 65px;
 }
-.service-row {
+.service-list .service-row {
   border-top: 1px solid var(--line);
 }
-.service-row:last-child {
+.service-list .service-row:last-child {
   border-bottom: 1px solid var(--line);
 }
-.service-row summary {
+.service-list .service-row summary {
   display: grid;
   grid-template-columns: 65px 1fr 50px;
   align-items: center;
@@ -1102,14 +1102,14 @@ button:hover > .image-arrow {
   cursor: pointer;
   padding: 32px 0;
 }
-.service-row summary::-webkit-details-marker {
+.service-list .service-row summary::-webkit-details-marker {
   display: none;
 }
 .service-number {
   font-size: 10px;
   color: var(--muted);
 }
-.service-row h2 {
+.service-list .service-row h2 {
   font-size: clamp(24px, 3.5vw, 54px);
   letter-spacing: -0.055em;
   margin: 0;
@@ -1121,7 +1121,7 @@ button:hover > .image-arrow {
   font-weight: 300;
   transition: transform 0.25s;
 }
-.service-row[open] .service-plus {
+.service-list .service-row[open] .service-plus {
   transform: rotate(45deg);
   color: var(--pink);
 }
@@ -1207,7 +1207,7 @@ button:hover > .image-arrow {
 }
 .cast-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 45px 24px;
   align-items: start;
 }
@@ -1730,7 +1730,7 @@ button:hover > .image-arrow {
     align-self: start;
   }
   .cast-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .cast-signoff {
     min-height: 260px;
@@ -2155,7 +2155,7 @@ button:hover > .image-arrow {
   .nexiv-product {
     padding-bottom: 60px;
   }
-  .service-row summary {
+  .service-list .service-row summary {
     grid-template-columns: 25px 1fr 20px;
     gap: 16px;
     padding: 26px 0;
@@ -2163,7 +2163,7 @@ button:hover > .image-arrow {
   .service-number {
     font-size: 8px;
   }
-  .service-row h2 {
+  .service-list .service-row h2 {
     font-size: 25px;
   }
   .service-plus {
@@ -2215,7 +2215,7 @@ button:hover > .image-arrow {
     padding: 10px 14px;
   }
   .cast-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 35px 20px;
   }
   .artist-card:nth-child(2n) {
@@ -2506,4 +2506,117 @@ button:hover > .image-arrow {
   .artist-card:hover {
     transform: none;
   }
+}
+
+/* The previous light/dark preference remains available on editorial pages. */
+.paper.studio-night,
+.legacy-page.studio-night {
+  --paper: #1c1e1a;
+  --ink: #f2f1eb;
+  --muted: #adb1a4;
+  --line: #484c40;
+}
+.studio-night .studio-brand img {
+  filter: none;
+}
+.studio-menu,
+.studio-footer,
+.new-logo-playground {
+  color: #f2f1eb;
+}
+.scene-action {
+  color: #f2f1eb !important;
+}
+.studio-menu .menu-top button {
+  color: #f2f1eb;
+}
+.studio-menu .menu-bottom a {
+  color: #f2f1eb;
+}
+.studio-theme {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: 8px !important;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.cinematic .studio-theme,
+.ink-page .studio-theme {
+  display: none;
+}
+.studio-night .connect-hero {
+  color: #151614;
+}
+.studio-night .connect-hero a,
+.studio-night .connect-hero button {
+  border-color: #151614;
+}
+.studio-night .team-outro {
+  background: #363346;
+}
+.studio-night .ventures-entry,
+.studio-night .cast-signoff {
+  color: #151614;
+}
+.studio-night .artist-image {
+  border-color: #151614;
+  box-shadow: 6px 6px 0 #080908;
+}
+.studio-night .design-types {
+  color: #151614;
+}
+
+.legacy-page .section-wrap h1.detail-title {
+  font-weight: 500;
+  font-size: clamp(40px, 5.5vw, 90px);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+  margin: 0 0 55px;
+}
+.legacy-page .ray-heading h1.detail-title {
+  font-size: clamp(100px, 20vw, 310px);
+  line-height: 0.8;
+  margin: 0;
+  letter-spacing: -0.07em;
+}
+
+@media (max-width: 600px) {
+  .artist-dialog-grid {
+    grid-template-columns: 1fr;
+  }
+  .artist-dialog-image {
+    height: 280px;
+    object-position: center 24%;
+  }
+  .artist-dialog-copy {
+    padding: 28px;
+  }
+  .artist-dialog-copy > button {
+    position: absolute;
+    right: 15px;
+    top: -265px;
+    background: var(--paper);
+    padding: 10px 15px;
+    border-radius: 25px;
+    font-size: 10px;
+  }
+  .artist-dialog-copy h2 {
+    font-size: 34px;
+  }
+  .artist-dialog-note {
+    font-size: 12px;
+  }
+  .cast-signoff {
+    min-width: 0;
+  }
+  .cast-signoff p {
+    font-size: 26px;
+  }
+}
+
+/* Rotated character-card decoration stays inside the page edge. */
+.team-cast {
+  overflow: clip;
 }
