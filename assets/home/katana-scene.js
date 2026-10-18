@@ -832,7 +832,10 @@
   }
   let width = 0,
     height = 0;
-  let restingY = 0,
+  let restingX = 0,
+    restingY = 0,
+    assemblyY = 0,
+    restingWidth = 0,
     logoX = 0,
     logoY = 0,
     logoWidth = 0;
@@ -848,7 +851,25 @@
           Math.tan(T.MathUtils.degToRad(camera.fov / 2)))) *
         9.5,
     );
-    restingY = brand.top - bounds.top - Math.max(36, closedWidth * 0.095);
+    assemblyY = brand.top - bounds.top - Math.max(36, closedWidth * 0.095);
+    restingX = brand.left - bounds.left + brand.width * 0.5;
+    restingWidth = brand.width;
+    const fontSize = parseFloat(getComputedStyle(name).fontSize);
+    // The closed sword follows the wordmark baseline, with room for the guard
+    // and ribbon above the small footer line.
+    const perPixel =
+      (2 * camera.position.z * Math.tan(T.MathUtils.degToRad(camera.fov / 2))) /
+      height;
+    const restingScale = Math.min(1.4, (restingWidth * 0.96 * perPixel) / 9.5);
+    const bottomLimit =
+      meta.getBoundingClientRect().top -
+      bounds.top -
+      8 -
+      (restingScale * 0.7) / perPixel;
+    restingY = Math.min(
+      brand.bottom - bounds.top - fontSize * 0.28,
+      bottomLimit,
+    );
     logoX = logo.left - bounds.left + logo.width * 0.5;
     logoY = logo.bottom - bounds.top + 8;
     logoWidth = logo.width * 0.82;
@@ -902,6 +923,7 @@
         ? intro.pose((now - introStart) / 1000)
         : null;
     const assembling = entrance?.active ?? false;
+    const landing = assembling ? entrance.landing : 1;
     if (assembling) draw = entrance.draw;
     else {
       // Reverse the flight first, then slide the blade into its restored scabbard.
@@ -947,17 +969,25 @@
     const gripEndY = extraction.y + 2.97 * Math.sin(extraction.angle);
     const chord = Math.atan2(gripEndY - tipY, gripEndX - tipX);
     const roll =
-      0.1 * (1 - lift) - chord * lift + (assembling ? entrance.kick : 0);
+      T.MathUtils.lerp(0.1, 0.18, landing) * (1 - lift) -
+      chord * lift +
+      (assembling ? entrance.kick : 0);
     model.rotation.set(
       (1 - lift) * (0.08 + (reduced.matches ? 0 : pointerY * 0.025)),
-      (1 - lift) * (-0.24 + (reduced.matches ? 0 : pointerX * 0.04)),
+      (1 - lift) *
+        (-0.24 * (1 - landing) + (reduced.matches ? 0 : pointerX * 0.04)),
       roll,
     );
     const viewHeight =
       2 * camera.position.z * Math.tan(T.MathUtils.degToRad(camera.fov / 2));
     const worldPerPixel = viewHeight / height;
     const viewWidth = worldPerPixel * width;
-    const closedScale = Math.min(1.25, (viewWidth * 0.74) / 9.5);
+    const assemblyScale = Math.min(1.25, (viewWidth * 0.74) / 9.5);
+    const restingScale = Math.min(
+      1.4,
+      (restingWidth * 0.96 * worldPerPixel) / 9.5,
+    );
+    const closedScale = T.MathUtils.lerp(assemblyScale, restingScale, landing);
     const drawnScale = Math.min(0.95, (viewWidth * 0.82) / 16);
     const startScale = T.MathUtils.lerp(closedScale, drawnScale, draw);
     const endScale = (logoWidth * worldPerPixel) / 9.2;
@@ -973,8 +1003,14 @@
     const centerY = T.MathUtils.lerp(0.48, bladeCenterY, lift);
     const rotatedX = centerX * Math.cos(roll) - centerY * Math.sin(roll);
     const rotatedY = centerX * Math.sin(roll) + centerY * Math.cos(roll);
-    const anchorX = T.MathUtils.lerp(width * 0.5, logoX, lift);
-    const anchorY = T.MathUtils.lerp(restingY, logoY, lift);
+    const restingAnchorX = T.MathUtils.lerp(width * 0.5, restingX, landing);
+    const restingAnchorY = T.MathUtils.lerp(assemblyY, restingY, landing);
+    const anchorX = T.MathUtils.lerp(
+      T.MathUtils.lerp(restingAnchorX, width * 0.5, draw),
+      logoX,
+      lift,
+    );
+    const anchorY = T.MathUtils.lerp(restingAnchorY, logoY, lift);
     model.position.set(
       (anchorX - width * 0.5) * worldPerPixel - rotatedX * scale,
       (height * 0.5 - anchorY) * worldPerPixel - rotatedY * scale,
@@ -999,7 +1035,9 @@
       sparkMaterial.opacity = Math.sin(docking.sheath * Math.PI) * 0.8;
     }
     stage.dataset.katanaPose = assembling
-      ? "assembling"
+      ? landing > 0
+        ? "landing"
+        : "assembling"
       : lift >= 0.999
         ? "docked"
         : lift > 0

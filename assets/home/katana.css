@@ -654,10 +654,10 @@ body.menu-open .katana-stage.is-docked {
 /* The 3D model is the only loading view. Show a matching still only if WebGL fails. */
 .katana-fallback {
   position: absolute;
-  width: 74%;
+  width: 70%;
   height: auto;
-  left: 13%;
-  bottom: calc(3.9% + 15.44vw + 18px);
+  left: 2.2%;
+  bottom: max(30px, 4%);
   top: auto;
   object-fit: contain;
   max-height: 160px;
@@ -672,7 +672,7 @@ body.menu-open .katana-stage.is-docked {
 }
 @media (max-width: 540px) {
   .katana-fallback {
-    bottom: calc(9% + 16vw + 12px);
+    bottom: max(48px, 6%);
     max-height: 65px;
   }
 }

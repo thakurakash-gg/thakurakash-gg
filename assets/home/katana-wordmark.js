@@ -7,7 +7,7 @@ window.KazeyamiKatanaWordmark = function (T, scene, camera, stage, name) {
     toneMapped: false,
   });
   const art = new T.Mesh(new T.PlaneGeometry(1, 1), material);
-  art.position.z = -0.4;
+  art.position.z = -3;
   art.renderOrder = -1;
   scene.add(art);
   let bounds;

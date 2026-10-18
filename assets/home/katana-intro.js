@@ -3,7 +3,7 @@
   if (typeof module === "object" && module.exports) module.exports = factory();
   else root.KazeyamiKatanaIntro = factory();
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
-  const duration = 0.94;
+  const duration = 1.48;
   const clamp = (x) => Math.max(0, Math.min(1, x));
   function pose(seconds) {
     const time = Math.max(0, seconds);
@@ -17,6 +17,7 @@
         steelRoll: 0,
         sheathRoll: 0,
         kick: 0,
+        landing: 1,
       };
     const assembly = clamp(time / 0.26);
     const join = 1 - Math.pow(1 - assembly, 4);
@@ -24,6 +25,11 @@
     const impact = Math.max(0, time - 0.72);
     return {
       active: true,
+      // Close first; then settle along the lower edge of the large wordmark.
+      landing: (() => {
+        const t = clamp((time - 0.82) / 0.58);
+        return t * t * (3 - 2 * t);
+      })(),
       draw: 1 - Math.pow(insertion, 2.6),
       hiltX: -18 * (1 - join),
       steelX: 16 * (1 - join),
