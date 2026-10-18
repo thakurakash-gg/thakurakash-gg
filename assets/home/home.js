@@ -6,7 +6,7 @@
   function update() {
     queued = false;
     const range = document.documentElement.scrollHeight - innerHeight;
-    document.body.classList.toggle('header-scrolled', scrollY > innerHeight);
+    document.body.classList.toggle("header-scrolled", scrollY > innerHeight);
     percent.textContent =
       Math.round(range > 0 ? (scrollY / range) * 100 : 0) + "%";
   }
@@ -22,21 +22,29 @@
   );
   new ResizeObserver(update).observe(document.body);
   update();
-  const openingVideo = document.querySelector('#opening-work-video');
-  const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  const openingVideo = document.querySelector("#opening-work-video");
+  const preference = matchMedia("(prefers-reduced-motion: reduce)");
   let openingVisible = false;
   function syncOpeningVideo() {
-    if (openingVisible && !document.hidden && !preference.matches && !navigator.connection?.saveData) {
+    if (
+      openingVisible &&
+      !document.hidden &&
+      !preference.matches &&
+      !navigator.connection?.saveData
+    ) {
       openingVideo.muted = true;
       openingVideo.play().catch(() => {});
     } else openingVideo.pause();
   }
-  new IntersectionObserver(entries => {
-    openingVisible = entries[0].isIntersecting;
-    syncOpeningVideo();
-  }, { threshold: .05 }).observe(openingVideo);
-  document.addEventListener('visibilitychange', syncOpeningVideo);
-  preference.addEventListener('change', syncOpeningVideo);
+  new IntersectionObserver(
+    (entries) => {
+      openingVisible = entries[0].isIntersecting;
+      syncOpeningVideo();
+    },
+    { threshold: 0.05 },
+  ).observe(openingVideo);
+  document.addEventListener("visibilitychange", syncOpeningVideo);
+  preference.addEventListener("change", syncOpeningVideo);
   const video = document.querySelector("#hero-video");
   const videoButton = document.querySelector(".video-toggle");
   const motion = matchMedia("(prefers-reduced-motion: reduce)");

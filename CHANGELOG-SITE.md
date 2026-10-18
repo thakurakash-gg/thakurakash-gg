@@ -1,5 +1,15 @@
 # Website changelog
 
+## 4.2.0 — 2026-10-18
+
+- Use the existing studio film behind the home katana and keep the studio link at the lower right.
+- Repair katana click, drag and scroll intent; add raised woven grip straps, a continuous gold guard rim and a beveled blade collar.
+- Add a lightweight pixel cursor trail on home for fine pointers, with reduced-motion support.
+- Make the process section full width and FAQ hover/focus text readable.
+- Use a render of the actual full-detail RAY Blender scene at dawn for NEXIV. Preserve native controls and omit the map in the thumbnail only. Keep restrained exposure and no contrast filter.
+- Refresh marketing asset versions; check preserved direction content, mesh geometry, input behavior and responsive layouts.
+
+
 ## 4.1.0 — 2026-10-18
 
 - Present NEXIV as Kazeyami’s architecture branch and RAY as its interactive

@@ -144,16 +144,31 @@
     clearcoat: 1,
     clearcoatRoughness: 0.16,
   });
-  const clothMap = mapFrom(256, 128, (ctx,w,h) => {
-    ctx.fillStyle='#c9c4b9';ctx.fillRect(0,0,w,h);
-    for(let i=0;i<256;i+=2) {
-      ctx.strokeStyle=i%4?'#e1dcd2':'#b5b0a5';ctx.lineWidth=.6;
-      ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+28,h);ctx.stroke();
+  const clothMap = mapFrom(256, 128, (ctx, w, h) => {
+    ctx.fillStyle = "#c9c4b9";
+    ctx.fillRect(0, 0, w, h);
+    for (let i = 0; i < 256; i += 2) {
+      ctx.strokeStyle = i % 4 ? "#e1dcd2" : "#b5b0a5";
+      ctx.lineWidth = 0.6;
+      ctx.beginPath();
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i + 28, h);
+      ctx.stroke();
     }
-    for(let y=0;y<h;y+=3) {ctx.strokeStyle='#ede7dc30';ctx.fillStyle='#756f6424';ctx.fillRect(0,y,w,.5);}
+    for (let y = 0; y < h; y += 3) {
+      ctx.strokeStyle = "#ede7dc30";
+      ctx.fillStyle = "#756f6424";
+      ctx.fillRect(0, y, w, 0.5);
+    }
   });
-  clothMap.wrapS=clothMap.wrapT=T.RepeatWrapping;
-  const cloth=new T.MeshStandardMaterial({map:clothMap,bumpMap:clothMap,bumpScale:.0016,roughness:.86,color:0xe0dacd});
+  clothMap.wrapS = clothMap.wrapT = T.RepeatWrapping;
+  const cloth = new T.MeshStandardMaterial({
+    map: clothMap,
+    bumpMap: clothMap,
+    bumpScale: 0.0025,
+    roughness: 0.92,
+    color: 0xb0a99c,
+  });
   const skinMap = mapFrom(256, 128, (ctx, w, h) => {
     ctx.fillStyle = "#1b1c19";
     ctx.fillRect(0, 0, w, h);
@@ -241,97 +256,223 @@
     return m;
   };
   // Beveled bronze fittings catch studio highlights on real curved surfaces.
-  const goldGrain=mapFrom(256,128,(ctx,w,h)=>{
-    ctx.fillStyle='#bfbfbf';ctx.fillRect(0,0,w,h);
-    for(let i=0;i<2800;i++){ctx.fillStyle=random()>.5?'#c5c5c5':'#b5b5b5';ctx.fillRect(random()*w,random()*h,1+random()*12,.5);}
+  const goldGrain = mapFrom(256, 128, (ctx, w, h) => {
+    ctx.fillStyle = "#bfbfbf";
+    ctx.fillRect(0, 0, w, h);
+    for (let i = 0; i < 2800; i++) {
+      ctx.fillStyle = random() > 0.5 ? "#c5c5c5" : "#b5b5b5";
+      ctx.fillRect(random() * w, random() * h, 1 + random() * 12, 0.5);
+    }
   });
-  goldGrain.wrapS=goldGrain.wrapT=T.RepeatWrapping;
-  gold.color.setHex(0xb89455);gold.metalness=1;gold.roughness=.27;gold.envMapIntensity=1.4;
-  gold.bumpMap=goldGrain;gold.bumpScale=.0007;
-  const roundedRect=(w,h,r)=>{
-    const shape=new T.Shape();const x=-w/2,y=-h/2;
-    shape.moveTo(x+r,y);shape.lineTo(x+w-r,y);shape.quadraticCurveTo(x+w,y,x+w,y+r);
-    shape.lineTo(x+w,y+h-r);shape.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-    shape.lineTo(x+r,y+h);shape.quadraticCurveTo(x,y+h,x,y+h-r);
-    shape.lineTo(x,y+r);shape.quadraticCurveTo(x,y,x+r,y);return shape;
+  goldGrain.wrapS = goldGrain.wrapT = T.RepeatWrapping;
+  gold.color.setHex(0xb89455);
+  gold.metalness = 1;
+  gold.roughness = 0.27;
+  gold.envMapIntensity = 1.4;
+  gold.bumpMap = goldGrain;
+  gold.bumpScale = 0.0007;
+  const roundedRect = (w, h, r) => {
+    const shape = new T.Shape();
+    const x = -w / 2,
+      y = -h / 2;
+    shape.moveTo(x + r, y);
+    shape.lineTo(x + w - r, y);
+    shape.quadraticCurveTo(x + w, y, x + w, y + r);
+    shape.lineTo(x + w, y + h - r);
+    shape.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    shape.lineTo(x + r, y + h);
+    shape.quadraticCurveTo(x, y + h, x, y + h - r);
+    shape.lineTo(x, y + r);
+    shape.quadraticCurveTo(x, y, x + r, y);
+    return shape;
   };
-  function extrudedFitting(shape,depth,bevel){
-    const g=new T.ExtrudeGeometry(shape,{depth,bevelEnabled:true,bevelThickness:bevel,bevelSize:bevel,bevelSegments:3,curveSegments:32,steps:1});
-    g.translate(0,0,-depth/2);g.rotateY(Math.PI/2);return g;
+  function extrudedFitting(shape, depth, bevel, steps = 1) {
+    const g = new T.ExtrudeGeometry(shape, {
+      depth,
+      bevelEnabled: true,
+      bevelThickness: bevel,
+      bevelSize: bevel,
+      bevelSegments: 3,
+      curveSegments: 32,
+      steps,
+    });
+    g.translate(0, 0, -depth / 2);
+    g.rotateY(Math.PI / 2);
+    return g;
   }
-  const collar=roundedRect(.19,.47,.022);
-  const collarHole=roundedRect(.106,.413,.009);collar.holes.push(new T.Path(collarHole.getPoints(16).reverse()));
-  mesh(extrudedFitting(collar,.32,.006),gold,blade,.08);
-  const guardShape=new T.Shape();guardShape.absellipse(0,0,.36,.468,0,Math.PI*2,false);
-  mesh(extrudedFitting(guardShape,.085,.009),dark,blade,.34);
-  const rimShape=new T.Shape();rimShape.absellipse(0,0,.383,.491,0,Math.PI*2,false);
-  const rimHole=new T.Path();rimHole.absellipse(0,0,.353,.461,0,Math.PI*2,true);rimShape.holes.push(rimHole);
+  const collar = roundedRect(0.19, 0.47, 0.022);
+  const collarHole = roundedRect(0.106, 0.413, 0.009);
+  collar.holes.push(new T.Path(collarHole.getPoints(16).reverse()));
+  const collarGeometry = extrudedFitting(collar, 0.32, 0.009, 12);
+  const collarPositions = collarGeometry.attributes.position;
+  for (let i = 0; i < collarPositions.count; i++) {
+    const x = collarPositions.getX(i);
+    collarPositions.setZ(
+      i,
+      collarPositions.getZ(i) * (1 + 0.12 * Math.cos((x / 0.32) * Math.PI)),
+    );
+  }
+  collarGeometry.computeVertexNormals();
+  mesh(collarGeometry, gold, blade, 0.08);
+  const guardShape = new T.Shape();
+  guardShape.absellipse(0, 0, 0.36, 0.468, 0, Math.PI * 2, false);
+  mesh(extrudedFitting(guardShape, 0.085, 0.009), dark, blade, 0.34);
+  const rimShape = new T.Shape();
+  rimShape.absellipse(0, 0, 0.383, 0.491, 0, Math.PI * 2, false);
+  const rimHole = new T.Path();
+  rimHole.absellipse(0, 0, 0.353, 0.461, 0, Math.PI * 2, true);
+  rimShape.holes.push(rimHole);
   // A complete annular metal band surrounds the plate; it is never buried in it.
-  mesh(extrudedFitting(rimShape,.112,.004),gold,blade,.34);
-  for(let i=0;i<10;i++){
-    const a=i/10*Math.PI*2;
-    const engraving=mesh(new T.TorusGeometry(.024,.006,6,12),gold,blade,.396,Math.cos(a)*.35,Math.sin(a)*.265);
-    engraving.rotation.y=Math.PI/2;
+  mesh(extrudedFitting(rimShape, 0.112, 0.004), gold, blade, 0.34);
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2;
+    const engraving = mesh(
+      new T.TorusGeometry(0.024, 0.006, 6, 12),
+      gold,
+      blade,
+      0.396,
+      Math.cos(a) * 0.35,
+      Math.sin(a) * 0.265,
+    );
+    engraving.rotation.y = Math.PI / 2;
   }
   const grip = cylinder(0.21, 2.5, skin, blade, 1.68);
   grip.scale.z = 0.82;
   cylinder(0.23, 0.14, dark, blade, 0.49).scale.z = 0.82;
   cylinder(0.23, 0.14, gold, blade, 2.97).scale.z = 0.82;
   // Rounded silk straps alternate above and below each crossing.
-  function braid(handedness){
-    const positions=[],uvs=[],indices=[];
-    const steps=400,turns=10;
-    const profile=[[-.064,-.004],[-.061,-.008],[.061,-.008],[.064,-.004],[.064,.004],[.061,.008],[-.061,.008],[-.064,.004]];
-    for(let i=0;i<=steps;i++){
-      const t=i/steps,a=t*turns*Math.PI*2*handedness;
-      const lift=.015+.007*Math.cos(t*turns*Math.PI*2)*handedness;
-      const normal=new T.Vector3(0,Math.cos(a),Math.sin(a)).normalize();
-      const tangent=new T.Vector3(2.36,-(.212+lift)*Math.sin(a)*turns*Math.PI*2*handedness,(.177+lift)*Math.cos(a)*turns*Math.PI*2*handedness).normalize();
-      const across=new T.Vector3().crossVectors(tangent,normal).normalize();
-      const center=new T.Vector3(.53+t*2.36,Math.cos(a)*(.212+lift),Math.sin(a)*(.177+lift));
-      for(let j=0;j<profile.length;j++){
-        const p=center.clone().addScaledVector(across,profile[j][0]).addScaledVector(normal,profile[j][1]);
-        positions.push(p.x,p.y,p.z);uvs.push(t*12,j/8);
-        if(i<steps){const n=i*8+j,k=i*8+(j+1)%8;indices.push(n,k,n+8,k,k+8,n+8);}
+  function braid(handedness) {
+    const positions = [],
+      uvs = [],
+      indices = [];
+    const steps = 400,
+      turns = 8;
+    const profile = [
+      [-0.046, -0.004],
+      [-0.043, -0.008],
+      [0.043, -0.008],
+      [0.046, -0.004],
+      [0.046, 0.004],
+      [0.043, 0.008],
+      [-0.043, 0.008],
+      [-0.046, 0.004],
+    ];
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps,
+        a = t * turns * Math.PI * 2 * handedness;
+      const lift =
+        0.015 + 0.007 * Math.cos(t * turns * Math.PI * 2) * handedness;
+      const normal = new T.Vector3(0, Math.cos(a), Math.sin(a)).normalize();
+      const tangent = new T.Vector3(
+        2.36,
+        -(0.212 + lift) * Math.sin(a) * turns * Math.PI * 2 * handedness,
+        (0.177 + lift) * Math.cos(a) * turns * Math.PI * 2 * handedness,
+      ).normalize();
+      const across = new T.Vector3().crossVectors(tangent, normal).normalize();
+      const center = new T.Vector3(
+        0.53 + t * 2.36,
+        Math.cos(a) * (0.212 + lift),
+        Math.sin(a) * (0.177 + lift),
+      );
+      for (let j = 0; j < profile.length; j++) {
+        const p = center
+          .clone()
+          .addScaledVector(across, profile[j][0])
+          .addScaledVector(normal, profile[j][1]);
+        positions.push(p.x, p.y, p.z);
+        uvs.push(t * 3, j / 8);
+        if (i < steps) {
+          const n = i * 8 + j,
+            k = i * 8 + ((j + 1) % 8);
+          indices.push(n, k, n + 8, k, k + 8, n + 8);
+        }
       }
     }
-    for(let j=1;j<7;j++){indices.push(0,j+1,j);const n=steps*8;indices.push(n,n+j,n+j+1);}
-    const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setAttribute('uv',new T.Float32BufferAttribute(uvs,2));g.setIndex(indices);g.computeVertexNormals();
-    const m=cloth.clone();m.side=T.DoubleSide;mesh(g,m,blade);
+    for (let j = 1; j < 7; j++) {
+      indices.push(0, j + 1, j);
+      const n = steps * 8;
+      indices.push(n, n + j, n + j + 1);
+    }
+    const g = new T.BufferGeometry();
+    g.setAttribute("position", new T.Float32BufferAttribute(positions, 3));
+    g.setAttribute("uv", new T.Float32BufferAttribute(uvs, 2));
+    g.setIndex(indices);
+    g.computeVertexNormals();
+    const m = cloth.clone();
+    m.side = T.DoubleSide;
+    mesh(g, m, blade);
   }
-  braid(1);braid(-1);
-  for(let i=0;i<3;i++)mesh(new T.SphereGeometry(.028,10,8),gold,blade,1.1+i*.55,0,.185);
-  const drawButton = document.querySelector('#draw-blade');
+  braid(1);
+  braid(-1);
+  for (let i = 0; i < 3; i++)
+    mesh(
+      new T.SphereGeometry(0.028, 10, 8),
+      gold,
+      blade,
+      1.1 + i * 0.55,
+      0,
+      0.185,
+    );
+  const drawButton = document.querySelector("#draw-blade");
   const interaction = createInteraction();
-  let draw = 0, progress = 0, pointerX = 0, pointerY = 0, inView = true, frame = 0, last = 0;
+  let draw = 0,
+    progress = 0,
+    pointerX = 0,
+    pointerY = 0,
+    inView = true,
+    frame = 0,
+    last = 0;
   function syncDrawButton() {
-    const open = interaction.target() >= .5;
-    drawButton.setAttribute('aria-pressed', String(open));
-    drawButton.querySelector('span').textContent = open ? 'Sheathe the blade' : 'Draw the blade';
-    drawButton.title = open ? 'Sheathe the blade' : 'Draw the blade';
+    const open = interaction.target() >= 0.5;
+    drawButton.setAttribute("aria-pressed", String(open));
+    drawButton.querySelector("span").textContent = open
+      ? "Sheathe the blade"
+      : "Draw the blade";
+    drawButton.title = open ? "Sheathe the blade" : "Draw the blade";
   }
-  drawButton.addEventListener('click', () => { interaction.toggle(); syncDrawButton(); requestRender(); });
-  stage.addEventListener('pointerdown', e => {
+  drawButton.addEventListener("click", () => {
+    interaction.toggle();
+    syncDrawButton();
+    requestRender();
+  });
+  stage.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
-    interaction.down({ id: e.pointerId, x: e.clientX, y: e.clientY, type: e.pointerType, draw });
+    interaction.down({
+      id: e.pointerId,
+      x: e.clientX,
+      y: e.clientY,
+      type: e.pointerType,
+      draw,
+    });
   });
-  stage.addEventListener('pointermove', e => {
-    const dragging = interaction.move({ id:e.pointerId, x:e.clientX, y:e.clientY, width:stage.clientWidth });
-    if (dragging && !stage.hasPointerCapture(e.pointerId)) stage.setPointerCapture(e.pointerId);
-    const rect=stage.getBoundingClientRect();
-    pointerX=((e.clientX-rect.left)/rect.width-.5)*2;
-    pointerY=((e.clientY-rect.top)/rect.height-.5)*2;
-    syncDrawButton(); requestRender();
+  stage.addEventListener("pointermove", (e) => {
+    const dragging = interaction.move({
+      id: e.pointerId,
+      x: e.clientX,
+      y: e.clientY,
+      width: stage.clientWidth,
+    });
+    if (dragging && !stage.hasPointerCapture(e.pointerId))
+      stage.setPointerCapture(e.pointerId);
+    const rect = stage.getBoundingClientRect();
+    pointerX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    pointerY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    syncDrawButton();
+    requestRender();
   });
-  stage.addEventListener('pointerup', e => {
-    interaction.up({ id:e.pointerId, x:e.clientX, y:e.clientY });
-    if (stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId);
-    syncDrawButton(); requestRender();
+  stage.addEventListener("pointerup", (e) => {
+    interaction.up({ id: e.pointerId, x: e.clientX, y: e.clientY });
+    if (stage.hasPointerCapture(e.pointerId))
+      stage.releasePointerCapture(e.pointerId);
+    syncDrawButton();
+    requestRender();
   });
-  stage.addEventListener('pointercancel', () => interaction.cancel());
-  stage.addEventListener('pointerleave', e => {
+  stage.addEventListener("pointercancel", () => interaction.cancel());
+  stage.addEventListener("pointerleave", (e) => {
     if (!stage.hasPointerCapture(e.pointerId)) interaction.cancel();
-    pointerX=0;pointerY=0;requestRender();
+    pointerX = 0;
+    pointerY = 0;
+    requestRender();
   });
   const copy = document.querySelector(".opening-copy"),
     name = document.querySelector(".opening-name"),

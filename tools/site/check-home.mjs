@@ -14,7 +14,7 @@ assert.equal(
   "0d1c8e332b3798bcdada7545147c5814d782a895b7c4680b8d1f9bc627647a70",
   "Direction layout and approved NEXIV identity must remain unchanged",
 );
-assert(html.includes('data-studio-version="4.1.0"'));
+assert(html.includes('data-studio-version="4.2.0"'));
 for (const asset of [...html.matchAll(/(?:src|href|poster)="([^"#]+)"/g)].map(
   (m) => m[1],
 )) {
@@ -30,11 +30,13 @@ for (const asset of [
   "assets/site.js",
   "assets/home/katana-scene.js",
   "assets/home/home.js",
+  "assets/home/katana-interaction.js",
+  "assets/home/pixel-cursor.js",
   "assets/home/katana.css",
   "assets/home/katana-geometry.js",
   "assets/home/contact-background.js",
 ]) {
-  assert(html.includes(`${asset}?v=4.1.0`), `Unversioned runtime: ${asset}`);
+  assert(html.includes(`${asset}?v=4.2.0`), `Unversioned runtime: ${asset}`);
 }
 console.log(
   "Homepage: preserved section, local assets, routes and versioned runtime verified.",
@@ -49,3 +51,17 @@ assert(
   html.includes('id="contact-logo-background"'),
   "Contact background present",
 );
+
+for (const id of [
+  "studio",
+  "process",
+  "faq",
+  "contact",
+  "opening-work-video",
+  "draw-blade",
+])
+  assert(html.includes(`id="${id}"`), `Missing home section/control: ${id}`);
+assert(!html.includes('class="branch-art"'), "Tree backdrop removed");
+assert(html.includes('class="work-peek"'), "Studio link retained");
+const nexiv = await readFile(path.join(root, "nexiv.html"), "utf8");
+assert(nexiv.includes("ray-platform-dawn.webp?v=4.2.0"));

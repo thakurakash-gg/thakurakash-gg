@@ -208,10 +208,6 @@
   color: #bdbaba;
 }
 
-
-
-
-
 .opening-name {
   position: absolute;
   left: 2.2%;
@@ -491,7 +487,6 @@
   .opening-credit {
     margin-left: 310px;
   }
-  
 }
 @media (max-width: 850px) {
   .opening-copy {
@@ -509,8 +504,7 @@
     font-size: 8px;
     max-width: 200px;
   }
-  
-  
+
   .blade-controls {
     top: 90px;
   }
@@ -555,9 +549,7 @@
     bottom: 9%;
     font-size: 20vw;
   }
-  
-  
-  
+
   .blade-controls {
     top: 91px;
     flex-direction: row;
@@ -616,16 +608,87 @@
 }
 
 /* The studio work film sits behind the interactive sculpture. */
-.opening-film { position:absolute;inset:0;z-index:0;pointer-events:none;background:#101113; }
-.opening-film video { width:100%;height:100%;object-fit:cover;opacity:.65; }
-.opening-film:after { content:'';position:absolute;inset:0;background:linear-gradient(90deg,#090a0cd9,#090a0c70 65%,#090a0c66),linear-gradient(0deg,#090a0cc0,transparent 45%); }
-.work-peek { position:absolute;right:6%;bottom:24%;left:auto;top:auto;z-index:4;display:inline-flex;align-items:center;gap:22px;width:auto;color:#e9e6e2;font-size:13px;border-bottom:1px solid #ffffff60;padding-bottom:10px; }
-.work-peek span { font-size:20px; }
-.work-peek:hover { border-color:white; }
+.opening-film {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: #101113;
+}
+.opening-film video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.65;
+}
+.opening-film:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #090a0cd9, #090a0c70 65%, #090a0c66),
+    linear-gradient(0deg, #090a0cc0, transparent 45%);
+}
+.work-peek {
+  position: absolute;
+  right: 6%;
+  bottom: 24%;
+  left: auto;
+  top: auto;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  width: auto;
+  color: #e9e6e2;
+  font-size: 13px;
+  border-bottom: 1px solid #ffffff60;
+  padding-bottom: 10px;
+}
+.work-peek span {
+  font-size: 20px;
+}
+.work-peek:hover {
+  border-color: white;
+}
 /* Full-bleed section surfaces, with the reading width kept inside. */
-.katana-site #process { width:100%;max-width:none;margin:0;padding-left:6%;padding-right:6%;border:0; }
-.katana-site #faq { border-top:0; }
-.katana-site #faq summary:hover,.katana-site #faq summary:focus-visible { color:#ffe0ab;background:#ac77451c;border-color:#bda77d66;box-shadow:none;backdrop-filter:none; }
-.katana-site #faq summary:focus-visible { outline:2px solid #dfc39a;outline-offset:-3px; }
-.home-pixel-cursor { position:fixed;inset:0;z-index:60;pointer-events:none;width:100%;height:100%;mix-blend-mode:screen; }
-@media(max-width:540px) { .work-peek { right:6%;bottom:23%;font-size:11px;gap:15px; } }
+.katana-site #process {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-left: 6%;
+  padding-right: 6%;
+  border: 0;
+}
+.katana-site #faq {
+  border-top: 0;
+}
+.katana-site #faq summary:hover,
+.katana-site #faq summary:focus-visible {
+  color: #ffe0ab;
+  background: #ac77451c;
+  border-color: #bda77d66;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.katana-site #faq summary:focus-visible {
+  outline: 2px solid #dfc39a;
+  outline-offset: -3px;
+}
+.home-pixel-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: screen;
+}
+@media (max-width: 540px) {
+  .work-peek {
+    right: 6%;
+    bottom: 23%;
+    font-size: 11px;
+    gap: 15px;
+  }
+}

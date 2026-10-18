@@ -35,7 +35,7 @@
   transition:
     transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1),
     filter 0.8s;
-  filter: brightness(0.84);
+  filter: none;
 }
 .ray-platform-launch:before {
   content: "";
@@ -43,7 +43,12 @@
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(180deg, rgba(4, 14, 18, 0.93), rgba(4, 14, 18, 0.55) 19%, transparent 40%),
+    linear-gradient(
+      180deg,
+      rgba(4, 14, 18, 0.55),
+      rgba(4, 14, 18, 0.22) 19%,
+      transparent 40%
+    ),
     linear-gradient(90deg, transparent 62%, rgba(4, 14, 18, 0.24)),
     linear-gradient(0deg, rgba(4, 14, 18, 0.3), transparent 24%);
   pointer-events: none;
@@ -128,7 +133,7 @@
 }
 .ray-platform-launch:hover .ray-platform-image img {
   transform: scale(1.012);
-  filter: brightness(0.94);
+  filter: none;
 }
 .ray-platform-launch:hover .ray-platform-button {
   background: #fff;
