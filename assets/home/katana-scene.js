@@ -12,6 +12,8 @@
     return;
   }
   const T = window.THREE;
+  const G = window.KazeyamiKatanaGeometry;
+  if (!G) { fallback(); return; }
   const opening = document.querySelector("#opening");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const canvas = stage.querySelector("canvas");
@@ -179,112 +181,35 @@
     parent.add(m);
     return m;
   };
-  const curveY = (x) => 0.022 * x * x;
-  // Continuous lofted blade and scabbard: curved silhouette, beveled cutting edge.
-  function loft(start, end, height, depth, material, parent, tip = false) {
-    const positions = [],
-      uvs = [],
-      indices = [];
-    const segments = 90,
-      sides = 8;
-    for (let i = 0; i <= segments; i++) {
-      const t = i / segments,
-        x = start + (end - start) * t;
-      const taper = tip ? Math.min(1, t * 20 + 0.015) : 0.84 + t * 0.16;
-      for (let j = 0; j < sides; j++) {
-        const angle = (j / sides) * Math.PI * 2;
-        positions.push(
-          x,
-          curveY(x) + Math.sin(angle) * height * taper,
-          Math.cos(angle) * depth * taper,
-        );
-        uvs.push(t, j / (sides - 1));
-      }
-    }
-    for (let i = 0; i < segments; i++)
-      for (let j = 0; j < sides; j++) {
-        const a = i * sides + j,
-          b = i * sides + ((j + 1) % sides),
-          c = a + sides,
-          d = b + sides;
-        indices.push(a, c, b, b, c, d);
-      }
-    // Both end caps are closed; no open model seams during the reveal.
-    for (let j = 1; j < sides - 1; j++) {
-      indices.push(0, j + 1, j);
-      const o = segments * sides;
-      indices.push(o, o + j, o + j + 1);
-    }
-    const g = new T.BufferGeometry();
-    g.setAttribute("position", new T.Float32BufferAttribute(positions, 3));
-    g.setAttribute("uv", new T.Float32BufferAttribute(uvs, 2));
-    g.setIndex(indices);
-    g.computeVertexNormals();
-    return mesh(g, material, parent);
-  }
-  loft(-6.2, 0.05, 0.205, 0.045, metal, blade, true);
-  // A separate narrow polished bevel catches the light along the cutting edge.
-  const bevelPoints = [];
-  for (let i = 0; i < 75; i++) {
-    const x = -6.13 + (i / 74) * 6.16;
-    bevelPoints.push(
-      new T.Vector3(x, curveY(x) - 0.19 * Math.min(1, (x + 6.2) * 3), 0.005),
-    );
-  }
-  mesh(
-    new T.TubeGeometry(
-      new T.CatmullRomCurve3(bevelPoints),
-      80,
-      0.012,
-      4,
-      false,
-    ),
-    edge,
-    blade,
-  );
-  // Temper line is painted into a blade-only map, with no animated shader overhead.
   const hamon = mapFrom(1024, 128, (ctx, w, h) => {
-    ctx.fillStyle = "#adb5bd";
-    ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = "#eef1ed";
-    ctx.lineWidth = 14;
-    ctx.beginPath();
+    ctx.fillStyle = '#adb5bd'; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = '#eef1ed'; ctx.lineWidth = 10; ctx.beginPath();
     for (let x = 0; x <= w; x += 2) {
-      const y = 91 + Math.sin(x * 0.037) * 3 + Math.sin(x * 0.013) * 5;
+      const y = 31 + Math.sin(x * 0.037) * 3 + Math.sin(x * 0.013) * 4;
       x ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
     }
-    ctx.stroke();
-    ctx.fillStyle = "#53606b";
-    ctx.font = "24px serif";
-    ctx.fillText("Ã©Â¢Â¨  Ã¥â€¦â€°", 810, 60);
+    ctx.stroke(); ctx.fillStyle = '#53606b'; ctx.font = '24px serif';
+    ctx.fillText('\u98a8  \u5149', 810, 85);
   });
-  const bladeFace = new T.MeshStandardMaterial({
-    map: hamon,
-    metalness: 0.87,
-    roughness: 0.27,
-  });
-  const strip = new T.Shape();
-  strip.moveTo(-6.17, curveY(-6.17));
-  for (let i = 1; i <= 80; i++) {
-    const x = -6.17 + (i / 80) * 6.2;
-    strip.lineTo(x, curveY(x) + 0.16);
+  const bladeFace = new T.MeshStandardMaterial({ map: hamon, metalness: 0.87, roughness: 0.27 });
+  function fromData(data) {
+    const geometry = new T.BufferGeometry();
+    geometry.setAttribute('position', new T.Float32BufferAttribute(data.positions, 3));
+    geometry.setAttribute('uv', new T.Float32BufferAttribute(data.uvs, 2));
+    geometry.setIndex(data.indices);
+    data.groups.forEach(group => geometry.addGroup(group.start, group.count, group.materialIndex));
+    geometry.computeVertexNormals();
+    return geometry;
   }
-  for (let i = 80; i >= 1; i--) {
-    const x = -6.17 + (i / 80) * 6.2;
-    strip.lineTo(x, curveY(x) - 0.17);
+  // One closed blade, including the kissaki: no overlapping face or bevel strips.
+  mesh(fromData(G.bladeData()), [metal, bladeFace, edge], blade);
+  mesh(fromData(G.sheathData()), [lacquer, dark], sheath);
+  const mouthPoints = [];
+  for (let i = 0; i <= 48; i++) {
+    const a = i / 48 * Math.PI * 2;
+    mouthPoints.push(new T.Vector3(...G.point(G.mouth, Math.cos(a) * 0.281, Math.sin(a) * 0.142)));
   }
-  strip.closePath();
-  const faceGeo = new T.ShapeGeometry(strip, 80);
-  const uv = faceGeo.attributes.uv,
-    pos = faceGeo.attributes.position;
-  for (let i = 0; i < uv.count; i++)
-    uv.setXY(
-      i,
-      (pos.getX(i) + 6.2) / 6.25,
-      (pos.getY(i) - curveY(pos.getX(i)) + 0.205) / 0.41,
-    );
-  mesh(faceGeo, bladeFace, blade, 0, 0, 0.043);
-  loft(-6.4, -0.18, 0.29, 0.15, lacquer, sheath);
+  mesh(new T.TubeGeometry(new T.CatmullRomCurve3(mouthPoints, true), 48, 0.015, 6, true), dark, sheath);
   const cylinder = (radius, depth, mat, parent, x, y = 0) => {
     const m = mesh(
       new T.CylinderGeometry(radius, radius, depth, 48),
@@ -296,10 +221,6 @@
     m.rotation.z = Math.PI / 2;
     return m;
   };
-  const mouth = cylinder(0.295, 0.1, dark, sheath, -0.16);
-  mouth.scale.z = 0.58;
-  const cap = cylinder(0.25, 0.12, dark, sheath, -6.4, curveY(-6.4));
-  cap.scale.z = 0.58;
   // Gold habaki and a pierced, scalloped tsuba with an original radial ornament.
   mesh(new T.BoxGeometry(0.35, 0.43, 0.19), gold, blade, 0.08);
   const guard = cylinder(0.49, 0.115, dark, blade, 0.34);
@@ -370,38 +291,28 @@
       0.18,
     );
   const drawButton = document.querySelector("#draw-blade");
-  const pauseButton = document.querySelector("#motion-toggle");
-  let userDraw = 0,
+  let userDraw = null,
     draw = 0,
     progress = 0,
-    frozenProgress = 0,
     pointerX = 0,
     pointerY = 0,
-    paused = false,
     inView = true,
     frame = 0,
     last = 0;
   let down = null,
     dragAmount = 0;
   drawButton.addEventListener("click", () => {
-    userDraw = userDraw ? 0 : 1;
+    userDraw = draw > 0.5 ? 0 : 1;
     drawButton.setAttribute("aria-pressed", String(!!userDraw));
     drawButton.querySelector("span").textContent = userDraw
       ? "Sheathe the blade"
       : "Draw the blade";
     requestRender();
   });
-  pauseButton.addEventListener("click", () => {
-    paused = !paused;
-    frozenProgress = progress;
-    pauseButton.textContent = paused ? "Resume motion" : "Pause motion";
-    pauseButton.setAttribute("aria-pressed", String(paused));
-    requestRender();
-  });
   stage.addEventListener("pointerdown", (e) => {
     if (e.pointerType === "mouse") {
       down = e.clientX;
-      dragAmount = userDraw;
+      dragAmount = draw;
       stage.setPointerCapture(e.pointerId);
     }
   });
@@ -482,21 +393,25 @@
     if (!inView || document.hidden) return;
     const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
     last = now;
-    const poseProgress = paused ? frozenProgress : progress;
-    const target = Math.max(userDraw, clamp(poseProgress * 2.2, 0, 1));
+    const poseProgress = progress;
+    const target = userDraw ?? clamp(poseProgress * 2.2, 0, 1);
     draw += (target - draw) * (reduced.matches ? 1 : 1 - Math.exp(-dt * 6));
     const mobile = width < 600;
     model.rotation.set(
-      0.12 + (paused || reduced.matches ? 0 : pointerY * 0.06),
-      -0.42 + (paused || reduced.matches ? 0 : pointerX * 0.11),
-      0.48 - poseProgress * 0.5,
+      0.12 + (reduced.matches ? 0 : pointerY * 0.06),
+      -0.42 + (reduced.matches ? 0 : pointerX * 0.11),
+      0.48 - poseProgress * 0.5 - draw * 0.2,
     );
-    const scale = mobile ? 0.86 : 1.6;
+    const scale = mobile ? 0.86 - draw * 0.32 : 1.6 - draw * 0.64;
     model.scale.setScalar(scale * (1 - poseProgress * 0.29));
-    model.position.set(mobile ? 1.0 : 2.7, 0.12 + poseProgress * 1.9, 0);
-    blade.position.x = draw * 1.1;
-    sheath.position.x = -draw * 3.5;
-    sheath.position.y = -draw * 0.16;
+    model.position.set(mobile ? 1.0 - draw * 1.3 : 2.7 - draw * 3.4, 0.12 + poseProgress * 1.9, 0);
+    const extraction = G.pose(draw);
+    blade.rotation.z = extraction.angle;
+    blade.position.set(extraction.x, extraction.y, 0);
+    // The scabbard stays fixed. Circular extraction keeps every concealed blade
+    // section on the cavity spine, so it exits the mouth rather than the side.
+    drawButton.setAttribute('aria-pressed', String(draw > 0.5));
+    drawButton.querySelector('span').textContent = draw > 0.5 ? 'Sheathe the blade' : 'Draw the blade';
     renderer.render(scene, camera);
     stage.classList.add("is-ready");
     // No idle animation loop: render only while moving toward an interaction target.
