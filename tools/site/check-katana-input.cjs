@@ -33,3 +33,27 @@ assert.equal(input.target(), 1, "A deliberate drag extracts the blade");
 console.log(
   "Katana: rapid toggles, incidental movement, scroll recovery, touch tap/pan and drag pass.",
 );
+
+input.down({ id: 5, x: 50, y: 100, type: "touch", draw: 0 });
+assert(
+  input.move({ id: 5, x: 155, y: 103, width: 390 }),
+  "Horizontal touch captures a draw",
+);
+assert(input.isDragging());
+input.up({ id: 5, x: 155, y: 103 });
+assert.equal(
+  input.target(),
+  1,
+  "A released horizontal swipe completes the draw",
+);
+assert.equal(input.isDragging(), false);
+input.toggle();
+input.down({ id: 6, x: 50, y: 100, type: "touch", draw: 0 });
+input.move({ id: 6, x: 52, y: 130, width: 390 });
+assert.equal(
+  input.move({ id: 6, x: 150, y: 145, width: 390 }),
+  false,
+  "A vertical gesture stays a page scroll",
+);
+input.up({ id: 6, x: 150, y: 145 });
+assert.equal(input.target(), 0);

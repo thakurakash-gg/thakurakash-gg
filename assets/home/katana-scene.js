@@ -19,6 +19,18 @@
     return;
   }
   const opening = document.querySelector("#opening");
+  const stageHome = stage.parentElement,
+    stageSibling = stage.nextSibling;
+  let launched = false;
+  function dockCanvas(docked) {
+    if (stage.classList.contains("is-docked") === docked) return;
+    stage.classList.toggle("is-docked", docked);
+    if (docked) stage.setAttribute("aria-hidden", "true");
+    else stage.removeAttribute("aria-hidden");
+    if (docked) document.body.append(stage);
+    else stageHome.insertBefore(stage, stageSibling);
+    measureAnchors();
+  }
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const canvas = stage.querySelector("canvas");
   let renderer;
@@ -475,6 +487,59 @@
   scabbardBand(-0.34, 0.18);
   scabbardBand(-6.29, 0.28);
   scabbardBand(-4.85, 0.075);
+  // Clone only the finishes on disappearing parts: the blade keeps its metal finish.
+  function dissolvingPart(group) {
+    const amount = { value: 0 },
+      copies = new Map();
+    group.traverse((object) => {
+      if (!object.isMesh) return;
+      const copy = (source) => {
+        if (copies.has(source)) return copies.get(source);
+        const material = source.clone();
+        material.onBeforeCompile = (shader) => {
+          shader.uniforms.uEvaporate = amount;
+          shader.fragmentShader =
+            "uniform float uEvaporate;\n" + shader.fragmentShader;
+          shader.fragmentShader = shader.fragmentShader.replace(
+            "#include <alphatest_fragment>",
+            `
+            #include <alphatest_fragment>
+            float grain = fract(sin(dot(floor(gl_FragCoord.xy / 1.6), vec2(12.9898, 78.233))) * 43758.5453);
+            if (uEvaporate >= 1.0 || grain < uEvaporate) discard;
+          `,
+          );
+        };
+        material.customProgramCacheKey = () => "kazeyami-evaporation-1";
+        copies.set(source, material);
+        return material;
+      };
+      object.material = Array.isArray(object.material)
+        ? object.material.map(copy)
+        : copy(object.material);
+    });
+    return amount;
+  }
+  const hiltDissolve = dissolvingPart(hilt),
+    sheathDissolve = dissolvingPart(sheath);
+  const flight = window.KazeyamiKatanaFlight();
+  const sparkPositions = new Float32Array(24 * 3);
+  const sparkGeometry = new T.BufferGeometry();
+  sparkGeometry.setAttribute(
+    "position",
+    new T.BufferAttribute(sparkPositions, 3),
+  );
+  const sparkMaterial = new T.PointsMaterial({
+    color: 0xf4d597,
+    size: 1.8,
+    sizeAttenuation: false,
+    transparent: true,
+    opacity: 0,
+    depthWrite: false,
+    blending: T.AdditiveBlending,
+  });
+  const sparks = new T.Points(sparkGeometry, sparkMaterial);
+  sparks.frustumCulled = false;
+  scene.add(sparks);
   const drawButton = document.querySelector("#draw-blade");
   const interaction = createInteraction();
   const intro = window.KazeyamiKatanaIntro;
@@ -549,7 +614,8 @@
     peek = document.querySelector(".work-peek"),
     meta = document.querySelector(".opening-meta"),
     reveal = document.querySelector(".reveal-copy"),
-    prompt = document.querySelector(".scroll-prompt");
+    prompt = document.querySelector(".scroll-prompt"),
+    wordmark = document.querySelector("header .wordmark");
   const clamp = T.MathUtils.clamp;
   function scroll() {
     progress = reduced.matches
@@ -561,8 +627,9 @@
           1,
         );
     if (progress > 0.015) skipIntro();
-    interaction.scroll(progress);
+    if (!launched) interaction.scroll(progress);
     syncDrawButton();
+    measureAnchors();
     const fade = clamp(1 - progress * 3, 0, 1),
       appear = clamp((progress - 0.34) * 3, 0, 1);
     for (const el of [copy, name, peek, meta]) {
@@ -578,6 +645,19 @@
   }
   let width = 0,
     height = 0;
+  let restingY = 0,
+    logoX = 0,
+    logoY = 0,
+    logoWidth = 0;
+  function measureAnchors() {
+    const bounds = stage.getBoundingClientRect();
+    const brand = name.getBoundingClientRect(),
+      logo = wordmark.getBoundingClientRect();
+    restingY = brand.top - bounds.top - Math.max(36, height * 0.055);
+    logoX = logo.left - bounds.left + logo.width * 0.5;
+    logoY = logo.bottom - bounds.top + 8;
+    logoWidth = logo.width * 0.82;
+  }
   const pixelTrail = window.KazeyamiPixelTrail?.(
     T,
     renderer,
@@ -594,12 +674,13 @@
     pixelTrail?.resize();
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+    measureAnchors();
     requestRender();
   }
   function requestRender() {
     if (
       !frame &&
-      inView &&
+      (inView || launched) &&
       !document.hidden &&
       !document.body.classList.contains("menu-open")
     )
@@ -607,10 +688,9 @@
   }
   function render(now) {
     frame = 0;
-    if (!inView || document.hidden) return;
+    if ((!inView && !launched) || document.hidden) return;
     const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
     last = now;
-    const poseProgress = progress;
     const target = interaction.target();
     if (introStart === null) introStart = now;
     const entrance =
@@ -631,32 +711,90 @@
     steel.rotation.z = assembling ? entrance.steelRoll : 0;
     sheath.rotation.z = assembling ? entrance.sheathRoll : 0;
     stage.classList.toggle("is-assembling", assembling);
-    const mobile = width < 600;
-    model.rotation.set(
-      0.12 + (reduced.matches ? 0 : pointerY * 0.06),
-      -0.42 + (reduced.matches ? 0 : pointerX * 0.11),
-      0.48 - poseProgress * 0.5 - draw * 0.2 + (assembling ? entrance.kick : 0),
-    );
-    const viewWidth =
-      2 *
-      camera.position.z *
-      Math.tan(T.MathUtils.degToRad(camera.fov / 2)) *
-      camera.aspect;
-    const initialScale = mobile ? 0.86 : 1.6;
-    const extractedScale = Math.min(
-      0.96,
-      (viewWidth / (mobile ? 10 : 16)) * 0.88,
-    );
-    const scale = T.MathUtils.lerp(initialScale, extractedScale, draw);
-    model.scale.setScalar(scale * (1 - poseProgress * 0.29));
-    model.position.set(
-      mobile ? 1.0 - draw * 2.4 : 2.7 - draw * 3.4,
-      0.12 + poseProgress * 1.9,
-      0,
-    );
+    const docking = flight.update(dt, {
+      draw,
+      target,
+      dragging: interaction.isDragging(),
+      assembling,
+      reduced: reduced.matches,
+    });
+    const lift = docking.progress;
+    if (target < 0.5) launched = false;
+    else if (lift > 0) launched = true;
+    dockCanvas(lift >= 0.999);
     const extraction = G.pose(draw);
     blade.rotation.z = extraction.angle;
     blade.position.set(extraction.x, extraction.y, 0);
+    // A drawn curved blade is levelled by its chord as it becomes the header accent.
+    const start = G.point(-6.2);
+    const tipX =
+      extraction.x +
+      start[0] * Math.cos(extraction.angle) -
+      start[1] * Math.sin(extraction.angle);
+    const tipY =
+      extraction.y +
+      start[0] * Math.sin(extraction.angle) +
+      start[1] * Math.cos(extraction.angle);
+    const chord = Math.atan2(extraction.y - tipY, extraction.x - tipX);
+    const roll = -chord * lift + (assembling ? entrance.kick : 0);
+    model.rotation.set(
+      (1 - lift) * (0.08 + (reduced.matches ? 0 : pointerY * 0.025)),
+      (1 - lift) * (-0.12 + (reduced.matches ? 0 : pointerX * 0.04)),
+      roll,
+    );
+    const viewHeight =
+      2 * camera.position.z * Math.tan(T.MathUtils.degToRad(camera.fov / 2));
+    const worldPerPixel = viewHeight / height;
+    const viewWidth = worldPerPixel * width;
+    const closedScale = Math.min(1.25, (viewWidth * 0.74) / 9.5);
+    const drawnScale = Math.min(0.95, (viewWidth * 0.82) / 16);
+    const startScale = T.MathUtils.lerp(closedScale, drawnScale, draw);
+    const endScale = (logoWidth * worldPerPixel) / 6.2;
+    const scale = startScale * Math.pow(endScale / startScale, lift);
+    model.scale.setScalar(scale);
+    const bladeCenterX = (tipX + extraction.x) * 0.5;
+    const bladeCenterY = (tipY + extraction.y) * 0.5;
+    const centerX = T.MathUtils.lerp(
+      T.MathUtils.lerp(-1.72, 1.45, draw),
+      bladeCenterX,
+      lift,
+    );
+    const centerY = T.MathUtils.lerp(0.48, bladeCenterY, lift);
+    const rotatedX = centerX * Math.cos(roll) - centerY * Math.sin(roll);
+    const rotatedY = centerX * Math.sin(roll) + centerY * Math.cos(roll);
+    const anchorX = T.MathUtils.lerp(width * 0.5, logoX, lift);
+    const anchorY = T.MathUtils.lerp(restingY, logoY, lift);
+    model.position.set(
+      (anchorX - width * 0.5) * worldPerPixel - rotatedX * scale,
+      (height * 0.5 - anchorY) * worldPerPixel - rotatedY * scale,
+      0,
+    );
+    hiltDissolve.value = assembling ? 0 : docking.hilt;
+    sheathDissolve.value = assembling ? 0 : docking.sheath;
+    hilt.visible = hiltDissolve.value < 1;
+    sheath.visible = sheathDissolve.value < 1;
+    // A single tiny point batch carries the last gold flecks upward from the grip.
+    sparks.visible = docking.hilt > 0 && docking.hilt < 1;
+    if (sparks.visible) {
+      model.updateMatrixWorld(true);
+      const origin = hilt.localToWorld(new T.Vector3(1.25, 0, 0));
+      for (let i = 0; i < 24; i++) {
+        const age = (docking.hilt + i / 24) % 1;
+        sparkPositions[i * 3] =
+          origin.x + Math.sin(i * 2.4) * age * scale * 1.7;
+        sparkPositions[i * 3 + 1] = origin.y + age * scale * 3;
+        sparkPositions[i * 3 + 2] = origin.z + 0.2;
+      }
+      sparkGeometry.attributes.position.needsUpdate = true;
+      sparkMaterial.opacity = Math.sin(docking.hilt * Math.PI) * 0.8;
+    }
+    stage.dataset.katanaPose = assembling
+      ? "assembling"
+      : lift >= 0.999
+        ? "docked"
+        : lift > 0
+          ? "lifting"
+          : "resting";
     // The scabbard stays fixed. Circular extraction keeps every concealed blade
     // section on the cavity spine, so it exits the mouth rather than the side.
     const pixelsMoving = pixelTrail
@@ -664,13 +802,18 @@
       : (renderer.render(scene, camera), false);
     stage.classList.add("is-ready");
     // No idle animation loop: render only while moving toward an interaction target.
-    if (assembling || Math.abs(target - draw) > 0.001 || pixelsMoving)
+    if (
+      assembling ||
+      docking.moving ||
+      Math.abs(target - draw) > 0.001 ||
+      pixelsMoving
+    )
       requestRender();
   }
   const observer = new IntersectionObserver(
     (entries) => {
       inView = entries[0].isIntersecting;
-      if (inView) {
+      if (inView || launched) {
         last = 0;
         requestRender();
       } else {

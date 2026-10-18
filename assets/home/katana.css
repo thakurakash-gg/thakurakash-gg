@@ -698,3 +698,35 @@
 .katana-stage.is-assembling canvas {
   transition: opacity 0.12s;
 }
+
+/* Keep the video open; the katana rests just above the large studio name. */
+.katana-fallback {
+  width: 78%;
+  height: auto;
+  left: 11%;
+  top: auto;
+  bottom: 21%;
+  transform: rotate(-25deg);
+  max-height: 130px;
+}
+@media (max-width: 540px) {
+  .work-peek {
+    bottom: 31%;
+  }
+  .katana-fallback {
+    bottom: 19%;
+    max-height: 65px;
+  }
+}
+
+.katana-stage.is-docked {
+  position: fixed;
+  inset: 0;
+  z-index: 19;
+  height: 100svh;
+  pointer-events: none;
+  cursor: auto;
+}
+body.menu-open .katana-stage.is-docked {
+  visibility: hidden;
+}

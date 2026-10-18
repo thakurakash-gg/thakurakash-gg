@@ -21,6 +21,7 @@
     return {
       target,
       toggle,
+      isDragging: () => Boolean(pointer?.dragging),
       scroll(value) {
         progress = clamp(value);
         if (manual !== null && Math.abs(progress - origin) > 0.025)
@@ -33,8 +34,16 @@
         if (!pointer || id !== pointer.id) return false;
         pointer.lastX = x;
         pointer.lastY = y;
-        const dx = x - pointer.x;
-        if (pointer.type !== "touch" && Math.abs(dx) > 6)
+        const dx = x - pointer.x,
+          dy = y - pointer.y;
+        // Lock touch input to its first deliberate axis, preserving page scrolling.
+        if (!pointer.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 8)
+          pointer.axis =
+            Math.abs(dx) > Math.abs(dy) * 1.2 ? "horizontal" : "vertical";
+        if (
+          (pointer.type !== "touch" && Math.abs(dx) > 6) ||
+          pointer.axis === "horizontal"
+        )
           pointer.dragging = true;
         if (pointer.dragging) setManual(pointer.draw + (dx / width) * 2);
         return pointer.dragging;
@@ -43,6 +52,7 @@
         if (!pointer || id !== pointer.id) return;
         if (!pointer.dragging && Math.hypot(x - pointer.x, y - pointer.y) < 8)
           toggle();
+        if (pointer.dragging) setManual(target() >= 0.35 ? 1 : 0);
         pointer = null;
       },
       cancel() {
