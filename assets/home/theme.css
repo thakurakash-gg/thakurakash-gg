@@ -79,7 +79,7 @@ html[data-theme="light"] .portfolio-content {
 .overlay {
   isolation: isolate;
   overflow: hidden;
-  background: #101214;
+  background: #0c0c10;
   color: #f1e9dd !important;
 }
 .overlay nav,
@@ -106,9 +106,7 @@ html[data-theme="light"] .portfolio-content {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse at 100% 75%, #6c6155 0, transparent 62%),
-    linear-gradient(135deg, #151719, #0e1012);
+  background: #0c0c10;
 }
 .menu-world canvas {
   width: 100%;
@@ -119,22 +117,36 @@ html[data-theme="light"] .portfolio-content {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(90deg, #101214eb, #101214a8 46%, #10121414),
-    linear-gradient(0deg, #101214a6, transparent 22%);
+  background: linear-gradient(90deg, #0c0c10a8, #0c0c1070);
 }
 body.menu-open .menu-toggle span,
 .katana-site.menu-open .menu-toggle span {
   background: #f1e9dd !important;
 }
 @media (max-width: 850px) {
-  .overlay {
-    width: min(420px, 92vw);
+  .overlay,
+  .katana-site .overlay {
+    width: min(300px, 76vw);
+    padding: 100px 22px 28px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-left: 1px solid #ffffff1c;
+    box-shadow: -20px 0 70px #0005;
   }
-  .menu-world:after {
-    background:
-      linear-gradient(90deg, #101214e0, #10121470 55%, #10121414),
-      linear-gradient(0deg, #101214b8, transparent 22%);
+  .overlay nav {
+    gap: 12px;
+  }
+  .overlay a,
+  .katana-site .overlay a {
+    font-size: clamp(22px, 5.8vw, 30px);
+    line-height: 1.2;
+  }
+  .overlay > p {
+    max-width: 210px;
+    line-height: 1.8;
+  }
+  .menu-world {
+    position: fixed;
   }
 }
 
@@ -175,4 +187,8 @@ html[data-theme="light"]
   .katana-site.over-dark-section.header-scrolled
   header:before {
   background: #101113ed;
+}
+
+html[data-theme="light"] body.menu-open .menu-toggle span {
+  background: #f1e9dd !important;
 }
