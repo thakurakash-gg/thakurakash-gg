@@ -21,6 +21,7 @@
     return {
       target,
       toggle,
+      setTarget: setManual,
       isDragging: () => Boolean(pointer?.dragging),
       scroll(value) {
         progress = clamp(value);

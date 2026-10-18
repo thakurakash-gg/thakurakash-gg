@@ -730,3 +730,10 @@
 body.menu-open .katana-stage.is-docked {
   visibility: hidden;
 }
+
+.opening-name.is-webgl-wordmark {
+  color: transparent;
+}
+.katana-stage.has-wordmark canvas {
+  transition: none;
+}

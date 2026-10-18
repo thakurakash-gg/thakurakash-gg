@@ -31,14 +31,14 @@ assert.equal(
 );
 const half = step(flight, {}, 63);
 assert(half.progress > 0.49 && half.progress < 0.51);
-assert(half.sheath > half.hilt, "Scabbard dissolves before the handle");
+assert(half.sheath > 0 && half.hilt === 0, "Only the cover dissolves");
 const end = step(flight, {}, 65);
 assert.equal(end.progress, 1);
-assert.equal(end.hilt, 1);
+assert.equal(end.hilt, 0, "Handle stays attached");
 assert.equal(end.sheath, 1);
 assert.equal(end.moving, false, "Docked scene has no idle animation loop");
 assert.equal(
-  step(flight, { target: 0, draw: 0 }, 65).progress,
+  step(flight, { target: 0, draw: 1 }, 128).progress,
   0,
   "Sheathing restores the starting pose",
 );
@@ -58,3 +58,12 @@ assert.equal(
   0,
   "Reduced motion also skips the return flight",
 );
+
+const reverse = create();
+step(reverse, {}, 128);
+const halfwayBack = step(reverse, { target: 0 }, 63);
+assert(
+  Math.abs(halfwayBack.progress - half.progress) < 1e-8,
+  "Return follows the same 2.1-second path in reverse",
+);
+assert.equal(halfwayBack.hilt, 0);

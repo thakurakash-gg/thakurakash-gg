@@ -13,6 +13,7 @@
   }
   const T = window.THREE;
   const G = window.KazeyamiKatanaGeometry;
+  const finish = window.KazeyamiKatanaFinish;
   const createInteraction = window.KazeyamiKatanaInteraction;
   if (!G || !createInteraction) {
     fallback();
@@ -21,7 +22,9 @@
   const opening = document.querySelector("#opening");
   const stageHome = stage.parentElement,
     stageSibling = stage.nextSibling;
-  let launched = false;
+  let launched = false,
+    returning = false,
+    lastScrollY = scrollY;
   function dockCanvas(docked) {
     if (stage.classList.contains("is-docked") === docked) return;
     stage.classList.toggle("is-docked", docked);
@@ -126,52 +129,11 @@
     metalness: 0.5,
     roughness: 0.37,
   });
-  function paintLacquer(ctx, w, h, mask = false) {
-    ctx.fillStyle = mask ? "#252525" : "#141719";
-    ctx.fillRect(0, 0, w, h);
-    if (!mask) {
-      for (let i = 0; i < 7000; i++) {
-        const x = (i * 83.17) % w,
-          y = (i * 47.31) % h;
-        ctx.fillStyle = i % 2 ? "#1c2021" : "#101415";
-        ctx.fillRect(x, y, 1, 0.5);
-      }
-    }
-    // Original gold-leaf botanical scrollwork on the lacquer, with a matching
-    // metal mask so the inlay catches the same light as the forged fittings.
-    for (let strand = 0; strand < 3; strand++) {
-      ctx.strokeStyle = mask
-        ? "#fff"
-        : ["#a78543", "#c5a35d", "#90723a"][strand];
-      ctx.lineWidth = strand === 1 ? 1.8 : 1.1;
-      ctx.beginPath();
-      for (let x = 40; x <= w - 45; x += 3) {
-        const y =
-          h * 0.5 + Math.sin(x * 0.012 + strand * 0.9) * 53 + (strand - 1) * 20;
-        x === 40 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-      }
-      ctx.stroke();
-      for (let x = 75 + strand * 19; x < w - 65; x += 43) {
-        const y =
-          h * 0.5 + Math.sin(x * 0.012 + strand * 0.9) * 53 + (strand - 1) * 20;
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(Math.cos(x * 0.012 + strand * 0.9) * 0.7);
-        ctx.fillStyle = mask ? "#fff" : "#bea062";
-        for (const side of [-1, 1]) {
-          ctx.beginPath();
-          ctx.moveTo(0, 0);
-          ctx.quadraticCurveTo(3, side * 14, 15, side * 14);
-          ctx.quadraticCurveTo(13, side * 3, 0, 0);
-          ctx.fill();
-        }
-        ctx.restore();
-      }
-    }
-  }
-  const lacquerMap = mapFrom(2048, 512, (ctx, w, h) => paintLacquer(ctx, w, h));
+  const lacquerMap = mapFrom(2048, 512, (ctx, w, h) =>
+    finish.lacquer(ctx, w, h),
+  );
   const inlayMask = mapFrom(2048, 512, (ctx, w, h) =>
-    paintLacquer(ctx, w, h, true),
+    finish.lacquer(ctx, w, h, true),
   );
   inlayMask.encoding = T.LinearEncoding;
   const lacquer = new T.MeshPhysicalMaterial({
@@ -179,23 +141,25 @@
     metalnessMap: inlayMask,
     metalness: 0.95,
     bumpMap: inlayMask,
-    bumpScale: 0.0009,
-    roughness: 0.31,
-    clearcoat: 0.8,
-    clearcoatRoughness: 0.18,
+    bumpScale: 0.003,
+    roughness: 0.24,
+    clearcoat: 1,
+    clearcoatRoughness: 0.13,
   });
-  const skinMap = mapFrom(256, 128, (ctx, w, h) => {
-    ctx.fillStyle = "#1b1c19";
-    ctx.fillRect(0, 0, w, h);
-    for (let y = 0; y < h; y += 8)
-      for (let x = 0; x < w; x += 8) {
-        ctx.fillStyle = "#53544b";
-        ctx.beginPath();
-        ctx.arc(x + (y % 16 ? 4 : 0), y, 2.1, 0, Math.PI * 2);
-        ctx.fill();
-      }
+  const skinMap = mapFrom(512, 256, finish.rayskin);
+  const skin = new T.MeshStandardMaterial({
+    map: skinMap,
+    bumpMap: skinMap,
+    bumpScale: 0.002,
+    roughness: 0.82,
   });
-  const skin = new T.MeshStandardMaterial({ map: skinMap, roughness: 0.9 });
+  const clothMap = mapFrom(256, 128, finish.cloth);
+  const cloth = new T.MeshStandardMaterial({
+    map: clothMap,
+    bumpMap: clothMap,
+    bumpScale: 0.003,
+    roughness: 0.94,
+  });
   const mesh = (geometry, material, parent, x = 0, y = 0, z = 0) => {
     const m = new T.Mesh(geometry, material);
     m.position.set(x, y, z);
@@ -328,10 +292,54 @@
     );
   }
   collarGeometry.computeVertexNormals();
-  mesh(collarGeometry, gold, steel, 0.08);
+  const habakiMap = mapFrom(256, 256, (ctx, w, h) => {
+    ctx.fillStyle = "#b49a58";
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = "#44351d";
+    ctx.lineWidth = 5;
+    for (let x = -h; x < w + h; x += 36)
+      for (const direction of [-1, 1]) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x + h * direction, h);
+        ctx.stroke();
+      }
+    ctx.strokeStyle = "#d3b672";
+    ctx.lineWidth = 14;
+    ctx.strokeRect(10, 10, w - 20, h - 20);
+  });
+  const collarUV = collarGeometry.attributes.uv;
+  for (let i = 0; i < collarPositions.count; i++)
+    collarUV.setXY(
+      i,
+      collarPositions.getX(i) / 0.34 + 0.5,
+      collarPositions.getY(i) / 0.49 + 0.5,
+    );
+  const habaki = gold.clone();
+  habaki.color.setHex(0xffffff);
+  habaki.map = habakiMap;
+  habaki.bumpMap = habakiMap;
+  habaki.bumpScale = 0.001;
+  mesh(collarGeometry, habaki, steel, 0.08);
   const guardShape = new T.Shape();
   guardShape.absellipse(0, 0, 0.36, 0.468, 0, Math.PI * 2, false);
-  mesh(extrudedFitting(guardShape, 0.085, 0.009), dark, hilt, 0.34);
+  const guardGeometry = extrudedFitting(guardShape, 0.085, 0.009);
+  const guardPositions = guardGeometry.attributes.position,
+    guardUV = guardGeometry.attributes.uv;
+  for (let i = 0; i < guardPositions.count; i++)
+    guardUV.setXY(
+      i,
+      0.5 - guardPositions.getZ(i) / 0.75,
+      0.5 + guardPositions.getY(i) / 0.96,
+    );
+  const guardMetal = new T.MeshStandardMaterial({
+    map: mapFrom(512, 512, finish.guard),
+    bumpMap: mapFrom(512, 512, (ctx, w, h) => finish.guard(ctx, w, h, true)),
+    bumpScale: 0.008,
+    metalness: 0.88,
+    roughness: 0.39,
+  });
+  mesh(guardGeometry, guardMetal, hilt, 0.34);
   const rimShape = new T.Shape();
   rimShape.absellipse(0, 0, 0.383, 0.491, 0, Math.PI * 2, false);
   const rimHole = new T.Path();
@@ -339,44 +347,34 @@
   rimShape.holes.push(rimHole);
   // A complete annular metal band surrounds the plate; it is never buried in it.
   mesh(extrudedFitting(rimShape, 0.112, 0.004), gold, hilt, 0.34);
-  for (let i = 0; i < 10; i++) {
-    const a = (i / 10) * Math.PI * 2;
-    const engraving = mesh(
-      new T.TorusGeometry(0.024, 0.006, 6, 12),
-      gold,
-      hilt,
-      0.396,
-      Math.cos(a) * 0.35,
-      Math.sin(a) * 0.265,
-    );
-    engraving.rotation.y = Math.PI / 2;
-  }
   const grip = cylinder(0.21, 2.5, skin, hilt, 1.68);
   grip.scale.z = 0.82;
   cylinder(0.23, 0.14, gold, hilt, 0.49).scale.z = 0.82;
-  cylinder(0.23, 0.14, gold, hilt, 2.97).scale.z = 0.82;
-  // Rounded gilded straps alternate above and below each crossing.
+  cylinder(0.23, 0.14, dark, hilt, 2.97).scale.z = 0.82;
+  cylinder(0.232, 0.025, gold, hilt, 2.9).scale.z = 0.82;
+  // Black cotton straps cross over ivory rayskin, leaving narrow diamond openings.
   function braid(handedness) {
     const positions = [],
       uvs = [],
       indices = [];
     const steps = 400,
-      turns = 8;
+      turns = 11;
     const profile = [
-      [-0.046, -0.004],
-      [-0.043, -0.008],
-      [0.043, -0.008],
-      [0.046, -0.004],
-      [0.046, 0.004],
-      [0.043, 0.008],
-      [-0.043, 0.008],
-      [-0.046, 0.004],
+      [-0.07, -0.004],
+      [-0.067, -0.008],
+      [0.067, -0.008],
+      [0.07, -0.004],
+      [0.07, 0.004],
+      [0.067, 0.008],
+      [-0.067, 0.008],
+      [-0.07, 0.004],
     ];
     for (let i = 0; i <= steps; i++) {
       const t = i / steps,
-        a = t * turns * Math.PI * 2 * handedness;
+        a =
+          t * turns * Math.PI * 2 * handedness + (handedness < 0 ? Math.PI : 0);
       const lift =
-        0.015 + 0.007 * Math.cos(t * turns * Math.PI * 2) * handedness;
+        0.017 + 0.011 * Math.sin(t * turns * Math.PI * 2) * handedness;
       const normal = new T.Vector3(0, Math.cos(a), Math.sin(a)).normalize();
       const tangent = new T.Vector3(
         2.36,
@@ -413,8 +411,7 @@
     g.setAttribute("uv", new T.Float32BufferAttribute(uvs, 2));
     g.setIndex(indices);
     g.computeVertexNormals();
-    const m = gold.clone();
-    m.roughness = 0.34;
+    const m = cloth.clone();
     m.side = T.DoubleSide;
     mesh(g, m, hilt);
   }
@@ -484,9 +481,98 @@
     bandMaterial.side = T.DoubleSide;
     mesh(geometry, bandMaterial, sheath);
   }
-  scabbardBand(-0.34, 0.18);
-  scabbardBand(-6.29, 0.28);
-  scabbardBand(-4.85, 0.075);
+  scabbardBand(-0.34, 0.055);
+  scabbardBand(-6.29, 0.035);
+  for (const center of [-5.45, -2.2]) {
+    scabbardBand(center, 0.025);
+    scabbardBand(center + 0.075, 0.025);
+  }
+  // One merged rope mesh: wrapped sageo, tied loops and short frayed ends.
+  const cordMap = mapFrom(128, 64, finish.cord);
+  cordMap.wrapS = cordMap.wrapT = T.RepeatWrapping;
+  cordMap.repeat.set(28, 1);
+  const cordMaterial = new T.MeshStandardMaterial({
+    map: cordMap,
+    bumpMap: cordMap,
+    bumpScale: 0.004,
+    roughness: 0.88,
+  });
+  const ropeParts = [];
+  const rope = (points, radius, segments = 80) => {
+    ropeParts.push(
+      new T.TubeGeometry(
+        new T.CatmullRomCurve3(points.map((p) => new T.Vector3(...p))),
+        segments,
+        radius,
+        6,
+        false,
+      ),
+    );
+  };
+  const winding = [];
+  for (let i = 0; i <= 240; i++) {
+    const t = i / 240,
+      a = t * Math.PI * 10;
+    winding.push(
+      G.point(-1.58 + t * 0.79, Math.cos(a) * 0.335, Math.sin(a) * 0.19),
+    );
+  }
+  rope(winding, 0.036, 240);
+  for (const side of [-1, 1]) {
+    rope(
+      [
+        G.point(-1.06, 0.1, 0.215),
+        G.point(-0.86, side * 0.28, 0.24),
+        G.point(-1.4, side * 0.31, 0.22),
+        G.point(-1.2, 0.02, 0.25),
+      ],
+      0.031,
+      48,
+    );
+    const end = G.point(-1.95, side * 0.28, 0.19);
+    rope(
+      [G.point(-1.15, 0, 0.25), G.point(-1.55, side * 0.17, 0.25), end],
+      0.027,
+      40,
+    );
+    for (let strand = 0; strand < 6; strand++)
+      rope(
+        [
+          end,
+          [
+            end[0] - 0.16 - strand * 0.008,
+            end[1] + (strand - 2.5) * 0.016,
+            end[2] + Math.sin(strand) * 0.02,
+          ],
+        ],
+        0.005,
+        8,
+      );
+  }
+  function mergeParts(parts) {
+    const positions = [],
+      normals = [],
+      uvs = [],
+      indices = [];
+    for (const part of parts) {
+      const offset = positions.length / 3;
+      positions.push(...part.attributes.position.array);
+      normals.push(...part.attributes.normal.array);
+      uvs.push(...part.attributes.uv.array);
+      for (const index of part.index.array) indices.push(offset + index);
+      part.dispose();
+    }
+    const geometry = new T.BufferGeometry();
+    geometry.setAttribute(
+      "position",
+      new T.Float32BufferAttribute(positions, 3),
+    );
+    geometry.setAttribute("normal", new T.Float32BufferAttribute(normals, 3));
+    geometry.setAttribute("uv", new T.Float32BufferAttribute(uvs, 2));
+    geometry.setIndex(indices);
+    return geometry;
+  }
+  mesh(mergeParts(ropeParts), cordMaterial, sheath);
   // Clone only the finishes on disappearing parts: the blade keeps its metal finish.
   function dissolvingPart(group) {
     const amount = { value: 0 },
@@ -519,8 +605,7 @@
     });
     return amount;
   }
-  const hiltDissolve = dissolvingPart(hilt),
-    sheathDissolve = dissolvingPart(sheath);
+  const sheathDissolve = dissolvingPart(sheath);
   const flight = window.KazeyamiKatanaFlight();
   const sparkPositions = new Float32Array(24 * 3);
   const sparkGeometry = new T.BufferGeometry();
@@ -565,6 +650,7 @@
   }
   drawButton.addEventListener("click", () => {
     skipIntro();
+    returning = false;
     interaction.toggle();
     syncDrawButton();
     requestRender();
@@ -572,6 +658,7 @@
   stage.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
     skipIntro();
+    returning = false;
     interaction.down({
       id: e.pointerId,
       x: e.clientX,
@@ -617,6 +704,42 @@
     prompt = document.querySelector(".scroll-prompt"),
     wordmark = document.querySelector("header .wordmark");
   const clamp = T.MathUtils.clamp;
+  function returnToCover() {
+    if (document.body.classList.contains("menu-open")) return;
+    if (!launched && !flight.isRaised()) return;
+    returning = true;
+    interaction.setTarget(0);
+    syncDrawButton();
+    requestRender();
+  }
+  // An upward gesture at the page's top has no scroll event of its own.
+  window.addEventListener(
+    "wheel",
+    (event) => {
+      if (event.deltaY < -5 && scrollY <= 1) returnToCover();
+    },
+    { passive: true },
+  );
+  let touchY = null;
+  window.addEventListener(
+    "touchstart",
+    (event) => {
+      touchY = event.touches[0]?.clientY ?? null;
+    },
+    { passive: true },
+  );
+  window.addEventListener(
+    "touchmove",
+    (event) => {
+      if (
+        touchY !== null &&
+        event.touches[0]?.clientY - touchY > 12 &&
+        scrollY <= 1
+      )
+        returnToCover();
+    },
+    { passive: true },
+  );
   function scroll() {
     progress = reduced.matches
       ? 0
@@ -627,7 +750,18 @@
           1,
         );
     if (progress > 0.015) skipIntro();
-    if (!launched) interaction.scroll(progress);
+    const upward = scrollY < lastScrollY - 1;
+    const downward = scrollY > lastScrollY + 1;
+    if (
+      upward &&
+      launched &&
+      opening.getBoundingClientRect().bottom > innerHeight * 0.8
+    )
+      returnToCover();
+    if (downward && returning && !flight.isRaised() && draw < 0.01)
+      returning = false;
+    if (!launched && !returning) interaction.scroll(progress);
+    lastScrollY = scrollY;
     syncDrawButton();
     measureAnchors();
     const fade = clamp(1 - progress * 3, 0, 1),
@@ -653,11 +787,27 @@
     const bounds = stage.getBoundingClientRect();
     const brand = name.getBoundingClientRect(),
       logo = wordmark.getBoundingClientRect();
-    restingY = brand.top - bounds.top - Math.max(36, height * 0.055);
+    const closedWidth = Math.min(
+      width * 0.74,
+      ((1.25 * height) /
+        (2 *
+          camera.position.z *
+          Math.tan(T.MathUtils.degToRad(camera.fov / 2)))) *
+        9.5,
+    );
+    restingY = brand.top - bounds.top - Math.max(36, closedWidth * 0.095);
     logoX = logo.left - bounds.left + logo.width * 0.5;
     logoY = logo.bottom - bounds.top + 8;
     logoWidth = logo.width * 0.82;
+    wordmarkArt?.sync();
   }
+  const wordmarkArt = window.KazeyamiKatanaWordmark?.(
+    T,
+    scene,
+    camera,
+    stage,
+    name,
+  );
   const pixelTrail = window.KazeyamiPixelTrail?.(
     T,
     renderer,
@@ -672,6 +822,7 @@
     renderer.setPixelRatio(Math.min(devicePixelRatio, cap));
     renderer.setSize(width, height, false);
     pixelTrail?.resize();
+    wordmarkArt?.resize();
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     measureAnchors();
@@ -699,8 +850,12 @@
         : null;
     const assembling = entrance?.active ?? false;
     if (assembling) draw = entrance.draw;
-    else
-      draw += (target - draw) * (reduced.matches ? 1 : 1 - Math.exp(-dt * 6));
+    else {
+      // Reverse the flight first, then slide the blade into its restored scabbard.
+      const drawTarget = flight.isRaised() && target < 0.5 ? 1 : target;
+      draw +=
+        (drawTarget - draw) * (reduced.matches ? 1 : 1 - Math.exp(-dt * 6));
+    }
     if (entrance && !assembling) {
       introCancelled = true;
       draw = target;
@@ -735,11 +890,13 @@
       extraction.y +
       start[0] * Math.sin(extraction.angle) +
       start[1] * Math.cos(extraction.angle);
-    const chord = Math.atan2(extraction.y - tipY, extraction.x - tipX);
+    const gripEndX = extraction.x + 2.97 * Math.cos(extraction.angle);
+    const gripEndY = extraction.y + 2.97 * Math.sin(extraction.angle);
+    const chord = Math.atan2(gripEndY - tipY, gripEndX - tipX);
     const roll = -chord * lift + (assembling ? entrance.kick : 0);
     model.rotation.set(
       (1 - lift) * (0.08 + (reduced.matches ? 0 : pointerY * 0.025)),
-      (1 - lift) * (-0.12 + (reduced.matches ? 0 : pointerX * 0.04)),
+      (1 - lift) * (-0.24 + (reduced.matches ? 0 : pointerX * 0.04)),
       roll,
     );
     const viewHeight =
@@ -749,11 +906,11 @@
     const closedScale = Math.min(1.25, (viewWidth * 0.74) / 9.5);
     const drawnScale = Math.min(0.95, (viewWidth * 0.82) / 16);
     const startScale = T.MathUtils.lerp(closedScale, drawnScale, draw);
-    const endScale = (logoWidth * worldPerPixel) / 6.2;
+    const endScale = (logoWidth * worldPerPixel) / 9.2;
     const scale = startScale * Math.pow(endScale / startScale, lift);
     model.scale.setScalar(scale);
-    const bladeCenterX = (tipX + extraction.x) * 0.5;
-    const bladeCenterY = (tipY + extraction.y) * 0.5;
+    const bladeCenterX = (tipX + gripEndX) * 0.5;
+    const bladeCenterY = (tipY + gripEndY) * 0.5;
     const centerX = T.MathUtils.lerp(
       T.MathUtils.lerp(-1.72, 1.45, draw),
       bladeCenterX,
@@ -769,24 +926,23 @@
       (height * 0.5 - anchorY) * worldPerPixel - rotatedY * scale,
       0,
     );
-    hiltDissolve.value = assembling ? 0 : docking.hilt;
     sheathDissolve.value = assembling ? 0 : docking.sheath;
-    hilt.visible = hiltDissolve.value < 1;
+    hilt.visible = true;
     sheath.visible = sheathDissolve.value < 1;
-    // A single tiny point batch carries the last gold flecks upward from the grip.
-    sparks.visible = docking.hilt > 0 && docking.hilt < 1;
+    // A single tiny point batch carries gold flecks upward from the disappearing cover.
+    sparks.visible = docking.sheath > 0 && docking.sheath < 1;
     if (sparks.visible) {
       model.updateMatrixWorld(true);
-      const origin = hilt.localToWorld(new T.Vector3(1.25, 0, 0));
+      const origin = sheath.localToWorld(new T.Vector3(...G.point(-2.7)));
       for (let i = 0; i < 24; i++) {
-        const age = (docking.hilt + i / 24) % 1;
+        const age = (docking.sheath + i / 24) % 1;
         sparkPositions[i * 3] =
           origin.x + Math.sin(i * 2.4) * age * scale * 1.7;
         sparkPositions[i * 3 + 1] = origin.y + age * scale * 3;
         sparkPositions[i * 3 + 2] = origin.z + 0.2;
       }
       sparkGeometry.attributes.position.needsUpdate = true;
-      sparkMaterial.opacity = Math.sin(docking.hilt * Math.PI) * 0.8;
+      sparkMaterial.opacity = Math.sin(docking.sheath * Math.PI) * 0.8;
     }
     stage.dataset.katanaPose = assembling
       ? "assembling"
@@ -797,10 +953,12 @@
           : "resting";
     // The scabbard stays fixed. Circular extraction keeps every concealed blade
     // section on the cavity spine, so it exits the mouth rather than the side.
+    wordmarkArt?.update(progress, inView);
     const pixelsMoving = pixelTrail
       ? pixelTrail.render(scene, camera, now)
       : (renderer.render(scene, camera), false);
     stage.classList.add("is-ready");
+    wordmarkArt?.enable();
     // No idle animation loop: render only while moving toward an interaction target.
     if (
       assembling ||
@@ -843,6 +1001,7 @@
   canvas.addEventListener("webglcontextlost", (e) => {
     e.preventDefault();
     stage.classList.remove("is-ready");
+    wordmarkArt?.disable();
     cancelAnimationFrame(frame);
     frame = 0;
   });

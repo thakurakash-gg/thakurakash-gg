@@ -11,15 +11,16 @@
   return function createFlight() {
     let elapsed = 0;
     return {
+      isRaised: () => elapsed > 0,
       update(dt, { draw, target, dragging, assembling, reduced }) {
         // A held drag and the opening assembly must never launch the docking motion.
-        if (target < 0.5) elapsed = reduced ? 0 : Math.max(0, elapsed - dt * 2);
+        if (target < 0.5) elapsed = reduced ? 0 : Math.max(0, elapsed - dt);
         else if (!assembling && !dragging && draw >= 0.94)
           elapsed = reduced ? 2.1 : Math.min(2.1, elapsed + dt);
         const progress = smooth(elapsed / 2.1);
         return {
           progress,
-          hilt: smooth((progress - 0.28) / 0.64),
+          hilt: 0,
           sheath: smooth((progress - 0.04) / 0.48),
           moving: elapsed > 0 && elapsed < 2.1,
         };
