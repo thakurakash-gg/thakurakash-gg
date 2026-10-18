@@ -1,5 +1,12 @@
 # Website changelog
 
+## 4.5.0 - 2026-10-18
+
+- Replace the temple menu background with three slowly moving folded-metal ribbons in champagne, silver and muted copper. Keep the existing menu links, layout and right-side slide.
+- Use studio reflections, subtle pointer parallax and a dark text scrim. The scene is created on first open, uses three mesh draws, caps pixel density and frame rate, and pauses while closed or hidden. Reduced motion shows a still.
+- Retain the gold katana entrance, current headline, theme behaviour and RAY scene. Refresh content-hashed assets.
+
+
 ## 4.4.0 - 2026-10-18
 
 - Replace the opening slogan with Design and technology studio, followed by a small Lucknow, India location. Remove the previous kicker and crafted-by credit.
