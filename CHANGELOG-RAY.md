@@ -20,10 +20,13 @@ Filled north-inlet shoreline beside the right tower
 
 - Authoring checks confirm valid ground contours, complete coverage of the new bank, no removal of existing land and preserved water in the inlet.
 - Rendered terrain triangulation and all 5,693 tree-placement checks pass.
+- Full scene regression suite passes, including cache integrity, lighting transitions, frame stability and context geometry; overhead browser inspection confirms a continuous filled bank with no console errors.
 
 ### Known limits
 
 - The fill follows the user-marked prototype outline rather than a new cadastral survey.
+
+Commits: [871e885](https://github.com/thakurakash-gg/thakurakash-gg/commit/871e885).
 
 ## [26.5.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.5.0) — 2026-10-17
 

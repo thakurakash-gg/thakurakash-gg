@@ -14,12 +14,15 @@
       },
       "validation": [
         "Authoring checks confirm valid ground contours, complete coverage of the new bank, no removal of existing land and preserved water in the inlet.",
-        "Rendered terrain triangulation and all 5,693 tree-placement checks pass."
+        "Rendered terrain triangulation and all 5,693 tree-placement checks pass.",
+        "Full scene regression suite passes, including cache integrity, lighting transitions, frame stability and context geometry; overhead browser inspection confirms a continuous filled bank with no console errors."
       ],
       "limitations": [
         "The fill follows the user-marked prototype outline rather than a new cadastral survey."
       ],
-      "commits": []
+      "commits": [
+        "871e885"
+      ]
     },
     {
       "version": "26.5.0",
