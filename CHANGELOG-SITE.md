@@ -1,5 +1,11 @@
 # Website changelog
 
+## 4.8.0 - 2026-10-18
+
+- After the opening blade closes, smoothly settle the sheathed katana along the lower edge of the large Kazeyami wordmark, matching the marked placement. Keep space for the guard, ribbon and bottom caption on different viewport sizes.
+- Preserve the existing draw, lift-to-logo, cover dissolution and reverse flight. Reversing now restores the katana at the new lower resting position.
+- Keep the quick sheathing action, then add a short landing beat without blocking the website. Reduced motion starts directly at the new resting pose. Update the static fallback position and keep the wordmark layer behind the katana.
+
 ## 4.7.5 - 2026-10-18
 
 - Play the opening work video at full opacity and remove its dark gradient overlay, preserving the original video brightness and colors. Use only small local text edges for readability.
