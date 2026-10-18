@@ -13,7 +13,10 @@
   }
   const T = window.THREE;
   const G = window.KazeyamiKatanaGeometry;
-  if (!G) { fallback(); return; }
+  if (!G) {
+    fallback();
+    return;
+  }
   const opening = document.querySelector("#opening");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const canvas = stage.querySelector("canvas");
@@ -182,22 +185,36 @@
     return m;
   };
   const hamon = mapFrom(1024, 128, (ctx, w, h) => {
-    ctx.fillStyle = '#adb5bd'; ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = '#eef1ed'; ctx.lineWidth = 10; ctx.beginPath();
+    ctx.fillStyle = "#adb5bd";
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = "#eef1ed";
+    ctx.lineWidth = 10;
+    ctx.beginPath();
     for (let x = 0; x <= w; x += 2) {
       const y = 31 + Math.sin(x * 0.037) * 3 + Math.sin(x * 0.013) * 4;
       x ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
     }
-    ctx.stroke(); ctx.fillStyle = '#53606b'; ctx.font = '24px serif';
-    ctx.fillText('\u98a8  \u5149', 810, 85);
+    ctx.stroke();
+    ctx.fillStyle = "#53606b";
+    ctx.font = "24px serif";
+    ctx.fillText("\u98a8  \u5149", 810, 85);
   });
-  const bladeFace = new T.MeshStandardMaterial({ map: hamon, metalness: 0.87, roughness: 0.27 });
+  const bladeFace = new T.MeshStandardMaterial({
+    map: hamon,
+    metalness: 0.87,
+    roughness: 0.27,
+  });
   function fromData(data) {
     const geometry = new T.BufferGeometry();
-    geometry.setAttribute('position', new T.Float32BufferAttribute(data.positions, 3));
-    geometry.setAttribute('uv', new T.Float32BufferAttribute(data.uvs, 2));
+    geometry.setAttribute(
+      "position",
+      new T.Float32BufferAttribute(data.positions, 3),
+    );
+    geometry.setAttribute("uv", new T.Float32BufferAttribute(data.uvs, 2));
     geometry.setIndex(data.indices);
-    data.groups.forEach(group => geometry.addGroup(group.start, group.count, group.materialIndex));
+    data.groups.forEach((group) =>
+      geometry.addGroup(group.start, group.count, group.materialIndex),
+    );
     geometry.computeVertexNormals();
     return geometry;
   }
@@ -206,10 +223,24 @@
   mesh(fromData(G.sheathData()), [lacquer, dark], sheath);
   const mouthPoints = [];
   for (let i = 0; i <= 48; i++) {
-    const a = i / 48 * Math.PI * 2;
-    mouthPoints.push(new T.Vector3(...G.point(G.mouth, Math.cos(a) * 0.281, Math.sin(a) * 0.142)));
+    const a = (i / 48) * Math.PI * 2;
+    mouthPoints.push(
+      new T.Vector3(
+        ...G.point(G.mouth, Math.cos(a) * 0.281, Math.sin(a) * 0.142),
+      ),
+    );
   }
-  mesh(new T.TubeGeometry(new T.CatmullRomCurve3(mouthPoints, true), 48, 0.015, 6, true), dark, sheath);
+  mesh(
+    new T.TubeGeometry(
+      new T.CatmullRomCurve3(mouthPoints, true),
+      48,
+      0.015,
+      6,
+      true,
+    ),
+    dark,
+    sheath,
+  );
   const cylinder = (radius, depth, mat, parent, x, y = 0) => {
     const m = mesh(
       new T.CylinderGeometry(radius, radius, depth, 48),
@@ -402,16 +433,31 @@
       -0.42 + (reduced.matches ? 0 : pointerX * 0.11),
       0.48 - poseProgress * 0.5 - draw * 0.2,
     );
-    const scale = mobile ? 0.86 - draw * 0.32 : 1.6 - draw * 0.64;
+    const viewWidth =
+      2 *
+      camera.position.z *
+      Math.tan(T.MathUtils.degToRad(camera.fov / 2)) *
+      camera.aspect;
+    const initialScale = mobile ? 0.86 : 1.6;
+    const extractedScale = Math.min(
+      0.96,
+      (viewWidth / (mobile ? 10 : 16)) * 0.88,
+    );
+    const scale = T.MathUtils.lerp(initialScale, extractedScale, draw);
     model.scale.setScalar(scale * (1 - poseProgress * 0.29));
-    model.position.set(mobile ? 1.0 - draw * 1.3 : 2.7 - draw * 3.4, 0.12 + poseProgress * 1.9, 0);
+    model.position.set(
+      mobile ? 1.0 - draw * 2.4 : 2.7 - draw * 3.4,
+      0.12 + poseProgress * 1.9,
+      0,
+    );
     const extraction = G.pose(draw);
     blade.rotation.z = extraction.angle;
     blade.position.set(extraction.x, extraction.y, 0);
     // The scabbard stays fixed. Circular extraction keeps every concealed blade
     // section on the cavity spine, so it exits the mouth rather than the side.
-    drawButton.setAttribute('aria-pressed', String(draw > 0.5));
-    drawButton.querySelector('span').textContent = draw > 0.5 ? 'Sheathe the blade' : 'Draw the blade';
+    drawButton.setAttribute("aria-pressed", String(draw > 0.5));
+    drawButton.querySelector("span").textContent =
+      draw > 0.5 ? "Sheathe the blade" : "Draw the blade";
     renderer.render(scene, camera);
     stage.classList.add("is-ready");
     // No idle animation loop: render only while moving toward an interaction target.

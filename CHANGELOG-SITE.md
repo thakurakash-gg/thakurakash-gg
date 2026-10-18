@@ -1,5 +1,20 @@
 # Website changelog
 
+## 4.0.1 — 2026-10-18
+
+- Restore the original top-right hamburger menu and panel that slides in from the
+  right, plus the previous light/dark switch on desktop and mobile.
+- Remove the home page’s Pause motion control; keep automatic reduced-motion support.
+- Reuse the original floating Kazeyami logos behind “Let’s collaborate” only, with
+  the existing copy and enquiry form. Batch the 27 marks into three instanced meshes
+  and stop background animation outside the viewport or while the tab is hidden.
+- Replace overlapping blade/tip surfaces with a single welded blade. Give the
+  sheath an open mouth, inner walls and a closed rear end.
+- Keep the sheath fixed and draw the blade along its matching circular spine.
+  Adjust framing to keep the extracted blade visible across screen sizes.
+- Check mesh closure, nondegenerate triangles, extraction alignment, header
+  controls, phone layout and the retained “Find your direction” section.
+
 ## 4.0.0 — 2026-10-18
 
 - Build a new Kazeyami opening from the requested StringTune reference: dark

@@ -1,68 +1,60 @@
-# Kazeyami opening — 4.0.0
+# Kazeyami opening — 4.0.1
 
-Reference examined on 2026-10-18: https://string-tune.fiddle.digital/
+The original reference is https://string-tune.fiddle.digital/ (examined 2026-10-18).
+Kazeyami uses original procedural geometry and artwork, with the existing local
+Three.js runtime. No reference assets, tracking or backend code were copied.
 
-The requested direction is its diagonal katana, dark editorial opening, oversized
-name, translucent compact navigation, blade reveal and scroll-led progression.
-The public page identifies StringTune, with Nuxt-generated JavaScript and CSS.
-Its information control opens additional navigation. The katana draws from its
-scabbard and rotates as the visitor scrolls. These observations informed this
-implementation; the private backend is neither exposed nor part of this build.
-No reference code, model, textures, illustrations, tracking or character artwork
-have been incorporated.
+## Current behavior
 
-## Implementation
+- Original top-right hamburger and right-side sliding menu restored. Existing
+  keyboard focus handling and Escape behavior remain in `assets/site.js`.
+- Original light/dark theme switch visible on desktop and mobile, with the
+  existing saved preference. No home-page Pause motion button.
+- Katana scroll reveal, pointer parallax, manual button and mouse dragging retained.
+  Reduced-motion preferences remain automatic.
+- Original floating Kazeyami shapes are reused behind the collaboration section
+  only. Its copy and seven-field enquiry form remain unchanged. No scatter/color
+  controls or old studio-section copy are added to that background.
 
-- `index.html`: new opening and studio introduction; existing project routes,
-  process, FAQ, enquiry form and footer retained.
-- `assets/home/katana-scene.js`: original curved blade and lacquered scabbard,
-  interlaced ivory grip, textured materials, gold fittings and studio environment.
-  Uses the existing local Three.js dependency; no additional runtime package.
-- `assets/home/branches.svg`: original seeded branch illustration.
-- `assets/home/katana-poster.svg`: original static loading/WebGL fallback.
-- `assets/home/katana.css`: scoped homepage presentation and responsive layouts.
-- `assets/home/home.js`: scroll progress, chrome and visibility-driven film playback.
-- `assets/site.js`: skip its previous eager hero-film handler on this homepage;
-  other pages keep their existing behavior.
+## Blade and extraction repair
 
-Scroll reveals the blade and moves the scene into a second composition. A button
-and mouse drag provide manual drawing; pointer movement changes the viewing angle.
-Pause freezes automatic model motion while manual drawing remains available.
-The information button opens the existing keyboard-accessible navigation drawer.
-Escape closes it and returns focus. All navigation leads to real studio content.
+`assets/home/katana-geometry.js` builds a single welded blade with a tapered
+kissaki and integrated bevels. It replaces the previous overlapping face and tube
+meshes. The blade has 746 vertices, 1,488 triangles and three material batches.
+The scabbard has 6,466 vertices, 12,928 triangles and two material batches. Its
+mouth is an annulus connected to inner cavity walls, rather than a solid cap.
 
-## Preserved section
+Blade and cavity share a circular spine with radius 1 / 0.044. Extraction rotates
+and translates the blade about the same center; the scabbard stays fixed. Each
+concealed blade section therefore stays on the cavity centerline throughout the
+motion. At full travel the tip clears the mouth. The camera composition zooms
+out during extraction to show the blade on narrow desktop layouts; phone framing
+focuses on the blade and opening.
 
-`#services`, including “Find your direction”, is retained character for character.
-Its CSS rules and video interactions remain in the original shared files.
-SHA-256 of the section source:
+`tools/site/check-katana.cjs` verifies closed welded topology, finite vertices,
+nondegenerate triangles, material batching and exact intermediate extraction
+alignment. `tools/site/check-home.mjs` verifies local assets, versioned runtime,
+the restored controls, contact background and preserved direction-section hash.
+
+## Background and performance
+
+`assets/home/contact-background.js` reuses the original logo outline and beveled
+extrusion. Twenty-seven marks share one geometry and three instanced material
+batches. Animation is limited to 30 FPS, pixel ratio to 1.25; it stops offscreen,
+in hidden tabs and for reduced-motion preferences. Pointer events pass through
+to the form. Dark scrims preserve text contrast. No background interactions or
+new external dependencies are introduced.
+
+The katana continues to render on demand, with capped pixel ratio and a static
+WebGL fallback. The studio film still loads on visibility. Homepage runtime URLs
+are versioned 4.0.1. RAY and its cache/rendering files are unchanged.
+
+## Preserved content
+
+The complete `#services` section is unchanged, including “Find your direction”,
+films, copy, links and shared CSS. Source SHA-256:
 `84c95f49695f7056196cfb6a153f7aca013ee89a79c3cfb619c08098506bfb3e`
 
-The RAY experience, models, cache manifest and rendering code are unchanged.
-
-## Rendering and loading
-
-The model and materials are constructed locally; there is no GLB or texture fetch.
-The five new visual/runtime assets total approximately 86 KB uncompressed and
-20 KB gzip, in addition to the already-used Three.js library. Pixel ratio is capped
-at 1.8, or 1.35 on reported low-memory devices. Frames are requested only for
-interaction, scroll, resize or an unsettled blade transition. Offscreen/hidden
-rendering is stopped. Reduced-motion preferences suppress scroll choreography.
-If WebGL is unavailable, the static poster remains and the opening has one screen
-of height. The film loads on visibility and respects reduced motion/data saving.
-
-Versioned stylesheet and script URLs avoid stale homepage code. No new service
-worker, analytics, backend, forms service or external runtime dependency is added.
-
-## Verification
-
-- JavaScript syntax and local asset/link checks.
-- Exact preserved-section hash and unchanged shared stylesheet.
-- Browser rendering without console errors at the native desktop viewport.
-- Responsive 390 × 844 layout without horizontal overflow.
-- Manual draw/sheathe, scroll reveal, pause/resume and navigation drawer.
-- Escape/focus return, work/studio/contact anchors and existing contact fields.
-- Contact contrast corrected after phone screenshot review.
-
-Responsive browser testing does not establish frame rate on physical Android or
-iOS hardware. No physical-device FPS claim is made.
+Browser checks cover native desktop and 390 x 844 phone layouts, drawing and
+sheathing, the original menu, theme switching, contact background and form access.
+They do not establish frame rates on physical Android or iOS hardware.

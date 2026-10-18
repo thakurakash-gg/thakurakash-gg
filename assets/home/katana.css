@@ -1,32 +1,131 @@
 /* Home-only presentation; original direction section remains unchanged. */
-.katana-site { --accent: #fa553e; }
-.katana-site header.wrap { position: fixed; height: 96px; z-index: 40; left: 6%; width: 88%; gap: 24px; pointer-events: none; }
-.katana-site header a, .katana-site header button { pointer-events: auto; }
-.katana-site .wordmark { width: 180px; filter: drop-shadow(0 1px 10px #111); }
-.katana-site .header-actions { flex: 1; justify-content: space-between; gap: 20px; }
-.katana-site.header-scrolled header:before { content: ''; position: absolute; inset: 0 -7vw; background: #101113ed; backdrop-filter: blur(12px); z-index: -1; }
-.katana-site .theme-switch { display: flex; border: 0; background: none; border-radius: 0; box-shadow: none; color: #fff; padding: 8px 0; gap: 8px; opacity: .78; }
-.katana-site .theme-switch:hover { opacity: 1; }
-.katana-site .theme-kanji { font-size: 16px; }
-.katana-site .theme-label { display: inline; font-size: 8px; letter-spacing: 1.5px; }
-.katana-site .theme-switch:after { content: ''; display: block; width: 18px; height: 1px; background: currentColor; margin-left: 3px; }
-.katana-site .menu-toggle { width: 44px; height: 44px; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
-.katana-site .menu-toggle:after { content: none; }
-.katana-site .menu-toggle span { display: block; width: 40px; left: 2px; top: 17px; height: 1.5px; background: white; }
-.katana-site .menu-toggle span+span { top: 27px; }
-.katana-site.menu-open .menu-toggle span { top: 22px; background: var(--ink); }
-.katana-site.menu-open .theme-switch { color: white; }
-.katana-site .overlay { color: var(--ink); }
-@media(max-width:850px) {
- .katana-site header.wrap { height: 84px; gap: 16px; }
- .katana-site .wordmark { width: 145px; }
- .katana-site .header-actions { gap: 12px; }
- .katana-site .theme-switch { display: flex; padding: 8px 0; gap: 5px; }
- .katana-site .theme-kanji { font-size: 15px; }
- .katana-site .theme-label { display: none; }
- .katana-site .theme-switch:after { width: 12px; }
- .katana-site .overlay { width: min(360px,88vw); padding: 115px 8% 35px; }
- .katana-site .overlay a { font-size: clamp(24px,6vw,34px); }
+.katana-site {
+  --accent: #fa553e;
+}
+.katana-site header.wrap {
+  position: fixed;
+  height: 96px;
+  z-index: 40;
+  left: 6%;
+  width: 88%;
+  gap: 24px;
+  pointer-events: none;
+}
+.katana-site header a,
+.katana-site header button {
+  pointer-events: auto;
+}
+.katana-site .wordmark {
+  width: 180px;
+  filter: drop-shadow(0 1px 10px #111);
+}
+.katana-site .header-actions {
+  flex: 1;
+  justify-content: space-between;
+  gap: 20px;
+}
+.katana-site.header-scrolled header:before {
+  content: "";
+  position: absolute;
+  inset: 0 -7vw;
+  background: #101113ed;
+  backdrop-filter: blur(12px);
+  z-index: -1;
+}
+.katana-site .theme-switch {
+  display: flex;
+  border: 0;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: #fff;
+  padding: 8px 0;
+  gap: 8px;
+  opacity: 0.78;
+}
+.katana-site .theme-switch:hover {
+  opacity: 1;
+}
+.katana-site .theme-kanji {
+  font-size: 16px;
+}
+.katana-site .theme-label {
+  display: inline;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+}
+.katana-site .theme-switch:after {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+  margin-left: 3px;
+}
+.katana-site .menu-toggle {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.katana-site .menu-toggle:after {
+  content: none;
+}
+.katana-site .menu-toggle span {
+  display: block;
+  width: 40px;
+  left: 2px;
+  top: 17px;
+  height: 1.5px;
+  background: white;
+}
+.katana-site .menu-toggle span + span {
+  top: 27px;
+}
+.katana-site.menu-open .menu-toggle span {
+  top: 22px;
+  background: var(--ink);
+}
+.katana-site.menu-open .theme-switch {
+  color: white;
+}
+.katana-site .overlay {
+  color: var(--ink);
+}
+@media (max-width: 850px) {
+  .katana-site header.wrap {
+    height: 84px;
+    gap: 16px;
+  }
+  .katana-site .wordmark {
+    width: 145px;
+  }
+  .katana-site .header-actions {
+    gap: 12px;
+  }
+  .katana-site .theme-switch {
+    display: flex;
+    padding: 8px 0;
+    gap: 5px;
+  }
+  .katana-site .theme-kanji {
+    font-size: 15px;
+  }
+  .katana-site .theme-label {
+    display: none;
+  }
+  .katana-site .theme-switch:after {
+    width: 12px;
+  }
+  .katana-site .overlay {
+    width: min(360px, 88vw);
+    padding: 115px 8% 35px;
+  }
+  .katana-site .overlay a {
+    font-size: clamp(24px, 6vw, 34px);
+  }
 }
 .katana-opening {
   height: 225svh;
@@ -217,10 +316,6 @@
   white-space: nowrap;
   transition: max-width 0.3s;
 }
-#draw-blade:hover span,
-#draw-blade:focus-visible span {
-  max-width: 130px;
-}
 .scroll-prompt {
   position: absolute;
   right: 4%;
@@ -377,27 +472,53 @@
   padding-bottom: 35px;
 }
 .katana-site .contact-section {
-  background: #d5d2c8;
-  color: #171719;
-  --ink: #171719;
-  --paper: #d5d2c8;
-  --muted: #56534f;
-  --line: #aaa69c;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #0c0c10;
+  color: #f4f4f5;
+  --ink: #f4f4f5;
+  --paper: #0c0c10;
+  --muted: #bfc0c7;
+  --line: #777781;
+}
+.contact-logo-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.contact-logo-background canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.katana-site .contact-section:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, #0c0c10a8, #0c0c1070);
+}
+.katana-site .contact-grid {
+  position: relative;
+  z-index: 2;
 }
 .katana-site .contact-story p,
 .katana-site .contact-grid .brief-field label,
 .katana-site .contact-grid .brief-submit p {
-  color: #56534f;
+  color: #c6c6ce;
 }
 .katana-site .contact-grid input::placeholder,
 .katana-site .contact-grid textarea::placeholder {
-  color: #68645e;
+  color: #a9a9b3;
   opacity: 1;
 }
 .katana-site .brief-form input,
 .katana-site .brief-form textarea,
 .katana-site .brief-form select {
-  color: #171719;
+  color: #f4f4f5;
 }
 .katana-site .footer-shell {
   background: #101113;
