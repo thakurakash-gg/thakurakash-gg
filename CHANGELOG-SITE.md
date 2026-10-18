@@ -1,5 +1,10 @@
 # Website changelog
 
+## 4.3.1 - 2026-10-18
+
+- Keep the menu close icon readable over pale headers on subpages and after scrolling. Preserve the moon and lantern colours through the atmospheric fog.
+
+
 ## 4.3.0 - 2026-10-18
 
 - Rebuild cursor pixelation as a render pass on the katana itself: broad, opaque grid cells trail the pointer and resolve back to the original image. Remove floating square particles.

@@ -49,7 +49,7 @@
       stone = mat(0x3d4744),
       red = mat(0x863d32),
       gold = mat(0xa18858);
-    const warm = new T.MeshBasicMaterial({ color: 0xe9b36d });
+    const warm = new T.MeshBasicMaterial({ color: 0xe9b36d, fog: false });
     warm.color.multiplyScalar(1.7);
     const boxGeometry = new T.BoxGeometry(1, 1, 1);
     function box(material, x, y, z, w, h, d) {
@@ -230,7 +230,10 @@
     }
     const moon = new T.Mesh(
       new T.SphereGeometry(1.9, 32, 20),
-      new T.MeshBasicMaterial({ map: new T.CanvasTexture(moonCanvas) }),
+      new T.MeshBasicMaterial({
+        map: new T.CanvasTexture(moonCanvas),
+        fog: false,
+      }),
     );
     moon.position.set(5, 10, -19);
     scene.add(moon);

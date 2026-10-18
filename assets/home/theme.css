@@ -181,3 +181,11 @@ html[data-theme="light"] .katana-site .contact-grid input::placeholder,
 html[data-theme="light"] .katana-site .contact-grid textarea::placeholder {
   color: #73766e;
 }
+
+html[data-theme="light"] .subpage.menu-open .menu-toggle span,
+html[data-theme="light"]
+  .katana-site.header-scrolled.menu-open
+  .menu-toggle
+  span {
+  background: #242520 !important;
+}
