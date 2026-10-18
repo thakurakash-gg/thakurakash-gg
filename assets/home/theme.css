@@ -134,12 +134,15 @@ body.menu-open .menu-toggle span,
     box-shadow: -20px 0 70px #0005;
   }
   .overlay nav {
-    gap: 12px;
+    gap: 4px;
   }
   .overlay a,
   .katana-site .overlay a {
     font-size: clamp(22px, 5.8vw, 30px);
     line-height: 1.2;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
   }
   .overlay > p {
     max-width: 210px;
@@ -190,5 +193,25 @@ html[data-theme="light"]
 }
 
 html[data-theme="light"] body.menu-open .menu-toggle span {
+  background: #f1e9dd !important;
+}
+
+/* Let the drawer's own background show behind the header controls. */
+body.menu-open header.wrap {
+  background: transparent !important;
+  backdrop-filter: none;
+}
+body.menu-open header.wrap:before {
+  background: none !important;
+  backdrop-filter: none;
+}
+body.menu-open .theme-switch {
+  color: #f1e9dd !important;
+}
+html[data-theme="light"] .subpage.menu-open .menu-toggle span,
+html[data-theme="light"]
+  .katana-site.header-scrolled.menu-open
+  .menu-toggle
+  span {
   background: #f1e9dd !important;
 }

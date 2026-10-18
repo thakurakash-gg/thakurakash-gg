@@ -722,7 +722,7 @@
 .katana-stage.is-docked {
   position: fixed;
   inset: 0;
-  z-index: 19;
+  z-index: 41;
   height: 100svh;
   pointer-events: none;
   cursor: auto;

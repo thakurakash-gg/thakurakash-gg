@@ -1,5 +1,13 @@
 # Website changelog
 
+## 4.6.0 - 2026-10-18
+
+- Make the phone navigation a compact right drawer: at most 300px / 76vw, with 44px touch targets and scrolling on short displays. Keep a visible strip of the page and the existing navigation controls.
+- Replace the ribbon background with the exact floating Kazeyami marks from Let’s collaborate. Both surfaces share the same geometry, materials and instanced animation; hidden scenes pause and reduced motion shows a still.
+- Rest the katana horizontally above the large Kazeyami wordmark, keeping the central work video clear. After drawing, lift and shrink it over 2.1 seconds toward the header logo. Dissolve the scabbard, evaporate the gold handle with a small particle batch, and keep the remaining blade aligned beneath the logo while scrolling.
+- Support horizontal touch dragging while preserving vertical page scrolling. Complete a deliberate released drag, allow reversing with the existing draw button, and retain the quick non-blocking entrance.
+- Refresh content-hashed assets and preserve the approved direction section and RAY scene.
+
 ## 4.5.0 - 2026-10-18
 
 - Replace the temple menu background with three slowly moving folded-metal ribbons in champagne, silver and muted copper. Keep the existing menu links, layout and right-side slide.

@@ -50,3 +50,11 @@ assert.equal(
 console.log(
   "Katana flight: staged draw, touch hold, smooth docking, dissolution, reversal and reduced motion pass.",
 );
+
+const still = create();
+step(still, { reduced: true });
+assert.equal(
+  step(still, { reduced: true, target: 0, draw: 0 }).progress,
+  0,
+  "Reduced motion also skips the return flight",
+);
