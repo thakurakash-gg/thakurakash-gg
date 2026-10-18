@@ -100,7 +100,7 @@ html[data-theme="light"] .portfolio-content {
     #24252015 25%
   );
 }
-html[data-theme="light"] .katana-site .contact-section:before {
+html[data-theme="light"] .katana-site .contact-section:after {
   background: linear-gradient(90deg, #f2f0e9e8, #f2f0e999);
 }
 html[data-theme="light"] .brief-field input,
@@ -153,7 +153,7 @@ html[data-theme="light"] .brief-field select {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, #08141bd9, #08141b66 70%, #08141b26),
+    linear-gradient(90deg, #08141bb3, #08141b40 70%, #08141b14),
     linear-gradient(0deg, #08141ba6, transparent 28%);
 }
 body.menu-open .menu-toggle span,
@@ -166,7 +166,18 @@ body.menu-open .menu-toggle span,
   }
   .menu-world:after {
     background:
-      linear-gradient(90deg, #08141bd9, #08141b40),
+      linear-gradient(90deg, #08141bb3, #08141b33),
       linear-gradient(0deg, #08141bb8, transparent 25%);
   }
+}
+
+html[data-theme="light"] .katana-site .contact-story p,
+html[data-theme="light"] .katana-site .contact-grid .brief-field label,
+html[data-theme="light"] .katana-site .contact-grid .brief-submit p,
+html[data-theme="light"] .footer-columns p {
+  color: #63665f;
+}
+html[data-theme="light"] .katana-site .contact-grid input::placeholder,
+html[data-theme="light"] .katana-site .contact-grid textarea::placeholder {
+  color: #73766e;
 }

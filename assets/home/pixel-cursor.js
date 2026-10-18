@@ -108,6 +108,7 @@
           !allowed.matches ||
           event.pointerType !== "mouse" ||
           document.hidden ||
+          document.body.classList.contains("menu-open") ||
           event.target.closest("button,a,input,textarea,select,[role=dialog]")
         )
           return;

@@ -526,7 +526,12 @@
     requestRender();
   }
   function requestRender() {
-    if (!frame && inView && !document.hidden)
+    if (
+      !frame &&
+      inView &&
+      !document.hidden &&
+      !document.body.classList.contains("menu-open")
+    )
       frame = requestAnimationFrame(render);
   }
   function render(now) {
@@ -595,6 +600,13 @@
       frame = 0;
     } else requestRender();
   });
+  new MutationObserver(() => {
+    if (document.body.classList.contains("menu-open")) {
+      pixelTrail?.clear();
+      cancelAnimationFrame(frame);
+      frame = 0;
+    } else requestRender();
+  }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
   canvas.addEventListener("webglcontextlost", (e) => {
     e.preventDefault();
     stage.classList.remove("is-ready");

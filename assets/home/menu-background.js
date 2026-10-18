@@ -50,6 +50,7 @@
       red = mat(0x863d32),
       gold = mat(0xa18858);
     const warm = new T.MeshBasicMaterial({ color: 0xe9b36d });
+    warm.color.multiplyScalar(1.7);
     const boxGeometry = new T.BoxGeometry(1, 1, 1);
     function box(material, x, y, z, w, h, d) {
       const mesh = new T.Mesh(boxGeometry, material);
@@ -285,7 +286,7 @@
     const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
     last = now;
     if (!motion.matches) elapsed += dt;
-    camera.position.set(7 + pointerX * 0.4, 6.5 + pointerY * 0.2, 22);
+    camera.position.set(2 + pointerX * 0.4, 6.5 + pointerY * 0.2, 22);
     camera.lookAt(0, 4, -4);
     if (!motion.matches) {
       for (let i = 0; i < 360; i++) {
