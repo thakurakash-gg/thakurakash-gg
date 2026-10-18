@@ -1,5 +1,9 @@
 # Website changelog
 
+## 4.7.1 - 2026-10-18
+
+- Keep the small Lucknow location clear of the reference katana on desktop. Refresh asset cache keys after the live layout check.
+
 ## 4.7.0 - 2026-10-18
 
 - Rebuild the katana finish from the supplied reference: black woven grip over ivory rayskin diamonds, small gold menuki, antique-gold landscape guard and latticed habaki, glossy black scabbard with gold dragon artwork, paired gold bands and a tied black-and-white sageo cord. The cord is merged into one mesh and the material artwork is generated locally.
