@@ -1,1 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 700"><defs><linearGradient id="steel" x2="0" y2="1"><stop stop-color="#e8e9ed"/><stop offset=".4" stop-color="#5d6772"/><stop offset=".7" stop-color="#e2e6e8"/><stop offset="1" stop-color="#2f343a"/></linearGradient><pattern id="wrap" width="36" height="50" patternUnits="userSpaceOnUse"><rect width="36" height="50" fill="#d5cbb3"/><path d="m-9 0 36 50M9 0l36 50M-9 50 36-50M9 50 36-50" stroke="#101313" stroke-width="18"/></pattern><linearGradient id="lacquer" x2="0" y2="1"><stop stop-color="#303236"/><stop offset=".5" stop-color="#131416"/><stop offset="1" stop-color="#383437"/></linearGradient></defs><g transform="translate(60 570) rotate(-26)"><path d="M0-22Q300-52 790-25L790 20Q300 13 0 27Z" fill="url(#lacquer)" stroke="#65554a"/><path d="M440-30Q480 0 525 10L550 10Q495-10 500-31M560-30Q590-5 610 10L660 12Q620-2 600-29" fill="#af8e4e"/><path d="M790-19 860-20 860 15 790 14Z" fill="url(#steel)"/><rect x="850" y="-55" width="19" height="103" rx="5" fill="#b39251"/><rect x="870" y="-27" width="310" height="48" rx="8" fill="url(#wrap)"/><rect x="1165" y="-27" width="16" height="48" rx="3" fill="#272a28"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 150">
+<defs>
+ <linearGradient id="lacquer" x2="0" y2="1"><stop stop-color="#575c5c"/><stop offset=".22" stop-color="#171b1d"/><stop offset=".7" stop-color="#07090a"/><stop offset="1" stop-color="#3d4143"/></linearGradient>
+ <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#edcf8d"/><stop offset=".4" stop-color="#8c692f"/><stop offset=".75" stop-color="#dbc184"/><stop offset="1" stop-color="#77612e"/></linearGradient>
+ <pattern id="wrap" width="25" height="42" patternUnits="userSpaceOnUse"><rect width="25" height="42" fill="#d6cdb5"/><path d="M-12-2 25 44M0-2 37 44M-12 44 25-2M0 44 37-2" stroke="#101415" stroke-width="12"/></pattern>
+ <linearGradient id="silk" x2="0" y2="1"><stop stop-color="#db496b"/><stop offset=".45" stop-color="#a71d43"/><stop offset="1" stop-color="#57152a"/></linearGradient>
+</defs>
+<g stroke-linejoin="round">
+ <path d="M20 38Q290 80 732 56L732 95Q290 117 20 80Z" fill="url(#lacquer)" stroke="#5c5b52" stroke-width="2"/>
+ <g fill="none" stroke="url(#gold)"><path d="M40 42V81M112 51v43M118 52v43M540 65v37M547 65v36" stroke-width="3"/>
+ <path d="M148 70C235 26 277 119 354 76S460 45 511 77" stroke-width="11"/>
+ <path d="m502 70 24-12 19 10 28 7-23 10-12 12-23-5Z" fill="url(#gold)"/>
+ <path d="m526 66 1-20m12 24 14-16M242 77l-15 18m19-17 17 17m133-18 13 18m-8-22 20-14" stroke-width="4"/>
+ </g>
+ <path d="M604 56 622 104M626 56l18 48M648 55l18 47" stroke="#5e1128" stroke-width="15"/>
+ <path d="M604 53 621 99M626 53l18 46M648 52l18 45" stroke="url(#silk)" stroke-width="12"/>
+ <path d="M635 73q-42-35-47-10 12 28 47 10 36-27 44-3-10 25-44 3m-2 5-40 29m40-28-31-36" fill="none" stroke="url(#silk)" stroke-width="11"/>
+ <rect x="737" y="53" width="35" height="42" rx="2" fill="url(#gold)" stroke="#e1c37a"/>
+ <rect x="775" y="28" width="13" height="91" rx="6" fill="url(#gold)" stroke="#bb9d60"/>
+ <rect x="793" y="52" width="282" height="43" rx="8" fill="url(#wrap)" stroke="#262a28" stroke-width="2"/>
+ <path d="M797 54v39m270-39v39" stroke="url(#gold)" stroke-width="5"/>
+</g></svg>

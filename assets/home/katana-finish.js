@@ -185,17 +185,21 @@ window.KazeyamiKatanaFinish = (() => {
       }
   }
   function cord(ctx, w, h) {
-    ctx.fillStyle = "#111416";
+    // Neutral woven cotton is tinted crimson by the ribbon material.
+    ctx.fillStyle = "#b9b9b9";
     ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = "#d7d6ca";
-    for (let x = -8; x < w; x += 16)
-      for (let y = 0; y < h; y += 12) {
-        ctx.save();
-        ctx.translate(x + (y % 24 ? 7 : 0), y);
-        ctx.rotate(0.65);
-        ctx.fillRect(0, 0, 4, 6);
-        ctx.restore();
+    for (let y = 0; y < h; y += 3)
+      for (let x = 0; x < w; x += 3) {
+        ctx.strokeStyle = (x + y) % 2 ? "#cdcdcd" : "#9e9e9e";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + 3, y + 2);
+        ctx.stroke();
       }
+    ctx.fillStyle = "#d0d0d0";
+    ctx.fillRect(0, 0, w, 2);
+    ctx.fillRect(0, h - 2, w, 2);
   }
   function guard(ctx, w, h, mask = false) {
     ctx.fillStyle = mask ? "#1a1a1a" : "#29251d";

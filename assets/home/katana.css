@@ -168,14 +168,7 @@
 .katana-stage.is-ready canvas {
   opacity: 1;
 }
-.katana-fallback {
-  position: absolute;
-  width: 112%;
-  height: 100%;
-  left: -6%;
-  object-fit: contain;
-  transition: opacity 0.5s;
-}
+
 .katana-stage.is-ready .katana-fallback {
   opacity: 0;
   visibility: hidden;
@@ -268,21 +261,7 @@
   white-space: nowrap;
   transition: max-width 0.3s;
 }
-.scroll-prompt {
-  position: absolute;
-  right: 4%;
-  bottom: 33%;
-  z-index: 4;
-  font: 9px monospace;
-  writing-mode: vertical-rl;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  color: #9c999b;
-}
-.scroll-prompt span {
-  font-size: 20px;
-}
+
 .reveal-copy {
   position: absolute;
   z-index: 3;
@@ -569,10 +548,7 @@
   #draw-blade span {
     max-width: 110px;
   }
-  .scroll-prompt {
-    right: 6%;
-    bottom: 24%;
-  }
+
   .opening-meta {
     bottom: 26px;
     left: 6%;
@@ -639,28 +615,7 @@
     linear-gradient(90deg, #090a0cd9, #090a0c70 65%, #090a0c66),
     linear-gradient(0deg, #090a0cc0, transparent 45%);
 }
-.work-peek {
-  position: absolute;
-  right: 6%;
-  bottom: 24%;
-  left: auto;
-  top: auto;
-  z-index: 4;
-  display: inline-flex;
-  align-items: center;
-  gap: 22px;
-  width: auto;
-  color: #e9e6e2;
-  font-size: 13px;
-  border-bottom: 1px solid #ffffff60;
-  padding-bottom: 10px;
-}
-.work-peek span {
-  font-size: 20px;
-}
-.work-peek:hover {
-  border-color: white;
-}
+
 /* Full-bleed section surfaces, with the reading width kept inside. */
 .katana-site #process {
   width: 100%;
@@ -686,38 +641,11 @@
   outline-offset: -3px;
 }
 
-@media (max-width: 540px) {
-  .work-peek {
-    right: 6%;
-    bottom: 23%;
-    font-size: 11px;
-    gap: 15px;
-  }
-}
-
 .katana-stage.is-assembling canvas {
   transition: opacity 0.12s;
 }
 
 /* Keep the video open; the katana rests just above the large studio name. */
-.katana-fallback {
-  width: 78%;
-  height: auto;
-  left: 11%;
-  top: auto;
-  bottom: 21%;
-  transform: rotate(-25deg);
-  max-height: 130px;
-}
-@media (max-width: 540px) {
-  .work-peek {
-    bottom: 31%;
-  }
-  .katana-fallback {
-    bottom: 19%;
-    max-height: 65px;
-  }
-}
 
 .katana-stage.is-docked {
   position: fixed;
@@ -736,4 +664,30 @@ body.menu-open .katana-stage.is-docked {
 }
 .katana-stage.has-wordmark canvas {
   transition: none;
+}
+
+/* The 3D model is the only loading view. Show a matching still only if WebGL fails. */
+.katana-fallback {
+  position: absolute;
+  width: 74%;
+  height: auto;
+  left: 13%;
+  bottom: calc(3.9% + 15.44vw + 18px);
+  top: auto;
+  object-fit: contain;
+  max-height: 160px;
+  transform: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
+}
+.katana-stage.is-unavailable:not(.is-ready) .katana-fallback {
+  opacity: 1;
+  visibility: visible;
+}
+@media (max-width: 540px) {
+  .katana-fallback {
+    bottom: calc(9% + 16vw + 12px);
+    max-height: 65px;
+  }
 }

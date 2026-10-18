@@ -4,6 +4,7 @@
   const stage = document.querySelector("#katana-stage");
   if (!stage) return;
   const fallback = () => {
+    stage.classList.add("is-unavailable");
     document.querySelector("#opening").classList.add("static-opening");
     document.querySelector(".blade-controls").hidden = true;
   };
@@ -487,68 +488,123 @@
     scabbardBand(center, 0.025);
     scabbardBand(center + 0.075, 0.025);
   }
-  // One merged rope mesh: wrapped sageo, tied loops and short frayed ends.
-  const cordMap = mapFrom(128, 64, finish.cord);
-  cordMap.wrapS = cordMap.wrapT = T.RepeatWrapping;
-  cordMap.repeat.set(28, 1);
-  const cordMaterial = new T.MeshStandardMaterial({
-    map: cordMap,
-    bumpMap: cordMap,
-    bumpScale: 0.004,
-    roughness: 0.88,
+  // Wide matte cloth replaces the wire-like rope. All folds share one mesh.
+  const ribbonMap = mapFrom(256, 128, finish.cord);
+  ribbonMap.wrapS = ribbonMap.wrapT = T.RepeatWrapping;
+  ribbonMap.repeat.set(8, 1);
+  const ribbonMaterial = new T.MeshStandardMaterial({
+    color: 0x7c1d38,
+    map: ribbonMap,
+    bumpMap: ribbonMap,
+    bumpScale: 0.0015,
+    roughness: 0.9,
+    metalness: 0,
+    envMapIntensity: 0.25,
   });
-  const ropeParts = [];
-  const rope = (points, radius, segments = 80) => {
-    ropeParts.push(
-      new T.TubeGeometry(
-        new T.CatmullRomCurve3(points.map((p) => new T.Vector3(...p))),
-        segments,
-        radius,
-        6,
-        false,
-      ),
+  const ribbonParts = [];
+  function ribbon(points, width, steps, outward) {
+    const curve = new T.CatmullRomCurve3(
+      points.map((point) => new T.Vector3(...point)),
     );
-  };
+    const positions = [],
+      uvs = [],
+      indices = [];
+    const half = width / 2,
+      thickness = 0.009;
+    const profile = [
+      [-half, -thickness],
+      [half, -thickness],
+      [half, thickness],
+      [-half, thickness],
+    ];
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps,
+        center = curve.getPoint(t),
+        tangent = curve.getTangent(t).normalize();
+      const hint = outward ? outward(t) : new T.Vector3(0, 0, 1);
+      const across = new T.Vector3().crossVectors(tangent, hint).normalize();
+      const normal = new T.Vector3().crossVectors(across, tangent).normalize();
+      for (let corner = 0; corner < 4; corner++) {
+        const point = center
+          .clone()
+          .addScaledVector(across, profile[corner][0])
+          .addScaledVector(normal, profile[corner][1]);
+        positions.push(point.x, point.y, point.z);
+        uvs.push(t, corner === 0 || corner === 3 ? 0 : 1);
+        if (i < steps) {
+          const n = i * 4 + corner,
+            next = i * 4 + ((corner + 1) % 4);
+          indices.push(n, next, n + 4, next, next + 4, n + 4);
+        }
+      }
+    }
+    indices.push(0, 2, 1, 0, 3, 2);
+    const end = steps * 4;
+    indices.push(end, end + 1, end + 2, end, end + 2, end + 3);
+    const geometry = new T.BufferGeometry();
+    geometry.setAttribute(
+      "position",
+      new T.Float32BufferAttribute(positions, 3),
+    );
+    geometry.setAttribute("uv", new T.Float32BufferAttribute(uvs, 2));
+    geometry.setIndex(indices);
+    geometry.computeVertexNormals();
+    ribbonParts.push(geometry);
+  }
   const winding = [];
-  for (let i = 0; i <= 240; i++) {
-    const t = i / 240,
-      a = t * Math.PI * 10;
+  for (let i = 0; i <= 180; i++) {
+    const t = i / 180,
+      a = t * Math.PI * 6;
     winding.push(
-      G.point(-1.58 + t * 0.79, Math.cos(a) * 0.335, Math.sin(a) * 0.19),
+      G.point(-1.43 + t * 0.69, Math.cos(a) * 0.318, Math.sin(a) * 0.179),
     );
   }
-  rope(winding, 0.036, 240);
-  for (const side of [-1, 1]) {
-    rope(
-      [
-        G.point(-1.06, 0.1, 0.215),
-        G.point(-0.86, side * 0.28, 0.24),
-        G.point(-1.4, side * 0.31, 0.22),
-        G.point(-1.2, 0.02, 0.25),
-      ],
-      0.031,
-      48,
-    );
-    const end = G.point(-1.95, side * 0.28, 0.19);
-    rope(
-      [G.point(-1.15, 0, 0.25), G.point(-1.55, side * 0.17, 0.25), end],
-      0.027,
-      40,
-    );
-    for (let strand = 0; strand < 6; strand++)
-      rope(
-        [
-          end,
-          [
-            end[0] - 0.16 - strand * 0.008,
-            end[1] + (strand - 2.5) * 0.016,
-            end[2] + Math.sin(strand) * 0.02,
-          ],
-        ],
-        0.005,
-        8,
-      );
-  }
+  ribbon(
+    winding,
+    0.145,
+    180,
+    (t) =>
+      new T.Vector3(0, Math.cos(t * Math.PI * 6), Math.sin(t * Math.PI * 6)),
+  );
+  // A compact square knot with two short cloth tails, held close to the cover.
+  ribbon(
+    [
+      G.point(-1.3, 0.04, 0.231),
+      G.point(-1.15, 0.105, 0.25),
+      G.point(-0.98, -0.035, 0.252),
+      G.point(-0.86, 0.025, 0.23),
+    ],
+    0.105,
+    48,
+  );
+  ribbon(
+    [
+      G.point(-1.3, -0.02, 0.235),
+      G.point(-1.14, -0.09, 0.27),
+      G.point(-0.99, 0.075, 0.275),
+      G.point(-0.88, 0.025, 0.24),
+    ],
+    0.105,
+    48,
+  );
+  ribbon(
+    [
+      G.point(-1.15, -0.01, 0.245),
+      G.point(-1.4, -0.11, 0.23),
+      G.point(-1.73, -0.14, 0.18),
+    ],
+    0.09,
+    36,
+  );
+  ribbon(
+    [
+      G.point(-1.11, -0.025, 0.25),
+      G.point(-1.19, -0.18, 0.22),
+      G.point(-1.36, -0.27, 0.16),
+    ],
+    0.085,
+    36,
+  );
   function mergeParts(parts) {
     const positions = [],
       normals = [],
@@ -572,7 +628,7 @@
     geometry.setIndex(indices);
     return geometry;
   }
-  mesh(mergeParts(ropeParts), cordMaterial, sheath);
+  mesh(mergeParts(ribbonParts), ribbonMaterial, sheath);
   // Clone only the finishes on disappearing parts: the blade keeps its metal finish.
   function dissolvingPart(group) {
     const amount = { value: 0 },
@@ -698,10 +754,8 @@
   });
   const copy = document.querySelector(".opening-copy"),
     name = document.querySelector(".opening-name"),
-    peek = document.querySelector(".work-peek"),
     meta = document.querySelector(".opening-meta"),
     reveal = document.querySelector(".reveal-copy"),
-    prompt = document.querySelector(".scroll-prompt"),
     wordmark = document.querySelector("header .wordmark");
   const clamp = T.MathUtils.clamp;
   function returnToCover() {
@@ -766,12 +820,11 @@
     measureAnchors();
     const fade = clamp(1 - progress * 3, 0, 1),
       appear = clamp((progress - 0.34) * 3, 0, 1);
-    for (const el of [copy, name, peek, meta]) {
+    for (const el of [copy, name, meta]) {
       el.style.opacity = fade;
       el.style.visibility = fade < 0.01 ? "hidden" : "visible";
     }
-    prompt.style.opacity = fade;
-    prompt.style.visibility = fade < 0.01 ? "hidden" : "visible";
+
     reveal.style.opacity = appear;
     reveal.style.transform = `translateY(${(1 - appear) * 35}px)`;
     reveal.style.visibility = appear < 0.01 ? "hidden" : "visible";
@@ -1001,15 +1054,24 @@
   }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
   canvas.addEventListener("webglcontextlost", (e) => {
     e.preventDefault();
+    dockCanvas(false);
+    launched = false;
+    returning = true;
+    interaction.setTarget(0);
     stage.classList.remove("is-ready");
+    stage.classList.add("is-unavailable");
     wordmarkArt?.disable();
     cancelAnimationFrame(frame);
     frame = 0;
   });
   canvas.addEventListener("webglcontextrestored", () => {
+    stage.classList.remove("is-unavailable");
     resize();
     scroll();
   });
   resize();
+  // Compile the complete model before starting the entrance clock. The browser
+  // never presents a partially compiled sword or the old loading illustration.
+  renderer.compile(scene, camera);
   scroll();
 })();

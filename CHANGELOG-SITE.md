@@ -1,5 +1,12 @@
 # Website changelog
 
+## 4.7.2 - 2026-10-18
+
+- Replace the wire-like sageo with a broad burgundy fabric wrap, compact square knot and short cloth tails, merged into one mesh.
+- Remove Scroll to explore and Inside the studio from the opening. Add a non-breaking space before the question mark in What if ?.
+- Fix the mismatched loading katana: keep the old-style fallback hidden during startup, compile the complete 3D model before starting its entrance clock, and reserve a matching horizontal black/gold/burgundy still for unavailable WebGL. Restore the static placement safely after context loss.
+- Refresh content-hashed assets and retain the reversible cover animation and interactive large wordmark.
+
 ## 4.7.1 - 2026-10-18
 
 - Keep the small Lucknow location clear of the reference katana on desktop. Refresh asset cache keys after the live layout check.
