@@ -1,5 +1,9 @@
 # Website changelog
 
+## 4.7.4 - 2026-10-18
+
+- Remove the red 01 / THE ART OF MAKING label from the opening reveal. Refresh the published asset version.
+
 ## 4.7.3 - 2026-10-18
 
 - Remove the clipped copyright superscript beside the final i in the large Kazeyami wordmark. Preserve the footer copyright.
