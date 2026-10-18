@@ -1,5 +1,11 @@
 # Website changelog
 
+## 4.3.2 - 2026-10-18
+
+- Keep the katana opening and every collaboration section dark in both themes, including the video treatment, text and enquiry fields.
+- Keep the fixed home header readable as it moves between dark sections and the light-mode content. Other sections still follow the theme switch.
+
+
 ## 4.3.1 - 2026-10-18
 
 - Keep the menu close icon readable over pale headers on subpages and after scrolling. Preserve the moon and lantern colours through the atmospheric fog.

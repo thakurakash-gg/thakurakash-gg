@@ -6,13 +6,10 @@ html[data-theme="light"] {
   --muted: #63665f;
   --line: #c8c8bd;
 }
-html[data-theme="light"] .katana-opening,
 html[data-theme="light"] .craft-section,
 html[data-theme="light"] .katana-site #process,
 html[data-theme="light"] .katana-site #faq,
 html[data-theme="light"] .katana-site .page-navigation,
-html[data-theme="light"] .contact-section,
-html[data-theme="light"] .katana-site .contact-section,
 html[data-theme="light"] .ray-section,
 html[data-theme="light"] .design-practice,
 html[data-theme="light"] .portfolio-section,
@@ -30,27 +27,9 @@ html[data-theme="light"] .katana-site #process {
 html[data-theme="light"] .katana-site #faq {
   background: #f7f5ef;
 }
-html[data-theme="light"] .opening-film {
-  background: #eeeae0;
-}
-html[data-theme="light"] .opening-film video {
-  opacity: 0.37;
-}
-html[data-theme="light"] .opening-film:after {
-  background:
-    linear-gradient(90deg, #f2f0e9e6 0%, #f2f0e999 40%, #f2f0e92b),
-    linear-gradient(0deg, #f2f0e9a8, transparent 55%);
-}
-html[data-theme="light"] .opening-name {
-  color: #35372e;
-}
-html[data-theme="light"] .opening-kicker,
-html[data-theme="light"] .opening-credit,
-html[data-theme="light"] .scroll-prompt,
 html[data-theme="light"] .craft-heading > span,
 html[data-theme="light"] .craft-heading h2 span,
 html[data-theme="light"] .craft-copy p,
-html[data-theme="light"] .reveal-copy p,
 html[data-theme="light"] .studio-film figcaption,
 html[data-theme="light"] .ray-service-line p,
 html[data-theme="light"] .ray-work > p,
@@ -63,10 +42,6 @@ html[data-theme="light"] .craft-copy p:first-child,
 html[data-theme="light"] .project-card,
 html[data-theme="light"] .portfolio-bottom button {
   color: #242520;
-}
-html[data-theme="light"] .katana-site .work-peek {
-  color: #35372e;
-  border-color: #77796f;
 }
 html[data-theme="light"] .katana-site .theme-switch {
   color: #242520;
@@ -99,14 +74,6 @@ html[data-theme="light"] .portfolio-content {
     #24252015 calc(25% - 1px),
     #24252015 25%
   );
-}
-html[data-theme="light"] .katana-site .contact-section:after {
-  background: linear-gradient(90deg, #f2f0e9e8, #f2f0e999);
-}
-html[data-theme="light"] .brief-field input,
-html[data-theme="light"] .brief-field textarea,
-html[data-theme="light"] .brief-field select {
-  color: #242520;
 }
 /* Keep photographic portfolio rows as originally art-directed in both themes. */
 .overlay {
@@ -171,15 +138,8 @@ body.menu-open .menu-toggle span,
   }
 }
 
-html[data-theme="light"] .katana-site .contact-story p,
-html[data-theme="light"] .katana-site .contact-grid .brief-field label,
-html[data-theme="light"] .katana-site .contact-grid .brief-submit p,
 html[data-theme="light"] .footer-columns p {
   color: #63665f;
-}
-html[data-theme="light"] .katana-site .contact-grid input::placeholder,
-html[data-theme="light"] .katana-site .contact-grid textarea::placeholder {
-  color: #73766e;
 }
 
 html[data-theme="light"] .subpage.menu-open .menu-toggle span,
@@ -188,4 +148,31 @@ html[data-theme="light"]
   .menu-toggle
   span {
   background: #242520 !important;
+}
+
+/* The opening and collaboration are intentionally dark in either theme. */
+.katana-opening,
+.contact-section {
+  color-scheme: dark;
+}
+html[data-theme="light"] .katana-site.over-dark-section .theme-switch {
+  color: #fff;
+}
+html[data-theme="light"] .katana-site.over-dark-section .menu-toggle span {
+  background: #fff;
+}
+html[data-theme="light"]
+  .katana-site.over-dark-section.menu-open
+  .menu-toggle
+  span {
+  background: #fff !important;
+}
+html[data-theme="light"] .katana-site.over-dark-section .brand-name,
+html[data-theme="light"] .katana-site.over-dark-section .brand-subtitle {
+  filter: none;
+}
+html[data-theme="light"]
+  .katana-site.over-dark-section.header-scrolled
+  header:before {
+  background: #101113ed;
 }

@@ -6,6 +6,11 @@
   function update() {
     queued = false;
     const range = document.documentElement.scrollHeight - innerHeight;
+    const overDark = ["opening", "contact"].some((id) => {
+      const bounds = document.getElementById(id).getBoundingClientRect();
+      return bounds.top <= 48 && bounds.bottom > 48;
+    });
+    document.body.classList.toggle("over-dark-section", overDark);
     document.body.classList.toggle("header-scrolled", scrollY > innerHeight);
     percent.textContent =
       Math.round(range > 0 ? (scrollY / range) * 100 : 0) + "%";
