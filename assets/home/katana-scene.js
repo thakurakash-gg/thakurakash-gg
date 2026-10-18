@@ -507,6 +507,12 @@
   }
   let width = 0,
     height = 0;
+  const pixelTrail = window.KazeyamiPixelTrail?.(
+    T,
+    renderer,
+    stage,
+    requestRender,
+  );
   function resize() {
     width = stage.clientWidth;
     height = stage.clientHeight;
@@ -514,6 +520,7 @@
       navigator.deviceMemory && navigator.deviceMemory <= 4 ? 1.35 : 1.8;
     renderer.setPixelRatio(Math.min(devicePixelRatio, cap));
     renderer.setSize(width, height, false);
+    pixelTrail?.resize();
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     requestRender();
@@ -558,10 +565,12 @@
     blade.position.set(extraction.x, extraction.y, 0);
     // The scabbard stays fixed. Circular extraction keeps every concealed blade
     // section on the cavity spine, so it exits the mouth rather than the side.
-    renderer.render(scene, camera);
+    const pixelsMoving = pixelTrail
+      ? pixelTrail.render(scene, camera, now)
+      : (renderer.render(scene, camera), false);
     stage.classList.add("is-ready");
     // No idle animation loop: render only while moving toward an interaction target.
-    if (Math.abs(target - draw) > 0.001) requestRender();
+    if (Math.abs(target - draw) > 0.001 || pixelsMoving) requestRender();
   }
   const observer = new IntersectionObserver(
     (entries) => {

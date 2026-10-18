@@ -1,5 +1,14 @@
 # Website changelog
 
+## 4.3.0 - 2026-10-18
+
+- Rebuild cursor pixelation as a render pass on the katana itself: broad, opaque grid cells trail the pointer and resolve back to the original image. Remove floating square particles.
+- Restyle the studio heading with a smaller introductory line and an open, italic serif question.
+- Make light mode use warm pale surfaces, dark text, correct logos and a brighter studio film across the marketing site.
+- Add an original procedural temple backdrop behind the existing sliding menu, with lanterns, rain, leaves and pointer parallax. Load on first open and stop animation when closed; reduced motion uses a still scene.
+- Version the shared theme and menu assets, retain the direction section, and update input, layout and theme verification.
+
+
 ## 4.2.0 — 2026-10-18
 
 - Use the existing studio film behind the home katana and keep the studio link at the lower right.

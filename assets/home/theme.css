@@ -1,0 +1,172 @@
+/* Shared theme surfaces and the decorative menu world. */
+html[data-theme="light"] {
+  color-scheme: light;
+  --paper: #f2f0e9;
+  --ink: #242520;
+  --muted: #63665f;
+  --line: #c8c8bd;
+}
+html[data-theme="light"] .katana-opening,
+html[data-theme="light"] .craft-section,
+html[data-theme="light"] .katana-site #process,
+html[data-theme="light"] .katana-site #faq,
+html[data-theme="light"] .katana-site .page-navigation,
+html[data-theme="light"] .contact-section,
+html[data-theme="light"] .katana-site .contact-section,
+html[data-theme="light"] .ray-section,
+html[data-theme="light"] .design-practice,
+html[data-theme="light"] .portfolio-section,
+html[data-theme="light"] .footer-shell {
+  background: #f2f0e9;
+  color: #242520;
+  --paper: #f2f0e9;
+  --ink: #242520;
+  --muted: #63665f;
+  --line: #c8c8bd;
+}
+html[data-theme="light"] .katana-site #process {
+  background: #e5e4da;
+}
+html[data-theme="light"] .katana-site #faq {
+  background: #f7f5ef;
+}
+html[data-theme="light"] .opening-film {
+  background: #eeeae0;
+}
+html[data-theme="light"] .opening-film video {
+  opacity: 0.37;
+}
+html[data-theme="light"] .opening-film:after {
+  background:
+    linear-gradient(90deg, #f2f0e9e6 0%, #f2f0e999 40%, #f2f0e92b),
+    linear-gradient(0deg, #f2f0e9a8, transparent 55%);
+}
+html[data-theme="light"] .opening-name {
+  color: #35372e;
+}
+html[data-theme="light"] .opening-kicker,
+html[data-theme="light"] .opening-credit,
+html[data-theme="light"] .scroll-prompt,
+html[data-theme="light"] .craft-heading > span,
+html[data-theme="light"] .craft-heading h2 span,
+html[data-theme="light"] .craft-copy p,
+html[data-theme="light"] .reveal-copy p,
+html[data-theme="light"] .studio-film figcaption,
+html[data-theme="light"] .ray-service-line p,
+html[data-theme="light"] .ray-work > p,
+html[data-theme="light"] .portfolio-bottom p,
+html[data-theme="light"] .project-meta {
+  color: #63665f;
+}
+html[data-theme="light"] .craft-heading h2 em,
+html[data-theme="light"] .craft-copy p:first-child,
+html[data-theme="light"] .project-card,
+html[data-theme="light"] .portfolio-bottom button {
+  color: #242520;
+}
+html[data-theme="light"] .katana-site .work-peek {
+  color: #35372e;
+  border-color: #77796f;
+}
+html[data-theme="light"] .katana-site .theme-switch {
+  color: #242520;
+}
+html[data-theme="light"] .katana-site .menu-toggle span {
+  background: #242520;
+}
+html[data-theme="light"] .subpage header.wrap,
+html[data-theme="light"] .katana-site.header-scrolled header:before {
+  background: #f2f0e9ed;
+}
+html[data-theme="light"] .wordmark {
+  filter: none;
+}
+html[data-theme="light"] .brand-name,
+html[data-theme="light"] .brand-subtitle {
+  filter: brightness(0);
+}
+html[data-theme="light"] .katana-site #faq summary:hover,
+html[data-theme="light"] .katana-site #faq summary:focus-visible {
+  color: #754125;
+  background: #b88c5420;
+  border-color: #a58c6d;
+}
+html[data-theme="light"] .portfolio-content {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(25% - 1px),
+    #24252015 calc(25% - 1px),
+    #24252015 25%
+  );
+}
+html[data-theme="light"] .katana-site .contact-section:before {
+  background: linear-gradient(90deg, #f2f0e9e8, #f2f0e999);
+}
+html[data-theme="light"] .brief-field input,
+html[data-theme="light"] .brief-field textarea,
+html[data-theme="light"] .brief-field select {
+  color: #242520;
+}
+/* Keep photographic portfolio rows as originally art-directed in both themes. */
+.overlay {
+  isolation: isolate;
+  overflow: hidden;
+  background: #12212b;
+  color: #f1e9dd !important;
+}
+.overlay nav,
+.overlay > p {
+  position: relative;
+  z-index: 2;
+}
+.overlay nav {
+  gap: 13px;
+}
+.overlay a {
+  text-shadow: 0 2px 16px #000;
+}
+.overlay a:hover {
+  color: #f2c18c;
+  opacity: 1;
+}
+.overlay > p {
+  color: #ccd0ca;
+  text-shadow: 0 2px 12px #000;
+}
+.menu-world {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 78% 24%, #885b57 0, transparent 22%),
+    linear-gradient(#142631, #20332f);
+}
+.menu-world canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.menu-world:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #08141bd9, #08141b66 70%, #08141b26),
+    linear-gradient(0deg, #08141ba6, transparent 28%);
+}
+body.menu-open .menu-toggle span,
+.katana-site.menu-open .menu-toggle span {
+  background: #f1e9dd !important;
+}
+@media (max-width: 850px) {
+  .overlay {
+    width: min(420px, 92vw);
+  }
+  .menu-world:after {
+    background:
+      linear-gradient(90deg, #08141bd9, #08141b40),
+      linear-gradient(0deg, #08141bb8, transparent 25%);
+  }
+}

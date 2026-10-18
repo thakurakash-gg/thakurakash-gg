@@ -29,6 +29,7 @@
     if (
       openingVisible &&
       !document.hidden &&
+      !document.body.classList.contains("menu-open") &&
       !preference.matches &&
       !navigator.connection?.saveData
     ) {
@@ -45,6 +46,10 @@
   ).observe(openingVideo);
   document.addEventListener("visibilitychange", syncOpeningVideo);
   preference.addEventListener("change", syncOpeningVideo);
+  new MutationObserver(syncOpeningVideo).observe(document.body, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
   const video = document.querySelector("#hero-video");
   const videoButton = document.querySelector(".video-toggle");
   const motion = matchMedia("(prefers-reduced-motion: reduce)");

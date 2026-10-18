@@ -354,12 +354,27 @@
   color: #9b9492;
 }
 .craft-heading h2 {
-  font-size: clamp(48px, 6vw, 100px);
-  line-height: 0.97;
-  letter-spacing: -0.065em;
+  margin: 36px 0 0;
   font-weight: 400;
-  margin: 35px 0 0;
+  letter-spacing: -0.02em;
 }
+.craft-heading h2 span {
+  display: block;
+  font-size: clamp(22px, 2.2vw, 34px);
+  line-height: 1.4;
+  color: #aaa5a1;
+  margin-bottom: 18px;
+}
+.craft-heading h2 em {
+  display: block;
+  font:
+    italic 400 clamp(68px, 7.7vw, 122px) / 1.12 Georgia,
+    "Times New Roman",
+    serif;
+  letter-spacing: -0.045em;
+  color: #e9e4dc;
+}
+
 .craft-copy {
   padding-top: 45px;
   max-width: 580px;
@@ -675,15 +690,7 @@
   outline: 2px solid #dfc39a;
   outline-offset: -3px;
 }
-.home-pixel-cursor {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-  mix-blend-mode: screen;
-}
+
 @media (max-width: 540px) {
   .work-peek {
     right: 6%;
