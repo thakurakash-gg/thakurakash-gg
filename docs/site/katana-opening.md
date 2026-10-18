@@ -1,4 +1,4 @@
-# Kazeyami opening — 4.0.1
+# Kazeyami opening — 4.1.0
 
 The original reference is https://string-tune.fiddle.digital/ (examined 2026-10-18).
 Kazeyami uses original procedural geometry and artwork, with the existing local
@@ -47,14 +47,19 @@ new external dependencies are introduced.
 
 The katana continues to render on demand, with capped pixel ratio and a static
 WebGL fallback. The studio film still loads on visibility. Homepage runtime URLs
-are versioned 4.0.1. RAY and its cache/rendering files are unchanged.
+are versioned 4.1.0. RAY rendering and cache files are unchanged; its branch return link and contact address are updated.
 
 ## Preserved content
 
-The complete `#services` section is unchanged, including “Find your direction”,
-films, copy, links and shared CSS. Source SHA-256:
-`84c95f49695f7056196cfb6a153f7aca013ee89a79c3cfb619c08098506bfb3e`
+The `#services` design, films and other rows remain unchanged. At the user’s
+request, its first row now names NEXIV as the architecture branch and RAY as its
+platform, with a link to nexiv.html. Approved section source SHA-256:
+`0d1c8e332b3798bcdada7545147c5814d782a895b7c4680b8d1f9bc627647a70`
 
 Browser checks cover native desktop and 390 x 844 phone layouts, drawing and
 sheathing, the original menu, theme switching, contact background and form access.
 They do not establish frame rates on physical Android or iOS hardware.
+
+NEXIV is the architecture branch; RAY remains its interactive platform. The old
+ray.html address redirects to nexiv.html. All public contact addresses and enquiry
+drafts use sales@kazeyami.com. Shared scripts use version 4.1.0 for cache refresh.

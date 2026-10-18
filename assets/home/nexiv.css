@@ -1,0 +1,25 @@
+.nexiv-heading {
+  gap: 40px;
+}
+.nexiv-heading h2 {
+  font-size: clamp(100px, 16vw, 250px);
+  flex: 0 0 auto;
+}
+.nexiv-heading p {
+  font-size: clamp(20px, 2.2vw, 34px);
+  max-width: 390px;
+}
+@media (max-width: 850px) {
+  .nexiv-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+  }
+  .nexiv-heading h2 {
+    font-size: clamp(90px, 20vw, 170px);
+  }
+  .nexiv-heading p {
+    font-size: 22px;
+    max-width: 100%;
+  }
+}

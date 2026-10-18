@@ -11,10 +11,10 @@ assert(start >= 0, "Retained direction section must exist");
 const section = html.slice(start, html.indexOf("</section>", start) + 10);
 assert.equal(
   createHash("sha256").update(section).digest("hex"),
-  "84c95f49695f7056196cfb6a153f7aca013ee89a79c3cfb619c08098506bfb3e",
-  "Find your direction must remain unchanged",
+  "0d1c8e332b3798bcdada7545147c5814d782a895b7c4680b8d1f9bc627647a70",
+  "Direction layout and approved NEXIV identity must remain unchanged",
 );
-assert(html.includes('data-studio-version="4.0.1"'));
+assert(html.includes('data-studio-version="4.1.0"'));
 for (const asset of [...html.matchAll(/(?:src|href|poster)="([^"#]+)"/g)].map(
   (m) => m[1],
 )) {
@@ -34,7 +34,7 @@ for (const asset of [
   "assets/home/katana-geometry.js",
   "assets/home/contact-background.js",
 ]) {
-  assert(html.includes(`${asset}?v=4.0.1`), `Unversioned runtime: ${asset}`);
+  assert(html.includes(`${asset}?v=4.1.0`), `Unversioned runtime: ${asset}`);
 }
 console.log(
   "Homepage: preserved section, local assets, routes and versioned runtime verified.",

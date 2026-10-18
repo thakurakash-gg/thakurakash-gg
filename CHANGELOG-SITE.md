@@ -1,5 +1,15 @@
 # Website changelog
 
+## 4.1.0 — 2026-10-18
+
+- Present NEXIV as Kazeyami’s architecture branch and RAY as its interactive
+  platform. Add the NEXIV architecture page, update branch navigation and the
+  first direction row, and redirect the old ray.html address.
+- Keep the RAY prototype and product identity, with a return link to NEXIV.
+- Set sales@kazeyami.com as the contact address across every website page, RAY
+  prototype, project enquiry link and generated email draft.
+- Version shared enquiry scripts so subsequent loads use the new address.
+
 ## 4.0.1 — 2026-10-18
 
 - Restore the original top-right hamburger menu and panel that slides in from the
