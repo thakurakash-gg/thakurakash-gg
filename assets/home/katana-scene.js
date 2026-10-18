@@ -44,6 +44,9 @@
   const blade = new T.Group();
   const sheath = new T.Group();
   model.add(blade, sheath);
+  const steel = new T.Group(),
+    hilt = new T.Group();
+  blade.add(steel, hilt);
   const mapFrom = (w, h, paint) => {
     const surface = document.createElement("canvas");
     surface.width = w;
@@ -222,7 +225,7 @@
     return geometry;
   }
   // One closed blade, including the kissaki: no overlapping face or bevel strips.
-  mesh(fromData(G.bladeData()), [metal, bladeFace, edge], blade);
+  mesh(fromData(G.bladeData()), [metal, bladeFace, edge], steel);
   mesh(fromData(G.sheathData()), [lacquer, dark], sheath);
   const mouthPoints = [];
   for (let i = 0; i <= 48; i++) {
@@ -313,33 +316,33 @@
     );
   }
   collarGeometry.computeVertexNormals();
-  mesh(collarGeometry, gold, blade, 0.08);
+  mesh(collarGeometry, gold, steel, 0.08);
   const guardShape = new T.Shape();
   guardShape.absellipse(0, 0, 0.36, 0.468, 0, Math.PI * 2, false);
-  mesh(extrudedFitting(guardShape, 0.085, 0.009), dark, blade, 0.34);
+  mesh(extrudedFitting(guardShape, 0.085, 0.009), dark, hilt, 0.34);
   const rimShape = new T.Shape();
   rimShape.absellipse(0, 0, 0.383, 0.491, 0, Math.PI * 2, false);
   const rimHole = new T.Path();
   rimHole.absellipse(0, 0, 0.353, 0.461, 0, Math.PI * 2, true);
   rimShape.holes.push(rimHole);
   // A complete annular metal band surrounds the plate; it is never buried in it.
-  mesh(extrudedFitting(rimShape, 0.112, 0.004), gold, blade, 0.34);
+  mesh(extrudedFitting(rimShape, 0.112, 0.004), gold, hilt, 0.34);
   for (let i = 0; i < 10; i++) {
     const a = (i / 10) * Math.PI * 2;
     const engraving = mesh(
       new T.TorusGeometry(0.024, 0.006, 6, 12),
       gold,
-      blade,
+      hilt,
       0.396,
       Math.cos(a) * 0.35,
       Math.sin(a) * 0.265,
     );
     engraving.rotation.y = Math.PI / 2;
   }
-  const grip = cylinder(0.21, 2.5, skin, blade, 1.68);
+  const grip = cylinder(0.21, 2.5, skin, hilt, 1.68);
   grip.scale.z = 0.82;
-  cylinder(0.23, 0.14, gold, blade, 0.49).scale.z = 0.82;
-  cylinder(0.23, 0.14, gold, blade, 2.97).scale.z = 0.82;
+  cylinder(0.23, 0.14, gold, hilt, 0.49).scale.z = 0.82;
+  cylinder(0.23, 0.14, gold, hilt, 2.97).scale.z = 0.82;
   // Rounded gilded straps alternate above and below each crossing.
   function braid(handedness) {
     const positions = [],
@@ -401,7 +404,7 @@
     const m = gold.clone();
     m.roughness = 0.34;
     m.side = T.DoubleSide;
-    mesh(g, m, blade);
+    mesh(g, m, hilt);
   }
   braid(1);
   braid(-1);
@@ -424,7 +427,7 @@
         relief.setMatrixAt(reliefIndex++, reliefPose.matrix);
       }
     }
-  blade.add(relief);
+  hilt.add(relief);
   // Closed gold collars follow the scabbard's curved spine and leave its mouth open.
   function scabbardBand(center, width) {
     const positions = [],
@@ -474,6 +477,12 @@
   scabbardBand(-4.85, 0.075);
   const drawButton = document.querySelector("#draw-blade");
   const interaction = createInteraction();
+  const intro = window.KazeyamiKatanaIntro;
+  let introStart = null,
+    introCancelled = reduced.matches || !intro;
+  const skipIntro = () => {
+    introCancelled = true;
+  };
   let draw = 0,
     progress = 0,
     pointerX = 0,
@@ -490,12 +499,14 @@
     drawButton.title = open ? "Sheathe the blade" : "Draw the blade";
   }
   drawButton.addEventListener("click", () => {
+    skipIntro();
     interaction.toggle();
     syncDrawButton();
     requestRender();
   });
   stage.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
+    skipIntro();
     interaction.down({
       id: e.pointerId,
       x: e.clientX,
@@ -549,6 +560,7 @@
           0,
           1,
         );
+    if (progress > 0.015) skipIntro();
     interaction.scroll(progress);
     syncDrawButton();
     const fade = clamp(1 - progress * 3, 0, 1),
@@ -600,12 +612,30 @@
     last = now;
     const poseProgress = progress;
     const target = interaction.target();
-    draw += (target - draw) * (reduced.matches ? 1 : 1 - Math.exp(-dt * 6));
+    if (introStart === null) introStart = now;
+    const entrance =
+      !introCancelled && !reduced.matches
+        ? intro.pose((now - introStart) / 1000)
+        : null;
+    const assembling = entrance?.active ?? false;
+    if (assembling) draw = entrance.draw;
+    else
+      draw += (target - draw) * (reduced.matches ? 1 : 1 - Math.exp(-dt * 6));
+    if (entrance && !assembling) {
+      introCancelled = true;
+      draw = target;
+    }
+    hilt.position.x = assembling ? entrance.hiltX : 0;
+    steel.position.x = assembling ? entrance.steelX : 0;
+    hilt.rotation.z = assembling ? entrance.hiltRoll : 0;
+    steel.rotation.z = assembling ? entrance.steelRoll : 0;
+    sheath.rotation.z = assembling ? entrance.sheathRoll : 0;
+    stage.classList.toggle("is-assembling", assembling);
     const mobile = width < 600;
     model.rotation.set(
       0.12 + (reduced.matches ? 0 : pointerY * 0.06),
       -0.42 + (reduced.matches ? 0 : pointerX * 0.11),
-      0.48 - poseProgress * 0.5 - draw * 0.2,
+      0.48 - poseProgress * 0.5 - draw * 0.2 + (assembling ? entrance.kick : 0),
     );
     const viewWidth =
       2 *
@@ -634,7 +664,8 @@
       : (renderer.render(scene, camera), false);
     stage.classList.add("is-ready");
     // No idle animation loop: render only while moving toward an interaction target.
-    if (Math.abs(target - draw) > 0.001 || pixelsMoving) requestRender();
+    if (assembling || Math.abs(target - draw) > 0.001 || pixelsMoving)
+      requestRender();
   }
   const observer = new IntersectionObserver(
     (entries) => {

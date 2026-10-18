@@ -178,6 +178,8 @@
 }
 .katana-stage.is-ready .katana-fallback {
   opacity: 0;
+  visibility: hidden;
+  transition: none;
 }
 
 .opening-copy {
@@ -691,4 +693,8 @@
     font-size: 11px;
     gap: 15px;
   }
+}
+
+.katana-stage.is-assembling canvas {
+  transition: opacity 0.12s;
 }

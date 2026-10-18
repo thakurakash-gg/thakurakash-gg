@@ -4,6 +4,7 @@
 
 - Replace the opening slogan with Design and technology studio, followed by a small Lucknow, India location. Remove the previous kicker and crafted-by credit.
 - Replace the ivory grip with interlaced antique-gold fittings and shared sculpted floral relief. Add matching curved gold scabbard collars and original metallic botanical inlay in place of the red ribbons.
+- Add a 940 ms action-style entrance: grip from the left, blade from the right, fast sheathing and a brief settling recoil. It begins at the first rendered frame, does not block page loading, yields to interaction and respects reduced motion.
 - Preserve blade extraction, the cursor pixelation, dark opening and collaboration surfaces, and the existing direction section. Refresh asset cache keys and the static fallback.
 
 

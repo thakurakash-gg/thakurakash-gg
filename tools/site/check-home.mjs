@@ -31,6 +31,7 @@ for (const asset of [
   "assets/home/katana-scene.js",
   "assets/home/home.js",
   "assets/home/katana-interaction.js",
+  "assets/home/katana-intro.js",
   "assets/home/pixel-cursor.js",
   "assets/home/katana.css",
   "assets/home/katana-geometry.js",
