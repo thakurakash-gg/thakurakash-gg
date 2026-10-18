@@ -15,7 +15,7 @@
   const G = window.KazeyamiKatanaGeometry;
   const finish = window.KazeyamiKatanaFinish;
   const createInteraction = window.KazeyamiKatanaInteraction;
-  if (!G || !createInteraction) {
+  if (!G || !createInteraction || !finish || !window.KazeyamiKatanaFlight) {
     fallback();
     return;
   }
@@ -893,7 +893,8 @@
     const gripEndX = extraction.x + 2.97 * Math.cos(extraction.angle);
     const gripEndY = extraction.y + 2.97 * Math.sin(extraction.angle);
     const chord = Math.atan2(gripEndY - tipY, gripEndX - tipX);
-    const roll = -chord * lift + (assembling ? entrance.kick : 0);
+    const roll =
+      0.1 * (1 - lift) - chord * lift + (assembling ? entrance.kick : 0);
     model.rotation.set(
       (1 - lift) * (0.08 + (reduced.matches ? 0 : pointerY * 0.025)),
       (1 - lift) * (-0.24 + (reduced.matches ? 0 : pointerX * 0.04)),

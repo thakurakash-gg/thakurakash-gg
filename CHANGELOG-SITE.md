@@ -1,5 +1,12 @@
 # Website changelog
 
+## 4.7.0 - 2026-10-18
+
+- Rebuild the katana finish from the supplied reference: black woven grip over ivory rayskin diamonds, small gold menuki, antique-gold landscape guard and latticed habaki, glossy black scabbard with gold dragon artwork, paired gold bands and a tied black-and-white sageo cord. The cord is merged into one mesh and the material artwork is generated locally.
+- Keep the handle attached throughout docking. Only the scabbard and its cord dissolve. An upward scroll back into the opening, or an upward gesture at the top, reverses the same 2.1-second flight; the cover reappears before the blade slides back inside.
+- Include the large Kazeyami wordmark in the actual cursor pixelation pass. Match its measured typography and preserve the original DOM text as the WebGL fallback. Text stays sharp away from the cursor and resizes with the page.
+- Keep the compact phone drawer, shared collaboration background, video, approved direction section and RAY scene. Refresh content-hashed asset versions.
+
 ## 4.6.0 - 2026-10-18
 
 - Make the phone navigation a compact right drawer: at most 300px / 76vw, with 44px touch targets and scrolling on short displays. Keep a visible strip of the page and the existing navigation controls.

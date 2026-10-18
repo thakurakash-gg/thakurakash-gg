@@ -1,4 +1,4 @@
-/* Pixelate the rendered sculpture itself, in a short screen-space wake. */
+/* Pixelate the katana and large studio wordmark in a short screen-space wake. */
 (() => {
   "use strict";
   window.KazeyamiPixelTrail = function (T, renderer, stage, requestRender) {
@@ -112,6 +112,13 @@
           event.target.closest("button,a,input,textarea,select,[role=dialog]")
         )
           return;
+        const opening = document
+          .querySelector("#opening")
+          .getBoundingClientRect();
+        if (opening.bottom <= 0 || opening.top >= innerHeight) {
+          previous = null;
+          return;
+        }
         const rect = stage.getBoundingClientRect();
         const x = event.clientX - rect.left,
           y = event.clientY - rect.top;
