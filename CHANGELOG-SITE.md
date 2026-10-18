@@ -1,5 +1,10 @@
 # Website changelog
 
+## 4.7.3 - 2026-10-18
+
+- Remove the clipped copyright superscript beside the final i in the large Kazeyami wordmark. Preserve the footer copyright.
+- Give the wordmark texture a transparent right gutter so negative letter spacing cannot crop the final glyph. Keep the cursor pixel effect and refresh asset versions.
+
 ## 4.7.2 - 2026-10-18
 
 - Replace the wire-like sageo with a broad burgundy fabric wrap, compact square knot and short cloth tails, merged into one mesh.

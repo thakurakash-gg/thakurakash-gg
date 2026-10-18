@@ -208,13 +208,6 @@
   color: #b4b0b4;
   pointer-events: none;
 }
-.opening-name sup {
-  font-size: 0.16em;
-  vertical-align: top;
-  position: relative;
-  top: 0.05em;
-  left: 0.12em;
-}
 .opening-meta {
   position: absolute;
   bottom: 15px;
