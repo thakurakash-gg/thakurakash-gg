@@ -111,63 +111,63 @@
     metalness: 0.5,
     roughness: 0.37,
   });
-  const lacquerMap = mapFrom(1024, 256, (ctx, w, h) => {
-    ctx.fillStyle = "#141415";
+  function paintLacquer(ctx, w, h, mask = false) {
+    ctx.fillStyle = mask ? "#252525" : "#141719";
     ctx.fillRect(0, 0, w, h);
-    for (let i = 0; i < 10000; i++) {
-      const v = 14 + Math.floor(random() * 18);
-      ctx.fillStyle = `rgb(${v},${v},${v})`;
-      ctx.fillRect(random() * w, random() * h, 1, 1);
+    if (!mask) {
+      for (let i = 0; i < 7000; i++) {
+        const x = (i * 83.17) % w,
+          y = (i * 47.31) % h;
+        ctx.fillStyle = i % 2 ? "#1c2021" : "#101415";
+        ctx.fillRect(x, y, 1, 0.5);
+      }
     }
-    // Hand-drawn vermilion wind ribbons, rather than the reference's artwork.
-    for (let i = 0; i < 9; i++) {
-      const x = 280 + i * 61;
-      ctx.strokeStyle = i % 2 ? "#b33123" : "#e9472d";
-      ctx.lineWidth = 3 + random() * 13;
+    // Original gold-leaf botanical scrollwork on the lacquer, with a matching
+    // metal mask so the inlay catches the same light as the forged fittings.
+    for (let strand = 0; strand < 3; strand++) {
+      ctx.strokeStyle = mask
+        ? "#fff"
+        : ["#a78543", "#c5a35d", "#90723a"][strand];
+      ctx.lineWidth = strand === 1 ? 1.8 : 1.1;
       ctx.beginPath();
-      ctx.moveTo(x - 100, h + 20);
-      ctx.bezierCurveTo(x + 110, 150, x - 90, 95, x + 100, -20);
+      for (let x = 40; x <= w - 45; x += 3) {
+        const y =
+          h * 0.5 + Math.sin(x * 0.012 + strand * 0.9) * 53 + (strand - 1) * 20;
+        x === 40 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
       ctx.stroke();
+      for (let x = 75 + strand * 19; x < w - 65; x += 43) {
+        const y =
+          h * 0.5 + Math.sin(x * 0.012 + strand * 0.9) * 53 + (strand - 1) * 20;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(Math.cos(x * 0.012 + strand * 0.9) * 0.7);
+        ctx.fillStyle = mask ? "#fff" : "#bea062";
+        for (const side of [-1, 1]) {
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(3, side * 14, 15, side * 14);
+          ctx.quadraticCurveTo(13, side * 3, 0, 0);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
     }
-    ctx.globalAlpha = 0.4;
-    ctx.fillStyle = "#ae9158";
-    for (let i = 0; i < 240; i++) {
-      const x = random() * w,
-        y = random() * h;
-      ctx.fillRect(x, y, 1 + random() * 3, 1);
-    }
-  });
+  }
+  const lacquerMap = mapFrom(2048, 512, (ctx, w, h) => paintLacquer(ctx, w, h));
+  const inlayMask = mapFrom(2048, 512, (ctx, w, h) =>
+    paintLacquer(ctx, w, h, true),
+  );
+  inlayMask.encoding = T.LinearEncoding;
   const lacquer = new T.MeshPhysicalMaterial({
     map: lacquerMap,
-    metalness: 0.3,
-    roughness: 0.25,
-    clearcoat: 1,
-    clearcoatRoughness: 0.16,
-  });
-  const clothMap = mapFrom(256, 128, (ctx, w, h) => {
-    ctx.fillStyle = "#c9c4b9";
-    ctx.fillRect(0, 0, w, h);
-    for (let i = 0; i < 256; i += 2) {
-      ctx.strokeStyle = i % 4 ? "#e1dcd2" : "#b5b0a5";
-      ctx.lineWidth = 0.6;
-      ctx.beginPath();
-      ctx.moveTo(i, 0);
-      ctx.lineTo(i + 28, h);
-      ctx.stroke();
-    }
-    for (let y = 0; y < h; y += 3) {
-      ctx.strokeStyle = "#ede7dc30";
-      ctx.fillStyle = "#756f6424";
-      ctx.fillRect(0, y, w, 0.5);
-    }
-  });
-  clothMap.wrapS = clothMap.wrapT = T.RepeatWrapping;
-  const cloth = new T.MeshStandardMaterial({
-    map: clothMap,
-    bumpMap: clothMap,
-    bumpScale: 0.0025,
-    roughness: 0.92,
-    color: 0xb0a99c,
+    metalnessMap: inlayMask,
+    metalness: 0.95,
+    bumpMap: inlayMask,
+    bumpScale: 0.0009,
+    roughness: 0.31,
+    clearcoat: 0.8,
+    clearcoatRoughness: 0.18,
   });
   const skinMap = mapFrom(256, 128, (ctx, w, h) => {
     ctx.fillStyle = "#1b1c19";
@@ -338,9 +338,9 @@
   }
   const grip = cylinder(0.21, 2.5, skin, blade, 1.68);
   grip.scale.z = 0.82;
-  cylinder(0.23, 0.14, dark, blade, 0.49).scale.z = 0.82;
+  cylinder(0.23, 0.14, gold, blade, 0.49).scale.z = 0.82;
   cylinder(0.23, 0.14, gold, blade, 2.97).scale.z = 0.82;
-  // Rounded silk straps alternate above and below each crossing.
+  // Rounded gilded straps alternate above and below each crossing.
   function braid(handedness) {
     const positions = [],
       uvs = [],
@@ -398,21 +398,80 @@
     g.setAttribute("uv", new T.Float32BufferAttribute(uvs, 2));
     g.setIndex(indices);
     g.computeVertexNormals();
-    const m = cloth.clone();
+    const m = gold.clone();
+    m.roughness = 0.34;
     m.side = T.DoubleSide;
     mesh(g, m, blade);
   }
   braid(1);
   braid(-1);
-  for (let i = 0; i < 3; i++)
-    mesh(
-      new T.SphereGeometry(0.028, 10, 8),
-      gold,
-      blade,
-      1.1 + i * 0.55,
-      0,
-      0.185,
+  // Small sculpted menuki share a single batch on both faces of the hilt.
+  const relief = new T.InstancedMesh(new T.SphereGeometry(1, 8, 6), gold, 30);
+  const reliefPose = new T.Object3D();
+  let reliefIndex = 0;
+  for (const side of [-1, 1])
+    for (const x of [1.1, 1.68, 2.26]) {
+      for (let petal = 0; petal < 5; petal++) {
+        const angle = (petal / 5) * Math.PI * 2;
+        reliefPose.position.set(
+          x + Math.cos(angle) * 0.035,
+          Math.sin(angle) * 0.035,
+          side * 0.187,
+        );
+        reliefPose.rotation.set(0, 0, angle);
+        reliefPose.scale.set(0.032, 0.017, 0.009);
+        reliefPose.updateMatrix();
+        relief.setMatrixAt(reliefIndex++, reliefPose.matrix);
+      }
+    }
+  blade.add(relief);
+  // Closed gold collars follow the scabbard's curved spine and leave its mouth open.
+  function scabbardBand(center, width) {
+    const positions = [],
+      indices = [],
+      uvs = [];
+    const profile = [
+      [-0.5, 0.289, 0.149],
+      [-0.5, 0.302, 0.162],
+      [0.5, 0.302, 0.162],
+      [0.5, 0.289, 0.149],
+    ];
+    profile.forEach(([along, height, depth], row) => {
+      for (let j = 0; j < 48; j++) {
+        const a = (j / 48) * Math.PI * 2;
+        positions.push(
+          ...G.point(
+            center + along * width,
+            Math.cos(a) * height,
+            Math.sin(a) * depth,
+          ),
+        );
+        uvs.push(j / 48, row / 4);
+      }
+    });
+    for (let row = 0; row < 4; row++)
+      for (let j = 0; j < 48; j++) {
+        const a = row * 48 + j,
+          b = row * 48 + ((j + 1) % 48),
+          c = ((row + 1) % 4) * 48 + j,
+          d = ((row + 1) % 4) * 48 + ((j + 1) % 48);
+        indices.push(a, c, b, b, c, d);
+      }
+    const geometry = new T.BufferGeometry();
+    geometry.setAttribute(
+      "position",
+      new T.Float32BufferAttribute(positions, 3),
     );
+    geometry.setAttribute("uv", new T.Float32BufferAttribute(uvs, 2));
+    geometry.setIndex(indices);
+    geometry.computeVertexNormals();
+    const bandMaterial = gold.clone();
+    bandMaterial.side = T.DoubleSide;
+    mesh(geometry, bandMaterial, sheath);
+  }
+  scabbardBand(-0.34, 0.18);
+  scabbardBand(-6.29, 0.28);
+  scabbardBand(-4.85, 0.075);
   const drawButton = document.querySelector("#draw-blade");
   const interaction = createInteraction();
   let draw = 0,
