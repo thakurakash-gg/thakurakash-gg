@@ -1,6 +1,27 @@
 {
   "releases": [
     {
+      "version": "26.5.1",
+      "date": "2026-10-18",
+      "title": "Filled north-inlet shoreline beside the right tower",
+      "sceneVersion": "scene-a077ded7cfae548d",
+      "preview": "26.5.1",
+      "changes": {
+        "Fixed": [
+          "Filled the marked water strip beside the right tower with 1,229.5 square metres of matching grass, joining the existing bank with smooth curves.",
+          "Updated the ground cap, closed bank sides and ocean shoreline-distance texture together; retained the inlet, marina, roads and existing planting."
+        ]
+      },
+      "validation": [
+        "Authoring checks confirm valid ground contours, complete coverage of the new bank, no removal of existing land and preserved water in the inlet.",
+        "Rendered terrain triangulation and all 5,693 tree-placement checks pass."
+      ],
+      "limitations": [
+        "The fill follows the user-marked prototype outline rather than a new cadastral survey."
+      ],
+      "commits": []
+    },
+    {
       "version": "26.5.0",
       "date": "2026-10-17",
       "title": "Sharp villa roofs and merged static fittings",
@@ -25,7 +46,9 @@
         "Fitting merging retains the previous draw-call count; it removes per-instance transforms. Fitting buffers grow by about 1.1 MB, offset by the roof geometry reduction.",
         "Physical Android and low-end GPU performance measurements remain pending."
       ],
-      "commits": ["37c0bb3"]
+      "commits": [
+        "37c0bb3"
+      ]
     },
     {
       "version": "26.4.1",
@@ -48,7 +71,9 @@
         "Viewport resize events preserve the visible buffer until the render transaction; recovery cooldown and sustained quality restoration checks.",
         "Full scene, tree placement, shoreline, cache, glass-reflection and transition regression checks."
       ],
-      "limitations": ["Browser portrait verification is not a physical Android hardware test."],
+      "limitations": [
+        "Browser portrait verification is not a physical Android hardware test."
+      ],
       "commits": []
     },
     {
@@ -76,7 +101,10 @@
         "Natural foliage can overhang the edge of green planting areas; trunks are kept at least 3.5 m from road surfaces and 1.65 m from paving.",
         "Physical low-end-device testing remains pending."
       ],
-      "commits": ["ed076af", "5eb7358"]
+      "commits": [
+        "ed076af",
+        "5eb7358"
+      ]
     },
     {
       "version": "26.3.2",
@@ -94,7 +122,9 @@
         "Coast bake checks validity, keeps maximum boundary displacement to 1.046 m and limits changed land area to 10.163 square metres.",
         "Existing full scene, cache, glass-transition and reflection regression checks."
       ],
-      "limitations": ["Physical low-end-device testing remains pending."],
+      "limitations": [
+        "Physical low-end-device testing remains pending."
+      ],
       "commits": []
     },
     {
@@ -184,7 +214,9 @@
         "Automated single-invalid-texel regression outside the old sample locations, water capture mode restoration and fallback tests.",
         "Repeated completed day/night lighting transitions checked in the browser with zero invalid atlas texels."
       ],
-      "limitations": ["Physical Android and low-end GPU validation remains pending."],
+      "limitations": [
+        "Physical Android and low-end GPU validation remains pending."
+      ],
       "commits": []
     },
     {
@@ -205,7 +237,9 @@
         "Automated sky-range, generator reuse, invalid-probe fallback, safe replacement and scene-state restoration tests.",
         "Browser reproduction at the low-angle waterfront view with repeated lighting transitions."
       ],
-      "limitations": ["Physical Android and low-end GPU validation remains pending."],
+      "limitations": [
+        "Physical Android and low-end GPU validation remains pending."
+      ],
       "commits": []
     },
     {
@@ -228,7 +262,9 @@
         "Scene integrity, syntax, cache/update, release-note binding and existing animation/road checks.",
         "Fresh browser shader compilation and closer daytime/nighttime facade views checked."
       ],
-      "limitations": ["Physical Android and low-end GPU validation remains pending."],
+      "limitations": [
+        "Physical Android and low-end GPU validation remains pending."
+      ],
       "commits": []
     },
     {
@@ -261,7 +297,14 @@
         "Physical Android and low-end GPU validation remains pending.",
         "The ocean uses analytic waves and noise; a full FFT simulation is not implemented."
       ],
-      "commits": ["215524b", "5ce29c1", "81014ad", "62af9c2", "26f47c0", "99956da"]
+      "commits": [
+        "215524b",
+        "5ce29c1",
+        "81014ad",
+        "62af9c2",
+        "26f47c0",
+        "99956da"
+      ]
     },
     {
       "version": "25.0.0",
@@ -283,7 +326,9 @@
       "limitations": [
         "Historical entry reconstructed from the published commit; older preview milestones are not individually backfilled."
       ],
-      "commits": ["fff768c"]
+      "commits": [
+        "fff768c"
+      ]
     }
   ]
 }

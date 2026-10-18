@@ -1,9 +1,9 @@
 {
   "schema": 2,
-  "version": "scene-13292b359027a838",
+  "version": "scene-a077ded7cfae548d",
   "release": {
-    "version": "26.5.0",
-    "date": "2026-10-17",
+    "version": "26.5.1",
+    "date": "2026-10-18",
     "changelog": "CHANGELOG-RAY.md"
   },
   "scripts": [
@@ -11,7 +11,7 @@
     "assets/vendor/ray-meshopt-decoder.js?v=68d26aa0d7f88b8b9580ecfa46659a4cec803e26d0dc0d81e3da1f19f0181f65",
     "assets/vendor/ray-gltf-loader.js?v=38ee477e318f1d48c153a854c390a6a7d1d6d62c65ee4b972818cfac7f032173",
     "assets/ray/data/building-landscape.js?v=ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87",
-    "assets/ray/data/neighborhood.js?v=9f55fc97bdb784921397a8f83fdc7ad4541e9ec2b07fbabe2e73fc388651e8f2",
+    "assets/ray/data/neighborhood.js?v=581dbef888b3332f3346fdf9f9468ca53a020323de9e9a030d267e54746f6034",
     "assets/ray/data/extra-trees.js?v=938492ec7a50e8d486e39332300eade510a804ae0423631e24b1d654921f5392",
     "assets/ray/environment/neighborhood.js?v=b7a892be5052fc96fa4ad6cfce54f30afacf2fd98b0238de0af052263e89999b",
     "assets/ray/environment/roads.js?v=75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2",
@@ -58,9 +58,9 @@
       "sha256": "ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87"
     },
     {
-      "url": "assets/ray/data/neighborhood.js?v=9f55fc97bdb784921397a8f83fdc7ad4541e9ec2b07fbabe2e73fc388651e8f2",
-      "bytes": 23343112,
-      "sha256": "9f55fc97bdb784921397a8f83fdc7ad4541e9ec2b07fbabe2e73fc388651e8f2"
+      "url": "assets/ray/data/neighborhood.js?v=581dbef888b3332f3346fdf9f9468ca53a020323de9e9a030d267e54746f6034",
+      "bytes": 23344923,
+      "sha256": "581dbef888b3332f3346fdf9f9468ca53a020323de9e9a030d267e54746f6034"
     },
     {
       "url": "assets/ray/data/extra-trees.js?v=938492ec7a50e8d486e39332300eade510a804ae0423631e24b1d654921f5392",
@@ -183,9 +183,9 @@
       "sha256": "a45f9f1f54a87bef02d287e5e5b27208d3f8963d6ce685df6460aa43d5673719"
     },
     {
-      "url": "assets/ray/textures/shore-distance.png?v=e76d4c73299acdce640313bd3612ea9e9cfcfbd971d1c3e63097e2665f6cc0e9",
-      "bytes": 371534,
-      "sha256": "e76d4c73299acdce640313bd3612ea9e9cfcfbd971d1c3e63097e2665f6cc0e9"
+      "url": "assets/ray/textures/shore-distance.png?v=76309849c9b7c77986e7e3d4a96b99a80fa7b0ae11a3ab325ffa6d36e6f4eb04",
+      "bytes": 371414,
+      "sha256": "76309849c9b7c77986e7e3d4a96b99a80fa7b0ae11a3ab325ffa6d36e6f4eb04"
     },
     {
       "url": "assets/ray/ui/experience.css?v=61e10ae6d7964e5e7556ba844d4940663cab811505e67f6af4008711b0da1cf3",

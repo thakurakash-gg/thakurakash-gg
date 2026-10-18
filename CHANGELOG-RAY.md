@@ -4,6 +4,27 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.5.1](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.5.1) — 2026-10-18
+
+Filled north-inlet shoreline beside the right tower
+
+- Scene/cache ID: `scene-a077ded7cfae548d`
+- Preview label: `26.5.1`
+
+### Fixed
+
+- Filled the marked water strip beside the right tower with 1,229.5 square metres of matching grass, joining the existing bank with smooth curves.
+- Updated the ground cap, closed bank sides and ocean shoreline-distance texture together; retained the inlet, marina, roads and existing planting.
+
+### Validation
+
+- Authoring checks confirm valid ground contours, complete coverage of the new bank, no removal of existing land and preserved water in the inlet.
+- Rendered terrain triangulation and all 5,693 tree-placement checks pass.
+
+### Known limits
+
+- The fill follows the user-marked prototype outline rather than a new cadastral survey.
+
 ## [26.5.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.5.0) — 2026-10-17
 
 Sharp villa roofs and merged static fittings
