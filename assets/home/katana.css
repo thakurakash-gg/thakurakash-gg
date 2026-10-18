@@ -179,14 +179,7 @@
 .katana-stage.is-ready .katana-fallback {
   opacity: 0;
 }
-.branch-art {
-  position: absolute;
-  inset: 9% 24% 10% 29%;
-  background: url("./branches.svg") center / contain no-repeat;
-  opacity: 0.34;
-  transform: rotate(-8deg);
-  z-index: 0;
-}
+
 .opening-copy {
   position: absolute;
   top: 14%;
@@ -214,43 +207,11 @@
   max-width: 130px;
   color: #bdbaba;
 }
-.work-peek {
-  position: absolute;
-  top: 57%;
-  left: 16%;
-  width: 205px;
-  z-index: 4;
-  font-size: 11px;
-  color: #969395;
-}
-.work-peek figure {
-  position: relative;
-  margin: 8px 0 0;
-  border: 1px solid #ffffff30;
-  border-radius: 20px;
-  overflow: hidden;
-  aspect-ratio: 16/9;
-}
-.work-peek img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.64);
-  transition:
-    transform 0.5s,
-    filter 0.5s;
-}
-.work-peek figure span {
-  position: absolute;
-  bottom: 12px;
-  left: 14px;
-  color: #eee;
-  font-size: 12px;
-}
-.work-peek:hover img {
-  transform: scale(1.06);
-  filter: brightness(0.9);
-}
+
+
+
+
+
 .opening-name {
   position: absolute;
   left: 2.2%;
@@ -530,9 +491,7 @@
   .opening-credit {
     margin-left: 310px;
   }
-  .work-peek {
-    width: 270px;
-  }
+  
 }
 @media (max-width: 850px) {
   .opening-copy {
@@ -550,14 +509,8 @@
     font-size: 8px;
     max-width: 200px;
   }
-  .work-peek {
-    left: 9%;
-    width: 160px;
-    top: 62%;
-  }
-  .branch-art {
-    inset: 15% 0 12% 5%;
-  }
+  
+  
   .blade-controls {
     top: 90px;
   }
@@ -602,20 +555,9 @@
     bottom: 9%;
     font-size: 20vw;
   }
-  .work-peek {
-    top: auto;
-    bottom: 23%;
-    width: 125px;
-    font-size: 9px;
-  }
-  .work-peek figure {
-    border-radius: 12px;
-  }
-  .work-peek figure span {
-    left: 9px;
-    bottom: 9px;
-    font-size: 9px;
-  }
+  
+  
+  
   .blade-controls {
     top: 91px;
     flex-direction: row;
@@ -672,3 +614,18 @@
     display: none;
   }
 }
+
+/* The studio work film sits behind the interactive sculpture. */
+.opening-film { position:absolute;inset:0;z-index:0;pointer-events:none;background:#101113; }
+.opening-film video { width:100%;height:100%;object-fit:cover;opacity:.65; }
+.opening-film:after { content:'';position:absolute;inset:0;background:linear-gradient(90deg,#090a0cd9,#090a0c70 65%,#090a0c66),linear-gradient(0deg,#090a0cc0,transparent 45%); }
+.work-peek { position:absolute;right:6%;bottom:24%;left:auto;top:auto;z-index:4;display:inline-flex;align-items:center;gap:22px;width:auto;color:#e9e6e2;font-size:13px;border-bottom:1px solid #ffffff60;padding-bottom:10px; }
+.work-peek span { font-size:20px; }
+.work-peek:hover { border-color:white; }
+/* Full-bleed section surfaces, with the reading width kept inside. */
+.katana-site #process { width:100%;max-width:none;margin:0;padding-left:6%;padding-right:6%;border:0; }
+.katana-site #faq { border-top:0; }
+.katana-site #faq summary:hover,.katana-site #faq summary:focus-visible { color:#ffe0ab;background:#ac77451c;border-color:#bda77d66;box-shadow:none;backdrop-filter:none; }
+.katana-site #faq summary:focus-visible { outline:2px solid #dfc39a;outline-offset:-3px; }
+.home-pixel-cursor { position:fixed;inset:0;z-index:60;pointer-events:none;width:100%;height:100%;mix-blend-mode:screen; }
+@media(max-width:540px) { .work-peek { right:6%;bottom:23%;font-size:11px;gap:15px; } }

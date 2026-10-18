@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-studio-version="4.1.0">
+<html lang="en" data-studio-version="4.2.0">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -9,7 +9,7 @@
       content="Design & Technology Studio — Kazeyami Innovations, Lucknow. Explore our services, work, and project enquiries."
     />
     <link rel="stylesheet" href="assets/site.css" />
-    <link rel="stylesheet" href="assets/home/katana.css?v=4.1.0" />
+    <link rel="stylesheet" href="assets/home/katana.css?v=4.2.0" />
     <script>
       try {
         document.documentElement.dataset.theme =
@@ -87,7 +87,7 @@
         aria-label="Kazeyami interactive introduction"
       >
         <div class="katana-sticky">
-          <div class="branch-art" aria-hidden="true"></div>
+          <div class="opening-film" aria-hidden="true"><video id="opening-work-video" muted loop playsinline preload="metadata" poster="assets/experience-center-poster.jpg"><source src="assets/experience-center.mp4" type="video/mp4"></video></div>
           <div
             id="katana-stage"
             class="katana-stage"
@@ -107,70 +107,7 @@
             <h1>Sharpen<br />your<br />vision.</h1>
             <p class="opening-credit">Crafted by<br />Kazeyami Innovations</p>
           </div>
-          <a class="work-peek" href="#studio"
-            ><span>Inside the studio</span>
-            <figure>
-              <img
-                src="assets/experience-center-poster.jpg"
-                alt="An architectural world created by Kazeyami"
-                width="320"
-                height="180"
-              /><span>Enter our world ↗</span>
-            </figure></a
-          >
-          <div class="opening-name" aria-hidden="true">
-            Kazeyami<sup>©</sup>
-          </div>
-          <div class="opening-meta">
-            <span>SPACES. STORIES. DIGITAL EXPERIENCES.</span
-            ><span>IMAGINED WITH PURPOSE. BUILT TO BE EXPERIENCED.</span>
-          </div>
-          <div class="reveal-copy">
-            <span>01 / THE ART OF MAKING</span>
-            <h2>A clear idea.<br />A sharper experience.</h2>
-            <p>
-              We bring 3D, design and technology together.<br />From the first
-              sketch to the world you step into.
-            </p>
-            <a href="#services"
-              >Find your direction <span aria-hidden="true">↓</span></a
-            >
-          </div>
-          <div class="blade-controls">
-            <button id="draw-blade" type="button" aria-pressed="false">
-              <svg viewBox="0 0 44 16" aria-hidden="true">
-                <path d="M2 12 29 3 34 2 31 5 4 14Z" fill="currentColor" />
-                <path
-                  d="m30 1 4 8M34 5l8-3"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                /></svg
-              ><span>Draw the blade</span>
-            </button>
-          </div>
-          <a class="scroll-prompt" href="#studio"
-            >SCROLL TO EXPLORE <span>↓</span></a
-          >
-        </div>
-      </section>
-      <section id="studio" class="craft-section">
-        <div class="craft-heading">
-          <span>02 / KAZEYAMI INNOVATIONS</span>
-          <h2>It starts with<br />“what if?”</h2>
-        </div>
-        <div class="craft-copy">
-          <p>
-            What if a place could be explored before it exists? What if a
-            complex idea could be understood in a moment?
-          </p>
-          <p>
-            We’re a design and technology studio in Lucknow. We build
-            architectural worlds, create 3D films and assets, shape brands, and
-            make digital products. Different tools. The same attention to the
-            experience.
-          </p>
-          <a href="#process">How we work ↗</a>
+          <a class="work-peek" href="#studio">Inside the studio <span aria-hidden="true">↗</span></a>
         </div>
         <figure class="studio-film">
           <video
@@ -445,11 +382,13 @@
       <span id="read-percent">0%</span
       ><span class="progress-dot" aria-hidden="true"></span>
     </div>
-    <script src="assets/site.js?v=4.1.0"></script>
+    <script src="assets/site.js?v=4.2.0"></script>
     <script src="assets/three.min.js"></script>
-    <script src="assets/home/katana-geometry.js?v=4.1.0"></script>
-    <script src="assets/home/katana-scene.js?v=4.1.0"></script>
-    <script src="assets/home/home.js?v=4.1.0"></script>
-    <script src="assets/home/contact-background.js?v=4.1.0"></script>
+    <script src="assets/home/katana-geometry.js?v=4.2.0"></script>
+    <script src="assets/home/katana-interaction.js?v=4.2.0"></script>
+    <script src="assets/home/katana-scene.js?v=4.2.0"></script>
+    <script src="assets/home/home.js?v=4.2.0"></script>
+    <script src="assets/home/contact-background.js?v=4.2.0"></script>
+    <script src="assets/home/pixel-cursor.js?v=4.2.0"></script>
   </body>
 </html>

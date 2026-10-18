@@ -22,6 +22,21 @@
   );
   new ResizeObserver(update).observe(document.body);
   update();
+  const openingVideo = document.querySelector('#opening-work-video');
+  const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  let openingVisible = false;
+  function syncOpeningVideo() {
+    if (openingVisible && !document.hidden && !preference.matches && !navigator.connection?.saveData) {
+      openingVideo.muted = true;
+      openingVideo.play().catch(() => {});
+    } else openingVideo.pause();
+  }
+  new IntersectionObserver(entries => {
+    openingVisible = entries[0].isIntersecting;
+    syncOpeningVideo();
+  }, { threshold: .05 }).observe(openingVideo);
+  document.addEventListener('visibilitychange', syncOpeningVideo);
+  preference.addEventListener('change', syncOpeningVideo);
   const video = document.querySelector("#hero-video");
   const videoButton = document.querySelector(".video-toggle");
   const motion = matchMedia("(prefers-reduced-motion: reduce)");

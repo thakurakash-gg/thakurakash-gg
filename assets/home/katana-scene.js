@@ -13,7 +13,8 @@
   }
   const T = window.THREE;
   const G = window.KazeyamiKatanaGeometry;
-  if (!G) {
+  const createInteraction = window.KazeyamiKatanaInteraction;
+  if (!G || !createInteraction) {
     fallback();
     return;
   }
@@ -143,29 +144,16 @@
     clearcoat: 1,
     clearcoatRoughness: 0.16,
   });
-  const clothMap = mapFrom(256, 256, (ctx, w, h) => {
-    ctx.fillStyle = "#dfdbd1";
-    ctx.fillRect(0, 0, w, h);
-    for (let i = 0; i < w; i += 3) {
-      ctx.strokeStyle = i % 2 ? "#bcb9b2" : "#f7f4ec";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(i, 0);
-      ctx.lineTo(i, h);
-      ctx.stroke();
-      ctx.strokeStyle = "#cac6bd66";
-      ctx.beginPath();
-      ctx.moveTo(0, i);
-      ctx.lineTo(w, i);
-      ctx.stroke();
+  const clothMap = mapFrom(256, 128, (ctx,w,h) => {
+    ctx.fillStyle='#c9c4b9';ctx.fillRect(0,0,w,h);
+    for(let i=0;i<256;i+=2) {
+      ctx.strokeStyle=i%4?'#e1dcd2':'#b5b0a5';ctx.lineWidth=.6;
+      ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+28,h);ctx.stroke();
     }
+    for(let y=0;y<h;y+=3) {ctx.strokeStyle='#ede7dc30';ctx.fillStyle='#756f6424';ctx.fillRect(0,y,w,.5);}
   });
-  clothMap.wrapS = clothMap.wrapT = T.RepeatWrapping;
-  const cloth = new T.MeshStandardMaterial({
-    map: clothMap,
-    roughness: 0.88,
-    color: 0xf4efe5,
-  });
+  clothMap.wrapS=clothMap.wrapT=T.RepeatWrapping;
+  const cloth=new T.MeshStandardMaterial({map:clothMap,bumpMap:clothMap,bumpScale:.0016,roughness:.86,color:0xe0dacd});
   const skinMap = mapFrom(256, 128, (ctx, w, h) => {
     ctx.fillStyle = "#1b1c19";
     ctx.fillRect(0, 0, w, h);
@@ -252,126 +240,98 @@
     m.rotation.z = Math.PI / 2;
     return m;
   };
-  // Gold habaki and a pierced, scalloped tsuba with an original radial ornament.
-  mesh(new T.BoxGeometry(0.35, 0.43, 0.19), gold, blade, 0.08);
-  const guard = cylinder(0.49, 0.115, dark, blade, 0.34);
-  guard.scale.z = 0.8;
-  const guardRim = mesh(
-    new T.TorusGeometry(0.465, 0.024, 6, 64),
-    gold,
-    blade,
-    0.34,
-  );
-  guardRim.rotation.y = Math.PI / 2;
-  guardRim.scale.y = 1.05;
-  guardRim.scale.x = 0.8;
-  for (let i = 0; i < 14; i++) {
-    const a = (i / 14) * Math.PI * 2;
-    const ornament = mesh(
-      new T.TorusGeometry(0.035, 0.012, 4, 8),
-      gold,
-      blade,
-      0.405,
-      Math.cos(a) * 0.37,
-      Math.sin(a) * 0.29,
-    );
-    ornament.rotation.y = Math.PI / 2;
+  // Beveled bronze fittings catch studio highlights on real curved surfaces.
+  const goldGrain=mapFrom(256,128,(ctx,w,h)=>{
+    ctx.fillStyle='#bfbfbf';ctx.fillRect(0,0,w,h);
+    for(let i=0;i<2800;i++){ctx.fillStyle=random()>.5?'#c5c5c5':'#b5b5b5';ctx.fillRect(random()*w,random()*h,1+random()*12,.5);}
+  });
+  goldGrain.wrapS=goldGrain.wrapT=T.RepeatWrapping;
+  gold.color.setHex(0xb89455);gold.metalness=1;gold.roughness=.27;gold.envMapIntensity=1.4;
+  gold.bumpMap=goldGrain;gold.bumpScale=.0007;
+  const roundedRect=(w,h,r)=>{
+    const shape=new T.Shape();const x=-w/2,y=-h/2;
+    shape.moveTo(x+r,y);shape.lineTo(x+w-r,y);shape.quadraticCurveTo(x+w,y,x+w,y+r);
+    shape.lineTo(x+w,y+h-r);shape.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    shape.lineTo(x+r,y+h);shape.quadraticCurveTo(x,y+h,x,y+h-r);
+    shape.lineTo(x,y+r);shape.quadraticCurveTo(x,y,x+r,y);return shape;
+  };
+  function extrudedFitting(shape,depth,bevel){
+    const g=new T.ExtrudeGeometry(shape,{depth,bevelEnabled:true,bevelThickness:bevel,bevelSize:bevel,bevelSegments:3,curveSegments:32,steps:1});
+    g.translate(0,0,-depth/2);g.rotateY(Math.PI/2);return g;
+  }
+  const collar=roundedRect(.19,.47,.022);
+  const collarHole=roundedRect(.106,.413,.009);collar.holes.push(new T.Path(collarHole.getPoints(16).reverse()));
+  mesh(extrudedFitting(collar,.32,.006),gold,blade,.08);
+  const guardShape=new T.Shape();guardShape.absellipse(0,0,.36,.468,0,Math.PI*2,false);
+  mesh(extrudedFitting(guardShape,.085,.009),dark,blade,.34);
+  const rimShape=new T.Shape();rimShape.absellipse(0,0,.383,.491,0,Math.PI*2,false);
+  const rimHole=new T.Path();rimHole.absellipse(0,0,.353,.461,0,Math.PI*2,true);rimShape.holes.push(rimHole);
+  // A complete annular metal band surrounds the plate; it is never buried in it.
+  mesh(extrudedFitting(rimShape,.112,.004),gold,blade,.34);
+  for(let i=0;i<10;i++){
+    const a=i/10*Math.PI*2;
+    const engraving=mesh(new T.TorusGeometry(.024,.006,6,12),gold,blade,.396,Math.cos(a)*.35,Math.sin(a)*.265);
+    engraving.rotation.y=Math.PI/2;
   }
   const grip = cylinder(0.21, 2.5, skin, blade, 1.68);
   grip.scale.z = 0.82;
   cylinder(0.23, 0.14, dark, blade, 0.49).scale.z = 0.82;
   cylinder(0.23, 0.14, gold, blade, 2.97).scale.z = 0.82;
-  // Two opposing ribbon helices create real interlaced diamond openings.
-  function braid(handedness) {
-    const points = [],
-      normals = [],
-      triangles = [],
-      turns = 10,
-      steps = turns * 32;
-    for (let i = 0; i <= steps; i++) {
-      const t = i / steps,
-        a = t * turns * Math.PI * 2 * handedness;
-      const x = 0.53 + t * 2.36;
-      for (const offset of [-0.065, 0.065]) {
-        points.push(x + offset, Math.cos(a) * 0.22, Math.sin(a) * 0.185);
-        normals.push(t * 8, offset < 0 ? 0 : 1);
-      }
-      if (i < steps) {
-        const n = i * 2;
-        triangles.push(n, n + 1, n + 2, n + 1, n + 3, n + 2);
+  // Rounded silk straps alternate above and below each crossing.
+  function braid(handedness){
+    const positions=[],uvs=[],indices=[];
+    const steps=400,turns=10;
+    const profile=[[-.064,-.004],[-.061,-.008],[.061,-.008],[.064,-.004],[.064,.004],[.061,.008],[-.061,.008],[-.064,.004]];
+    for(let i=0;i<=steps;i++){
+      const t=i/steps,a=t*turns*Math.PI*2*handedness;
+      const lift=.015+.007*Math.cos(t*turns*Math.PI*2)*handedness;
+      const normal=new T.Vector3(0,Math.cos(a),Math.sin(a)).normalize();
+      const tangent=new T.Vector3(2.36,-(.212+lift)*Math.sin(a)*turns*Math.PI*2*handedness,(.177+lift)*Math.cos(a)*turns*Math.PI*2*handedness).normalize();
+      const across=new T.Vector3().crossVectors(tangent,normal).normalize();
+      const center=new T.Vector3(.53+t*2.36,Math.cos(a)*(.212+lift),Math.sin(a)*(.177+lift));
+      for(let j=0;j<profile.length;j++){
+        const p=center.clone().addScaledVector(across,profile[j][0]).addScaledVector(normal,profile[j][1]);
+        positions.push(p.x,p.y,p.z);uvs.push(t*12,j/8);
+        if(i<steps){const n=i*8+j,k=i*8+(j+1)%8;indices.push(n,k,n+8,k,k+8,n+8);}
       }
     }
-    const g = new T.BufferGeometry();
-    g.setAttribute("position", new T.Float32BufferAttribute(points, 3));
-    g.setAttribute("uv", new T.Float32BufferAttribute(normals, 2));
-    g.setIndex(triangles);
-    g.computeVertexNormals();
-    const m = cloth.clone();
-    m.side = T.DoubleSide;
-    mesh(g, m, blade);
+    for(let j=1;j<7;j++){indices.push(0,j+1,j);const n=steps*8;indices.push(n,n+j,n+j+1);}
+    const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setAttribute('uv',new T.Float32BufferAttribute(uvs,2));g.setIndex(indices);g.computeVertexNormals();
+    const m=cloth.clone();m.side=T.DoubleSide;mesh(g,m,blade);
   }
-  braid(1);
-  braid(-1);
-  for (let i = 0; i < 3; i++)
-    mesh(
-      new T.SphereGeometry(0.04, 8, 6),
-      gold,
-      blade,
-      1.1 + i * 0.55,
-      0,
-      0.18,
-    );
-  const drawButton = document.querySelector("#draw-blade");
-  let userDraw = null,
-    draw = 0,
-    progress = 0,
-    pointerX = 0,
-    pointerY = 0,
-    inView = true,
-    frame = 0,
-    last = 0;
-  let down = null,
-    dragAmount = 0;
-  drawButton.addEventListener("click", () => {
-    userDraw = draw > 0.5 ? 0 : 1;
-    drawButton.setAttribute("aria-pressed", String(!!userDraw));
-    drawButton.querySelector("span").textContent = userDraw
-      ? "Sheathe the blade"
-      : "Draw the blade";
-    requestRender();
+  braid(1);braid(-1);
+  for(let i=0;i<3;i++)mesh(new T.SphereGeometry(.028,10,8),gold,blade,1.1+i*.55,0,.185);
+  const drawButton = document.querySelector('#draw-blade');
+  const interaction = createInteraction();
+  let draw = 0, progress = 0, pointerX = 0, pointerY = 0, inView = true, frame = 0, last = 0;
+  function syncDrawButton() {
+    const open = interaction.target() >= .5;
+    drawButton.setAttribute('aria-pressed', String(open));
+    drawButton.querySelector('span').textContent = open ? 'Sheathe the blade' : 'Draw the blade';
+    drawButton.title = open ? 'Sheathe the blade' : 'Draw the blade';
+  }
+  drawButton.addEventListener('click', () => { interaction.toggle(); syncDrawButton(); requestRender(); });
+  stage.addEventListener('pointerdown', e => {
+    if (e.button !== 0) return;
+    interaction.down({ id: e.pointerId, x: e.clientX, y: e.clientY, type: e.pointerType, draw });
   });
-  stage.addEventListener("pointerdown", (e) => {
-    if (e.pointerType === "mouse") {
-      down = e.clientX;
-      dragAmount = draw;
-      stage.setPointerCapture(e.pointerId);
-    }
+  stage.addEventListener('pointermove', e => {
+    const dragging = interaction.move({ id:e.pointerId, x:e.clientX, y:e.clientY, width:stage.clientWidth });
+    if (dragging && !stage.hasPointerCapture(e.pointerId)) stage.setPointerCapture(e.pointerId);
+    const rect=stage.getBoundingClientRect();
+    pointerX=((e.clientX-rect.left)/rect.width-.5)*2;
+    pointerY=((e.clientY-rect.top)/rect.height-.5)*2;
+    syncDrawButton(); requestRender();
   });
-  stage.addEventListener("pointermove", (e) => {
-    if (down !== null) {
-      userDraw = T.MathUtils.clamp(
-        dragAmount + ((e.clientX - down) / stage.clientWidth) * 2,
-        0,
-        1,
-      );
-      drawButton.setAttribute("aria-pressed", String(userDraw > 0.5));
-    }
-    pointerX = (e.clientX / stage.clientWidth - 0.5) * 2;
-    pointerY = (e.clientY / stage.clientHeight - 0.5) * 2;
-    requestRender();
+  stage.addEventListener('pointerup', e => {
+    interaction.up({ id:e.pointerId, x:e.clientX, y:e.clientY });
+    if (stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId);
+    syncDrawButton(); requestRender();
   });
-  stage.addEventListener("pointerup", () => {
-    down = null;
-    drawButton.querySelector("span").textContent =
-      userDraw > 0.5 ? "Sheathe the blade" : "Draw the blade";
-  });
-  stage.addEventListener("pointercancel", () => {
-    down = null;
-  });
-  stage.addEventListener("pointerleave", () => {
-    pointerX = 0;
-    pointerY = 0;
-    requestRender();
+  stage.addEventListener('pointercancel', () => interaction.cancel());
+  stage.addEventListener('pointerleave', e => {
+    if (!stage.hasPointerCapture(e.pointerId)) interaction.cancel();
+    pointerX=0;pointerY=0;requestRender();
   });
   const copy = document.querySelector(".opening-copy"),
     name = document.querySelector(".opening-name"),
@@ -389,6 +349,8 @@
           0,
           1,
         );
+    interaction.scroll(progress);
+    syncDrawButton();
     const fade = clamp(1 - progress * 3, 0, 1),
       appear = clamp((progress - 0.34) * 3, 0, 1);
     for (const el of [copy, name, peek, meta]) {
@@ -425,7 +387,7 @@
     const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
     last = now;
     const poseProgress = progress;
-    const target = userDraw ?? clamp(poseProgress * 2.2, 0, 1);
+    const target = interaction.target();
     draw += (target - draw) * (reduced.matches ? 1 : 1 - Math.exp(-dt * 6));
     const mobile = width < 600;
     model.rotation.set(
@@ -455,9 +417,6 @@
     blade.position.set(extraction.x, extraction.y, 0);
     // The scabbard stays fixed. Circular extraction keeps every concealed blade
     // section on the cavity spine, so it exits the mouth rather than the side.
-    drawButton.setAttribute("aria-pressed", String(draw > 0.5));
-    drawButton.querySelector("span").textContent =
-      draw > 0.5 ? "Sheathe the blade" : "Draw the blade";
     renderer.render(scene, camera);
     stage.classList.add("is-ready");
     // No idle animation loop: render only while moving toward an interaction target.
