@@ -1,5 +1,10 @@
 # Website changelog
 
+## 4.7.5 - 2026-10-18
+
+- Play the opening work video at full opacity and remove its dark gradient overlay, preserving the original video brightness and colors. Use only small local text edges for readability.
+- Change the katana draw control from red to white while keeping its dark symbol.
+
 ## 4.7.4 - 2026-10-18
 
 - Remove the red 01 / THE ART OF MAKING label from the opening reveal. Refresh the published asset version.

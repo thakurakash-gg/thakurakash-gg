@@ -238,7 +238,7 @@
   color: #aaa;
 }
 .blade-controls #draw-blade {
-  background: var(--accent);
+  background: #fff;
   color: #141414;
   display: flex;
   gap: 8px;
@@ -598,15 +598,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.65;
-}
-.opening-film:after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, #090a0cd9, #090a0c70 65%, #090a0c66),
-    linear-gradient(0deg, #090a0cc0, transparent 45%);
+  opacity: 1;
 }
 
 /* Full-bleed section surfaces, with the reading width kept inside. */
@@ -683,4 +675,17 @@ body.menu-open .katana-stage.is-docked {
     bottom: calc(9% + 16vw + 12px);
     max-height: 65px;
   }
+}
+
+/* Local text edges preserve contrast without changing the work video's colors. */
+.opening-copy h1 {
+  -webkit-text-stroke: 0.45px #0007;
+  paint-order: stroke fill;
+  text-shadow:
+    0 1px 2px #0008,
+    0 2px 12px #0006;
+}
+.opening-credit,
+.opening-meta {
+  text-shadow: 0 1px 3px #000c;
 }

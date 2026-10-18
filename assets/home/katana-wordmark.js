@@ -77,6 +77,12 @@ window.KazeyamiKatanaWordmark = function (T, scene, camera, stage, name) {
     for (const item of items) {
       ctx.font = `${item.style.fontWeight} ${item.style.fontSize} ${item.style.fontFamily}`;
       ctx.textBaseline = "alphabetic";
+      ctx.strokeStyle = "rgba(15,15,18,0.55)";
+      ctx.lineWidth = 0.8;
+      ctx.lineJoin = "round";
+      ctx.shadowColor = "rgba(0,0,0,0.45)";
+      ctx.shadowBlur = 3;
+      ctx.shadowOffsetY = 1;
       const size = parseFloat(item.style.fontSize),
         spacing = parseFloat(item.style.letterSpacing) || 0;
       const baseline =
@@ -85,10 +91,12 @@ window.KazeyamiKatanaWordmark = function (T, scene, camera, stage, name) {
         (ctx.measureText(item.text).fontBoundingBoxAscent || size * 0.91);
       if ("letterSpacing" in ctx) {
         ctx.letterSpacing = `${spacing}px`;
+        ctx.strokeText(item.text, item.rect.left - bounds.left, baseline);
         ctx.fillText(item.text, item.rect.left - bounds.left, baseline);
       } else {
         let x = item.rect.left - bounds.left;
         for (const character of item.text) {
+          ctx.strokeText(character, x, baseline);
           ctx.fillText(character, x, baseline);
           x += ctx.measureText(character).width + spacing;
         }
