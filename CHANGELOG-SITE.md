@@ -1,5 +1,12 @@
 # Website changelog
 
+## 4.9.0 - 2026-10-19
+
+- Replace the RAY thumbnail with matched Cycles renders from the private full-quality Blender scene: a wider waterfront camera, bright afternoon on the left, illuminated night on the right, and a diagonal center split. Serve responsive WebP sizes.
+- Share the instanced floating-logo collaboration background across Home, NEXIV, 3D Studio, Design and Products, loading the renderer when the section becomes visible.
+- Put every enquiry form on a dark panel, brighten field labels and placeholders, add clear keyboard focus, and stack phone fields for readability.
+- Correct light-mode footer link contrast and replace LinkedIn arrows with inline platform icons on desktop and phone.
+
 ## 4.8.2 - 2026-10-19
 
 - Make the scroll invitation compact, with Scroll down on the first line and to explore underneath. Use solid white and a stronger weight for clarity over the original-brightness work video; preserve the cursor effect on both lines and the existing katana transition.

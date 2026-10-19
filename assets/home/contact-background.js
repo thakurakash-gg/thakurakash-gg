@@ -1,14 +1,45 @@
 /* The collaboration section uses the same mark field as the menu. */
 (() => {
-  const stage = document.querySelector("#contact-logo-background");
-  if (!stage) return;
-  const background = window.KazeyamiLogoBackground?.(stage);
-  if (!background) return;
-  let visible = false;
-  const sync = () =>
-    background.setActive(
-      visible && !document.body.classList.contains("menu-open"),
-    );
+  const section = document.querySelector(".contact-section");
+  if (!section) return;
+  let stage = section.querySelector(".contact-logo-background");
+  if (!stage) {
+    stage = document.createElement("div");
+    stage.id = "contact-logo-background";
+    stage.className = "contact-logo-background";
+    stage.setAttribute("aria-hidden", "true");
+    section.prepend(stage);
+  }
+  let visible = false,
+    background,
+    loading = false;
+  const isActive = () =>
+    visible && !document.body.classList.contains("menu-open");
+  async function sync() {
+    if (!isActive()) {
+      background?.setActive(false);
+      return;
+    }
+    if (!background && !loading) {
+      loading = true;
+      try {
+        if (!window.THREE)
+          await new Promise((resolve, reject) => {
+            const script = document.createElement("script");
+            script.src = "assets/three.min.js";
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.append(script);
+          });
+        background = window.KazeyamiLogoBackground?.(stage);
+      } catch {
+        // The readable contact surface remains available without WebGL.
+      } finally {
+        loading = false;
+      }
+    }
+    background?.setActive(isActive());
+  }
   new IntersectionObserver(
     ([entry]) => {
       visible = entry.isIntersecting;

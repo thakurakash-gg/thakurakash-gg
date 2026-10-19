@@ -412,55 +412,6 @@
   padding-top: 35px;
   padding-bottom: 35px;
 }
-.katana-site .contact-section {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background: #0c0c10;
-  color: #f4f4f5;
-  --ink: #f4f4f5;
-  --paper: #0c0c10;
-  --muted: #bfc0c7;
-  --line: #777781;
-}
-.contact-logo-background {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-.contact-logo-background canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.katana-site .contact-section:after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(90deg, #0c0c10a8, #0c0c1070);
-}
-.katana-site .contact-grid {
-  position: relative;
-  z-index: 2;
-}
-.katana-site .contact-story p,
-.katana-site .contact-grid .brief-field label,
-.katana-site .contact-grid .brief-submit p {
-  color: #c6c6ce;
-}
-.katana-site .contact-grid input::placeholder,
-.katana-site .contact-grid textarea::placeholder {
-  color: #a9a9b3;
-  opacity: 1;
-}
-.katana-site .brief-form input,
-.katana-site .brief-form textarea,
-.katana-site .brief-form select {
-  color: #f4f4f5;
-}
 .katana-site .footer-shell {
   background: #101113;
 }

@@ -215,3 +215,124 @@ html[data-theme="light"]
   span {
   background: #f1e9dd !important;
 }
+
+/* One collaboration surface on every studio page. */
+.contact-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #0c0c10;
+  color: #f4f4f5;
+  --ink: #f4f4f5;
+  --paper: #0c0c10;
+  --muted: #bfc0c7;
+  --line: #777781;
+}
+.contact-logo-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.contact-logo-background canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.contact-section:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, #0c0c10a8, #0c0c1070);
+}
+.contact-grid {
+  position: relative;
+  z-index: 2;
+}
+.contact-story p,
+.contact-grid .brief-field label,
+.contact-grid .brief-submit p {
+  color: #c6c6ce;
+}
+.contact-grid input::placeholder,
+.contact-grid textarea::placeholder {
+  color: #a9a9b3;
+  opacity: 1;
+}
+.brief-form input,
+.brief-form textarea,
+.brief-form select {
+  color: #f4f4f5;
+}
+.contact-grid .brief-form {
+  padding: clamp(20px, 2.6vw, 40px);
+  background: #101014f5;
+  border: 1px solid #ffffff24;
+  border-radius: 12px;
+  box-shadow: 0 18px 65px #0003;
+  min-width: 0;
+}
+.contact-grid .brief-field {
+  min-width: 0;
+}
+.contact-grid .brief-field label,
+.contact-grid .brief-submit p {
+  color: #e5e5eb;
+}
+.contact-grid .brief-field label {
+  font-size: 11px;
+}
+.contact-grid .brief-field :is(input, select, textarea) {
+  font-size: 16px;
+}
+.contact-grid .brief-submit p {
+  font-size: 12px;
+}
+.contact-grid input::placeholder,
+.contact-grid textarea::placeholder {
+  color: #d0d0d8;
+}
+.contact-grid :is(input, select, textarea) {
+  color: #fff;
+  border-bottom-color: #92929f;
+}
+.contact-grid :is(input, select, textarea):focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 5px;
+  border-bottom-color: #fff;
+}
+.contact-grid .brief-submit button {
+  color: #fff;
+}
+@media (max-width: 540px) {
+  .contact-grid .brief-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Footer links remain legible on the light paper surface. */
+html[data-theme="light"] .footer-columns a,
+html[data-theme="light"] .footer-bottom a {
+  color: #242520;
+  border-color: #77796e;
+}
+html[data-theme="light"] .footer-bottom {
+  color: #585c53;
+}
+html[data-theme="light"] .footer-shell a:hover {
+  color: #754125;
+}
+.footer-shell a[href*="linkedin.com"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+}
+.social-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  fill: currentColor;
+}

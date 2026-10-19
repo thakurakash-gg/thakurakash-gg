@@ -14,7 +14,7 @@ assert.equal(
   "0d1c8e332b3798bcdada7545147c5814d782a895b7c4680b8d1f9bc627647a70",
   "Direction layout and approved NEXIV identity must remain unchanged",
 );
-assert(html.includes('data-studio-version="4.8.2"'));
+assert(html.includes('data-studio-version="4.9.0"'));
 for (const asset of [...html.matchAll(/(?:src|href|poster)="([^"#]+)"/g)].map(
   (m) => m[1],
 )) {
@@ -42,7 +42,7 @@ for (const asset of [
   "assets/home/katana-geometry.js",
   "assets/home/contact-background.js",
 ]) {
-  assert(html.includes(`${asset}?v=4.8.2`), `Unversioned runtime: ${asset}`);
+  assert(html.includes(`${asset}?v=4.9.0`), `Unversioned runtime: ${asset}`);
 }
 console.log(
   "Homepage: preserved section, local assets, routes and versioned runtime verified.",
@@ -71,4 +71,4 @@ assert(!html.includes('class="branch-art"'), "Tree backdrop removed");
 assert(!html.includes('class="work-peek"'), "Hero studio label removed");
 assert(!html.includes('class="scroll-prompt"'), "Hero scroll label removed");
 const nexiv = await readFile(path.join(root, "nexiv.html"), "utf8");
-assert(nexiv.includes("ray-platform-dawn.webp?v=4.2.0"));
+assert(nexiv.includes("ray-waterfront-day-night-2048.webp?v=4.9.0"));
