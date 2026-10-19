@@ -92,8 +92,20 @@ svg {
 .scene-shade {
   pointer-events: none;
   background:
-    linear-gradient(180deg, #071b2c75, transparent 27%, transparent 57%, #061e2c9c),
-    linear-gradient(90deg, #08232e58, transparent 35%, transparent 80%, #08232e30);
+    linear-gradient(
+      180deg,
+      #071b2c75,
+      transparent 27%,
+      transparent 57%,
+      #061e2c9c
+    ),
+    linear-gradient(
+      90deg,
+      #08232e58,
+      transparent 35%,
+      transparent 80%,
+      #08232e30
+    );
 }
 .glass {
   background: linear-gradient(135deg, #23424a88, #12272e85);
@@ -204,6 +216,14 @@ svg {
 .rail-button svg {
   width: 18px;
   height: 18px;
+}
+#sound-toggle[aria-pressed="false"] .sound-waves,
+#sound-toggle[aria-pressed="true"] .sound-muted {
+  display: none;
+}
+#sound-toggle[aria-pressed="true"] {
+  color: #f1d798;
+  background: #ffffff16;
 }
 .rail-button:hover {
   background: #ffffff1a;
@@ -1002,7 +1022,13 @@ dialog::backdrop {
     font-size: 12px;
   }
   .scene-shade {
-    background: linear-gradient(180deg, #071b2c88, transparent 35%, transparent 48%, #061e2cc7);
+    background: linear-gradient(
+      180deg,
+      #071b2c88,
+      transparent 35%,
+      transparent 48%,
+      #061e2cc7
+    );
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1048,7 +1074,13 @@ dialog::backdrop {
   cursor: grabbing;
 }
 .scene-shade {
-  background: linear-gradient(180deg, #091a2d55, transparent 24%, transparent 65%, #071b2b99);
+  background: linear-gradient(
+    180deg,
+    #091a2d55,
+    transparent 24%,
+    transparent 65%,
+    #071b2b99
+  );
 }
 .view-card {
   grid-template-columns: 30px 1fr;
@@ -1143,7 +1175,13 @@ dialog::backdrop {
     font-size: 10px;
   }
   .scene-shade {
-    background: linear-gradient(180deg, #091b305e, transparent 25%, transparent 63%, #071b2bba);
+    background: linear-gradient(
+      180deg,
+      #091b305e,
+      transparent 25%,
+      transparent 63%,
+      #071b2bba
+    );
   }
 }
 

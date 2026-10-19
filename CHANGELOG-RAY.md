@@ -4,6 +4,32 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.6.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.6.0) — 2026-10-19
+
+Optional sparse coastal sound
+
+- Scene/cache ID: `scene-874203057043bfa4`
+- Preview label: `26.6.0`
+
+### Added
+
+- Opt-in quiet seagull calls and gentle Florida beach waves, played as separate 3–5 second recordings with random 18–45 second silent gaps.
+- Accessible sound toggle on desktop and phone; no continuous soundtrack, overlapping cues, or autoplay.
+
+### Changed
+
+- Audio downloads only after the visitor enables sound; 115,182 compressed bytes in total, with decoded recordings reused.
+- Suspend pending and active sound when muted, when the tab is hidden, or when leaving the page. Gull calls are less frequent at night.
+
+### Validation
+
+- Automated checks cover initial silence/no audio requests, bounded volume and timing, no immediate repeated clip, non-overlap, mute cancellation, background suspension and decoded buffer reuse.
+- Content hashes and release cache checks cover the optional audio assets; visual scene preloading excludes audio.
+
+### Known limits
+
+- Sound starts off and requires a visitor tap. The coastal recordings are not represented as recordings from Miami.
+
 ## [26.5.1](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.5.1) — 2026-10-18
 
 Filled north-inlet shoreline beside the right tower

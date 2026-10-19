@@ -1,5 +1,11 @@
 # Website changelog
 
+## 4.9.1 - 2026-10-19
+
+- Replace the Blender thumbnail with afternoon and night screenshots from the actual RAY web platform, captured from an identical wider waterfront camera. Keep the diagonal split, remove the map/UI from the captured image and preserve the existing launch controls.
+- Use responsive WebP captures and a CSS clip for the night half, without generated imagery or altered building materials.
+- Link the launch button to RAY 26.6.0 with optional quiet coastal sound cues.
+
 ## 4.9.0 - 2026-10-19
 
 - Replace the RAY thumbnail with matched Cycles renders from the private full-quality Blender scene: a wider waterfront camera, bright afternoon on the left, illuminated night on the right, and a diagonal center split. Serve responsive WebP sizes.

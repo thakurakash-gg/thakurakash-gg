@@ -146,8 +146,10 @@
       },
     };
     const loaded = new Map();
-    const total = manifest.assets.reduce((sum, asset) => sum + asset.bytes, 0);
-    const queue = [...manifest.assets];
+    // Optional sound never delays the visual scene or downloads before opt-in.
+    const required = manifest.assets.filter((asset) => !asset.lazy);
+    const total = required.reduce((sum, asset) => sum + asset.bytes, 0);
+    const queue = [...required];
     async function preload() {
       while (queue.length) {
         const asset = queue.shift();

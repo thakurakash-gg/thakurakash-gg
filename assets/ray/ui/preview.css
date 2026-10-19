@@ -37,6 +37,11 @@
     filter 0.8s;
   filter: none;
 }
+.ray-platform-night {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(58% 0, 100% 0, 100% 100%, 42% 100%);
+}
 .ray-platform-launch:before {
   content: "";
   position: absolute;

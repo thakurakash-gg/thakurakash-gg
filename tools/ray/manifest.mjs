@@ -26,11 +26,18 @@ const extra = [
   "assets/ray/textures/shore-distance.png",
   "assets/ray/ui/experience.css",
   "assets/ray/ui/miami-map.css",
+  "assets/ray/audio/coast-gulls.mp3",
+  "assets/ray/audio/coast-shore.mp3",
 ];
 const assets = [...new Set([...order, ...extra])].map((name) => {
   const bytes = read(name);
   const sha256 = hash(bytes);
-  return { url: `${name}?v=${sha256}`, bytes: bytes.length, sha256 };
+  return {
+    url: `${name}?v=${sha256}`,
+    bytes: bytes.length,
+    sha256,
+    ...(name.endsWith(".mp3") ? { lazy: true } : {}),
+  };
 });
 const bootHash = hash(read("assets/ray/core/boot.js"));
 const workerHash = hash(read("ray-sw.js"));

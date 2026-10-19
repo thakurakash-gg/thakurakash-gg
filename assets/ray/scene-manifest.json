@@ -1,9 +1,9 @@
 {
   "schema": 2,
-  "version": "scene-a077ded7cfae548d",
+  "version": "scene-874203057043bfa4",
   "release": {
-    "version": "26.5.1",
-    "date": "2026-10-18",
+    "version": "26.6.0",
+    "date": "2026-10-19",
     "changelog": "CHANGELOG-RAY.md"
   },
   "scripts": [
@@ -34,6 +34,7 @@
     "assets/ray/architecture/courtyard.js?v=e8728182ce069fad7df52e8f055a041a28f5aa7f47a0a1091743209a4ce1c907",
     "assets/ray/environment/night.js?v=6f2dfe9ae42da79791b8780afaee7d4f98e0c036298944c8418d310fd17cbeb8",
     "assets/ray/core/diagnostics.js?v=0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9",
+    "assets/ray/environment/coastal-sound.js?v=2efbd7c1b64046a7fbb6f88d814359b326cf2f2501fca5272c2da0eebbd3a798",
     "assets/ray/ui/experience.js?v=420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0"
   ],
   "assets": [
@@ -173,6 +174,11 @@
       "sha256": "0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9"
     },
     {
+      "url": "assets/ray/environment/coastal-sound.js?v=2efbd7c1b64046a7fbb6f88d814359b326cf2f2501fca5272c2da0eebbd3a798",
+      "bytes": 4675,
+      "sha256": "2efbd7c1b64046a7fbb6f88d814359b326cf2f2501fca5272c2da0eebbd3a798"
+    },
+    {
       "url": "assets/ray/ui/experience.js?v=420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0",
       "bytes": 10711,
       "sha256": "420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0"
@@ -188,14 +194,26 @@
       "sha256": "76309849c9b7c77986e7e3d4a96b99a80fa7b0ae11a3ab325ffa6d36e6f4eb04"
     },
     {
-      "url": "assets/ray/ui/experience.css?v=61e10ae6d7964e5e7556ba844d4940663cab811505e67f6af4008711b0da1cf3",
-      "bytes": 22826,
-      "sha256": "61e10ae6d7964e5e7556ba844d4940663cab811505e67f6af4008711b0da1cf3"
+      "url": "assets/ray/ui/experience.css?v=bc7e4e2318616f3040274000048f4f529aef43d7f58d394bd4bfb53ba2df41fe",
+      "bytes": 23195,
+      "sha256": "bc7e4e2318616f3040274000048f4f529aef43d7f58d394bd4bfb53ba2df41fe"
     },
     {
       "url": "assets/ray/ui/miami-map.css?v=29c05422d2cd35f7c4b7fc00647233274ee3ef31492be94a0c403cc7dd8f1ae4",
       "bytes": 5618,
       "sha256": "29c05422d2cd35f7c4b7fc00647233274ee3ef31492be94a0c403cc7dd8f1ae4"
+    },
+    {
+      "url": "assets/ray/audio/coast-gulls.mp3?v=4c064da58ace11395e0101ec6ee0d5e3b81222b2e6d295238f161b0040420d81",
+      "bytes": 54613,
+      "sha256": "4c064da58ace11395e0101ec6ee0d5e3b81222b2e6d295238f161b0040420d81",
+      "lazy": true
+    },
+    {
+      "url": "assets/ray/audio/coast-shore.mp3?v=370e5672ac6ef03871c5cf94ea74213a1a666df3ce7ddeb6d60bb62c9192725a",
+      "bytes": 60569,
+      "sha256": "370e5672ac6ef03871c5cf94ea74213a1a666df3ce7ddeb6d60bb62c9192725a",
+      "lazy": true
     }
   ]
 }
