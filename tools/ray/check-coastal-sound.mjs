@@ -29,6 +29,7 @@ class AudioContext {
   constructor() {
     contexts++;
     this.destination = {};
+    this.currentTime = 0;
   }
   async resume() {}
   async suspend() {}
@@ -36,7 +37,7 @@ class AudioContext {
     return {};
   }
   createGain() {
-    return { gain: {}, connect() {}, disconnect() {} };
+    return { gain: { setTargetAtTime() {} }, connect() {}, disconnect() {} };
   }
   createBufferSource() {
     const node = {
@@ -78,19 +79,41 @@ assert.equal(contexts, 0, "No AudioContext before opt-in");
 assert.equal(requests, 0, "No audio bytes before opt-in");
 assert.equal(timers.size, 0);
 assert.equal(attrs.get("aria-pressed"), "false");
-const { planCue } = sandbox.module.exports;
+const { planCue, coastSampler, soundProfile } = sandbox.module.exports;
+const distance = coastSampler([
+  [
+    [
+      [0, 0],
+      [100, 0],
+      [100, 100],
+      [0, 100],
+      [0, 0],
+    ],
+  ],
+]);
+assert.equal(distance({ x: 110, y: 4, z: 50 }), 4, "Water distance follows altitude over the sea");
+assert(
+  Math.abs(distance({ x: 50, y: 4, z: 50 }) - Math.hypot(50, 4)) < 1e-6,
+  "An inland camera includes horizontal distance to water",
+);
+const low = soundProfile({ y: 8 }, 8, "afternoon");
+const high = soundProfile({ y: 300 }, 300, "afternoon");
+assert(low.water > high.water && high.birds > low.birds && high.wind > low.wind);
+assert.equal(planCue(() => 0.5, low, null, 0).kind, "shore");
+assert.equal(planCue(() => 0.5, high, null, 0).kind, "gulls");
+assert.equal(planCue(() => 0.5, high, null, 2).kind, "wind");
 let previous;
 for (let i = 0; i < 1000; i++) {
-  const cue = planCue(Math.random, i % 2 ? "night" : "afternoon", previous);
+  const cue = planCue(Math.random, i % 2 ? high : low, previous, i);
   assert.notEqual(cue.id, previous, "Avoid immediately repeated clips");
-  assert(cue.gap >= 18000 && cue.gap < 45000);
-  assert(cue.gain > 0 && cue.gain <= 0.27);
-  assert([3, 5].includes(cue.duration));
+  assert(cue.gap >= 800 && cue.gap < 6000);
+  assert(cue.gain > 0 && cue.gain <= 0.65);
+  assert([3, 5, 8].includes(cue.duration));
   previous = cue.id;
 }
 await listeners.get("button-click")();
 assert.equal(contexts, 1);
-assert.equal(requests, 2);
+assert.equal(requests, 3);
 assert.equal(timers.size, 1);
 let pending = [...timers.entries()][0];
 timers.delete(pending[0]);
@@ -98,13 +121,20 @@ pending[1].handler();
 assert.equal(nodes.length, 1);
 assert.equal(nodes[0].loop, false);
 assert.equal(timers.size, 0, "Never schedule a second sound over an active cue");
-nodes[0].onended();
+sandbox.window.RayCoastalSound.updateView({ x: 0, y: 8, z: 100 }, "afternoon", 1000);
+assert.equal(button.dataset.soundZone, "waterfront");
+assert.equal(nodes[0].stopped, true, "Camera transitions fade and retire the old surroundings");
+pending = [...timers.entries()][0];
+timers.delete(pending[0]);
+pending[1].handler();
+assert.equal(button.dataset.soundCue.startsWith("shore"), true);
+nodes.at(-1).onended();
 assert.equal(timers.size, 1);
-assert([...timers.values()][0].delay >= 18000, "Silence starts after the cue ends");
+assert([...timers.values()][0].delay >= 800, "A natural gap starts after the wave ends");
 await listeners.get("button-click")();
 assert.equal(timers.size, 0, "Mute cancels the next cue");
 await listeners.get("button-click")();
-assert.equal(requests, 2, "Re-enabling reuses decoded recordings");
+assert.equal(requests, 3, "Re-enabling reuses decoded recordings");
 document.hidden = true;
 await listeners.get("visibilitychange")();
 assert.equal(timers.size, 0, "No scheduled sound in a hidden tab");
@@ -115,5 +145,5 @@ listeners.get("pagehide")();
 assert.equal(timers.size, 0);
 assert.equal(attrs.get("aria-pressed"), "false");
 console.log(
-  "Pass: opt-in loading, bounded quiet cues, non-overlap, random silence, mute, background suspension and decoded buffer reuse.",
+  "Pass: distance to water, height-dependent birds and wind, responsive camera transitions, opt-in loading, finite cues, mute and background suspension.",
 );

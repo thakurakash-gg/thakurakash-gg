@@ -9,6 +9,7 @@ import { validateReleases, renderChangelog } from "./releases.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "assets/ray/scene-manifest.json")));
 execFileSync(process.execPath, [path.join(root, "tools/ray/check-coastal-sound.mjs")], { stdio: "inherit" });
+execFileSync(process.execPath, [path.join(root, "tools/ray/check-marina-wall.mjs")], { stdio: "inherit" });
 assert.equal(manifest.schema, 2, "Regenerate the content-versioned scene manifest");
 const history = JSON.parse(fs.readFileSync(path.join(root, "docs/ray/releases.json")));
 const release = validateReleases(history, manifest.version);

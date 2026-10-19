@@ -28,6 +28,7 @@ const extra = [
   "assets/ray/ui/miami-map.css",
   "assets/ray/audio/coast-gulls.mp3",
   "assets/ray/audio/coast-shore.mp3",
+  "assets/ray/audio/coast-wind.mp3",
 ];
 const assets = [...new Set([...order, ...extra])].map((name) => {
   const bytes = read(name);

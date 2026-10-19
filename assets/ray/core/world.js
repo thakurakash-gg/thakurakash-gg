@@ -13,7 +13,11 @@
       this.frame = 0;
       this.last = 0;
       this.pointers = new Map();
-      this.target = new T.Vector3(0, 33, window.RayBuildingLandscape.buildingShift || 0);
+      this.target = new T.Vector3(
+        0,
+        33,
+        window.RayBuildingLandscape.buildingShift || 0,
+      );
       this.desiredTarget = this.target.clone();
       this.orbit = { theta: 0.4, phi: 1.285, radius: 270 };
       this.desired = { ...this.orbit };
@@ -151,7 +155,8 @@
       teak.fillRect(0, 0, 256, 256);
       for (let n = 0; n < 16; n++) {
         const y = n * 16;
-        teak.fillStyle = n % 3 === 0 ? "#bd986b" : n % 3 === 1 ? "#af8c61" : "#a88459";
+        teak.fillStyle =
+          n % 3 === 0 ? "#bd986b" : n % 3 === 1 ? "#af8c61" : "#a88459";
         teak.fillRect(0, y, 256, 15);
         teak.fillStyle = "#6a5740";
         teak.fillRect(0, y, 256, 1);
@@ -268,7 +273,8 @@
     slab(key, x, y, z, w, d, h = 0.24, r = 1.5, mat = "slab") {
       this.addBatch(
         key,
-        this.roundCache?.[key] || ((this.roundCache ??= {})[key] = this.rounded(w, d, h, r)),
+        this.roundCache?.[key] ||
+          ((this.roundCache ??= {})[key] = this.rounded(w, d, h, r)),
         this.materials[mat],
         x,
         y,
@@ -371,7 +377,10 @@ gl_FragColor=vec4(color,1.);
       this.sun = new T.DirectionalLight(0xffedc7, 3.5);
       this.sun.position.set(-150, 190, 150);
       this.sun.castShadow = true;
-      this.sun.shadow.mapSize.set(this.quality.shadowSize, this.quality.shadowSize);
+      this.sun.shadow.mapSize.set(
+        this.quality.shadowSize,
+        this.quality.shadowSize,
+      );
       Object.assign(this.sun.shadow.camera, {
         left: -240,
         right: 240,
@@ -401,7 +410,9 @@ gl_FragColor=vec4(color,1.);
     }
     outline(points) {
       const shape = new T.Shape();
-      points.forEach(([x, z], i) => (i ? shape.lineTo(x, -z) : shape.moveTo(x, -z)));
+      points.forEach(([x, z], i) =>
+        i ? shape.lineTo(x, -z) : shape.moveTo(x, -z),
+      );
       shape.closePath();
       return shape;
     }
@@ -417,10 +428,14 @@ gl_FragColor=vec4(color,1.);
     wingShape(mirror = false, scale = 1) {
       const shape = new T.Shape(),
         cx = -37.5;
-      const p = (x, z) => [(mirror ? -1 : 1) * (cx + (x - cx) * scale), -z * scale];
+      const p = (x, z) => [
+        (mirror ? -1 : 1) * (cx + (x - cx) * scale),
+        -z * scale,
+      ];
       const move = (x, z) => shape.moveTo(...p(x, z)),
         line = (x, z) => shape.lineTo(...p(x, z)),
-        curve = (a, b, c, d, e, f) => shape.bezierCurveTo(...p(a, b), ...p(c, d), ...p(e, f));
+        curve = (a, b, c, d, e, f) =>
+          shape.bezierCurveTo(...p(a, b), ...p(c, d), ...p(e, f));
       move(-66, -12);
       curve(-66, -15, -65, -16, -62, -16);
       line(-56, -16);
@@ -502,7 +517,16 @@ gl_FragColor=vec4(color,1.);
       for (const segment of podEdges) {
         const { x, z, length, angle } = segment;
         for (const floorY of podFloors)
-          this.box("slab", x, floorY + 0.09, z, length + 0.06, 0.23, 0.24, angle);
+          this.box(
+            "slab",
+            x,
+            floorY + 0.09,
+            z,
+            length + 0.06,
+            0.23,
+            0.24,
+            angle,
+          );
         this.box("frame", x, 8.6, z, 0.09, 13.6, 0.12, angle);
         for (let f = 0; f < 4; f++) {
           const c = new T.Color().setHSL(0.55, 0.12, 0.55 + (f % 2) * 0.06);
@@ -523,9 +547,11 @@ gl_FragColor=vec4(color,1.);
       }
       // An amenity pavilion spans the courtyard beneath the upper separation.
       this.box("darkglass", 0, 22, 1, 18, 9.2, 26);
-      for (const y of [17.3, 20.55, 23.8, 27.05]) this.box("slab", 0, y, 1, 18, 0.2, 27.8);
+      for (const y of [17.3, 20.55, 23.8, 27.05])
+        this.box("slab", 0, y, 1, 18, 0.2, 27.8);
       for (let x = -7.8; x < 9; x += 2.6)
-        for (const z of [-12.5, 14.5]) this.box("frame", x, 22, z, 0.09, 9.4, 0.1);
+        for (const z of [-12.5, 14.5])
+          this.box("frame", x, 22, z, 0.09, 9.4, 0.1);
       for (const mirror of [false, true]) {
         const sign = mirror ? -1 : 1,
           cx = sign * -37.5,
@@ -544,7 +570,14 @@ gl_FragColor=vec4(color,1.);
         const slabGeo = this.shapeGeometry(shape, 0.2);
         for (let f = 0; f <= floors; f++) {
           const y = base + f * step;
-          this.addBatch("bowed-wing-slabs-" + sign, slabGeo, this.materials.slab, 0, y, 0);
+          this.addBatch(
+            "bowed-wing-slabs-" + sign,
+            slabGeo,
+            this.materials.slab,
+            0,
+            y,
+            0,
+          );
           if (f === floors) continue;
           for (let i = 0; i < edges.length; i++) {
             const edge = edges[i];
@@ -558,7 +591,16 @@ gl_FragColor=vec4(color,1.);
               0.045,
               edge.angle,
             );
-            this.box("frame", edge.x, y + 1.36, edge.z, edge.length + 0.01, 0.04, 0.04, edge.angle);
+            this.box(
+              "frame",
+              edge.x,
+              y + 1.36,
+              edge.z,
+              edge.length + 0.01,
+              0.04,
+              0.04,
+              edge.angle,
+            );
           }
           for (let i = 0; i < inside.length; i++) {
             const edge = inside[i],
@@ -575,7 +617,16 @@ gl_FragColor=vec4(color,1.);
               edge.angle,
               new T.Color().setHSL(0.55, 0.1, shade),
             );
-            this.box("frame", edge.a.x, y + 1.65, edge.a.y, 0.075, 3.04, 0.085, edge.angle);
+            this.box(
+              "frame",
+              edge.a.x,
+              y + 1.65,
+              edge.a.y,
+              0.075,
+              3.04,
+              0.085,
+              edge.angle,
+            );
             if ((i + f) % 6 === 0) {
               const inward = new T.Vector2(cx - edge.x, -edge.z).normalize();
               this.box(
@@ -606,29 +657,78 @@ gl_FragColor=vec4(color,1.);
             "ivory",
           );
           for (let f = 0; f < floors; f++)
-            this.box("frame", cx + dx, base + f * step + 1.7, -17.05, 4.8, 0.11, 0.12);
+            this.box(
+              "frame",
+              cx + dx,
+              base + f * step + 1.7,
+              -17.05,
+              4.8,
+              0.11,
+              0.12,
+            );
         }
         // Four planted rooftop pavilions with smaller pergolas rather than oversized boxes.
         for (const dx of [-15, 14]) {
-          this.slab("penthouse-garden", cx + dx, top + 0.22, 1, 20.5, 21, 0.18, 1, "paving");
+          this.slab(
+            "penthouse-garden",
+            cx + dx,
+            top + 0.22,
+            1,
+            20.5,
+            21,
+            0.18,
+            1,
+            "paving",
+          );
           this.box("darkglass", cx + dx, top + 1.75, -1, 15.5, 2.9, 12);
-          this.slab("penthouse-canopy", cx + dx, top + 3.28, -1, 16.2, 13, 0.18, 0.7);
+          this.slab(
+            "penthouse-canopy",
+            cx + dx,
+            top + 3.28,
+            -1,
+            16.2,
+            13,
+            0.18,
+            0.7,
+          );
           for (let a = -9; a <= 9; a += 0.8)
             this.box("wood", cx + dx + a, top + 3.5, 8, 0.11, 0.12, 6);
-          for (const a of [-8.7, 8.7]) this.box("bronze", cx + dx + a, top + 2.1, 9, 0.1, 2.8, 0.1);
+          for (const a of [-8.7, 8.7])
+            this.box("bronze", cx + dx + a, top + 2.1, 9, 0.1, 2.8, 0.1);
           for (const z of [-9.7, 12.8]) {
             this.box("ivory", cx + dx, top + 0.76, z, 20, 0.8, 1);
             this.box("grassdark", cx + dx, top + 1.24, z, 19.5, 0.25, 0.85);
           }
-          for (const a of [-8, 0, 8]) this.palm(cx + dx + a, 12.8, 2.8, top + 1.3);
+          for (const a of [-8, 0, 8])
+            this.palm(cx + dx + a, 12.8, 2.8, top + 1.3);
         }
         this.box("bronze", cx, top + 2.7, -3, 13, 4.5, 9);
         for (let y = top + 0.7; y < top + 5; y += 0.35)
           this.box("frame", cx, y, 1.6, 13.3, 0.08, 0.12);
       }
       // Pool and planted terrace on the setback above the podium.
-      this.slab("terrace-pool-rim", 0, 17.54, 24, 20.5, 6.4, 0.22, 1.2, "ivory");
-      this.slab("terrace-pool-water", 0, 17.79, 24, 19.3, 5.2, 0.035, 0.9, "pool");
+      this.slab(
+        "terrace-pool-rim",
+        0,
+        17.54,
+        24,
+        20.5,
+        6.4,
+        0.22,
+        1.2,
+        "ivory",
+      );
+      this.slab(
+        "terrace-pool-water",
+        0,
+        17.79,
+        24,
+        19.3,
+        5.2,
+        0.035,
+        0.9,
+        "pool",
+      );
       for (const x of [-59, -49, -39, -29, -19, 19, 29, 39, 49, 59]) {
         this.box("ivory", x, 17.85, 24.4, 4.3, 0.4, 1.5);
         this.box("wood", x, 18.15, 24.4, 3.9, 0.15, 1.25);
@@ -636,13 +736,15 @@ gl_FragColor=vec4(color,1.);
         this.box("ivory", x, 17.8, 28.8, 5, 0.7, 1.1);
         this.box("grassdark", x, 18.27, 28.8, 4.7, 0.28, 0.9);
       }
-      for (const x of [-62, -43, -24, 24, 43, 62]) this.palm(x, 28.2, 4.8, 17.7);
+      for (const x of [-62, -43, -24, 24, 43, 62])
+        this.palm(x, 28.2, 4.8, 17.7);
       for (const x of [-61, -46, -31, -16, 16, 31, 46, 61]) {
         this.box("white", x, 18.0, 22, 1.8, 0.16, 3);
         this.box("bronze", x, 17.8, 22, 0.14, 0.4, 2.7);
       }
       // Finer louver screens at the back of the parking podium preserve the reference's rhythm.
-      for (let x = -66; x <= 66; x += 0.7) this.box("bronze", x, 8.5, -21.12, 0.12, 11, 0.21);
+      for (let x = -66; x <= 66; x += 0.7)
+        this.box("bronze", x, 8.5, -21.12, 0.12, 11, 0.21);
     }
     beam(mat, a, b, width = 0.18, depth = 0.18) {
       const delta = new T.Vector3().subVectors(b, a),
@@ -653,7 +755,10 @@ gl_FragColor=vec4(color,1.);
           this.materials[mat],
         );
       mesh.position.copy(middle);
-      mesh.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), delta.normalize());
+      mesh.quaternion.setFromUnitVectors(
+        new T.Vector3(0, 1, 0),
+        delta.normalize(),
+      );
       this.scene.add(mesh);
       return mesh;
     }
@@ -680,7 +785,10 @@ gl_FragColor=vec4(color,1.);
         }
       }
       const geometry = new T.BufferGeometry();
-      geometry.setAttribute("position", new T.Float32BufferAttribute(positions, 3));
+      geometry.setAttribute(
+        "position",
+        new T.Float32BufferAttribute(positions, 3),
+      );
       geometry.setAttribute("uv", new T.Float32BufferAttribute(uvs, 2));
       geometry.setIndex(indices);
       geometry.computeVertexNormals();
@@ -715,10 +823,26 @@ gl_FragColor=vec4(color,1.);
         this.box("wood", x, 0.72, z, w, 0.4, d);
         if (d > w) {
           for (const side of [-1, 1])
-            this.box("ivory", x + side * (w / 2 - 0.05), 0.97, z, 0.06, 0.06, d);
+            this.box(
+              "ivory",
+              x + side * (w / 2 - 0.05),
+              0.97,
+              z,
+              0.06,
+              0.06,
+              d,
+            );
         } else {
           for (const side of [-1, 1])
-            this.box("ivory", x, 0.97, z + side * (d / 2 - 0.05), w, 0.06, 0.06);
+            this.box(
+              "ivory",
+              x,
+              0.97,
+              z + side * (d / 2 - 0.05),
+              w,
+              0.06,
+              0.06,
+            );
         }
       };
       dock(41.5, 58, 71, 2.25); // The outer parallel dock is separated from the promenade by water.
@@ -841,7 +965,8 @@ gl_FragColor=vec4(color,1.);
     }
     batchStaticBoats() {
       for (const group of [...this.scene.children]) {
-        if (!group.userData.yacht || this.boats.some((b) => b.group === group)) continue;
+        if (!group.userData.yacht || this.boats.some((b) => b.group === group))
+          continue;
         group.updateMatrixWorld(true);
         for (const mesh of group.children) {
           const pos = new T.Vector3(),
@@ -917,7 +1042,11 @@ gl_FragColor=vec4(color,1.);
       for (const [z, width, deck] of sections)
         for (let j = 0; j <= sides; j++) {
           const angle = (Math.PI * j) / sides;
-          positions.push(Math.cos(angle) * width, deck * 0.9 - Math.sin(angle) * 0.95, z);
+          positions.push(
+            Math.cos(angle) * width,
+            deck * 0.9 - Math.sin(angle) * 0.95,
+            z,
+          );
         }
       for (let i = 0; i < sections.length - 1; i++)
         for (let j = 0; j < sides; j++) {
@@ -926,7 +1055,10 @@ gl_FragColor=vec4(color,1.);
           indices.push(a, b, a + 1, a + 1, b, b + 1);
         }
       const hullGeometry = new T.BufferGeometry();
-      hullGeometry.setAttribute("position", new T.Float32BufferAttribute(positions, 3));
+      hullGeometry.setAttribute(
+        "position",
+        new T.Float32BufferAttribute(positions, 3),
+      );
       hullGeometry.setIndex(indices);
       hullGeometry.computeVertexNormals();
       const hull = new T.Mesh(hullGeometry, this.materials.hull);
@@ -953,7 +1085,13 @@ gl_FragColor=vec4(color,1.);
         return mesh;
       };
       add(this.rounded(2.9, 5, 0.38, 0.45), "white", 0, 1.12, -0.9);
-      const cabin = add(this.rounded(2.5, 3.9, 0.9, 0.45), "boatglass", 0, 1.55, -0.5);
+      const cabin = add(
+        this.rounded(2.5, 3.9, 0.9, 0.45),
+        "boatglass",
+        0,
+        1.55,
+        -0.5,
+      );
       cabin.rotation.x = 0.04;
       add(this.rounded(3, 4.5, 0.14, 0.5), "white", 0, 2.48, -0.7);
       add(this.rounded(2.4, 2.8, 0.32, 0.4), "white", 0, 2.62, -1.3);
@@ -971,15 +1109,27 @@ gl_FragColor=vec4(color,1.);
           points.push(new T.Vector3(side * (width * 0.93), 1.65, z));
         }
         const curve = new T.CatmullRomCurve3(points);
-        const rail = new T.Mesh(new T.TubeGeometry(curve, 28, 0.025, 5, false), railMat);
+        const rail = new T.Mesh(
+          new T.TubeGeometry(curve, 28, 0.025, 5, false),
+          railMat,
+        );
         group.add(rail);
         for (const p of points) {
-          const post = new T.Mesh(new T.CylinderGeometry(0.022, 0.022, 0.58, 5), railMat);
+          const post = new T.Mesh(
+            new T.CylinderGeometry(0.022, 0.022, 0.58, 5),
+            railMat,
+          );
           post.position.set(p.x, 1.36, p.z);
           group.add(post);
         }
         for (let i = 0; i < 5; i++)
-          add(new T.SphereGeometry(0.1, 8, 5), "boatglass", side * 1.78, 0.7, -3.7 + i * 1.6);
+          add(
+            new T.SphereGeometry(0.1, 8, 5),
+            "boatglass",
+            side * 1.78,
+            0.7,
+            -3.7 + i * 1.6,
+          );
       }
       for (const x of [-0.6, 0.6]) {
         const mast = add(
@@ -991,19 +1141,43 @@ gl_FragColor=vec4(color,1.);
         );
         mast.rotation.z = x * 0.25;
       }
-      add(new T.SphereGeometry(0.25, 12, 8), "white", 0, type ? 3.95 : 2.95, -1.6);
+      add(
+        new T.SphereGeometry(0.25, 12, 8),
+        "white",
+        0,
+        type ? 3.95 : 2.95,
+        -1.6,
+      );
       // Dark fenders, cleats and swim platform finish the shared yacht templates.
       for (const side of [-1, 1])
         for (const z of [-3.5, -1, 1.5]) {
-          add(new T.CapsuleGeometry(0.1, 0.38, 3, 6), "boatglass", side * 1.86, 0.95, z);
-          add(new T.BoxGeometry(0.08, 0.08, 0.3), "frame", side * 1.67, 1.25, z);
+          add(
+            new T.CapsuleGeometry(0.1, 0.38, 3, 6),
+            "boatglass",
+            side * 1.86,
+            0.95,
+            z,
+          );
+          add(
+            new T.BoxGeometry(0.08, 0.08, 0.3),
+            "frame",
+            side * 1.67,
+            1.25,
+            z,
+          );
         }
       add(this.rounded(2.4, 1.15, 0.12, 0.23), "wood", 0, 0.62, -6.1);
       // Emissive navigation lights and warm deck strips remain part of the
       // shared yacht templates, including the two moving vessels.
       if (this.materials.shipWarm) {
         for (const side of [-1, 1]) {
-          add(new T.BoxGeometry(0.045, 0.045, 4.6), "shipWarm", side * 1.42, 1.24, -0.7);
+          add(
+            new T.BoxGeometry(0.045, 0.045, 4.6),
+            "shipWarm",
+            side * 1.42,
+            1.24,
+            -0.7,
+          );
           add(
             new T.SphereGeometry(0.11, 8, 5),
             side < 0 ? "shipPort" : "shipStarboard",
@@ -1012,7 +1186,13 @@ gl_FragColor=vec4(color,1.);
             0.8,
           );
         }
-        add(new T.SphereGeometry(0.12, 8, 5), "shipWarm", 0, type ? 4.4 : 3.4, -1.7);
+        add(
+          new T.SphereGeometry(0.12, 8, 5),
+          "shipWarm",
+          0,
+          type ? 4.4 : 3.4,
+          -1.7,
+        );
         add(new T.BoxGeometry(1.85, 0.045, 0.05), "shipWarm", 0, 1.5, -4.8);
       }
       // Deck plank seams remain geometry-free, using a shared static material map.
@@ -1031,7 +1211,11 @@ gl_FragColor=vec4(color,1.);
           t1 = (i + 1) / 11;
         function p(t, side) {
           const width = Math.sin(t * Math.PI) * (0.43 - (t % 0.18) * 0.5);
-          return [t * 4.8, Math.sin(t * Math.PI) * 0.55 - t * t * 1.15, side * width];
+          return [
+            t * 4.8,
+            Math.sin(t * Math.PI) * 0.55 - t * t * 1.15,
+            side * width,
+          ];
         }
         const a = p(t0, -1),
           b = p(t0, 1),
@@ -1051,7 +1235,12 @@ gl_FragColor=vec4(color,1.);
       return g;
     }
     palm(x, z, height = 9, y = 1.1) {
-      const trunk = (this.trunkGeo ??= new T.CylinderGeometry(0.14, 0.24, 1, 7));
+      const trunk = (this.trunkGeo ??= new T.CylinderGeometry(
+        0.14,
+        0.24,
+        1,
+        7,
+      ));
       this.addBatch(
         "palm-trunks",
         trunk,
@@ -1090,7 +1279,12 @@ gl_FragColor=vec4(color,1.);
       }
     }
     tree(x, z, size = 4, y = 1) {
-      const trunk = (this.treeTrunk ??= new T.CylinderGeometry(0.2, 0.36, 1, 6));
+      const trunk = (this.treeTrunk ??= new T.CylinderGeometry(
+        0.2,
+        0.36,
+        1,
+        6,
+      ));
       this.addBatch(
         "tree-trunks",
         trunk,
@@ -1126,7 +1320,8 @@ gl_FragColor=vec4(color,1.);
     }
     createVegetation() {
       for (let x = -72; x <= 72; x += 12) this.palm(x, 31.8, 6.5);
-      for (const x of [-72, 72]) for (let z = -17; z < 22; z += 13) this.palm(x, z, 5.5);
+      for (const x of [-72, 72])
+        for (let z = -17; z < 22; z += 13) this.palm(x, z, 5.5);
     }
     createBirds() {
       const material = new T.MeshStandardMaterial({
@@ -1137,7 +1332,10 @@ gl_FragColor=vec4(color,1.);
       const wingGeometry = new T.BufferGeometry();
       wingGeometry.setAttribute(
         "position",
-        new T.Float32BufferAttribute([0, 0, 0, 1.4, 0.15, -0.3, 0.4, 0, 0.35], 3),
+        new T.Float32BufferAttribute(
+          [0, 0, 0, 1.4, 0.15, -0.3, 0.4, 0, 0.35],
+          3,
+        ),
       );
       wingGeometry.computeVertexNormals();
       for (let i = 0; i < 7; i++) {
@@ -1157,7 +1355,11 @@ gl_FragColor=vec4(color,1.);
         quaternion = new T.Quaternion(),
         rotation = new T.Euler();
       for (const [key, b] of this.batches) {
-        const mesh = new T.InstancedMesh(b.geometry, b.material, b.items.length);
+        const mesh = new T.InstancedMesh(
+          b.geometry,
+          b.material,
+          b.items.length,
+        );
         b.items.forEach((item, i) => {
           position.set(item.x, item.y, item.z);
           scale.set(item.sx, item.sy, item.sz);
@@ -1167,9 +1369,13 @@ gl_FragColor=vec4(color,1.);
           mesh.setMatrixAt(i, matrix);
           if (item.color) mesh.setColorAt(i, item.color);
         });
-        mesh.castShadow = !["glass", "litglass", "darkglass", "railing", "pool"].some(
-          (name) => b.material === this.materials[name],
-        );
+        mesh.castShadow = ![
+          "glass",
+          "litglass",
+          "darkglass",
+          "railing",
+          "pool",
+        ].some((name) => b.material === this.materials[name]);
         mesh.receiveShadow = b.material !== this.materials.railing;
         mesh.computeBoundingSphere();
         mesh.frustumCulled = true;
@@ -1227,7 +1433,8 @@ gl_FragColor=vec4(color,1.);
         },
       };
       this.lightDesired = presets[mood];
-      if (immediate) this.lightState = JSON.parse(JSON.stringify(this.lightDesired));
+      if (immediate)
+        this.lightState = JSON.parse(JSON.stringify(this.lightDesired));
       this.renderer.shadowMap.needsUpdate = true;
       this.wake();
     }
@@ -1236,7 +1443,13 @@ gl_FragColor=vec4(color,1.);
         s = this.lightState,
         k = Math.min(1, dt * 3);
       let moving = false;
-      for (const key of ["intensity", "ambient", "exposure", "water", "night"]) {
+      for (const key of [
+        "intensity",
+        "ambient",
+        "exposure",
+        "water",
+        "night",
+      ]) {
         s[key] += (d[key] - s[key]) * k;
         if (Math.abs(d[key] - s[key]) > 0.001) moving = true;
       }
@@ -1258,7 +1471,8 @@ gl_FragColor=vec4(color,1.);
       this.skyUniforms.night.value = s.night;
       for (const [name, material] of Object.entries(this.materials))
         material.envMapIntensity =
-          (name === "glass" || name === "litglass" ? 1.2 : 1) * (1 - s.night * 0.86);
+          (name === "glass" || name === "litglass" ? 1.2 : 1) *
+          (1 - s.night * 0.86);
       this.materials.litglass.emissiveIntensity = s.night * 0.9;
       this.materials.lamp.emissiveIntensity = s.night * 2;
       this.materials.pool.emissiveIntensity = 0.1 + s.night * 0.5;
@@ -1291,7 +1505,8 @@ gl_FragColor=vec4(color,1.);
       this.desiredTarget.set(
         0,
         which === "marina" ? 26 : 33,
-        (window.RayBuildingLandscape.buildingShift || 0) + (which === "marina" ? 22 : 0),
+        (window.RayBuildingLandscape.buildingShift || 0) +
+          (which === "marina" ? 22 : 0),
       );
       this.wake();
     }
@@ -1334,7 +1549,10 @@ gl_FragColor=vec4(color,1.);
         this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
         if (this.pointers.size === 2) {
           const after = [...this.pointers.values()],
-            d0 = Math.hypot(before[0].x - before[1].x, before[0].y - before[1].y),
+            d0 = Math.hypot(
+              before[0].x - before[1].x,
+              before[0].y - before[1].y,
+            ),
             d1 = Math.hypot(after[0].x - after[1].x, after[0].y - after[1].y);
           if (d0 > 0 && d1 > 0)
             this.desired.radius = T.MathUtils.clamp(
@@ -1413,7 +1631,11 @@ gl_FragColor=vec4(color,1.);
       }
       if (this.pendingViewportSize) {
         const { width, height } = this.pendingViewportSize;
-        this.renderer.setDrawingBufferSize(width, height, this.renderer.getPixelRatio());
+        this.renderer.setDrawingBufferSize(
+          width,
+          height,
+          this.renderer.getPixelRatio(),
+        );
         this.pendingViewportSize = null;
         this.lastMirror = 0;
       }
@@ -1426,7 +1648,8 @@ gl_FragColor=vec4(color,1.);
       const lightingMoves = this.updateLight(dt);
       if (this.context) this.context.update(this.time);
       if (this.auto) this.desired.theta += dt * 0.09;
-      let cameraMoves = this.target.distanceToSquared(this.desiredTarget) > 0.00001;
+      let cameraMoves =
+        this.target.distanceToSquared(this.desiredTarget) > 0.00001;
       this.target.lerp(this.desiredTarget, Math.min(1, dt * 6));
       for (const key of ["theta", "phi", "radius"]) {
         const difference = this.desired[key] - this.orbit[key];
@@ -1448,7 +1671,10 @@ gl_FragColor=vec4(color,1.);
           0.14 + Math.sin(this.time * 0.6 + offset) * 0.06,
           (r < 100 ? 215 : 335) + Math.cos(a) * (r < 100 ? 45 : 38),
         );
-        group.rotation.y = Math.atan2(r * Math.cos(a), -(r < 100 ? 45 : 38) * Math.sin(a));
+        group.rotation.y = Math.atan2(
+          r * Math.cos(a),
+          -(r < 100 ? 45 : 38) * Math.sin(a),
+        );
         group.rotation.z = Math.sin(this.time * 0.6 + offset) * 0.009;
         if (wake) {
           wake.position.set(group.position.x, 0.02, group.position.z);
@@ -1458,12 +1684,21 @@ gl_FragColor=vec4(color,1.);
       });
       this.birds.forEach(({ g, left, right, offset }) => {
         const t = this.time * 0.055 + offset;
-        g.position.set(Math.sin(t) * 150, 91 + Math.sin(t * 2) * 8, Math.cos(t) * 140);
+        g.position.set(
+          Math.sin(t) * 150,
+          91 + Math.sin(t * 2) * 8,
+          Math.cos(t) * 140,
+        );
         g.rotation.y = t + Math.PI / 2;
         left.rotation.z = Math.sin(this.time * 3.7 + offset) * 0.3;
         right.rotation.z = -left.rotation.z;
       });
-      if (!this.lastMirror || cameraMoves || lightingMoves || now - this.lastMirror > 120) {
+      if (
+        !this.lastMirror ||
+        cameraMoves ||
+        lightingMoves ||
+        now - this.lastMirror > 120
+      ) {
         const mirror = this.mirrorCamera;
         mirror.copy(this.camera);
         mirror.position.y = -this.camera.position.y - 0.24;
@@ -1471,8 +1706,27 @@ gl_FragColor=vec4(color,1.);
         mirror.lookAt(this.target.x, -this.target.y - 0.24, this.target.z);
         mirror.updateMatrixWorld();
         mirror.matrixWorldInverse.copy(mirror.matrixWorld).invert();
-        this.textureMatrix.set(0.5, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0, 0, 0, 1);
-        this.textureMatrix.multiply(mirror.projectionMatrix).multiply(mirror.matrixWorldInverse);
+        this.textureMatrix.set(
+          0.5,
+          0,
+          0,
+          0.5,
+          0,
+          0.5,
+          0,
+          0.5,
+          0,
+          0,
+          0.5,
+          0.5,
+          0,
+          0,
+          0,
+          1,
+        );
+        this.textureMatrix
+          .multiply(mirror.projectionMatrix)
+          .multiply(mirror.matrixWorldInverse);
         this.resizeReflection();
         this.water.visible = false;
         this.sky.position.copy(mirror.position);
@@ -1497,9 +1751,14 @@ gl_FragColor=vec4(color,1.);
       this.canvas.dataset.drawCalls = this.sceneCalls;
       this.canvas.dataset.triangles = this.sceneTriangles;
       this.canvas.dataset.mood = this.mood;
+      window.RayCoastalSound?.updateView(this.camera.position, this.mood, now);
       this.canvas.dataset.renderCostMs = this.renderCostMs.toFixed(1);
       this.canvas.dataset.boats = this.boats
-        .map((b) => [b.group.position.x.toFixed(2), b.group.position.z.toFixed(2)].join(","))
+        .map((b) =>
+          [b.group.position.x.toFixed(2), b.group.position.z.toFixed(2)].join(
+            ",",
+          ),
+        )
         .join(";");
       if (this.onCamera)
         this.onCamera({
@@ -1507,7 +1766,8 @@ gl_FragColor=vec4(color,1.);
           radius: radius / this.fitFactor,
           auto: this.auto,
         });
-      if (!this.paused || cameraMoves || lightingMoves || this.auto) this.wake();
+      if (!this.paused || cameraMoves || lightingMoves || this.auto)
+        this.wake();
     }
   }
   window.RayWorld = RayWorld;

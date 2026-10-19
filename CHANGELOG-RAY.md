@@ -4,6 +4,32 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.7.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.7.0) — 2026-10-19
+
+Stable marina wall and camera-aware coastal audio
+
+- Scene/cache ID: `scene-8adcf0cc51741879`
+- Preview label: `26.7.0`
+
+### Fixed
+
+- Remove duplicate generated bank spans where the supplied white marina wall already forms the coast, eliminating overlapping surfaces along 187.88 m of shoreline while retaining partial bank spans and all land caps.
+
+### Changed
+
+- Water sounds follow camera distance to the actual land/water contours; waves become clearer near the water, birds become more prominent higher up, and short wind gusts grow with exposure.
+- Camera zone changes fade out the previous surroundings and start the new cue promptly. Natural pauses replace the former long random schedule; recordings remain unlooped, optional and suspended in hidden tabs.
+- Add a compressed 8-second gentle-wind recording; all three audio sprites together are 163,369 bytes and load only after sound is enabled.
+
+### Validation
+
+- Geometry checks cover 37 clipped bank edges, exact untouched coastline edges and retained partial spans.
+- Audio checks cover inland versus over-water distance, height-based birds/wind, responsive camera changes, opt-in loading, mute, finite non-overlapping cues and background suspension.
+
+### Known limits
+
+- Coastal audio requires an initial visitor tap. Third-party field recordings are illustrative ambience, not recordings from Miami.
+
 ## [26.6.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.6.0) — 2026-10-19
 
 Optional sparse coastal sound
