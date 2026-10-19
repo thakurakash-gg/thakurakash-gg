@@ -12,20 +12,14 @@ window.KazeyamiKatanaWordmark = function (T, scene, camera, stage, name) {
   scene.add(art);
   let bounds;
   function spans() {
-    const text = [...name.childNodes].find(
-      (node) =>
-        node.nodeType === Node.TEXT_NODE &&
-        node.textContent.includes("Kazeyami"),
-    );
-    const start = text.textContent.indexOf("Kazeyami");
+    const label = name.querySelector(".opening-prompt") || name;
     const range = document.createRange();
-    range.setStart(text, start);
-    range.setEnd(text, start + 8);
+    range.selectNodeContents(label);
     return [
       {
-        text: "Kazeyami",
+        text: label.textContent.trim(),
         rect: range.getBoundingClientRect(),
-        style: getComputedStyle(name),
+        style: getComputedStyle(label),
       },
     ];
   }
@@ -36,7 +30,7 @@ window.KazeyamiKatanaWordmark = function (T, scene, camera, stage, name) {
       left,
       top,
       // Negative tracking can put the last glyph beyond its DOM advance width.
-      // Leave a transparent gutter so the final i is never clipped by the texture.
+      // Leave a transparent gutter so the final glyph is never clipped by the texture.
       width:
         Math.max(...items.map((item) => item.rect.right)) -
         left +

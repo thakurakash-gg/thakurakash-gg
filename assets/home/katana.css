@@ -200,6 +200,8 @@
   position: absolute;
   left: 2.2%;
   bottom: 3.9%;
+  width: 72vw;
+  height: 17vw;
   font-size: 19.3vw;
   letter-spacing: -0.085em;
   line-height: 0.8;
@@ -688,4 +690,21 @@ body.menu-open .katana-stage.is-docked {
 .opening-credit,
 .opening-meta {
   text-shadow: 0 1px 3px #000c;
+}
+
+/* One clear invitation replaces the repeated oversized studio name. */
+.opening-prompt {
+  display: block;
+  font-size: 8.2vw;
+  letter-spacing: -0.065em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+@media (max-width: 540px) {
+  .opening-name {
+    height: 22vw;
+  }
+  .opening-prompt {
+    font-size: 8.1vw;
+  }
 }

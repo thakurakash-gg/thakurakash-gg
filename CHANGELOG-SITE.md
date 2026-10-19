@@ -1,5 +1,10 @@
 # Website changelog
 
+## 4.8.1 - 2026-10-19
+
+- Replace the oversized Kazeyami hero wordmark with Scroll down to explore to reduce repeated branding. Size the invitation for desktop and phone layouts while preserving the lower katana landing.
+- Render the actual hero label in the cursor pixel effect instead of hardcoding the studio name. Preserve the header identity and existing drawing/docking animation.
+
 ## 4.8.0 - 2026-10-18
 
 - After the opening blade closes, smoothly settle the sheathed katana along the lower edge of the large Kazeyami wordmark, matching the marked placement. Keep space for the guard, ribbon and bottom caption on different viewport sizes.

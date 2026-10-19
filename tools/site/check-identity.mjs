@@ -28,7 +28,7 @@ for (const name of pages.filter((name) => name !== "ray-experience.html")) {
   const source = await read(name);
   assert(source.includes('href="nexiv.html"'), `${name}: NEXIV navigation`);
   assert(
-    source.includes("assets/site.js?v=4.8.0"),
+    source.includes("assets/site.js?v=4.8.1"),
     `${name}: refreshed enquiry script`,
   );
 }
