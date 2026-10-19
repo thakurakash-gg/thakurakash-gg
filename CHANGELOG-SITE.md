@@ -1,5 +1,11 @@
 # Website changelog
 
+## 4.10.0 - 2026-10-19
+
+- Recompose the hero around the existing katana: a large diagonal centerpiece, a clear upper-left studio heading and smaller controls/scroll invitation. Keep the exact katana geometry/materials, bright work video, menu, theme switch, draw/docking/return interaction and cursor effect.
+- Separate the sword's placement anchor from the scroll label so typography changes cannot push the model to the bottom.
+- Link NEXIV to RAY 26.7.0 with the stable marina wall and camera-aware water, bird and wind sounds.
+
 ## 4.9.1 - 2026-10-19
 
 - Replace the Blender thumbnail with afternoon and night screenshots from the actual RAY web platform, captured from an identical wider waterfront camera. Keep the diagonal split, remove the map/UI from the captured image and preserve the existing launch controls.

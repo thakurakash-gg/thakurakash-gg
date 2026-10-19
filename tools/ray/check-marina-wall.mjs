@@ -34,7 +34,7 @@ for (const [p, q, spans] of cuts) {
   );
   removed += cutLength;
 }
-assert(removed > 187 && removed < 189, "Preserve the authored model's 187.88 m marina edge");
+assert(removed > 187 && removed < 189, "Preserve the authored model's 188 m marina edge");
 const p = [1000, 1000],
   q = [1001, 1001];
 assert.equal(
@@ -43,5 +43,5 @@ assert.equal(
   "Other coastline geometry stays exact",
 );
 console.log(
-  "Pass: 37 bank spans clipped at the authored wall; remaining coast edges and partial spans retained.",
+  "Pass: 63 bank spans clipped at the authored wall; remaining coast edges and partial spans retained.",
 );

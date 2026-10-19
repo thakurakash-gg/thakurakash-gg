@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "version": "scene-8adcf0cc51741879",
+  "version": "scene-e1343aecee3f33bd",
   "release": {
     "version": "26.7.0",
     "date": "2026-10-19",
@@ -12,7 +12,7 @@
     "assets/vendor/ray-gltf-loader.js?v=38ee477e318f1d48c153a854c390a6a7d1d6d62c65ee4b972818cfac7f032173",
     "assets/ray/data/building-landscape.js?v=ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87",
     "assets/ray/data/neighborhood.js?v=581dbef888b3332f3346fdf9f9468ca53a020323de9e9a030d267e54746f6034",
-    "assets/ray/data/marina-bank-ownership.js?v=9fda24774b4ef5be288ed751acd5e386e42e292f60bbe7952eb841548a60f0cc",
+    "assets/ray/data/marina-bank-ownership.js?v=f43afea31bbcb29c0bed447b0e02f3320e663aa7029596469e3b756280b59404",
     "assets/ray/data/extra-trees.js?v=938492ec7a50e8d486e39332300eade510a804ae0423631e24b1d654921f5392",
     "assets/ray/environment/neighborhood.js?v=502b919e481bb1f145228b8673ae2fe3cb87a7e6d75824d3e539edee3b206642",
     "assets/ray/environment/roads.js?v=75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2",
@@ -35,7 +35,7 @@
     "assets/ray/architecture/courtyard.js?v=e8728182ce069fad7df52e8f055a041a28f5aa7f47a0a1091743209a4ce1c907",
     "assets/ray/environment/night.js?v=6f2dfe9ae42da79791b8780afaee7d4f98e0c036298944c8418d310fd17cbeb8",
     "assets/ray/core/diagnostics.js?v=0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9",
-    "assets/ray/environment/coastal-sound.js?v=8e27382ccc5232e9ac9de4dbe1b53292de049ff3e2cd53e29328b9cf2b37070a",
+    "assets/ray/environment/coastal-sound.js?v=b439b8bf207fa8f6a24dad871b3cf7eac585fb021d4c39fbd433244a5c370b50",
     "assets/ray/ui/experience.js?v=420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0"
   ],
   "assets": [
@@ -65,9 +65,9 @@
       "sha256": "581dbef888b3332f3346fdf9f9468ca53a020323de9e9a030d267e54746f6034"
     },
     {
-      "url": "assets/ray/data/marina-bank-ownership.js?v=9fda24774b4ef5be288ed751acd5e386e42e292f60bbe7952eb841548a60f0cc",
-      "bytes": 3794,
-      "sha256": "9fda24774b4ef5be288ed751acd5e386e42e292f60bbe7952eb841548a60f0cc"
+      "url": "assets/ray/data/marina-bank-ownership.js?v=f43afea31bbcb29c0bed447b0e02f3320e663aa7029596469e3b756280b59404",
+      "bytes": 5188,
+      "sha256": "f43afea31bbcb29c0bed447b0e02f3320e663aa7029596469e3b756280b59404"
     },
     {
       "url": "assets/ray/data/extra-trees.js?v=938492ec7a50e8d486e39332300eade510a804ae0423631e24b1d654921f5392",
@@ -180,9 +180,9 @@
       "sha256": "0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9"
     },
     {
-      "url": "assets/ray/environment/coastal-sound.js?v=8e27382ccc5232e9ac9de4dbe1b53292de049ff3e2cd53e29328b9cf2b37070a",
-      "bytes": 8951,
-      "sha256": "8e27382ccc5232e9ac9de4dbe1b53292de049ff3e2cd53e29328b9cf2b37070a"
+      "url": "assets/ray/environment/coastal-sound.js?v=b439b8bf207fa8f6a24dad871b3cf7eac585fb021d4c39fbd433244a5c370b50",
+      "bytes": 8972,
+      "sha256": "b439b8bf207fa8f6a24dad871b3cf7eac585fb021d4c39fbd433244a5c370b50"
     },
     {
       "url": "assets/ray/ui/experience.js?v=420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0",

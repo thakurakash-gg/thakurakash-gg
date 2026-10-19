@@ -25,7 +25,7 @@
     const impact = Math.max(0, time - 0.72);
     return {
       active: true,
-      // Close first; then settle along the lower edge of the large wordmark.
+      // Close first; then settle into the hero's diagonal composition.
       landing: (() => {
         const t = clamp((time - 0.82) / 0.58);
         return t * t * (3 - 2 * t);

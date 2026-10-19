@@ -8,12 +8,12 @@ Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixe
 
 Stable marina wall and camera-aware coastal audio
 
-- Scene/cache ID: `scene-8adcf0cc51741879`
+- Scene/cache ID: `scene-e1343aecee3f33bd`
 - Preview label: `26.7.0`
 
 ### Fixed
 
-- Remove duplicate generated bank spans where the supplied white marina wall already forms the coast, eliminating overlapping surfaces along 187.88 m of shoreline while retaining partial bank spans and all land caps.
+- Remove duplicate generated bank spans where the supplied white marina wall already forms the coast, eliminating overlapping surfaces along 188 m of shoreline while retaining partial bank spans and all land caps.
 
 ### Changed
 
@@ -23,8 +23,9 @@ Stable marina wall and camera-aware coastal audio
 
 ### Validation
 
-- Geometry checks cover 37 clipped bank edges, exact untouched coastline edges and retained partial spans.
+- Geometry checks cover 63 clipped bank edges, exact untouched coastline edges and retained partial spans.
 - Audio checks cover inland versus over-water distance, height-based birds/wind, responsive camera changes, opt-in loading, mute, finite non-overlapping cues and background suspension.
+- Independent rendered-face audit: 52 near-coplanar marina bank/wall collisions before the fix, zero afterward (4 cm plane tolerance; 0.005 square metre overlap threshold).
 
 ### Known limits
 

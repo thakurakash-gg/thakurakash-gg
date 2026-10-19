@@ -4,11 +4,11 @@
       "version": "26.7.0",
       "date": "2026-10-19",
       "title": "Stable marina wall and camera-aware coastal audio",
-      "sceneVersion": "scene-8adcf0cc51741879",
+      "sceneVersion": "scene-e1343aecee3f33bd",
       "preview": "26.7.0",
       "changes": {
         "Fixed": [
-          "Remove duplicate generated bank spans where the supplied white marina wall already forms the coast, eliminating overlapping surfaces along 187.88 m of shoreline while retaining partial bank spans and all land caps."
+          "Remove duplicate generated bank spans where the supplied white marina wall already forms the coast, eliminating overlapping surfaces along 188 m of shoreline while retaining partial bank spans and all land caps."
         ],
         "Changed": [
           "Water sounds follow camera distance to the actual land/water contours; waves become clearer near the water, birds become more prominent higher up, and short wind gusts grow with exposure.",
@@ -17,8 +17,9 @@
         ]
       },
       "validation": [
-        "Geometry checks cover 37 clipped bank edges, exact untouched coastline edges and retained partial spans.",
-        "Audio checks cover inland versus over-water distance, height-based birds/wind, responsive camera changes, opt-in loading, mute, finite non-overlapping cues and background suspension."
+        "Geometry checks cover 63 clipped bank edges, exact untouched coastline edges and retained partial spans.",
+        "Audio checks cover inland versus over-water distance, height-based birds/wind, responsive camera changes, opt-in loading, mute, finite non-overlapping cues and background suspension.",
+        "Independent rendered-face audit: 52 near-coplanar marina bank/wall collisions before the fix, zero afterward (4 cm plane tolerance; 0.005 square metre overlap threshold)."
       ],
       "limitations": [
         "Coastal audio requires an initial visitor tap. Third-party field recordings are illustrative ambience, not recordings from Miami."

@@ -177,8 +177,8 @@
 
 .opening-copy {
   position: absolute;
-  top: 14%;
-  left: 16%;
+  top: 16%;
+  left: 8%;
   z-index: 3;
   pointer-events: none;
 }
@@ -198,16 +198,25 @@
 
 .opening-name {
   position: absolute;
-  left: 2.2%;
-  bottom: 3.9%;
-  width: 72vw;
-  height: 17vw;
-  font-size: 19.3vw;
-  letter-spacing: -0.085em;
-  line-height: 0.8;
+  left: 8%;
+  bottom: 7%;
+  width: auto;
+  height: auto;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
   z-index: 1;
   white-space: nowrap;
   color: #fff;
+  pointer-events: none;
+}
+.katana-composition-anchor {
+  position: absolute;
+  left: 12%;
+  top: 40%;
+  width: 84%;
+  height: 32%;
+  visibility: hidden;
   pointer-events: none;
 }
 .opening-meta {
@@ -222,8 +231,9 @@
 }
 .blade-controls {
   position: absolute;
-  left: 4%;
-  top: 125px;
+  left: 8%;
+  top: auto;
+  bottom: 14%;
   z-index: 5;
   display: flex;
   align-items: flex-start;
@@ -251,7 +261,7 @@
   height: 13px;
 }
 #draw-blade span {
-  max-width: 0;
+  max-width: 120px;
   overflow: hidden;
   white-space: nowrap;
   transition: max-width 0.3s;
@@ -420,19 +430,19 @@
 }
 @media (min-width: 1600px) {
   .opening-credit {
-    margin-left: 310px;
+    margin-left: 0;
   }
 }
 @media (max-width: 850px) {
   .opening-copy {
-    left: 9%;
+    left: 8%;
     top: 17%;
   }
   .opening-copy h1 {
     font-size: 83px;
   }
   .opening-credit {
-    margin-left: 175px;
+    margin-left: 0;
     font-size: 10px;
   }
   .opening-kicker {
@@ -441,7 +451,8 @@
   }
 
   .blade-controls {
-    top: 90px;
+    top: auto;
+    bottom: 19%;
   }
   .reveal-copy {
     left: 9%;
@@ -482,11 +493,10 @@
   }
   .opening-name {
     bottom: 9%;
-    font-size: 20vw;
   }
 
   .blade-controls {
-    top: 91px;
+    top: auto;
     flex-direction: row;
     align-items: center;
     gap: 4px;
@@ -607,14 +617,14 @@ body.menu-open .katana-stage.is-docked {
 /* The 3D model is the only loading view. Show a matching still only if WebGL fails. */
 .katana-fallback {
   position: absolute;
-  width: 70%;
+  width: 84%;
   height: auto;
-  left: 2.2%;
-  bottom: max(30px, 4%);
-  top: auto;
+  left: 12%;
+  bottom: auto;
+  top: 56%;
   object-fit: contain;
   max-height: 160px;
-  transform: none;
+  transform: translateY(-50%) rotate(-24deg);
   opacity: 0;
   visibility: hidden;
   transition: none;
@@ -625,7 +635,10 @@ body.menu-open .katana-stage.is-docked {
 }
 @media (max-width: 540px) {
   .katana-fallback {
-    bottom: max(48px, 6%);
+    width: 96%;
+    left: 2%;
+    top: 57%;
+    bottom: auto;
     max-height: 65px;
   }
 }
@@ -646,10 +659,10 @@ body.menu-open .katana-stage.is-docked {
 /* One clear invitation replaces the repeated oversized studio name. */
 .opening-prompt {
   display: block;
-  font-weight: 600;
-  font-size: clamp(22px, 3.2vw, 52px);
-  letter-spacing: -0.035em;
-  line-height: 1.12;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
   white-space: nowrap;
 }
 .opening-prompt-line {
@@ -657,9 +670,19 @@ body.menu-open .katana-stage.is-docked {
 }
 @media (max-width: 540px) {
   .opening-name {
-    height: 22vw;
+    height: auto;
+    bottom: 9%;
   }
   .opening-prompt {
-    font-size: clamp(18px, 5vw, 26px);
+    font-size: 13px;
+  }
+  .katana-composition-anchor {
+    left: 2%;
+    top: 43%;
+    width: 96%;
+    height: 28%;
+  }
+  .blade-controls {
+    bottom: 19%;
   }
 }

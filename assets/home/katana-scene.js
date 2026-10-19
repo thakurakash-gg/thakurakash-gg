@@ -754,6 +754,7 @@
   });
   const copy = document.querySelector(".opening-copy"),
     name = document.querySelector(".opening-name"),
+    compositionAnchor = document.querySelector(".katana-composition-anchor"),
     meta = document.querySelector(".opening-meta"),
     reveal = document.querySelector(".reveal-copy"),
     wordmark = document.querySelector("header .wordmark");
@@ -841,35 +842,13 @@
     logoWidth = 0;
   function measureAnchors() {
     const bounds = stage.getBoundingClientRect();
-    const brand = name.getBoundingClientRect(),
+    const brand = compositionAnchor.getBoundingClientRect(),
       logo = wordmark.getBoundingClientRect();
-    const closedWidth = Math.min(
-      width * 0.74,
-      ((1.25 * height) /
-        (2 *
-          camera.position.z *
-          Math.tan(T.MathUtils.degToRad(camera.fov / 2)))) *
-        9.5,
-    );
-    assemblyY = brand.top - bounds.top - Math.max(36, closedWidth * 0.095);
+    assemblyY = brand.top - bounds.top + brand.height * 0.45;
     restingX = brand.left - bounds.left + brand.width * 0.5;
     restingWidth = brand.width;
-    const fontSize = parseFloat(getComputedStyle(name).fontSize);
-    // The closed sword follows the wordmark baseline, with room for the guard
-    // and ribbon above the small footer line.
-    const perPixel =
-      (2 * camera.position.z * Math.tan(T.MathUtils.degToRad(camera.fov / 2))) /
-      height;
-    const restingScale = Math.min(1.4, (restingWidth * 0.96 * perPixel) / 9.5);
-    const bottomLimit =
-      meta.getBoundingClientRect().top -
-      bounds.top -
-      8 -
-      (restingScale * 0.7) / perPixel;
-    restingY = Math.min(
-      brand.bottom - bounds.top - fontSize * 0.28,
-      bottomLimit,
-    );
+    // The hero composition owns the sword's resting pose independently of copy.
+    restingY = brand.top - bounds.top + brand.height * 0.5;
     logoX = logo.left - bounds.left + logo.width * 0.5;
     logoY = logo.bottom - bounds.top + 8;
     logoWidth = logo.width * 0.82;
@@ -969,7 +948,7 @@
     const gripEndY = extraction.y + 2.97 * Math.sin(extraction.angle);
     const chord = Math.atan2(gripEndY - tipY, gripEndX - tipX);
     const roll =
-      T.MathUtils.lerp(0.1, 0.18, landing) * (1 - lift) -
+      T.MathUtils.lerp(0.1, width <= 540 ? 0.32 : 0.42, landing) * (1 - lift) -
       chord * lift +
       (assembling ? entrance.kick : 0);
     model.rotation.set(

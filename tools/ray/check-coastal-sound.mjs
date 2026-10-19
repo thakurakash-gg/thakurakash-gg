@@ -101,7 +101,7 @@ const high = soundProfile({ y: 300 }, 300, "afternoon");
 assert(low.water > high.water && high.birds > low.birds && high.wind > low.wind);
 assert.equal(planCue(() => 0.5, low, null, 0).kind, "shore");
 assert.equal(planCue(() => 0.5, high, null, 0).kind, "gulls");
-assert.equal(planCue(() => 0.5, high, null, 2).kind, "wind");
+assert.equal(planCue(() => 0.5, high, null, 1).kind, "wind");
 let previous;
 for (let i = 0; i < 1000; i++) {
   const cue = planCue(Math.random, i % 2 ? high : low, previous, i);

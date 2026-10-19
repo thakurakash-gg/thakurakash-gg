@@ -63,7 +63,8 @@
         : 0.4 * profile.wind;
   function planCue(random, profile, previous, sequence) {
     const windTurn =
-      sequence > 0 && sequence % (profile.height > 230 ? 2 : 3) === 0;
+      sequence > 0 &&
+      (profile.wind > 0.7 ? sequence % 2 === 1 : sequence % 3 === 0);
     const kind =
       windTurn && profile.wind > 0.3
         ? "wind"
