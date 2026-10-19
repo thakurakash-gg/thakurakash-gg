@@ -207,7 +207,7 @@
   line-height: 0.8;
   z-index: 1;
   white-space: nowrap;
-  color: #b4b0b4;
+  color: #fff;
   pointer-events: none;
 }
 .opening-meta {
@@ -695,16 +695,20 @@ body.menu-open .katana-stage.is-docked {
 /* One clear invitation replaces the repeated oversized studio name. */
 .opening-prompt {
   display: block;
-  font-size: 8.2vw;
-  letter-spacing: -0.065em;
-  line-height: 1.1;
+  font-weight: 600;
+  font-size: clamp(22px, 3.2vw, 52px);
+  letter-spacing: -0.035em;
+  line-height: 1.12;
   white-space: nowrap;
+}
+.opening-prompt-line {
+  display: block;
 }
 @media (max-width: 540px) {
   .opening-name {
     height: 22vw;
   }
   .opening-prompt {
-    font-size: 8.1vw;
+    font-size: clamp(18px, 5vw, 26px);
   }
 }

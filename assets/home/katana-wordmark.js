@@ -13,15 +13,16 @@ window.KazeyamiKatanaWordmark = function (T, scene, camera, stage, name) {
   let bounds;
   function spans() {
     const label = name.querySelector(".opening-prompt") || name;
-    const range = document.createRange();
-    range.selectNodeContents(label);
-    return [
-      {
-        text: label.textContent.trim(),
+    const lines = [...label.querySelectorAll(".opening-prompt-line")];
+    return (lines.length ? lines : [label]).map((line) => {
+      const range = document.createRange();
+      range.selectNodeContents(line);
+      return {
+        text: line.textContent.trim(),
         rect: range.getBoundingClientRect(),
-        style: getComputedStyle(label),
-      },
-    ];
+        style: getComputedStyle(line),
+      };
+    });
   }
   function measure(items) {
     const left = Math.min(...items.map((item) => item.rect.left)),

@@ -1,5 +1,9 @@
 # Website changelog
 
+## 4.8.2 - 2026-10-19
+
+- Make the scroll invitation compact, with Scroll down on the first line and to explore underneath. Use solid white and a stronger weight for clarity over the original-brightness work video; preserve the cursor effect on both lines and the existing katana transition.
+
 ## 4.8.1 - 2026-10-19
 
 - Replace the oversized Kazeyami hero wordmark with Scroll down to explore to reduce repeated branding. Size the invitation for desktop and phone layouts while preserving the lower katana landing.
