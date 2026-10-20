@@ -14,7 +14,7 @@ assert.equal(
   "bf9601cceb4712b89cfb24ca60215fe50dcb54653221b845d3a8a7c5b102dd36",
   "Four cinematic branch rows must retain the approved launch taxonomy",
 );
-assert(html.includes('data-studio-version="4.11.0"'));
+assert(html.includes('data-studio-version="4.12.0"'));
 for (const asset of [...html.matchAll(/(?:src|href|poster)="([^"#]+)"/g)].map(
   (m) => m[1],
 )) {
@@ -28,22 +28,13 @@ for (const asset of [...html.matchAll(/(?:src|href|poster)="([^"#]+)"/g)].map(
 }
 for (const asset of [
   "assets/site.js",
-  "assets/home/katana-scene.js",
-  "assets/home/katana-batch.js",
   "assets/home/home.js",
-  "assets/home/katana-interaction.js",
-  "assets/home/katana-intro.js",
-  "assets/home/katana-flight.js",
-  "assets/home/katana-finish.js",
-  "assets/home/katana-wordmark.js",
   "assets/home/logo-background.js",
   "assets/home/menu-background.js",
-  "assets/home/pixel-cursor.js",
   "assets/home/katana.css",
-  "assets/home/katana-geometry.js",
   "assets/home/contact-background.js",
 ]) {
-  assert(html.includes(`${asset}?v=4.11.0`), `Unversioned runtime: ${asset}`);
+  assert(html.includes(`${asset}?v=4.12.0`), `Unversioned runtime: ${asset}`);
 }
 console.log(
   "Homepage: preserved section, local assets, routes and versioned runtime verified.",
@@ -59,17 +50,33 @@ assert(
   "Contact background present",
 );
 
-for (const id of [
-  "studio",
-  "process",
-  "faq",
-  "contact",
-  "opening-work-video",
-  "draw-blade",
-])
+for (const id of ["studio", "process", "faq", "contact", "opening-work-video"])
   assert(html.includes(`id="${id}"`), `Missing home section/control: ${id}`);
+assert(
+  !html.includes('id="katana-stage"'),
+  "The sword canvas has been removed",
+);
+assert(!html.includes('id="draw-blade"'), "The draw control has been removed");
+assert(
+  !html.includes('class="reveal-copy"'),
+  "Unused sword reveal copy removed",
+);
+assert(
+  !/<script[^>]+src="assets\/(?:three\.min\.js|home\/(?:katana-[^"?]+|pixel-cursor\.js))/.test(
+    html,
+  ),
+  "The home introduction must not load THREE or sword runtime scripts",
+);
+assert(
+  html.includes('class="opening-prompt"'),
+  "The scroll prompt remains plain HTML",
+);
+assert(
+  html.includes('aria-label="Kazeyami studio introduction"'),
+  "The introduction has an accurate accessible label",
+);
 assert(!html.includes('class="branch-art"'), "Tree backdrop removed");
 assert(!html.includes('class="work-peek"'), "Hero studio label removed");
 assert(!html.includes('class="scroll-prompt"'), "Hero scroll label removed");
 const nexiv = await readFile(path.join(root, "nexiv.html"), "utf8");
-assert(nexiv.includes("ray-platform-day-1440.webp?v=4.11.0"));
+assert(nexiv.includes("ray-platform-day-1440.webp?v=4.12.0"));

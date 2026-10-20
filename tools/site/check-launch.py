@@ -26,7 +26,7 @@ for page,doc in documents.items():
         if tag=='img' and 'alt' not in a:errors.append(page+': image missing alternative text')
         if tag=='a' and a.get('target')=='_blank' and 'noopener' not in a.get('rel',''):errors.append(page+': external tab missing noopener')
         refs=[]
-        for key in ['src','href','poster']:
+        for key in ['src','href','poster','data-crew-image']:
             if key in a:refs.append(a[key])
         for item in a.get('srcset','').split(','):
             if item.strip():refs.append(item.strip().split()[0])
@@ -44,11 +44,22 @@ for page,doc in documents.items():
             if path.startswith('assets/'):assets.add(path)
     source=(root/page).read_text(encoding='utf-8')
     if any(x in source for x in ['DETAILS COMING','PORTFOLIO DETAILS COMING','TEMPORARY STUDIO PREVIEW','hr@kazeyami.com']):errors.append(page+': stale public copy')
-    if 'assets/enquiry.js?v=4.11.0' not in source:errors.append(page+': draft fallback not loaded')
+    if 'assets/enquiry.js?v=4.12.0' not in source:errors.append(page+': draft fallback not loaded')
     if 'id="copy-brief"' not in source:errors.append(page+': copy fallback missing')
     if 'does not send or store your details' not in source:errors.append(page+': enquiry behavior must be explicit')
     if any('kazeyami.com' not in a.get('href','') for t,a in doc.tags if a.get('href','').startswith('mailto:')):errors.append(page+': incorrect email')
 home=(root/'index.html').read_text(encoding='utf-8')
+team_members=[('Siya Baranwal','UI/UX Artist'),('Pragati Saxena','HR'),('DK','Developer'),('Deepraj','Senior Developer'),('Shayan Ansari','Technical Artist'),('Akash Singh','3D Artist'),('Hammer','Unreal Artist')]
+team_buttons=[a for t,a in documents['index.html'].tags if t=='button' and 'team-cast__member' in a.get('class','').split()]
+assert [a.get('aria-label') for a in team_buttons]==[f'{name}, {role}' for name,role in team_members], 'Team roster must contain the seven approved people and roles'
+assert sum(a.get('aria-pressed')=='true' for a in team_buttons)==1, 'Team needs exactly one initial selected member'
+assert all(a.get('type')=='button' and a.get('aria-pressed') in ('true','false') for a in team_buttons), 'Team choices must be accessible toggle buttons'
+team_image=root/'assets/team/kazeyami-crew.webp'
+atlas=json.loads((root/'assets/team/atlas.json').read_text(encoding='utf-8'))
+assert team_image.stat().st_size<400000, 'Team atlas must remain below the 400 KB image budget'
+assert atlas['webpBytes']==team_image.stat().st_size, 'Team atlas metadata must match the delivered file'
+assert atlas['dimensions']==[1536,1024] and atlas['grid']==[4,2], 'Team atlas registration changed'
+assert atlas['cells']==[name for name,role in team_members]+[None], 'Team atlas order must match the roster'
 assert home.count('class="direction-row"')==4
 nav=home.split('<nav aria-label="Main navigation">')[1].split('</nav>')[0]
 assert '3D Studio' not in nav and 'design.html' not in nav and '3d.html' not in nav

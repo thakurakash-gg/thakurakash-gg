@@ -1,0 +1,24 @@
+{
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "grid": [
+    4,
+    2
+  ],
+  "cells": [
+    "Siya Baranwal",
+    "Pragati Saxena",
+    "DK",
+    "Deepraj",
+    "Shayan Ansari",
+    "Akash Singh",
+    "Hammer",
+    null
+  ],
+  "webpBytes": 267846,
+  "sourceBytes": 2162224,
+  "tool": "built-in image generation",
+  "sha256": "2e57e677098c9e6d8e507f78216adc46ce7af3166bbd00fddb07768149154214"
+}

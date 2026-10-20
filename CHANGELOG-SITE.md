@@ -1,5 +1,12 @@
 # Website changelog
 
+## 4.12.0 - 2026-10-20
+
+- Replace the Kazeyami Studio slogan with “3D & 2D Creative Production.” Use a smaller semibold system sans, more open letter spacing and comfortable line spacing, with natural wrapping on phones.
+- Remove the homepage sword, draw control and their initial 3D/effect scripts. Keep the work video, studio introduction and direct Work and Services links.
+- Introduce seven original anime-style studio identities, real names and roles, selectable portraits and keyboard navigation. Add a theme-aware studio-artboard background without a continuous animation loop. All portraits share one transparent 268 KB WebP, loaded near the team section.
+- Check the seven-page site for local links, forms and assets, and add team selection, keyboard and lazy-loading regression coverage.
+
 ## 4.11.0 - 2026-10-20
 
 - Move the existing katana to a small lower-right accent, keep the center of the work video clear, and use a one-screen hero with direct Work and Services links. Drawing is optional; normal scrolling does not trigger the sword flight. Keep the model and materials.

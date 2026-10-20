@@ -128,51 +128,20 @@
   }
 }
 .katana-opening {
-  height: 225svh;
+  height: 100svh;
+  min-height: 620px;
   background: #101113;
   color: #dedddd;
   position: relative;
 }
-.katana-opening.static-opening {
-  height: 100svh;
-  min-height: 620px;
-}
-.blade-controls[hidden] {
-  display: none;
-}
+
 .katana-sticky {
-  position: sticky;
+  position: relative;
   top: 0;
   height: 100svh;
   min-height: 620px;
   overflow: hidden;
   isolation: isolate;
-}
-.katana-stage {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  touch-action: pan-y;
-  cursor: grab;
-}
-.katana-stage:active {
-  cursor: grabbing;
-}
-.katana-stage canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-  opacity: 0;
-  transition: opacity 0.6s;
-}
-.katana-stage.is-ready canvas {
-  opacity: 1;
-}
-
-.katana-stage.is-ready .katana-fallback {
-  opacity: 0;
-  visibility: hidden;
-  transition: none;
 }
 
 .opening-copy {
@@ -210,15 +179,7 @@
   color: #fff;
   pointer-events: none;
 }
-.katana-composition-anchor {
-  position: absolute;
-  left: 12%;
-  top: 40%;
-  width: 84%;
-  height: 32%;
-  visibility: hidden;
-  pointer-events: none;
-}
+
 .opening-meta {
   position: absolute;
   bottom: 15px;
@@ -229,78 +190,7 @@
   font: 9px/1.3 monospace;
   z-index: 4;
 }
-.blade-controls {
-  position: absolute;
-  left: 8%;
-  top: auto;
-  bottom: 14%;
-  z-index: 5;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 8px;
-}
-.blade-controls button {
-  background: none;
-  border: 0;
-  cursor: pointer;
-  padding: 7px 10px;
-  border-radius: 7px;
-  font-size: 10px;
-  color: #aaa;
-}
-.blade-controls #draw-blade {
-  background: #fff;
-  color: #141414;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-#draw-blade svg {
-  width: 30px;
-  height: 13px;
-}
-#draw-blade span {
-  max-width: 120px;
-  overflow: hidden;
-  white-space: nowrap;
-  transition: max-width 0.3s;
-}
 
-.reveal-copy {
-  position: absolute;
-  z-index: 3;
-  left: 16%;
-  right: 9%;
-  top: 48%;
-  opacity: 0;
-  transform: translateY(25px);
-  pointer-events: none;
-}
-.reveal-copy > span {
-  font: 10px monospace;
-  color: var(--accent);
-}
-.reveal-copy h2 {
-  font-size: clamp(45px, 6.2vw, 110px);
-  letter-spacing: -0.07em;
-  line-height: 0.97;
-  font-weight: 400;
-  margin: 25px 0;
-}
-.reveal-copy p {
-  font-size: 15px;
-  line-height: 1.6;
-  color: #aaa7a8;
-}
-.reveal-copy a {
-  pointer-events: auto;
-  display: inline-flex;
-  gap: 60px;
-  font-size: 14px;
-  border-bottom: 1px solid #777;
-  padding: 10px 0;
-}
 .reading-progress {
   position: fixed;
   right: 15px;
@@ -450,14 +340,6 @@
     max-width: 200px;
   }
 
-  .blade-controls {
-    top: auto;
-    bottom: 19%;
-  }
-  .reveal-copy {
-    left: 9%;
-    top: 45%;
-  }
   .opening-meta {
     font-size: 7px;
   }
@@ -495,16 +377,6 @@
     bottom: 9%;
   }
 
-  .blade-controls {
-    top: auto;
-    flex-direction: row;
-    align-items: center;
-    gap: 4px;
-  }
-  #draw-blade span {
-    max-width: 110px;
-  }
-
   .opening-meta {
     bottom: 26px;
     left: 6%;
@@ -513,19 +385,7 @@
   .opening-meta span:last-child {
     display: none;
   }
-  .reveal-copy {
-    top: 44%;
-    right: 6%;
-  }
-  .reveal-copy h2 {
-    font-size: 50px;
-  }
-  .reveal-copy p {
-    font-size: 13px;
-  }
-  .reveal-copy p br {
-    display: none;
-  }
+
   .katana-site #process,
   .katana-site #faq {
     padding-top: 70px;
@@ -544,12 +404,9 @@
   .katana-sticky {
     position: relative;
   }
-  .reveal-copy {
-    display: none;
-  }
 }
 
-/* The studio work film sits behind the interactive sculpture. */
+/* The work film stays at its original brightness. */
 .opening-film {
   position: absolute;
   inset: 0;
@@ -589,60 +446,6 @@
   outline-offset: -3px;
 }
 
-.katana-stage.is-assembling canvas {
-  transition: opacity 0.12s;
-}
-
-/* Keep the video open; the katana rests just above the large studio name. */
-
-.katana-stage.is-docked {
-  position: fixed;
-  inset: 0;
-  z-index: 41;
-  height: 100svh;
-  pointer-events: none;
-  cursor: auto;
-}
-body.menu-open .katana-stage.is-docked {
-  visibility: hidden;
-}
-
-.opening-name.is-webgl-wordmark {
-  color: transparent;
-}
-.katana-stage.has-wordmark canvas {
-  transition: none;
-}
-
-/* The 3D model is the only loading view. Show a matching still only if WebGL fails. */
-.katana-fallback {
-  position: absolute;
-  width: 84%;
-  height: auto;
-  left: 12%;
-  bottom: auto;
-  top: 56%;
-  object-fit: contain;
-  max-height: 160px;
-  transform: translateY(-50%) rotate(-24deg);
-  opacity: 0;
-  visibility: hidden;
-  transition: none;
-}
-.katana-stage.is-unavailable:not(.is-ready) .katana-fallback {
-  opacity: 1;
-  visibility: visible;
-}
-@media (max-width: 540px) {
-  .katana-fallback {
-    width: 96%;
-    left: 2%;
-    top: 57%;
-    bottom: auto;
-    max-height: 65px;
-  }
-}
-
 /* Local text edges preserve contrast without changing the work video's colors. */
 .opening-copy h1 {
   -webkit-text-stroke: 0.45px #0007;
@@ -656,7 +459,7 @@ body.menu-open .katana-stage.is-docked {
   text-shadow: 0 1px 3px #000c;
 }
 
-/* One clear invitation replaces the repeated oversized studio name. */
+/* A small HTML invitation keeps the first view focused on the work. */
 .opening-prompt {
   display: block;
   font-weight: 500;
@@ -675,14 +478,5 @@ body.menu-open .katana-stage.is-docked {
   }
   .opening-prompt {
     font-size: 13px;
-  }
-  .katana-composition-anchor {
-    left: 2%;
-    top: 43%;
-    width: 96%;
-    height: 28%;
-  }
-  .blade-controls {
-    bottom: 19%;
   }
 }
