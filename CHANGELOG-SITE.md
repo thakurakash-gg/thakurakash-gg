@@ -1,5 +1,12 @@
 # Website changelog
 
+## 4.13.0 - 2026-10-20
+
+- Replace the large portrait and bio panel with a compact illustrated crew wall: seven colourful cards, visible names and roles, and a short contribution strip on selection.
+- Create a new original cast in a bolder ink-and-cel illustration style with expressive faces, flat colours and individual silhouettes. Preserve the previous artwork on disk. The new shared transparent atlas is 362 KB and loads near the section.
+- Add paper-like hover and selection movement, reduced-motion support, keyboard selection, and two-column phone layouts. Theme-aware ink and paper backgrounds use restrained dots and curved lines without an animation loop.
+- Research official team presentations at Massive Monster, Double Fine and Supergiant; adapt their emphasis on character, coherent art direction and clear real names/roles without copying their artwork.
+
 ## 4.12.1 - 2026-10-20
 
 - Clip portrait gutters to hide neighboring atlas edges in the team roster and featured character view.

@@ -44,7 +44,7 @@ for page,doc in documents.items():
             if path.startswith('assets/'):assets.add(path)
     source=(root/page).read_text(encoding='utf-8')
     if any(x in source for x in ['DETAILS COMING','PORTFOLIO DETAILS COMING','TEMPORARY STUDIO PREVIEW','hr@kazeyami.com']):errors.append(page+': stale public copy')
-    if 'assets/enquiry.js?v=4.12.1' not in source:errors.append(page+': draft fallback not loaded')
+    if 'assets/enquiry.js?v=4.13.0' not in source:errors.append(page+': draft fallback not loaded')
     if 'id="copy-brief"' not in source:errors.append(page+': copy fallback missing')
     if 'does not send or store your details' not in source:errors.append(page+': enquiry behavior must be explicit')
     if any('kazeyami.com' not in a.get('href','') for t,a in doc.tags if a.get('href','').startswith('mailto:')):errors.append(page+': incorrect email')
@@ -54,8 +54,8 @@ team_buttons=[a for t,a in documents['index.html'].tags if t=='button' and 'team
 assert [a.get('aria-label') for a in team_buttons]==[f'{name}, {role}' for name,role in team_members], 'Team roster must contain the seven approved people and roles'
 assert sum(a.get('aria-pressed')=='true' for a in team_buttons)==1, 'Team needs exactly one initial selected member'
 assert all(a.get('type')=='button' and a.get('aria-pressed') in ('true','false') for a in team_buttons), 'Team choices must be accessible toggle buttons'
-team_image=root/'assets/team/kazeyami-crew.webp'
-atlas=json.loads((root/'assets/team/atlas.json').read_text(encoding='utf-8'))
+team_image=root/'assets/team/kazeyami-crew-v2.webp'
+atlas=json.loads((root/'assets/team/atlas-v2.json').read_text(encoding='utf-8'))
 assert team_image.stat().st_size<400000, 'Team atlas must remain below the 400 KB image budget'
 assert atlas['webpBytes']==team_image.stat().st_size, 'Team atlas metadata must match the delivered file'
 assert atlas['dimensions']==[1536,1024] and atlas['grid']==[4,2], 'Team atlas registration changed'
