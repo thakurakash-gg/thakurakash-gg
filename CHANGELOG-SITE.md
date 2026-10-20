@@ -1,5 +1,11 @@
 # Website changelog
 
+## 4.13.1 - 2026-10-20
+
+- Use the approved actual-platform afternoon/night diagonal split on the Home and Work RAY cards, matching the existing NEXIV preview. Add responsive image sources and keep the project links intact.
+- Remove all job-related handheld objects from the crew illustrations. Preserve their faces, fashion, expressions and comic art style, with relaxed empty-handed poses.
+- Give Shayan’s purple-jacket character shoulder-length dark hair, a short beard and a slightly fuller build.
+
 ## 4.13.0 - 2026-10-20
 
 - Replace the large portrait and bio panel with a compact illustrated crew wall: seven colourful cards, visible names and roles, and a short contribution strip on selection.

@@ -172,6 +172,14 @@
   overflow: hidden;
   background: #181a1b;
 }
+.work-tile-image--ray-split {
+  position: relative;
+}
+.work-tile-night {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(58% 0, 100% 0, 100% 100%, 42% 100%);
+}
 .work-tile-image img {
   display: block;
   width: 100%;

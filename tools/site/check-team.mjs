@@ -13,7 +13,7 @@ const people = [
   ["Hammer", "Unreal Artist"],
 ];
 
-function mount({ intersectionObserver = true, sectionPresent = true, crewImage = "assets/team/kazeyami-crew-v2.webp?v=test" } = {}) {
+function mount({ intersectionObserver = true, sectionPresent = true, crewImage = "assets/team/kazeyami-crew-v4.webp?v=test" } = {}) {
   let focused = -1;
   const element = () => ({
     dataset: {}, attributes: {}, textContent: "", listeners: {},
@@ -77,11 +77,11 @@ observer.callback([{ isIntersecting: true }]);
 assert.equal(team.images.length, 1);
 assert(observer.disconnected, "Stop observing once the art has been requested");
 assert.equal(team.images[0].decoding, "async");
-assert.equal(team.images[0].src, "assets/team/kazeyami-crew-v2.webp?v=test");
+assert.equal(team.images[0].src, "assets/team/kazeyami-crew-v4.webp?v=test");
 assert(!team.classes.has("is-art-ready"), "Do not reveal an image before it is ready");
 team.images[0].onload();
 assert(team.classes.has("is-art-ready"));
-assert.equal(team.properties["--crew-art"], 'url("assets/team/kazeyami-crew-v2.webp?v=test")');
+assert.equal(team.properties["--crew-art"], 'url("assets/team/kazeyami-crew-v4.webp?v=test")');
 observer.callback([{ isIntersecting: true }]);
 assert.equal(team.images.length, 1, "Roster portraits must share one image request");
 
