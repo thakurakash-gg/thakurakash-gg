@@ -1,5 +1,9 @@
 # Website changelog
 
+## 4.12.1 - 2026-10-20
+
+- Clip portrait gutters to hide neighboring atlas edges in the team roster and featured character view.
+
 ## 4.12.0 - 2026-10-20
 
 - Replace the Kazeyami Studio slogan with “3D & 2D Creative Production.” Use a smaller semibold system sans, more open letter spacing and comfortable line spacing, with natural wrapping on phones.

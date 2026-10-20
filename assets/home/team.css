@@ -101,6 +101,7 @@ html[data-theme="light"] .team-cast__art::before { background: #fff6; }
 }
 .team-cast__portrait {
   aspect-ratio: 3 / 4;
+  clip-path: inset(0 6%);
   background-repeat: no-repeat;
   background-size: 400% 200%;
   background-position: 0 0;

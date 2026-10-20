@@ -44,7 +44,7 @@ for page,doc in documents.items():
             if path.startswith('assets/'):assets.add(path)
     source=(root/page).read_text(encoding='utf-8')
     if any(x in source for x in ['DETAILS COMING','PORTFOLIO DETAILS COMING','TEMPORARY STUDIO PREVIEW','hr@kazeyami.com']):errors.append(page+': stale public copy')
-    if 'assets/enquiry.js?v=4.12.0' not in source:errors.append(page+': draft fallback not loaded')
+    if 'assets/enquiry.js?v=4.12.1' not in source:errors.append(page+': draft fallback not loaded')
     if 'id="copy-brief"' not in source:errors.append(page+': copy fallback missing')
     if 'does not send or store your details' not in source:errors.append(page+': enquiry behavior must be explicit')
     if any('kazeyami.com' not in a.get('href','') for t,a in doc.tags if a.get('href','').startswith('mailto:')):errors.append(page+': incorrect email')
