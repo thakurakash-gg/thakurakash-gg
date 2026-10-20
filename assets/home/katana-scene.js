@@ -36,13 +36,14 @@
     measureAnchors();
   }
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const compact = matchMedia("(pointer: coarse)").matches || innerWidth <= 700;
   const canvas = stage.querySelector("canvas");
   let renderer;
   try {
     renderer = new T.WebGLRenderer({
       canvas,
       alpha: true,
-      antialias: true,
+      antialias: !compact,
       powerPreference: "low-power",
     });
   } catch {
@@ -724,6 +725,7 @@
     });
   });
   stage.addEventListener("pointermove", (e) => {
+    if (compact) return;
     const dragging = interaction.move({
       id: e.pointerId,
       x: e.clientX,
@@ -796,14 +798,8 @@
     { passive: true },
   );
   function scroll() {
-    progress = reduced.matches
-      ? 0
-      : clamp(
-          -opening.getBoundingClientRect().top /
-            Math.max(1, opening.offsetHeight - innerHeight),
-          0,
-          1,
-        );
+    // Drawing is deliberate: ordinary scrolling never starts a full-screen effect.
+    progress = 0;
     if (progress > 0.015) skipIntro();
     const upward = scrollY < lastScrollY - 1;
     const downward = scrollY > lastScrollY + 1;
@@ -818,7 +814,6 @@
     if (!launched && !returning) interaction.scroll(progress);
     lastScrollY = scrollY;
     syncDrawButton();
-    measureAnchors();
     const fade = clamp(1 - progress * 3, 0, 1),
       appear = clamp((progress - 0.34) * 3, 0, 1);
     for (const el of [copy, name, meta]) {
@@ -829,7 +824,11 @@
     reveal.style.opacity = appear;
     reveal.style.transform = `translateY(${(1 - appear) * 35}px)`;
     reveal.style.visibility = appear < 0.01 ? "hidden" : "visible";
-    requestRender();
+    if (
+      inView &&
+      (flight.isRaised() || Math.abs(interaction.target() - draw) > 0.001)
+    )
+      requestRender();
   }
   let width = 0,
     height = 0;
@@ -854,24 +853,18 @@
     logoWidth = logo.width * 0.82;
     wordmarkArt?.sync();
   }
-  const wordmarkArt = window.KazeyamiKatanaWordmark?.(
-    T,
-    scene,
-    camera,
-    stage,
-    name,
-  );
-  const pixelTrail = window.KazeyamiPixelTrail?.(
-    T,
-    renderer,
-    stage,
-    requestRender,
-  );
+  const wordmarkArt =
+    compact ? null : window.KazeyamiKatanaWordmark?.(T, scene, camera, stage, name);
+  const pixelTrail =
+    compact ? null : window.KazeyamiPixelTrail?.(T, renderer, stage, requestRender);
   function resize() {
     width = stage.clientWidth;
     height = stage.clientHeight;
-    const cap =
-      navigator.deviceMemory && navigator.deviceMemory <= 4 ? 1.35 : 1.8;
+    const cap = compact
+      ? 1
+      : navigator.deviceMemory && navigator.deviceMemory <= 4
+        ? 1.25
+        : 1.5;
     renderer.setPixelRatio(Math.min(devicePixelRatio, cap));
     renderer.setSize(width, height, false);
     pixelTrail?.resize();
@@ -898,7 +891,7 @@
     const target = interaction.target();
     if (introStart === null) introStart = now;
     const entrance =
-      !introCancelled && !reduced.matches
+      !introCancelled && !reduced.matches && !compact
         ? intro.pose((now - introStart) / 1000)
         : null;
     const assembling = entrance?.active ?? false;
@@ -948,7 +941,7 @@
     const gripEndY = extraction.y + 2.97 * Math.sin(extraction.angle);
     const chord = Math.atan2(gripEndY - tipY, gripEndX - tipX);
     const roll =
-      T.MathUtils.lerp(0.1, width <= 540 ? 0.32 : 0.42, landing) * (1 - lift) -
+      T.MathUtils.lerp(0.03, 0.06, landing) * (1 - lift) -
       chord * lift +
       (assembling ? entrance.kick : 0);
     model.rotation.set(
@@ -961,13 +954,16 @@
       2 * camera.position.z * Math.tan(T.MathUtils.degToRad(camera.fov / 2));
     const worldPerPixel = viewHeight / height;
     const viewWidth = worldPerPixel * width;
-    const assemblyScale = Math.min(1.25, (viewWidth * 0.74) / 9.5);
+    const assemblyScale = Math.min(0.4, (restingWidth * worldPerPixel) / 9.5);
     const restingScale = Math.min(
       1.4,
       (restingWidth * 0.96 * worldPerPixel) / 9.5,
     );
     const closedScale = T.MathUtils.lerp(assemblyScale, restingScale, landing);
-    const drawnScale = Math.min(0.95, (viewWidth * 0.82) / 16);
+    const drawnScale = Math.min(
+      restingScale,
+      (restingWidth * 1.3 * worldPerPixel) / 16,
+    );
     const startScale = T.MathUtils.lerp(closedScale, drawnScale, draw);
     const endScale = (logoWidth * worldPerPixel) / 9.2;
     const scale = startScale * Math.pow(endScale / startScale, lift);
@@ -982,13 +978,9 @@
     const centerY = T.MathUtils.lerp(0.48, bladeCenterY, lift);
     const rotatedX = centerX * Math.cos(roll) - centerY * Math.sin(roll);
     const rotatedY = centerX * Math.sin(roll) + centerY * Math.cos(roll);
-    const restingAnchorX = T.MathUtils.lerp(width * 0.5, restingX, landing);
+    const restingAnchorX = restingX;
     const restingAnchorY = T.MathUtils.lerp(assemblyY, restingY, landing);
-    const anchorX = T.MathUtils.lerp(
-      T.MathUtils.lerp(restingAnchorX, width * 0.5, draw),
-      logoX,
-      lift,
-    );
+    const anchorX = T.MathUtils.lerp(restingAnchorX, logoX, lift);
     const anchorY = T.MathUtils.lerp(restingAnchorY, logoY, lift);
     model.position.set(
       (anchorX - width * 0.5) * worldPerPixel - rotatedX * scale,

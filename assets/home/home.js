@@ -59,7 +59,7 @@
   const videoButton = document.querySelector(".video-toggle");
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
   let visible = false,
-    userPaused = false;
+    userPaused = matchMedia("(pointer: coarse)").matches || innerWidth <= 700;
   function syncVideo() {
     videoButton.textContent = video.paused ? "Play video" : "Pause video";
   }
@@ -76,6 +76,8 @@
       if (
         visible &&
         !userPaused &&
+        !document.hidden &&
+        !document.body.classList.contains("menu-open") &&
         !motion.matches &&
         !navigator.connection?.saveData
       )
@@ -87,4 +89,7 @@
   document.addEventListener("visibilitychange", () => {
     if (document.hidden || !visible) video.pause();
   });
+  new MutationObserver(() => {
+    if (document.body.classList.contains("menu-open")) video.pause();
+  }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
 })();

@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict');
+const {build}=require('../../assets/enquiry.js');
+const values={name:'Launch QA',company:'A & B = 1?',email:'qa@example.com',country:'India',phone:'+91 000',service:'Events & Experiences',message:'LED & DMX\nCamera #2 — café?'};
+const draft=build(values),url=new URL(draft.mailto);
+assert.equal(url.pathname,'sales@kazeyami.com');
+assert.equal(url.searchParams.get('subject'),'Project enquiry — Events & Experiences');
+assert.equal(url.searchParams.get('body'),draft.body);
+assert(draft.body.includes('A & B = 1?'));
+assert(draft.body.includes(values.message));
+const empty=build({name:'Someone',message:'Brief'});
+assert(empty.body.includes('Company: —'));
+assert(empty.subject.includes('General enquiry'));
+console.log('Enquiry drafts: recipient, Unicode, punctuation, multiline content and optional fields pass.');

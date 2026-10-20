@@ -6,9 +6,11 @@ const read = (name) => readFile(new URL(name, root), "utf8");
 const pages = [
   "index.html",
   "nexiv.html",
-  "3d.html",
-  "design.html",
+  "studio.html",
   "products.html",
+  "services.html",
+  "work.html",
+  "events.html",
   "ray-experience.html",
 ];
 for (const name of [...pages, "assets/site.js", "assets/portfolio.js"]) {
@@ -28,12 +30,12 @@ for (const name of pages.filter((name) => name !== "ray-experience.html")) {
   const source = await read(name);
   assert(source.includes('href="nexiv.html"'), `${name}: NEXIV navigation`);
   assert(
-    source.includes("assets/site.js?v=4.10.0"),
+    source.includes("assets/site.js?v=4.11.0"),
     `${name}: refreshed enquiry script`,
   );
 }
 const nexiv = await read("nexiv.html");
-assert(nexiv.includes("<h2>NEXIV</h2>"));
+assert(nexiv.includes("<h1>NEXIV</h1>"));
 assert(nexiv.includes("RAY is our interactive platform within NEXIV"));
 assert(nexiv.includes('href="ray-experience.html?v=26.7.0"'));
 const legacy = await read("ray.html");

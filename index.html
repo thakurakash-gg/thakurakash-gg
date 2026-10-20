@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-studio-version="4.10.0">
+<html lang="en" data-studio-version="4.11.0">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -8,8 +8,8 @@
       name="description"
       content="Design & Technology Studio — Kazeyami Innovations, Lucknow. Explore our services, work, and project enquiries."
     />
-    <link rel="stylesheet" href="assets/site.css" />
-    <link rel="stylesheet" href="assets/home/katana.css?v=4.10.0.bbb4779d" />
+    <link rel="stylesheet" href="assets/site.css?v=4.11.0.c26f715a" />
+    <link rel="stylesheet" href="assets/home/katana.css?v=4.11.0.bbb4779d" />
     <script>
       try {
         document.documentElement.dataset.theme =
@@ -21,15 +21,19 @@
     <script>
       const legacy = {
         ray: "nexiv.html",
-        "three-d": "3d.html",
-        work: "3d.html#work",
-        design: "design.html",
+        "three-d": "studio.html",
+        work: "studio.html#work",
+        design: "studio.html#design-services",
         products: "products.html",
       };
       if (legacy[location.hash.slice(1)])
         location.replace(legacy[location.hash.slice(1)]);
     </script>
-  <link rel="stylesheet" href="assets/home/theme.css?v=4.10.0.74b043c0">
+  <link rel="stylesheet" href="assets/home/theme.css?v=4.11.0.74b043c0">
+<link rel="stylesheet" href="assets/studio-catalogue.css?v=4.11.0.d06f9255">
+<link rel="canonical" href="https://thakurakash-gg.github.io/thakurakash-gg/index.html">
+<meta property="og:type" content="website"><meta property="og:title" content="Design &amp; Technology Studio | Kazeyami Innovations"><meta property="og:url" content="https://thakurakash-gg.github.io/thakurakash-gg/index.html"><meta property="og:image" content="https://thakurakash-gg.github.io/thakurakash-gg/assets/experience-center-poster-1440.webp"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta property="og:description" content="Design & Technology Studio — Kazeyami Innovations, Lucknow. Explore our services, work, and project enquiries.">
 </head>
   <body id="top" class="katana-site">
     <a href="#main" class="skip">Skip to content</a>
@@ -72,13 +76,7 @@
       aria-hidden="true"
       inert
     >
-      <nav aria-label="Main navigation">
-        <a href="index.html">Home</a><a href="nexiv.html">NEXIV</a
-        ><a href="3d.html">3D Studio</a><a href="design.html">Design</a
-        ><a href="products.html">Products</a
-        ><a href="index.html#process">Our process</a
-        ><a href="#contact">Contact</a>
-      </nav>
+      <nav aria-label="Main navigation"><a href="index.html">Home</a><a href="work.html">Work</a><a href="services.html">Services</a><a href="nexiv.html">NEXIV</a><a href="studio.html">Kazeyami Studio</a><a href="products.html">Products & Ventures</a><a href="events.html">Events & Experiences</a><a href="index.html#studio">About us</a><a href="#contact">Let’s collaborate</a></nav>
       <p>KAZEYAMI INNOVATIONS · DESIGN & TECHNOLOGY</p>
     </div>
     <main id="main" class="wrap">
@@ -95,8 +93,9 @@
               loop
               playsinline
               preload="metadata"
-              poster="assets/experience-center-poster.jpg"
+              poster="assets/experience-center-poster-1440.webp"
             >
+              <source src="assets/experience-center-mobile.mp4" media="(max-width: 700px)" type="video/mp4" />
               <source src="assets/experience-center.mp4" type="video/mp4" />
             </video>
           </div>
@@ -108,7 +107,7 @@
           >
             <img
               class="katana-fallback"
-              src="assets/home/katana-poster.svg?v=4.10.0"
+              src="assets/home/katana-poster.svg?v=4.11.0"
               alt=""
               width="1100"
               height="150"
@@ -116,7 +115,7 @@
           </div>
           <div class="opening-copy">
             <h1>Design and <br />technology <br />studio.</h1>
-            <p class="opening-credit">Lucknow, India</p>
+            <p class="opening-credit">Lucknow, India</p><p class="opening-summary">Architecture. Design. Development. Live experiences.</p><div class="hero-links"><a href="work.html">Explore our work ↗</a><a href="services.html">Services & deliverables ↗</a></div>
           </div>
           <div class="katana-composition-anchor" aria-hidden="true"></div>
           <div class="opening-name">
@@ -165,10 +164,7 @@
             complex idea could be understood in a moment?
           </p>
           <p>
-            We’re a design and technology studio in Lucknow. We build
-            architectural worlds, create 3D films and assets, shape brands, and
-            make digital products. Different tools. The same attention to the
-            experience.
+            We’re a design and technology studio in Lucknow. NEXIV handles architecture and visualization. Kazeyami Studio brings 2D and 3D creative production together. Products & Ventures builds websites, applications and games. Events & Experiences brings planning, fabrication and show technology into physical spaces. One company, four focused branches.
           </p>
           <a href="#process">How we work ↗</a>
         </div>
@@ -179,7 +175,7 @@
             loop
             playsinline
             preload="none"
-            poster="assets/experience-center-poster.jpg"
+            poster="assets/experience-center-poster-1440.webp"
             aria-label="Kazeyami experience center architectural film"
           >
             <source src="assets/experience-center.mp4" type="video/mp4" />
@@ -196,10 +192,11 @@
           </figcaption>
         </figure>
       </section>
-      <section id="services" class="services-section section-wrap"><div class="section-top"><span>(03 / EXPLORE KAZEYAMI)</span><span>ONE COMPANY / MANY DIRECTIONS</span></div><h2>Find your direction.</h2><p class="division-intro">Different disciplines, connected by curiosity. Discover how we shape spaces, explain complex ideas, build digital experiences, and give new products their own identity.</p><nav class="division-index cinematic-directions" aria-label="Explore company areas"><a class="direction-row" href="nexiv.html"><video class="direction-video" muted loop playsinline preload="none" poster="assets/experience-center-poster.jpg" aria-hidden="true"><source src="assets/experience-center.mp4" type="video/mp4"></video><span class="direction-number">01</span><h3>NEXIV</h3><p>Our architecture branch. Explore architectural visualization, films, and RAY - our interactive platform for experiencing spaces before they are built.</p><span class="direction-arrow" aria-hidden="true">↗</span><span class="direction-caption">NEXIV / EXPERIENCE CENTER</span></a><a class="direction-row" href="3d.html"><video class="direction-video" muted loop playsinline preload="none" poster="assets/amd-medical-poster.png" aria-hidden="true"><source src="assets/amd-medical-explainer.mp4" type="video/mp4"></video><span class="direction-number">02</span><h3>3D Studio</h3><p>From medical explainers and miniature toys to game assets and game development. Explore our work across form, motion, and interactive worlds.</p><span class="direction-arrow" aria-hidden="true">↗</span><span class="direction-caption">3D / MEDICAL EXPLAINER</span></a><a class="direction-row" href="design.html"><video class="direction-video" muted loop playsinline preload="none" poster="assets/mario-miniature-poster.png" aria-hidden="true"><source src="assets/mario-miniature.mp4" type="video/mp4"></video><span class="direction-number">03</span><h3>Design &<br>Communication</h3><p>Interfaces with clarity. Brands with character. Stories in motion. Explore our UI/UX, video, and branding practice.</p><span class="direction-arrow" aria-hidden="true">↗</span><span class="direction-caption">TEMPORARY STUDIO PREVIEW</span></a><a class="direction-row" href="products.html"><video class="direction-video" muted loop playsinline preload="none" poster="assets/experience-center-poster.jpg" aria-hidden="true"><source src="assets/experience-center.mp4" type="video/mp4"></video><span class="direction-number">04</span><h3>Products &<br>Ventures</h3><p>Independent ideas with their own identity. Discover Kazeyami Tools, Mock Yatra, and products designed with Kazeyami.</p><span class="direction-arrow" aria-hidden="true">↗</span><span class="direction-caption">TEMPORARY STUDIO PREVIEW</span></a></nav></section>
+<section id="selected-work" class="home-work section-wrap"><div class="catalogue-section-heading"><div><span class="catalogue-kicker">SELECTED WORK</span><h2>Made to be seen.<br>Built to be explored.</h2></div><a href="work.html">All work & project details ↗</a></div><div class="work-grid"><a class="work-tile" href="work.html#ray-waterfront"><div class="work-tile-image"><img src="assets/ray/media/ray-platform-day-720.webp" width="1440" height="810" loading="lazy" decoding="async" alt="RAY waterfront towers and marina from the public web prototype"></div><div class="work-tile-caption"><div><span class="catalogue-kicker">NEXIV / RAY</span><h3>RAY waterfront</h3><p>Interactive exterior prototype</p></div><span aria-hidden="true">↗</span></div></a><a class="work-tile" href="work.html#experience-center"><div class="work-tile-image"><img src="assets/experience-center-poster-720.webp" srcset="assets/experience-center-poster-720.webp 720w, assets/experience-center-poster-1440.webp 1440w" sizes="(max-width:700px) 88vw, 44vw" width="1440" height="810" loading="lazy" decoding="async" alt="Architectural interiors presented inside the experience center"></div><div class="work-tile-caption"><div><span class="catalogue-kicker">NEXIV / FILM</span><h3>Experience center</h3><p>Architectural visualization film</p></div><span aria-hidden="true">↗</span></div></a></div><div class="work-grid home-creative-work"><a class="work-tile" href="work.html#medical-explainer"><div class="work-tile-image"><img src="assets/amd-medical-poster-720.webp" srcset="assets/amd-medical-poster-720.webp 720w, assets/amd-medical-poster-1440.webp 1440w" sizes="(max-width:700px) 88vw, 44vw" width="1440" height="810" loading="lazy" decoding="async" alt="Frame from the eye-related AMD medical explainer animation"></div><div class="work-tile-caption"><div><span class="catalogue-kicker">KAZEYAMI STUDIO / EXPLAINER</span><h3>AMD medical explainer</h3><p>3D medical animation</p></div><span aria-hidden="true">↗</span></div></a><a class="work-tile" href="work.html#miniature"><div class="work-tile-image"><img src="assets/mario-miniature-poster-720.webp" srcset="assets/mario-miniature-poster-720.webp 720w, assets/mario-miniature-poster-1440.webp 1440w" sizes="(max-width:700px) 88vw, 44vw" width="1440" height="810" loading="lazy" decoding="async" alt="Assembled miniature character and separated components"></div><div class="work-tile-caption"><div><span class="catalogue-kicker">KAZEYAMI STUDIO / MINIATURE</span><h3>Mario miniature study</h3><p>Character modelling & print preparation</p></div><span aria-hidden="true">↗</span></div></a></div><div class="home-capabilities"><h3>One studio.<br>Connected disciplines.</h3><div><p>From architectural renders and animated explainers to brand identities and full-stack applications, we build the visuals and the systems behind them.</p><a href="services.html">View all services and deliverables ↗</a></div></div></section>
+      <section id="services" class="services-section section-wrap"><div class="section-top"><span>(03 / EXPLORE KAZEYAMI)</span><span>ONE COMPANY / MANY DIRECTIONS</span></div><h2>Find your direction.</h2><p class="division-intro">Different disciplines, connected by curiosity. Discover how we shape spaces, explain complex ideas, build digital experiences, and give new products their own identity.</p><nav class="division-index cinematic-directions" aria-label="Explore company areas"><a class="direction-row" href="nexiv.html"><video class="direction-video" muted loop playsinline preload="none" poster="assets/experience-center-poster-1440.webp" aria-hidden="true"><source src="assets/experience-center.mp4" type="video/mp4"></video><span class="direction-number">01</span><h3>NEXIV</h3><p>Our architecture branch. Explore architectural visualization, films, and RAY - our interactive platform for experiencing spaces before they are built.</p><span class="direction-arrow" aria-hidden="true">↗</span><span class="direction-caption">NEXIV / EXPERIENCE CENTER</span></a><a class="direction-row" href="studio.html"><video class="direction-video" muted loop playsinline preload="none" poster="assets/amd-medical-poster-1440.webp" aria-hidden="true"><source src="assets/amd-medical-explainer.mp4" type="video/mp4"></video><span class="direction-number">02</span><h3>Kazeyami<br>Studio</h3><p>All our 2D and 3D creative services: characters, assets, animation, product visuals, medical explainers, miniatures, branding, graphic design, UI/UX and motion.</p><span class="direction-arrow" aria-hidden="true">↗</span><span class="direction-caption">3D / MEDICAL EXPLAINER</span></a><a class="direction-row" href="products.html"><div class="direction-illustration product-illustration" aria-hidden="true"><span>WEB / APPS</span><span>GAMES / TOOLS</span></div><span class="direction-number">03</span><h3>Products &<br>Ventures</h3><p>Our development and product branch: full-stack websites, web and mobile apps, APIs, dashboards, game development and independent ventures.</p><span class="direction-arrow" aria-hidden="true">↗</span><span class="direction-caption">DEVELOPMENT / EXPLORE SERVICES</span></a><a class="direction-row" href="events.html"><div class="direction-illustration event-illustration" aria-hidden="true"><span>SPACE.</span><span>LIGHT.</span><span>LIVE.</span></div><span class="direction-number">04</span><h3>Events &<br>Experiences</h3><p>Expo setups, experience centers, stages, shoots and red carpets. Event organization, AV hardware, DMX lighting and show operation.</p><span class="direction-arrow" aria-hidden="true">↗</span><span class="direction-caption">EVENT PRODUCTION / EXPLORE SERVICES</span></a></nav></section>
       <section id="process" class="process-section section-wrap">
         <div class="section-top">
-          <span>(08 / WORKING TOGETHER)</span
+          <span>OUR PROCESS</span
           ><span>FROM BRIEF TO EXPERIENCE</span>
         </div>
         <h2>A clear path<br />from idea to outcome.</h2>
@@ -235,9 +232,10 @@
           </article>
         </div>
       </section>
+<section id="team" class="team-roster section-wrap"><div class="catalogue-section-heading"><div><span class="catalogue-kicker">THE PEOPLE BEHIND THE WORK</span><h2>A studio of<br>different perspectives.</h2></div><p>Artists, designers and developers working across the same brief.</p></div><div class="team-roster-grid"><div><h3>Siya Baranwal</h3><p>UI/UX Artist</p></div><div><h3>Pragati Saxena</h3><p>HR</p></div><div><h3>DK</h3><p>Developer</p></div><div><h3>Deepraj</h3><p>Senior Developer</p></div><div><h3>Shayan Ansari</h3><p>Technical Artist</p></div><div><h3>Akash Singh</h3><p>3D Artist</p></div><div><h3>Hammer</h3><p>Unreal Artist</p></div></div></section>
       <section id="faq" class="faq-section section-wrap">
         <div class="section-top">
-          <span>(09 / BEFORE WE BEGIN)</span><span>A FEW USEFUL ANSWERS</span>
+          <span>BEFORE WE BEGIN</span><span>A FEW USEFUL ANSWERS</span>
         </div>
         <h2>Let’s make it clear.</h2>
         <details>
@@ -261,8 +259,7 @@
           <p>
             Still images communicate key views. Films show a space through
             motion and narrative. A 360° tour connects fixed viewpoints, while
-            RAY offers an interactive way to explore. We can discuss which
-            format fits your brief.
+            the public RAY prototype offers exterior orbit, zoom and day/night views. Other interactive features are scoped for each project.
           </p>
         </details>
         <details>
@@ -285,18 +282,11 @@
             >
           </summary>
           <p>
-            Yes. Kazeyami Innovations works across design, branding, technology
-            solutions, and architectural visualization. Tell us what you are
-            planning, and we can explore the scope together.
+            Yes. Kazeyami Studio covers 2D and 3D creative work; NEXIV covers architecture and visualization; Products & Ventures covers development; Events & Experiences covers physical production and live events. Share the brief and we will connect the right disciplines.
           </p>
         </details>
       </section>
-      <nav class="page-navigation" aria-label="Explore other company areas">
-        <a href="index.html">Company overview ↗</a
-        ><a href="nexiv.html">NEXIV ↗</a><a href="3d.html">3D Studio ↗</a
-        ><a href="design.html">Design & Communication ↗</a
-        ><a href="products.html">Products & Ventures ↗</a>
-      </nav>
+      <nav class="page-navigation" aria-label="Explore company areas"><a href="work.html">Selected work ↗</a><a href="services.html">Service catalogue ↗</a><a href="nexiv.html">NEXIV ↗</a><a href="studio.html">Kazeyami Studio ↗</a><a href="products.html">Products & Ventures ↗</a><a href="events.html">Events & Experiences ↗</a></nav>
       <section id="contact" class="contact-section">
         <div
           id="contact-logo-background"
@@ -374,14 +364,7 @@
             </div>
             <div class="brief-field">
               <label for="brief-service">SERVICE</label
-              ><select id="brief-service" name="service">
-                <option>Architectural visualization</option>
-                <option>RAY interactive experience</option>
-                <option>Design</option>
-                <option>Branding</option>
-                <option>Technology solutions</option>
-                <option>A combination</option>
-              </select>
+              ><select id="brief-service" name="service"><option>Architectural visualization</option><option>Architectural real-time, VR &amp; AR</option><option>CAD, BIM &amp; design development</option><option>3D assets, characters &amp; animation</option><option>Medical &amp; scientific visualization</option><option>Miniatures &amp; 3D printing</option><option>Branding, 2D design &amp; motion</option><option>Full-stack web &amp; mobile development</option><option>Game development</option><option>Events &amp; Experiences</option><option>Not sure / a combination</option></select>
             </div>
             <div class="brief-field brief-wide">
               <label for="brief-message">PROJECT BRIEF</label
@@ -389,7 +372,7 @@
                 id="brief-message"
                 name="message"
                 rows="3"
-                placeholder="Tell us about the project"
+                placeholder="What are you making, who is it for, what do you need delivered, and when?"
                 required
                 maxlength="3000"
               ></textarea>
@@ -398,11 +381,9 @@
               <button class="text-link" type="submit">
                 Prepare enquiry ↗
               </button>
-              <p id="brief-status" role="status">
-                Opens an email draft for you to review and send.
-              </p>
+              <p id="brief-status" role="status">Opens your email app. Review the draft and send it to sales@kazeyami.com.</p>
             </div>
-          </form>
+          <div class="brief-wide brief-fallback"><button class="text-link" type="button" id="copy-brief">Copy project brief</button><p>This form prepares a draft on your device. It does not send or store your details. You can also email us directly.</p><textarea id="brief-copy-text" aria-label="Prepared project brief" readonly hidden rows="8"></textarea></div></form>
         </div>
       </section>
     </main>
@@ -415,10 +396,7 @@
           </div>
           <div>
             <h3>KAZEYAMI INNOVATIONS</h3>
-            <p>
-              Design & technology innovation studio<br />Architectural
-              visualization / NEXIV - RAY platform
-            </p>
+            <p>Design & technology studio<br>2D & 3D / Architecture / Development / Events</p>
           </div>
           <div>
             <h3>CONTACT</h3>
@@ -445,19 +423,20 @@
       <span id="read-percent">0%</span
       ><span class="progress-dot" aria-hidden="true"></span>
     </div>
-    <script src="assets/site.js?v=4.10.0.b325ee7c"></script>
-    <script src="assets/three.min.js"></script>
-    <script src="assets/home/katana-geometry.js?v=4.10.0.c6ec0ce9"></script>
-    <script src="assets/home/katana-interaction.js?v=4.10.0.ca1780c9"></script>
-    <script src="assets/home/pixel-cursor.js?v=4.10.0.8924b45a"></script>
-    <script src="assets/home/katana-intro.js?v=4.10.0.9be3994b"></script>
-    <script src="assets/home/katana-flight.js?v=4.10.0.b870855c"></script>
-    <script src="assets/home/katana-finish.js?v=4.10.0.42d8862e"></script>
-    <script src="assets/home/katana-wordmark.js?v=4.10.0.9badb953"></script>
-    <script src="assets/home/katana-scene.js?v=4.10.0.7c11c1a3"></script>
-    <script src="assets/home/home.js?v=4.10.0.038f68eb"></script>
-<script src="assets/home/logo-background.js?v=4.10.0.69bf8f61"></script>
-    <script src="assets/home/contact-background.js?v=4.10.0.68cf168f"></script>
-  <script src="assets/home/menu-background.js?v=4.10.0.39b9f7e6"></script>
+    <script defer src="assets/enquiry.js?v=4.11.0.9f78060c"></script>
+<script defer src="assets/site.js?v=4.11.0.31d79bcc"></script>
+    <script defer src="assets/three.min.js?v=4.11.0.170c6789"></script>
+    <script defer src="assets/home/katana-geometry.js?v=4.11.0.c6ec0ce9"></script>
+    <script defer src="assets/home/katana-interaction.js?v=4.11.0.ca1780c9"></script>
+    <script defer src="assets/home/pixel-cursor.js?v=4.11.0.8924b45a"></script>
+    <script defer src="assets/home/katana-intro.js?v=4.11.0.9be3994b"></script>
+    <script defer src="assets/home/katana-flight.js?v=4.11.0.b870855c"></script>
+    <script defer src="assets/home/katana-finish.js?v=4.11.0.42d8862e"></script>
+    <script defer src="assets/home/katana-wordmark.js?v=4.11.0.9badb953"></script>
+    <script defer src="assets/home/katana-scene.js?v=4.11.0.e88e3a62"></script>
+    <script defer src="assets/home/home.js?v=4.11.0.9803ee17"></script>
+<script defer src="assets/home/logo-background.js?v=4.11.0.f70b90b0"></script>
+    <script defer src="assets/home/contact-background.js?v=4.11.0.3693fc28"></script>
+  <script defer src="assets/home/menu-background.js?v=4.11.0.dee1e9e8"></script>
 </body>
 </html>

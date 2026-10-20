@@ -23,7 +23,7 @@
     if (!background && !loading) {
       loading = true;
       try {
-        if (!window.THREE)
+        if (!window.THREE && !window.KazeyamiLightBackground?.())
           await new Promise((resolve, reject) => {
             const script = document.createElement("script");
             script.src = "assets/three.min.js";

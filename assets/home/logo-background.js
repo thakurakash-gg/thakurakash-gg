@@ -1,35 +1,11 @@
+window.KazeyamiLightBackground = () =>
+  matchMedia("(pointer: coarse)").matches ||
+  innerWidth <= 700 ||
+  navigator.connection?.saveData ||
+  (navigator.deviceMemory && navigator.deviceMemory <= 4);
 /* Shared, instanced Kazeyami marks for collaboration and the navigation drawer. */
 window.KazeyamiLogoBackground = function createLogoBackground(stage) {
-  if (!stage || !window.THREE) return null;
-  const T = window.THREE;
-  const canvas =
-    stage.querySelector("canvas") ||
-    stage.appendChild(document.createElement("canvas"));
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  let renderer;
-  try {
-    renderer = new T.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: true,
-      powerPreference: "low-power",
-    });
-  } catch {
-    return;
-  }
-  renderer.outputEncoding = T.sRGBEncoding;
-  renderer.setClearColor(0x0c0c10, 0);
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.25));
-  const scene = new T.Scene(),
-    camera = new T.PerspectiveCamera(35, 1, 0.1, 100);
-  camera.position.z = 19;
-  scene.add(new T.HemisphereLight(0xffffff, 0x171724, 2.2));
-  const key = new T.DirectionalLight(0xffffff, 3.5);
-  key.position.set(-5, 7, 9);
-  scene.add(key);
-  const rim = new T.DirectionalLight(0xffffff, 1.8);
-  rim.position.set(7, -2, 3);
-  scene.add(rim);
+  if (!stage) return null;
   const paths = [
     [
       [-0.2681, 0.9872],
@@ -169,6 +145,37 @@ window.KazeyamiLogoBackground = function createLogoBackground(stage) {
       [-0.2106, 1.0021],
     ],
   ];
+  if (window.KazeyamiLightBackground()) return lightBackground(stage, paths[0]);
+  if (!window.THREE) return null;
+  const T = window.THREE;
+  const canvas =
+    stage.querySelector("canvas") ||
+    stage.appendChild(document.createElement("canvas"));
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  let renderer;
+  try {
+    renderer = new T.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: "low-power",
+    });
+  } catch {
+    return;
+  }
+  renderer.outputEncoding = T.sRGBEncoding;
+  renderer.setClearColor(0x0c0c10, 0);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1));
+  const scene = new T.Scene(),
+    camera = new T.PerspectiveCamera(35, 1, 0.1, 100);
+  camera.position.z = 19;
+  scene.add(new T.HemisphereLight(0xffffff, 0x171724, 2.2));
+  const key = new T.DirectionalLight(0xffffff, 3.5);
+  key.position.set(-5, 7, 9);
+  scene.add(key);
+  const rim = new T.DirectionalLight(0xffffff, 1.8);
+  rim.position.set(7, -2, 3);
+  scene.add(rim);
   const shape = new T.Shape();
   paths[0].forEach((point, i) =>
     i ? shape.lineTo(...point) : shape.moveTo(...point),
@@ -188,15 +195,15 @@ window.KazeyamiLogoBackground = function createLogoBackground(stage) {
       new T.MeshStandardMaterial({ color, roughness: 0.34, metalness: 0.18 }),
   );
   const batches = materials.map((material) => {
-    const batch = new T.InstancedMesh(geometry, material, 9);
+    const batch = new T.InstancedMesh(geometry, material, 6);
     batch.instanceMatrix.setUsage(T.DynamicDrawUsage);
     batch.frustumCulled = false;
     scene.add(batch);
     return batch;
   });
-  const pieces = Array.from({ length: 27 }, (_, i) => {
+  const pieces = Array.from({ length: 18 }, (_, i) => {
     const angle = i * 2.39996,
-      radius = Math.sqrt((i + 1) / 27) * 0.47;
+      radius = Math.sqrt((i + 1) / 18) * 0.47;
     return {
       x: Math.cos(angle) * radius,
       y: Math.sin(angle) * radius,
@@ -296,3 +303,83 @@ window.KazeyamiLogoBackground = function createLogoBackground(stage) {
   resize();
   return { setActive };
 };
+
+function lightBackground(stage, points) {
+  const canvas =
+    stage.querySelector("canvas") ||
+    stage.appendChild(document.createElement("canvas"));
+  const context = canvas.getContext("2d");
+  if (!context) return null;
+  stage.dataset.backgroundRenderer = "light-canvas";
+  const path = new Path2D();
+  points.forEach(([x, y], i) => (i ? path.lineTo(x, y) : path.moveTo(x, y)));
+  path.closePath();
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  let active = false,
+    frame = 0,
+    last = 0,
+    time = 0,
+    width = 1,
+    height = 1;
+  function paint() {
+    context.clearRect(0, 0, width, height);
+    for (let i = 0; i < 12; i++) {
+      const col = i % 3,
+        row = Math.floor(i / 3),
+        size = Math.min(width * 0.1, 40) * (0.7 + (i % 3) * 0.18);
+      context.save();
+      context.translate(
+        ((col + 0.45) * width) / 3 + Math.sin(time * 0.18 + i) * 9,
+        ((row + 0.5) * height) / 4 + Math.cos(time * 0.2 + i) * 12,
+      );
+      context.rotate(i * 1.83 + time * 0.025);
+      context.scale(size, size * 0.72);
+      context.fillStyle = "#18181c";
+      for (let z = 5; z > 0; z--) {
+        context.save();
+        context.translate(z * 0.045, z * 0.045);
+        context.fill(path);
+        context.restore();
+      }
+      context.fillStyle = ["#cf174d", "#c3c5c8", "#34343d"][i % 3];
+      context.fill(path);
+      context.restore();
+    }
+  }
+  function resize() {
+    width = Math.max(1, stage.clientWidth);
+    height = Math.max(1, stage.clientHeight);
+    canvas.width = width;
+    canvas.height = height;
+    paint();
+  }
+  function tick(now) {
+    frame = 0;
+    if (!active || document.hidden || reduced.matches) return;
+    if (now - last >= 50) {
+      time += Math.min(0.1, (now - last) / 1000 || 0.05);
+      last = now;
+      paint();
+    }
+    frame = requestAnimationFrame(tick);
+  }
+  function sync() {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    last = 0;
+    if (active && !document.hidden) {
+      paint();
+      if (!reduced.matches) frame = requestAnimationFrame(tick);
+    }
+  }
+  new ResizeObserver(resize).observe(stage);
+  document.addEventListener("visibilitychange", sync);
+  reduced.addEventListener("change", sync);
+  resize();
+  return {
+    setActive(value) {
+      active = value;
+      sync();
+    },
+  };
+}

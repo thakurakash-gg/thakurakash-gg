@@ -9,9 +9,11 @@ const root = path.resolve(
 const pages = [
   "index.html",
   "nexiv.html",
-  "3d.html",
-  "design.html",
+  "studio.html",
   "products.html",
+  "services.html",
+  "work.html",
+  "events.html",
 ];
 const version = fs
   .readFileSync(path.join(root, "index.html"), "utf8")

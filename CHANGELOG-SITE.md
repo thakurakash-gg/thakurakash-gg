@@ -1,5 +1,15 @@
 # Website changelog
 
+## 4.11.0 - 2026-10-20
+
+- Move the existing katana to a small lower-right accent, keep the center of the work video clear, and use a one-screen hero with direct Work and Services links. Drawing is optional; normal scrolling does not trigger the sword flight. Keep the model and materials.
+- Organize the company into NEXIV (architecture), Kazeyami Studio (all 2D/3D creative work), Products & Ventures (development/products/games), and Events & Experiences (event organization, production and show technology). Retain the cinematic Find your direction design with four accurate branch rows. Remove the separate 3D and Design menu slots; legacy URLs redirect to Kazeyami Studio.
+- Add Work, Services and Events pages, detailed branch-owned service catalogues, project context, deliverables, brief requirements and a downloadable text catalogue. List only owner-confirmed services; show no client logos or invented credentials. Describe RAY's current public exterior prototype separately from custom features.
+- Replace linked PNG posters with WebP previews (largest 8.3 MB source now 29 KB at 1440px); add a 128 KB mobile background video. Retain original source assets on disk.
+- Use a lightweight shared mark canvas on small/coarse devices, avoid extra phone WebGL image effects and logo SVG animations, cap hero resolution and stop idle/hidden work. Project films remain on demand on phones.
+- Keep enquiry behavior explicit: prepare a local email draft with a copyable brief fallback, service preselection and direct email. Add canonical/share metadata, sitemap, robots and the existing brand mark as favicon.
+- Add link/anchor/asset/form catalogue auditing and email-draft encoding checks; retain katana geometry and interaction regression checks.
+
 ## 4.10.0 - 2026-10-19
 
 - Recompose the hero around the existing katana: a large diagonal centerpiece, a clear upper-left studio heading and smaller controls/scroll invitation. Keep the exact katana geometry/materials, bright work video, menu, theme switch, draw/docking/return interaction and cursor effect.
