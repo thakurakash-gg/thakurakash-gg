@@ -1,7 +1,9 @@
 """Launch audit: local routes, assets, anchors, accessible forms and honest content."""
 from pathlib import Path
 from html.parser import HTMLParser
-from urllib.parse import urlsplit, unquote
+from urllib.parse import urlsplit, unquote, parse_qs
+from html import unescape
+import re
 import json
 root=Path(__file__).resolve().parents[2]
 pages=['index.html','nexiv.html','studio.html','products.html','services.html','work.html','events.html']
@@ -12,6 +14,7 @@ class Document(HTMLParser):
         a=dict(attrs);self.tags.append((tag,a))
         if 'id' in a:self.ids.append(a['id'])
 documents={p:Document((root/p).read_text(encoding='utf-8')) for p in pages}
+options=set(unescape(s) for s in re.findall(r'<option>([^<]+)</option>',(root/'index.html').read_text(encoding='utf-8')))
 errors=[];links=0;assets=set()
 for page,doc in documents.items():
     if len(doc.ids)!=len(set(doc.ids)):errors.append(page+': duplicate IDs')
@@ -31,6 +34,9 @@ for page,doc in documents.items():
             url=urlsplit(ref)
             if url.scheme or url.netloc:continue
             path=unquote(url.path) or page
+            if url.query.startswith('service='):
+                selection=parse_qs(url.query)
+                if set(selection)!={'service'} or selection['service'][0] not in options:errors.append(f'{page}: invalid service selection {ref}')
             if path.startswith('/'):continue
             target=root/path;links+=1
             if not target.is_file():errors.append(f'{page}: missing {path}');continue

@@ -29,6 +29,7 @@ for (const asset of [...html.matchAll(/(?:src|href|poster)="([^"#]+)"/g)].map(
 for (const asset of [
   "assets/site.js",
   "assets/home/katana-scene.js",
+  "assets/home/katana-batch.js",
   "assets/home/home.js",
   "assets/home/katana-interaction.js",
   "assets/home/katana-intro.js",

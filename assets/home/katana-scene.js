@@ -662,6 +662,13 @@
     });
     return amount;
   }
+  const rigidBatches = [steel, hilt, sheath].map((part) =>
+    window.KazeyamiBatchRigid?.(T, part),
+  );
+  stage.dataset.katanaBatches = rigidBatches
+    .filter(Boolean)
+    .map((part) => `${part.sourceMeshes}:${part.renderMeshes}`)
+    .join(",");
   const sheathDissolve = dissolvingPart(sheath);
   const flight = window.KazeyamiKatanaFlight();
   const sparkPositions = new Float32Array(24 * 3);
@@ -725,7 +732,6 @@
     });
   });
   stage.addEventListener("pointermove", (e) => {
-    if (compact) return;
     const dragging = interaction.move({
       id: e.pointerId,
       x: e.clientX,
@@ -735,8 +741,8 @@
     if (dragging && !stage.hasPointerCapture(e.pointerId))
       stage.setPointerCapture(e.pointerId);
     const rect = stage.getBoundingClientRect();
-    pointerX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-    pointerY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    pointerX = compact ? 0 : ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    pointerY = compact ? 0 : ((e.clientY - rect.top) / rect.height - 0.5) * 2;
     syncDrawButton();
     requestRender();
   });
@@ -853,10 +859,12 @@
     logoWidth = logo.width * 0.82;
     wordmarkArt?.sync();
   }
-  const wordmarkArt =
-    compact ? null : window.KazeyamiKatanaWordmark?.(T, scene, camera, stage, name);
-  const pixelTrail =
-    compact ? null : window.KazeyamiPixelTrail?.(T, renderer, stage, requestRender);
+  const wordmarkArt = compact
+    ? null
+    : window.KazeyamiKatanaWordmark?.(T, scene, camera, stage, name);
+  const pixelTrail = compact
+    ? null
+    : window.KazeyamiPixelTrail?.(T, renderer, stage, requestRender);
   function resize() {
     width = stage.clientWidth;
     height = stage.clientHeight;

@@ -531,6 +531,33 @@
 .katana-stage canvas {
   pointer-events: none;
 }
+.katana-hit-area {
+  position: absolute;
+  right: 5%;
+  bottom: 12%;
+  width: min(30%, 380px);
+  height: 75px;
+  pointer-events: auto;
+  touch-action: pan-y;
+  cursor: grab;
+}
+.katana-stage.is-docked .katana-hit-area {
+  display: none;
+}
+@media (max-width: 850px) {
+  .katana-hit-area {
+    width: 280px;
+    bottom: 13%;
+  }
+}
+@media (max-width: 600px) {
+  .katana-hit-area {
+    width: 230px;
+    right: 6%;
+    bottom: 14%;
+    height: 55px;
+  }
+}
 .reveal-copy {
   display: none;
 }
@@ -785,4 +812,75 @@
   .catalogue-intro {
     padding-top: 0;
   }
+}
+/* Contrast belongs to the header surface, including the small static phone logo. */
+html[data-theme="light"]
+  body:not(.over-dark-section):not(.menu-open)
+  .wordmark:not(.brand-ready)
+  > img {
+  filter: brightness(0);
+}
+html[data-theme="light"] .subpage:not(.menu-open) .theme-switch {
+  color: #242520;
+  border-color: #77796e;
+  background: transparent;
+  backdrop-filter: none;
+}
+html[data-theme="light"] .subpage:not(.menu-open) .menu-toggle span {
+  background: #242520;
+}
+.events-intro {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-left: 6%;
+  padding-right: 6%;
+}
+.subpage .catalogue-intro,
+.subpage .events-intro {
+  padding-top: 75px;
+}
+.opening-copy h1 {
+  color: #fff;
+  -webkit-text-stroke: 0;
+  text-shadow:
+    0 1px 3px #000c,
+    0 3px 14px #0009;
+}
+@media (max-width: 600px) {
+  .subpage .catalogue-intro,
+  .subpage .events-intro {
+    padding-top: 55px;
+  }
+}
+.brief-fallback button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ffffff80;
+  padding: 10px 0;
+  color: #fff;
+  cursor: pointer;
+}
+html[data-theme="light"]
+  body:not(.over-dark-section):not(.menu-open)
+  .wordmark:not(.brand-ready)
+  > img {
+  filter: none;
+}
+@media (min-width: 851px) {
+  html[data-theme="light"] .subpage.menu-open .theme-switch {
+    color: #242520 !important;
+  }
+}
+.ray-platform-launch {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+.katana-site #faq summary {
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 18px;
+  padding-right: 18px;
 }
