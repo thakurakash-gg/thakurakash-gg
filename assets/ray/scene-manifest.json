@@ -1,9 +1,9 @@
 {
   "schema": 2,
-  "version": "scene-e1343aecee3f33bd",
+  "version": "scene-dc22a9f614307afe",
   "release": {
-    "version": "26.7.0",
-    "date": "2026-10-19",
+    "version": "26.7.1",
+    "date": "2026-10-21",
     "changelog": "CHANGELOG-RAY.md"
   },
   "scripts": [
@@ -208,6 +208,11 @@
       "url": "assets/ray/ui/miami-map.css?v=29c05422d2cd35f7c4b7fc00647233274ee3ef31492be94a0c403cc7dd8f1ae4",
       "bytes": 5618,
       "sha256": "29c05422d2cd35f7c4b7fc00647233274ee3ef31492be94a0c403cc7dd8f1ae4"
+    },
+    {
+      "url": "assets/ray/ui/mobile.css?v=98079dc288bb68ce6215ee722c1cb72430618100d7ac7e2fef9757b7da9e567d",
+      "bytes": 5015,
+      "sha256": "98079dc288bb68ce6215ee722c1cb72430618100d7ac7e2fef9757b7da9e567d"
     },
     {
       "url": "assets/ray/audio/coast-gulls.mp3?v=4c064da58ace11395e0101ec6ee0d5e3b81222b2e6d295238f161b0040420d81",

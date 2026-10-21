@@ -1,0 +1,127 @@
+/* Professional people directory. All roles remain readable without JavaScript. */
+.people-section {
+  --people-paper: #101214;
+  --people-ink: #f3f2ed;
+  --people-muted: #b0b3b5;
+  --people-line: #ffffff29;
+  background: var(--people-paper);
+  color: var(--people-ink);
+  padding: clamp(68px, 8vw, 124px) 6%;
+  scroll-margin-top: 84px;
+}
+html[data-theme="light"] .people-section {
+  --people-paper: #f7f5ef;
+  --people-ink: #202322;
+  --people-muted: #606663;
+  --people-line: #20232233;
+}
+.people-layout {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.4fr);
+  gap: clamp(48px, 8vw, 132px);
+  max-width: 1360px;
+  margin: auto;
+  align-items: start;
+}
+.people-introduction {
+  position: sticky;
+  top: 116px;
+  min-width: 0;
+}
+.people-kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--people-muted);
+  font: 500 11px/1.5 Arial, Helvetica, sans-serif;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.people-kicker::before {
+  content: "";
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: #ec1e61;
+}
+.people-section .people-heading {
+  margin: 27px 0 28px;
+  max-width: 570px;
+  color: var(--people-ink);
+  font: 500 clamp(52px, 6.5vw, 100px)/1.02 Arial, Helvetica, sans-serif;
+  letter-spacing: -.055em;
+}
+.people-heading span { display: block; }
+.people-lead {
+  margin: 0;
+  max-width: 340px;
+  color: var(--people-muted);
+  font: 400 clamp(17px, 1.35vw, 20px)/1.65 Arial, Helvetica, sans-serif;
+  letter-spacing: -.01em;
+}
+.people-disciplines {
+  margin: 36px 0 0;
+  max-width: 340px;
+  padding-top: 22px;
+  border-top: 1px solid var(--people-line);
+  color: var(--people-muted);
+  font: 400 11px/1.8 Arial, Helvetica, sans-serif;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.people-roster {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  border-top: 1px solid var(--people-line);
+}
+.people-member {
+  margin: 0;
+  padding: 29px 0 30px;
+  border-bottom: 1px solid var(--people-line);
+}
+.people-member-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 25px;
+}
+.people-member h3 {
+  margin: 0;
+  color: var(--people-ink);
+  font: 500 clamp(23px, 2.2vw, 32px)/1.2 Arial, Helvetica, sans-serif;
+  letter-spacing: -.035em;
+}
+.people-role {
+  margin: 0;
+  color: var(--people-ink);
+  font: 400 12px/1.5 Arial, Helvetica, sans-serif;
+  letter-spacing: .025em;
+}
+.people-description {
+  margin: 15px 0 0;
+  max-width: 520px;
+  color: var(--people-muted);
+  font: 400 14px/1.7 Arial, Helvetica, sans-serif;
+}
+@media (max-width: 900px) {
+  .people-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 40px; }
+  .people-introduction { position: static; }
+  .people-section .people-heading { font-size: clamp(50px, 7vw, 70px); }
+  .people-member-heading { display: block; }
+  .people-role { margin-top: 9px; }
+}
+@media (max-width: 640px) {
+  .people-section { padding: 60px 6%; }
+  .people-layout { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .people-section .people-heading { margin-block: 20px; font-size: clamp(48px, 12.7vw, 72px); }
+  .people-lead { max-width: 420px; font-size: 16px; }
+  .people-disciplines { display: none; }
+  .people-member { padding: 25px 0; }
+  .people-member-heading { display: flex; }
+  .people-member h3 { font-size: 25px; }
+  .people-role { margin: 0; font-size: 12px; }
+  .people-description { margin-top: 13px; font-size: 14px; }
+}

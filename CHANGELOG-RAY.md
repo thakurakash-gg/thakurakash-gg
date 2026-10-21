@@ -4,6 +4,33 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.7.1](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.7.1) — 2026-10-21
+
+Phone controls and landscape layout
+
+- Scene/cache ID: `scene-dc22a9f614307afe`
+- Preview label: `26.7.1`
+
+### Fixed
+
+- Fit the experience to the visible screen in short phone landscape layouts so the reset, lighting and orbit controls remain reachable.
+- Bound views, preview information and route-map panels to the viewport with scrolling content.
+
+### Changed
+
+- Use larger touch targets, safe-area spacing and a compact horizontal phone toolbar.
+- Hide the minimap thumbnail in short landscape layouts while retaining the full map control.
+
+### Validation
+
+- Browser viewport checks at 320x568, 390x844, 667x375, 844x390 and 1280x800.
+- Landscape views, help and route-map panels stay within the viewport and scroll.
+- Existing scene, cache, lifecycle and geometry checks pass.
+
+### Known limits
+
+- Responsive checks use browser viewport emulation; physical iOS and Android devices have not been tested.
+
 ## [26.7.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.7.0) — 2026-10-19
 
 Stable marina wall and camera-aware coastal audio

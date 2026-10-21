@@ -26,6 +26,7 @@ const extra = [
   "assets/ray/textures/shore-distance.png",
   "assets/ray/ui/experience.css",
   "assets/ray/ui/miami-map.css",
+  "assets/ray/ui/mobile.css",
   "assets/ray/audio/coast-gulls.mp3",
   "assets/ray/audio/coast-shore.mp3",
   "assets/ray/audio/coast-wind.mp3",

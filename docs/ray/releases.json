@@ -1,6 +1,32 @@
 {
   "releases": [
     {
+      "version": "26.7.1",
+      "date": "2026-10-21",
+      "title": "Phone controls and landscape layout",
+      "sceneVersion": "scene-dc22a9f614307afe",
+      "preview": "26.7.1",
+      "changes": {
+        "Fixed": [
+          "Fit the experience to the visible screen in short phone landscape layouts so the reset, lighting and orbit controls remain reachable.",
+          "Bound views, preview information and route-map panels to the viewport with scrolling content."
+        ],
+        "Changed": [
+          "Use larger touch targets, safe-area spacing and a compact horizontal phone toolbar.",
+          "Hide the minimap thumbnail in short landscape layouts while retaining the full map control."
+        ]
+      },
+      "validation": [
+        "Browser viewport checks at 320x568, 390x844, 667x375, 844x390 and 1280x800.",
+        "Landscape views, help and route-map panels stay within the viewport and scroll.",
+        "Existing scene, cache, lifecycle and geometry checks pass."
+      ],
+      "limitations": [
+        "Responsive checks use browser viewport emulation; physical iOS and Android devices have not been tested."
+      ],
+      "commits": []
+    },
+    {
       "version": "26.7.0",
       "date": "2026-10-19",
       "title": "Stable marina wall and camera-aware coastal audio",

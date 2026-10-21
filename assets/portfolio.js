@@ -28,7 +28,7 @@
     current = card;
     selected = card;
     preview.poster = card.dataset.poster;
-    full.textContent = "Explore " + card.dataset.title + " ↗";
+    full.textContent = "Explore " + card.dataset.title;
     if (preview.getAttribute("src") !== card.dataset.video) {
       preview.src = card.dataset.video;
       preview.load();
@@ -248,7 +248,7 @@
     enquiry.href =
       "mailto:sales@kazeyami.com?subject=" +
       encodeURIComponent("Enquiry — " + project.dataset.title);
-    enquiry.textContent = "Discuss a similar project ↗";
+    enquiry.textContent = "Discuss a similar project";
     container.append(enquiry);
     dialog.scrollTop = 0;
     document.querySelector("#film-title").textContent = project.dataset.title;

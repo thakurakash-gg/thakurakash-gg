@@ -1,5 +1,16 @@
 # Website changelog
 
+## 4.14.0 - 2026-10-21
+
+- Correct clipped Find your direction captions and narrow contact layouts. Stack Studio film cards on small phones, make product rows account for their gaps, and enlarge standalone links and controls for touch.
+- Reserve image space in the Studio exploration sections to prevent delayed images from shifting the layout.
+- Use the existing fast-start 1920x1080 home background film on phones instead of the heavily compressed 720x406 version. The shared Full HD file is 1.08 MB.
+- Replace decorative text arrows with plain vector icons so phone emoji fonts cannot turn them into blue boxes. Icons inherit the section's text colour.
+- Replace the illustrated crew selector with a professional team directory. All seven approved names, roles and responsibilities are visible without JavaScript; the former anime image and interaction script no longer load.
+- Reference Kojima Productions' official staff presentation for a people-first editorial hierarchy, using original copy and existing role information.
+- Link RAY 26.7.1 with larger phone controls and a landscape layout that keeps the toolbar, lighting and orbit controls within the screen.
+- Check all seven marketing pages across six viewport sizes, both colour modes and key interactions. See docs/mobile-ui-4.14.0.md for scope and limits.
+
 ## 4.13.1 - 2026-10-20
 
 - Use the approved actual-platform afternoon/night diagonal split on the Home and Work RAY cards, matching the existing NEXIV preview. Add responsive image sources and keep the project links intact.

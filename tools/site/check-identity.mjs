@@ -30,14 +30,14 @@ for (const name of pages.filter((name) => name !== "ray-experience.html")) {
   const source = await read(name);
   assert(source.includes('href="nexiv.html"'), `${name}: NEXIV navigation`);
   assert(
-    source.includes("assets/site.js?v=4.13.1"),
+    source.includes("assets/site.js?v=4.14.0"),
     `${name}: refreshed enquiry script`,
   );
 }
 const nexiv = await read("nexiv.html");
 assert(nexiv.includes("<h1>NEXIV</h1>"));
 assert(nexiv.includes("RAY is our interactive platform within NEXIV"));
-assert(nexiv.includes('href="ray-experience.html?v=26.7.0"'));
+assert(nexiv.includes('href="ray-experience.html?v=26.7.1"'));
 const legacy = await read("ray.html");
 assert(
   legacy.includes(
