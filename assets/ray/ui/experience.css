@@ -217,14 +217,6 @@ svg {
   width: 18px;
   height: 18px;
 }
-#sound-toggle[aria-pressed="false"] .sound-waves,
-#sound-toggle[aria-pressed="true"] .sound-muted {
-  display: none;
-}
-#sound-toggle[aria-pressed="true"] {
-  color: #f1d798;
-  background: #ffffff16;
-}
 .rail-button:hover {
   background: #ffffff1a;
 }
@@ -599,7 +591,7 @@ svg {
   gap: 14px;
   pointer-events: none;
 }
-.load-state span {
+.load-state > .loading-spinner {
   width: 15px;
   height: 15px;
   border: 1px solid #ffffff30;
@@ -1366,4 +1358,156 @@ dialog::backdrop {
   font-size: 11px;
   color: #bfcac8;
   font-variant-numeric: tabular-nums;
+}
+/* Actual scene captures tell the waterfront story while the world prepares. */
+.load-state {
+  overflow: hidden;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-content: end;
+  align-items: end;
+  justify-items: start;
+  gap: 32px;
+  padding: max(32px, env(safe-area-inset-top))
+    max(32px, 5vw, env(safe-area-inset-right))
+    max(36px, 6vh, env(safe-area-inset-bottom))
+    max(32px, 5vw, env(safe-area-inset-left));
+  background: #101315;
+}
+.load-story,
+.load-story::after,
+.load-story-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.load-story {
+  z-index: -1;
+}
+.load-story::after {
+  content: "";
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    #0005 0%,
+    transparent 27%,
+    transparent 46%,
+    #050a10b8 85%,
+    #050a10df 100%
+  );
+}
+.load-story-frame {
+  display: block;
+  object-fit: cover;
+  object-position: 50% 50%;
+  opacity: 0;
+  transform: scale(1.035);
+  transition: opacity 1.1s ease;
+}
+.load-story-frame.is-active {
+  opacity: 1;
+}
+.load-story-frame:is(.is-active, .is-leaving) {
+  animation: ray-loading-drift 10s ease-out both;
+}
+.load-story:is(.is-suspended, .is-still) .load-story-frame {
+  animation-play-state: paused;
+}
+.load-story.is-still .load-story-frame {
+  animation: none;
+}
+@keyframes ray-loading-drift {
+  from {
+    transform: scale(1.035) translate3d(-0.35%, 0.2%, 0);
+  }
+  to {
+    transform: scale(1.085) translate3d(0.35%, -0.2%, 0);
+  }
+}
+.load-edition {
+  position: absolute;
+  top: max(32px, 5vh, env(safe-area-inset-top));
+  left: max(32px, 5vw, env(safe-area-inset-left));
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  width: auto;
+  height: auto;
+  border: 0;
+  animation: none;
+}
+.load-readout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  width: min(320px, 100%);
+}
+.load-state .load-brand {
+  font-size: clamp(38px, 4vw, 58px);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: #fff;
+}
+.load-state #load-label {
+  margin: 0;
+  color: #fff;
+}
+.load-state progress {
+  width: 100%;
+  flex: none;
+}
+.load-state #load-percent {
+  color: #eee;
+}
+.load-state .load-scene-caption {
+  margin: 0 0 2px;
+  justify-self: end;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  text-align: right;
+}
+@media (max-width: 600px) {
+  .load-state {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 25px;
+    padding: 28px 26px max(34px, env(safe-area-inset-bottom));
+  }
+  .load-edition {
+    top: max(28px, env(safe-area-inset-top));
+    left: 26px;
+    font-size: 9px;
+  }
+  .load-state .load-scene-caption {
+    order: -1;
+    text-align: left;
+    font-size: 11px;
+  }
+}
+@media (max-height: 500px) {
+  .load-state {
+    padding: 24px 30px;
+  }
+  .load-edition {
+    top: 24px;
+    left: 30px;
+  }
+  .load-readout {
+    gap: 10px;
+  }
+  .load-state .load-brand {
+    font-size: 36px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .load-story-frame {
+    animation: none !important;
+    transition: none;
+  }
 }

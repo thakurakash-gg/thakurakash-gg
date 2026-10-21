@@ -4,6 +4,40 @@ Product versions describe published milestones; scene/cache IDs identify the exa
 
 Future releases use MAJOR.MINOR.PATCH: breaking changes, enhancements, then fixes. Runtime changes require a new entry; documentation-only changes may keep the same scene/cache ID.
 
+## [26.8.0](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.8.0) — 2026-10-21
+
+Cinematic loading views and a clean curved seawall
+
+- Scene/cache ID: `scene-3449fe68f0ee6cf6`
+- Preview label: `26.8.0`
+
+### Added
+
+- Four full-screen captures from the actual RAY scene: afternoon waterfront, terraces, neighbourhood and night waterfront. A gentle drift and crossfade replace the plain loading background.
+- Randomized subsequent shots, two image layers, reduced-motion/data-saving stills, and automatic timer cleanup when the scene opens.
+
+### Fixed
+
+- Remove the two central green bank spans protruding beyond the authored curved wall, and trim 6.75 m² of upper land cap plus 1.77 m² of foundation cap behind the wall with a 12 cm setback.
+
+### Removed
+
+- Remove water, bird and wind audio from the release, startup scripts, sound control and help copy.
+
+### Changed
+
+- Restore the earlier vertical phone tool rail and control styling. Retain only viewport/dialog bounds and short-landscape fit corrections.
+
+### Validation
+
+- Loading sequence checks cover image readiness, failed images, hidden tabs, reduced motion, data saving and late image completion.
+- Rendered ground triangulation has less than 0.001 m² intrusion into the repaired central wall region. The existing bank, terrain, planting, cache and scene checks pass.
+- Browser inspection covers desktop, phone portrait and short landscape loading layouts, and immediate handoff to the interactive scene.
+
+### Known limits
+
+- The loading images are actual web-platform captures. The slideshow ends as soon as the scene is ready, so a warm load may show only its first shot.
+
 ## [26.7.1](https://github.com/thakurakash-gg/thakurakash-gg/tree/ray-v26.7.1) — 2026-10-21
 
 Phone controls and landscape layout

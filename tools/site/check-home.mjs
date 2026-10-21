@@ -16,7 +16,7 @@ assert.equal(
   "bf9601cceb4712b89cfb24ca60215fe50dcb54653221b845d3a8a7c5b102dd36",
   "Four cinematic branch rows must retain the approved launch taxonomy",
 );
-assert(html.includes('data-studio-version="4.14.0"'));
+assert(html.includes('data-studio-version="4.14.1"'));
 for (const asset of [...html.matchAll(/(?:src|href|poster)="([^"#]+)"/g)].map(
   (m) => m[1],
 )) {
@@ -36,7 +36,7 @@ for (const asset of [
   "assets/home/katana.css",
   "assets/home/contact-background.js",
 ]) {
-  assert(html.includes(`${asset}?v=4.14.0`), `Unversioned runtime: ${asset}`);
+  assert(html.includes(`${asset}?v=4.14.1`), `Unversioned runtime: ${asset}`);
 }
 console.log(
   "Homepage: preserved section, local assets, routes and versioned runtime verified.",
@@ -81,4 +81,4 @@ assert(!html.includes('class="branch-art"'), "Tree backdrop removed");
 assert(!html.includes('class="work-peek"'), "Hero studio label removed");
 assert(!html.includes('class="scroll-prompt"'), "Hero scroll label removed");
 const nexiv = await readFile(path.join(root, "nexiv.html"), "utf8");
-assert(nexiv.includes("ray-platform-day-1440.webp?v=4.14.0"));
+assert(nexiv.includes("ray-platform-day-1440.webp?v=4.14.1"));

@@ -8,8 +8,16 @@ import { fileURLToPath } from "node:url";
 import { validateReleases, renderChangelog } from "./releases.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "assets/ray/scene-manifest.json")));
-execFileSync(process.execPath, [path.join(root, "tools/ray/check-coastal-sound.mjs")], { stdio: "inherit" });
-execFileSync(process.execPath, [path.join(root, "tools/ray/check-marina-wall.mjs")], { stdio: "inherit" });
+execFileSync(process.execPath, [path.join(root, "tools/ray/check-loading-story.mjs")], {
+  stdio: "inherit",
+});
+assert(
+  !manifest.assets.some((asset) => /coastal-sound|\/audio\//.test(asset.url)),
+  "Ambient sound must not be shipped in this release",
+);
+execFileSync(process.execPath, [path.join(root, "tools/ray/check-marina-wall.mjs")], {
+  stdio: "inherit",
+});
 assert.equal(manifest.schema, 2, "Regenerate the content-versioned scene manifest");
 const history = JSON.parse(fs.readFileSync(path.join(root, "docs/ray/releases.json")));
 const release = validateReleases(history, manifest.version);
@@ -20,6 +28,7 @@ assert.equal(
   "Regenerate the changelog with the manifest tool",
 );
 const html = fs.readFileSync(path.join(root, "ray-experience.html"), "utf8");
+assert(!/sound-toggle|Enable coastal sounds/.test(html), "Remove sound controls and help copy");
 const bootHash = crypto
   .createHash("sha256")
   .update(fs.readFileSync(path.join(root, "assets/ray/core/boot.js")))

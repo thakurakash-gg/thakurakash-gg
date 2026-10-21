@@ -14,13 +14,13 @@
     />
     <link
       rel="stylesheet"
-      href="assets/ray/ui/experience.css?v=bc7e4e2318616f3040274000048f4f529aef43d7f58d394bd4bfb53ba2df41fe"
+      href="assets/ray/ui/experience.css?v=ab96c5d9d229522d221c788105231844c3044f6d001febd81620da37d15ee742"
     />
     <link
       rel="stylesheet"
       href="assets/ray/ui/miami-map.css?v=29c05422d2cd35f7c4b7fc00647233274ee3ef31492be94a0c403cc7dd8f1ae4"
     />
-    <link rel="stylesheet" href="assets/ray/ui/mobile.css?v=98079dc288bb68ce6215ee722c1cb72430618100d7ac7e2fef9757b7da9e567d">
+    <link rel="stylesheet" href="assets/ray/ui/mobile.css?v=19a3aacc91974d816a3d35dcb1ebe871846eef61f13633ed3868024058677094">
   </head>
   <body>
     <main
@@ -98,22 +98,6 @@
           aria-pressed="false"
         >
           <svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" /></svg>
-        </button>
-        <button
-          class="rail-button"
-          id="sound-toggle"
-          aria-label="Enable coastal sounds"
-          aria-pressed="false"
-          title="Enable quiet coastal sounds"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M11 5 6 9H3v6h3l5 4Z" />
-            <path
-              class="sound-waves"
-              d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"
-            />
-            <path class="sound-muted" d="m16 9 5 6m0-6-5 6" />
-          </svg>
         </button>
         <div class="rail-rule"></div>
         <button
@@ -546,12 +530,6 @@
             </dd>
           </div>
         </dl>
-        <p>
-          Enable coastal sounds to hear waves as you approach the water, with
-          more birds and gentle wind as you rise. The short recordings follow
-          the camera without looping. Sound starts off and pauses when you leave
-          this tab.
-        </p>
         <p class="map-credits">
           Layout:
           <a
@@ -582,10 +560,22 @@
         aria-valuemax="100"
         aria-valuenow="0"
       >
-        <strong class="load-brand">RAY</strong>
-        <p id="load-label">Preparing your waterfront</p>
-        <progress id="load-progress" max="100" value="0"></progress
-        ><output id="load-percent">0%</output>
+        <div id="load-story" class="load-story" aria-hidden="true">
+          <img class="load-story-frame is-active" src="assets/ray/media/loading-waterfront.webp?v=9384995291ca24e4521d087bb3bdfb12ffeae1407bda9a3cdd32ce7306d4845e" width="1600" height="900" alt="" fetchpriority="high" decoding="async">
+          <img class="load-story-frame" width="1600" height="900" alt="" fetchpriority="low" decoding="async">
+          <span hidden data-story-src="assets/ray/media/loading-waterfront.webp?v=9384995291ca24e4521d087bb3bdfb12ffeae1407bda9a3cdd32ce7306d4845e" data-caption="The waterfront · Afternoon"></span>
+          <span hidden data-story-src="assets/ray/media/loading-terraces.webp?v=16c654fc61d30384df4f4478b126827421b2b6f3451d0408d6292c7cd2ceaddd" data-caption="Above the terraces"></span>
+          <span hidden data-story-src="assets/ray/media/loading-neighbourhood.webp?v=4398a4cb1761c81113ea0984ade6817bdd6dae411ffc448e7b6ee60151ccf696" data-caption="The wider neighbourhood"></span>
+          <span hidden data-story-src="assets/ray/media/loading-night.webp?v=c10e6bf7d1ec4f8687cb5d301d1e24d7a7d5bab15b35d9724dad00db3726d958" data-caption="The waterfront · After dark"></span>
+        </div>
+        <span class="load-edition" aria-hidden="true">NEXIV / RAY WATERFRONT</span>
+        <div class="load-readout">
+          <strong class="load-brand">RAY</strong>
+          <p id="load-label">Preparing your waterfront</p>
+          <progress id="load-progress" max="100" value="0"></progress>
+          <output id="load-percent">0%</output>
+        </div>
+        <p class="load-scene-caption" id="load-scene-caption" aria-hidden="true">The waterfront · Afternoon</p>
       </div>
       <noscript
         ><div class="no-script">
@@ -595,6 +585,7 @@
       >
     </main>
 
-    <script src="assets/ray/core/boot.js?v=f95789b21a3a563de53c204dcbc1d58ce17e4b6e4298dff77c979b9e2a995d49"></script>
+    <script defer src="assets/ray/ui/loading-story.js?v=63842bdbfa768262d90d8523411dbcc154403edd4374f3ce270cc610c14c75c9"></script>
+    <script src="assets/ray/core/boot.js?v=be7d18b888bc8c264b1d7eee23d3cfa0cae7dab4f1064bc354b75ec81acf389a"></script>
   </body>
 </html>

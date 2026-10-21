@@ -146,7 +146,7 @@
       },
     };
     const loaded = new Map();
-    // Optional sound never delays the visual scene or downloads before opt-in.
+    // Loading artwork is optional and never gates visual scene readiness.
     const required = manifest.assets.filter((asset) => !asset.lazy);
     const total = required.reduce((sum, asset) => sum + asset.bytes, 0);
     const queue = [...required];

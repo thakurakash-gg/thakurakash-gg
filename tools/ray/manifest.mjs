@@ -27,9 +27,11 @@ const extra = [
   "assets/ray/ui/experience.css",
   "assets/ray/ui/miami-map.css",
   "assets/ray/ui/mobile.css",
-  "assets/ray/audio/coast-gulls.mp3",
-  "assets/ray/audio/coast-shore.mp3",
-  "assets/ray/audio/coast-wind.mp3",
+  "assets/ray/ui/loading-story.js",
+  "assets/ray/media/loading-waterfront.webp",
+  "assets/ray/media/loading-terraces.webp",
+  "assets/ray/media/loading-neighbourhood.webp",
+  "assets/ray/media/loading-night.webp",
 ];
 const assets = [...new Set([...order, ...extra])].map((name) => {
   const bytes = read(name);
@@ -38,7 +40,7 @@ const assets = [...new Set([...order, ...extra])].map((name) => {
     url: `${name}?v=${sha256}`,
     bytes: bytes.length,
     sha256,
-    ...(name.endsWith(".mp3") ? { lazy: true } : {}),
+    ...(name.endsWith(".mp3") || name.includes("/loading-") ? { lazy: true } : {}),
   };
 });
 const bootHash = hash(read("assets/ray/core/boot.js"));
@@ -68,7 +70,7 @@ const htmlPath = path.join(root, "ray-experience.html");
 let html = fs.readFileSync(htmlPath, "utf8");
 const versions = new Map(assets.map((asset) => [asset.url.split("?")[0], asset.sha256]));
 versions.set("assets/ray/core/boot.js", bootHash);
-html = html.replace(/(src|href)="([^"]+)"/g, (attribute, kind, url) => {
+html = html.replace(/(src|href|data-story-src)="([^"]+)"/g, (attribute, kind, url) => {
   const name = url.split("?")[0];
   return versions.has(name) ? `${kind}="${name}?v=${versions.get(name)}"` : attribute;
 });

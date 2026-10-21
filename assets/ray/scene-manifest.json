@@ -1,8 +1,8 @@
 {
   "schema": 2,
-  "version": "scene-dc22a9f614307afe",
+  "version": "scene-3449fe68f0ee6cf6",
   "release": {
-    "version": "26.7.1",
+    "version": "26.8.0",
     "date": "2026-10-21",
     "changelog": "CHANGELOG-RAY.md"
   },
@@ -11,8 +11,8 @@
     "assets/vendor/ray-meshopt-decoder.js?v=68d26aa0d7f88b8b9580ecfa46659a4cec803e26d0dc0d81e3da1f19f0181f65",
     "assets/vendor/ray-gltf-loader.js?v=38ee477e318f1d48c153a854c390a6a7d1d6d62c65ee4b972818cfac7f032173",
     "assets/ray/data/building-landscape.js?v=ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87",
-    "assets/ray/data/neighborhood.js?v=581dbef888b3332f3346fdf9f9468ca53a020323de9e9a030d267e54746f6034",
-    "assets/ray/data/marina-bank-ownership.js?v=f43afea31bbcb29c0bed447b0e02f3320e663aa7029596469e3b756280b59404",
+    "assets/ray/data/neighborhood.js?v=d42ccea8580caa563202ac3560b203179e031208914a1c9bdd2a8365fdd8570b",
+    "assets/ray/data/marina-bank-ownership.js?v=6450caf368d42d0e3701b3cc1bb77be022346ee4b54856f664fa8dfb086dca42",
     "assets/ray/data/extra-trees.js?v=938492ec7a50e8d486e39332300eade510a804ae0423631e24b1d654921f5392",
     "assets/ray/environment/neighborhood.js?v=502b919e481bb1f145228b8673ae2fe3cb87a7e6d75824d3e539edee3b206642",
     "assets/ray/environment/roads.js?v=75c43dde2d6fe06c84279d04ffbfade49793ccf5692f2b3c6962fda51203d3f2",
@@ -35,7 +35,6 @@
     "assets/ray/architecture/courtyard.js?v=e8728182ce069fad7df52e8f055a041a28f5aa7f47a0a1091743209a4ce1c907",
     "assets/ray/environment/night.js?v=6f2dfe9ae42da79791b8780afaee7d4f98e0c036298944c8418d310fd17cbeb8",
     "assets/ray/core/diagnostics.js?v=0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9",
-    "assets/ray/environment/coastal-sound.js?v=b439b8bf207fa8f6a24dad871b3cf7eac585fb021d4c39fbd433244a5c370b50",
     "assets/ray/ui/experience.js?v=420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0"
   ],
   "assets": [
@@ -60,14 +59,14 @@
       "sha256": "ca136d27b20fc98991c78edd8aa9a5930e10efffb78d45df50b9c93b60e2cb87"
     },
     {
-      "url": "assets/ray/data/neighborhood.js?v=581dbef888b3332f3346fdf9f9468ca53a020323de9e9a030d267e54746f6034",
-      "bytes": 23344923,
-      "sha256": "581dbef888b3332f3346fdf9f9468ca53a020323de9e9a030d267e54746f6034"
+      "url": "assets/ray/data/neighborhood.js?v=d42ccea8580caa563202ac3560b203179e031208914a1c9bdd2a8365fdd8570b",
+      "bytes": 23345822,
+      "sha256": "d42ccea8580caa563202ac3560b203179e031208914a1c9bdd2a8365fdd8570b"
     },
     {
-      "url": "assets/ray/data/marina-bank-ownership.js?v=f43afea31bbcb29c0bed447b0e02f3320e663aa7029596469e3b756280b59404",
-      "bytes": 5188,
-      "sha256": "f43afea31bbcb29c0bed447b0e02f3320e663aa7029596469e3b756280b59404"
+      "url": "assets/ray/data/marina-bank-ownership.js?v=6450caf368d42d0e3701b3cc1bb77be022346ee4b54856f664fa8dfb086dca42",
+      "bytes": 5237,
+      "sha256": "6450caf368d42d0e3701b3cc1bb77be022346ee4b54856f664fa8dfb086dca42"
     },
     {
       "url": "assets/ray/data/extra-trees.js?v=938492ec7a50e8d486e39332300eade510a804ae0423631e24b1d654921f5392",
@@ -180,11 +179,6 @@
       "sha256": "0ba9b3dd34a3679d2fd651293ce88baac28467692f5e22dd96363d89d6408ae9"
     },
     {
-      "url": "assets/ray/environment/coastal-sound.js?v=b439b8bf207fa8f6a24dad871b3cf7eac585fb021d4c39fbd433244a5c370b50",
-      "bytes": 8972,
-      "sha256": "b439b8bf207fa8f6a24dad871b3cf7eac585fb021d4c39fbd433244a5c370b50"
-    },
-    {
       "url": "assets/ray/ui/experience.js?v=420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0",
       "bytes": 10711,
       "sha256": "420fe9a3c7640f11096b5ebe139665685e30167dd415d0d9ff934498984ba8b0"
@@ -200,9 +194,9 @@
       "sha256": "76309849c9b7c77986e7e3d4a96b99a80fa7b0ae11a3ab325ffa6d36e6f4eb04"
     },
     {
-      "url": "assets/ray/ui/experience.css?v=bc7e4e2318616f3040274000048f4f529aef43d7f58d394bd4bfb53ba2df41fe",
-      "bytes": 23195,
-      "sha256": "bc7e4e2318616f3040274000048f4f529aef43d7f58d394bd4bfb53ba2df41fe"
+      "url": "assets/ray/ui/experience.css?v=ab96c5d9d229522d221c788105231844c3044f6d001febd81620da37d15ee742",
+      "bytes": 26093,
+      "sha256": "ab96c5d9d229522d221c788105231844c3044f6d001febd81620da37d15ee742"
     },
     {
       "url": "assets/ray/ui/miami-map.css?v=29c05422d2cd35f7c4b7fc00647233274ee3ef31492be94a0c403cc7dd8f1ae4",
@@ -210,26 +204,38 @@
       "sha256": "29c05422d2cd35f7c4b7fc00647233274ee3ef31492be94a0c403cc7dd8f1ae4"
     },
     {
-      "url": "assets/ray/ui/mobile.css?v=98079dc288bb68ce6215ee722c1cb72430618100d7ac7e2fef9757b7da9e567d",
-      "bytes": 5015,
-      "sha256": "98079dc288bb68ce6215ee722c1cb72430618100d7ac7e2fef9757b7da9e567d"
+      "url": "assets/ray/ui/mobile.css?v=19a3aacc91974d816a3d35dcb1ebe871846eef61f13633ed3868024058677094",
+      "bytes": 1025,
+      "sha256": "19a3aacc91974d816a3d35dcb1ebe871846eef61f13633ed3868024058677094"
     },
     {
-      "url": "assets/ray/audio/coast-gulls.mp3?v=4c064da58ace11395e0101ec6ee0d5e3b81222b2e6d295238f161b0040420d81",
-      "bytes": 54613,
-      "sha256": "4c064da58ace11395e0101ec6ee0d5e3b81222b2e6d295238f161b0040420d81",
+      "url": "assets/ray/ui/loading-story.js?v=63842bdbfa768262d90d8523411dbcc154403edd4374f3ce270cc610c14c75c9",
+      "bytes": 3546,
+      "sha256": "63842bdbfa768262d90d8523411dbcc154403edd4374f3ce270cc610c14c75c9",
       "lazy": true
     },
     {
-      "url": "assets/ray/audio/coast-shore.mp3?v=370e5672ac6ef03871c5cf94ea74213a1a666df3ce7ddeb6d60bb62c9192725a",
-      "bytes": 60569,
-      "sha256": "370e5672ac6ef03871c5cf94ea74213a1a666df3ce7ddeb6d60bb62c9192725a",
+      "url": "assets/ray/media/loading-waterfront.webp?v=9384995291ca24e4521d087bb3bdfb12ffeae1407bda9a3cdd32ce7306d4845e",
+      "bytes": 168894,
+      "sha256": "9384995291ca24e4521d087bb3bdfb12ffeae1407bda9a3cdd32ce7306d4845e",
       "lazy": true
     },
     {
-      "url": "assets/ray/audio/coast-wind.mp3?v=9099812a664ca190e5251552e96bda68b1ced7fce3a1e4467157025d53dd6c0e",
-      "bytes": 48187,
-      "sha256": "9099812a664ca190e5251552e96bda68b1ced7fce3a1e4467157025d53dd6c0e",
+      "url": "assets/ray/media/loading-terraces.webp?v=16c654fc61d30384df4f4478b126827421b2b6f3451d0408d6292c7cd2ceaddd",
+      "bytes": 120618,
+      "sha256": "16c654fc61d30384df4f4478b126827421b2b6f3451d0408d6292c7cd2ceaddd",
+      "lazy": true
+    },
+    {
+      "url": "assets/ray/media/loading-neighbourhood.webp?v=4398a4cb1761c81113ea0984ade6817bdd6dae411ffc448e7b6ee60151ccf696",
+      "bytes": 107116,
+      "sha256": "4398a4cb1761c81113ea0984ade6817bdd6dae411ffc448e7b6ee60151ccf696",
+      "lazy": true
+    },
+    {
+      "url": "assets/ray/media/loading-night.webp?v=c10e6bf7d1ec4f8687cb5d301d1e24d7a7d5bab15b35d9724dad00db3726d958",
+      "bytes": 118372,
+      "sha256": "c10e6bf7d1ec4f8687cb5d301d1e24d7a7d5bab15b35d9724dad00db3726d958",
       "lazy": true
     }
   ]

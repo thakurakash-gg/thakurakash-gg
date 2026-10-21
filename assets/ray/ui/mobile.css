@@ -1,226 +1,55 @@
-/* RAY small-screen UI only. Scene geometry and renderer are unchanged. */
+/* Preserve the original vertical tool rail and original control styling. */
 @media (max-width: 900px) {
   #experience {
-    --ray-ui-left: max(14px, calc(env(safe-area-inset-left) + 8px));
-    --ray-ui-right: max(14px, calc(env(safe-area-inset-right) + 8px));
-    --ray-ui-top: max(14px, calc(env(safe-area-inset-top) + 8px));
-    --ray-ui-bottom: max(14px, calc(env(safe-area-inset-bottom) + 8px));
-  }
-  .topbar {
-    left: var(--ray-ui-left);
-    right: var(--ray-ui-right);
-    top: var(--ray-ui-top);
-  }
-  .circle,
-  .rail-button,
-  .zoom-controls button {
-    width: 44px;
-    height: 44px;
-    flex: 0 0 44px;
-  }
-  .exit {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 44px;
-    min-height: 44px;
-  }
-  .panel-heading button,
-  .all-views,
-  .lighting button,
-  .view-travel > button {
-    min-height: 44px;
-  }
-  .panel-heading button {
-    min-width: 44px;
-  }
-  .zoom-controls {
-    width: 46px;
-    gap: 4px;
-    padding: 4px 0;
-    right: var(--ray-ui-right);
-  }
-  .view-travel {
-    position: static;
-    transform: none;
-    gap: 10px;
-    min-height: 54px;
-  }
-  .view-travel > button {
-    min-width: 44px;
-  }
-  .lighting button {
-    min-width: 44px;
-    padding: 8px;
-    font-size: 10px;
-  }
-  .bottom-bar {
-    left: var(--ray-ui-left);
-    right: var(--ray-ui-right);
-    bottom: var(--ray-ui-bottom);
+    min-height: 0;
+    height: 100svh;
   }
   .view-dialog,
   .help,
   .route-map-dialog {
-    position: fixed;
-    left: var(--ray-ui-left);
-    right: var(--ray-ui-right);
-    top: var(--ray-ui-top);
-    bottom: var(--ray-ui-bottom);
-    margin: auto;
-    max-width: calc(100vw - var(--ray-ui-left) - var(--ray-ui-right));
-    max-height: calc(100svh - var(--ray-ui-top) - var(--ray-ui-bottom) - 16px);
+    max-height: calc(100svh - 28px);
+    max-width: calc(100vw - 28px);
     overflow: auto;
   }
-  .dialog-heading {
-    gap: 12px;
-  }
-  .dialog-heading > div {
-    min-width: 0;
-  }
-  .dialog-heading h2 {
-    overflow-wrap: break-word;
-  }
 }
-/* One horizontal tool row avoids a tall rail covering the phone's lower UI. */
-@media (max-width: 700px) {
-  .topbar {
-    align-items: flex-start;
-  }
+/* Keep the original groups reachable on short landscape screens. */
+@media (max-width: 700px) and (max-height: 500px) {
   .project-label {
-    top: 64px;
-  }
-  .rail {
-    top: calc(var(--ray-ui-top) + 90px);
-    left: var(--ray-ui-left);
-    right: var(--ray-ui-right);
-    transform: none;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2px;
-    padding: 4px;
-    border-radius: 29px;
-  }
-  .rail-rule {
-    display: none;
-  }
-  .explore-panel {
-    top: calc(var(--ray-ui-top) + 154px);
-    left: var(--ray-ui-left);
-    width: calc(100% - var(--ray-ui-left) - var(--ray-ui-right) - 64px);
-    max-height: calc(100svh - var(--ray-ui-top) - var(--ray-ui-bottom) - 294px);
-    transform: none;
-    z-index: 3;
-  }
-  .zoom-controls {
-    top: calc(var(--ray-ui-top) + 180px);
-  }
-  .bottom-bar {
-    gap: 8px;
-  }
-  .lighting {
-    min-height: 54px;
-    padding: 4px;
-    gap: 2px;
-  }
-  .lighting-symbol {
-    padding: 0 6px;
-  }
-  .view-travel {
-    height: auto;
-    padding: 4px 8px;
-    justify-content: space-around;
-    gap: 6px;
-  }
-  .view-travel #tour {
-    gap: 5px;
-    padding-right: 4px;
-  }
-  .gesture-hint {
-    bottom: calc(var(--ray-ui-bottom) + 126px);
-  }
-  .terrain-status {
-    left: var(--ray-ui-left);
-    bottom: calc(var(--ray-ui-bottom) + 155px);
-    max-width: calc(100% - var(--ray-ui-left) - var(--ray-ui-right));
-  }
-  .context-attribution {
-    right: var(--ray-ui-right);
-    bottom: calc(var(--ray-ui-bottom) + 126px);
-    max-width: calc(100% - var(--ray-ui-left) - var(--ray-ui-right));
-  }
-}
-/* Landscape phones must fit the real viewport instead of a 540px-tall stage. */
-@media (max-width: 900px) and (max-height: 500px) {
-  html,
-  body {
-    overflow: hidden;
-  }
-  #experience {
-    height: 100svh;
-    min-height: 0;
-  }
-  .topbar {
-    align-items: center;
-    gap: 16px;
-  }
-  .ray-brand b {
-    font-size: 30px;
-  }
-  .project-label,
-  .navigation,
-  .gesture-hint {
     display: none;
   }
   .rail {
-    top: calc(var(--ray-ui-top) + 56px);
-    left: var(--ray-ui-left);
-    right: auto;
-    transform: none;
-    flex-direction: row;
-    align-items: center;
-    gap: 2px;
-    padding: 4px;
-    border-radius: 29px;
-  }
-  .rail-rule {
-    display: none;
-  }
-  .explore-panel {
-    top: calc(var(--ray-ui-top) + 120px);
-    left: var(--ray-ui-left);
-    width: min(300px, calc(100% - var(--ray-ui-left) - var(--ray-ui-right) - 64px));
-    max-height: calc(100svh - var(--ray-ui-top) - var(--ray-ui-bottom) - 198px);
-    transform: none;
-    z-index: 3;
-  }
-  .zoom-controls {
-    top: calc(var(--ray-ui-top) + 70px);
+    top: 76px;
+    gap: 3px;
+    padding: 5px;
   }
   .bottom-bar {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
     gap: 10px;
+    bottom: max(14px, env(safe-area-inset-bottom));
   }
   .lighting,
   .view-travel {
     width: auto;
-    min-height: 54px;
-    padding: 4px;
-    gap: 2px;
   }
-  .view-travel {
-    padding-inline: 8px;
-    gap: 8px;
-    justify-content: center;
+  .lighting {
+    gap: 0;
   }
   .lighting-symbol {
-    padding: 0 6px;
+    padding: 0 5px;
   }
-  .terrain-status,
-  .context-attribution {
-    bottom: calc(var(--ray-ui-bottom) + 66px);
+  .lighting button {
+    padding-inline: 8px;
+  }
+  .view-travel {
+    gap: 8px;
+    padding-inline: 8px;
+  }
+  .gesture-hint {
+    display: none;
+  }
+  .explore-panel {
+    top: 76px;
+    max-height: calc(100svh - 142px);
   }
 }

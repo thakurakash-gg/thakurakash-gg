@@ -1,6 +1,7 @@
-/* Authored white marina wall owns these shoreline spans (188 m).
+/* Authored white marina wall owns these shoreline spans (200.67 m).
  * Derived from site.glb / Plane.040, with a 12 cm horizontal separation margin.
- * Only duplicate generated bank faces are clipped; land caps and the model stay intact.
+ * Generated banks are clipped at the authored wall, including the central protruding bulge.
+ * A 12 cm setback also trims that small bulge from the generated land caps.
  */
 (function (root, factory) {
   const api = factory();
@@ -47,8 +48,8 @@
     [[0.942, 29.165], [9.048, 28.884], [[0, 1]]],
     [[9.048, 28.884], [9.054, 28.884], [[0, 1]]],
     [[9.054, 28.884], [11.017, 28.909], [[0, 1]]],
-    [[11.017, 28.909], [19.975, 30.2], [[0, 0.10142023640833786]]],
-    [[19.975, 30.2], [24.973, 29.797], [[0.9048473836082431, 1]]],
+    [[11.017, 28.909], [19.975, 30.2], [[0, 1]]],
+    [[19.975, 30.2], [24.973, 29.797], [[0, 1]]],
     [[24.973, 29.797], [39.987, 31.265], [[0, 1]]],
     [[39.987, 31.265], [39.988, 31.265], [[0, 1]]],
     [[39.988, 31.265], [47.544, 31.861], [[0, 1]]],

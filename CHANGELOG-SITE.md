@@ -1,5 +1,9 @@
 # Website changelog
 
+## 4.14.1 - 2026-10-21
+
+- Link the RAY 26.8.0 release with cinematic loading views, the repaired central seawall, the earlier phone control arrangement and no ambient audio.
+
 ## 4.14.0 - 2026-10-21
 
 - Correct clipped Find your direction captions and narrow contact layouts. Stack Studio film cards on small phones, make product rows account for their gaps, and enlarge standalone links and controls for touch.

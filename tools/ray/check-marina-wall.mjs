@@ -34,7 +34,11 @@ for (const [p, q, spans] of cuts) {
   );
   removed += cutLength;
 }
-assert(removed > 187 && removed < 189, "Preserve the authored model's 188 m marina edge");
+assert(removed > 200 && removed < 201, "The authored wall owns the central protruding bank too");
+for (const [a,b] of [
+  [[11.017,28.909],[19.975,30.2]],
+  [[19.975,30.2],[24.973,29.797]],
+]) assert.equal(segments(a,b).length,0,"No green bank may remain across the curved central wall");
 const p = [1000, 1000],
   q = [1001, 1001];
 assert.equal(
@@ -43,5 +47,5 @@ assert.equal(
   "Other coastline geometry stays exact",
 );
 console.log(
-  "Pass: 63 bank spans clipped at the authored wall; remaining coast edges and partial spans retained.",
+  "Pass: 63 bank spans clipped at the authored wall, including the central bulge; other coast edges and partial spans retained.",
 );
