@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.5",
   "date": "2026-10-22",
   "name": "Blue Hour",
   "kind": "Independent, uncommissioned concert stage concept imagined for Ado",
@@ -9,10 +9,10 @@
     35.62635
   ],
   "stageLocalMetres": [
-    80,
-    40
+    50,
+    330
   ],
-  "stageYawRadians": 2.18,
+  "stageYawRadians": -0.961592653589793,
   "geography": {
     "provider": "OpenStreetMap contributors",
     "license": "ODbL 1.0",
@@ -21,7 +21,8 @@
     "rawSha256": "63438e044f169591aa314ef1871b5b39cacda66eb9648d7f8a8e4e78acf80045",
     "notes": "Mapped coast, paths and building footprints. Unspecified heights, planting, Fuji TV and Rainbow Bridge massing are approximate. Park lawn envelope and event footprint are concept geometry.",
     "landmarkSha256": "242f5f1397ebb08cd1c6394f2e20312b1003705e6ceb301646abe1ce489dad1e",
-    "buildingFootprintsAndParts": 3529
+    "buildingFootprintsAndParts": 3529,
+    "texturedBuildings": "PLATEAU 2025 LOD2, 45 tiles"
   },
   "lighting": {
     "fixtureCount": 24,
@@ -45,6 +46,11 @@
     "materials": "PBR facades, textured landscape and instanced leaf clusters",
     "water": "RAY-derived directional waves, reflected scenery and Tokyo shoreline field",
     "lighting": "cached soft shadows and desktop contact shading",
-    "mainEditorialOverlay": false
+    "mainEditorialOverlay": false,
+    "vegetation": "CC0 coastal tree source, optimized multi-view canopies and instancing"
+  },
+  "delivery": {
+    "website": "lightweight visual preview with stage controller",
+    "unreal": "primary event archviz and full DMX rehearsal"
   }
 }

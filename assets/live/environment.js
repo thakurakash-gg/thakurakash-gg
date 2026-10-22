@@ -61,7 +61,6 @@
         shader.fragmentShader='varying vec3 liveWorld;uniform float liveNight;\n'+shader.fragmentShader;
         if(['grass','ground','walk','road','sand'].includes(name)){
           shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>','#ifdef USE_MAP\ndiffuseColor*=texture2D(map,liveWorld.xz*.16);\n#endif');
-          shader.fragmentShader=shader.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\nfloat lightPool=0.;vec2 g=liveWorld.xz;float grid=length(mod(g+vec2(18.,11.),vec2(38.,42.))-vec2(19.,21.));lightPool=exp(-grid*grid*.035)*.14;totalEmissiveRadiance+=vec3(1.,.77,.46)*lightPool*liveNight;');
         }
       };m.customProgramCacheKey=()=> 'live-pbr-'+name+'-11';return m;
     }
@@ -81,13 +80,10 @@
       this.foliage.customProgramCacheKey=()=> 'live-leaves-wind-11';
       this.shadowMat=new T.MeshBasicMaterial({map:this.texture('shadow'),transparent:true,depthWrite:false,opacity:.65});this.shadowMat.userData.castShadow=false;
       this.shadowGeo=new T.PlaneGeometry(1,1);this.shadowGeo.rotateX(-Math.PI/2);
-      for(const ring of data.land)this.planShape(ring,.38,this.grass,this.scene);
-      for(const ring of data.parks)this.planShape(ring,.43,this.grass,this.scene);
-      for(const patch of data.greens||[])this.planShape(patch.points,.46,patch.kind==='beach'?this.sand:this.grass,this.scene);
-      this.planShape([[28,19],[198,-101],[280,-5],[107,112]],.48,this.grass,this.scene);
+      await this.loadSourceContext();
       this.buildRoads();await this.yieldFrame();await this.buildBuildings();await this.yieldFrame();this.buildVegetation();await this.yieldFrame();this.buildCoast();this.buildLandmarks();this.buildStreetLife();this.createSky();
       window.LiveCreateOcean(this);
-      this.canvas.dataset.context='odaiba-mapped-pbr';this.canvas.dataset.vegetation='instanced-leaf-clusters';
+      this.canvas.dataset.context='tokyo-modeled-source';this.canvas.dataset.vegetation='modeled-coastal-broadleaf';
     }
     buildRoads(){
       const nodeDiscs=new Set();
@@ -214,11 +210,6 @@
         const x=-470+i*940/70,y=Math.abs(x)<235?58+70*x*x/(235*235):128-80*(Math.abs(x)-235)/235;
         if(prev)this.bar(prev,[x,y,z],.45,this.mats.steel,b);if(i%2===0)this.bar([x,49,z],[x,y,z],.16,this.mats.steel,b);prev=[x,y,z];
       }}
-      const fuji=new T.Group();fuji.position.set(430,0,-435);this.scene.add(fuji);
-      this.box(-38,35,0,25,70,44,this.concrete,fuji);this.box(38,35,0,25,70,44,this.concrete,fuji);
-      for(const y of [20,47,68])this.box(0,y,0,78,7,37,this.concrete,fuji);
-      this.queue(new T.SphereGeometry(13,24,18),this.mats.steel,[11,58,0],[0,0,0],[1,1,1],fuji);
-      for(let n=0;n<9;n++){const x=-47+n*12;this.box(x,36,23,.5,66,.5,this.mats.steel,fuji);}
     }
     buildStreetLife(){
       const wood=this.mat('wood','#987c58',{roughness:.82}),metal=this.mat('furniture','#596463',{metalness:.4,roughness:.6});

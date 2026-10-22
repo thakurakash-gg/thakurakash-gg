@@ -32,8 +32,8 @@
     seed = (seed * 1664525 + 1013904223) >>> 0;
     return seed / 4294967296;
   };
-  const stagePosition = [80, 0, 40],
-    stageYaw = 2.18;
+  const stagePosition = [50, 0, 330],
+    stageYaw = -0.961592653589793;
   const ledUniforms = {
     time: { value: 0 },
     strength: { value: 0.8 },
@@ -51,7 +51,7 @@
     dRadius: 84,
   };
   const views = {
-    audience: { target: [0, 7, 8], theta: 0.25, phi: 1.2, radius: 103 },
+    audience: { target: [0, 7, 8], theta: 0.25, phi: 1.36, radius: 112 },
     stage: { target: [0, 8, -2], theta: -0.55, phi: 1.39, radius: 37 },
     aerial: { target: [0, 0, 33], theta: 0.67, phi: 0.54, radius: 198 },
     bay: {

@@ -22,12 +22,15 @@
       href="https://thakurakash-gg.github.io/thakurakash-gg/live-experience.html"
     />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/live/experience.css?v=1.1.0" />
+    <link rel="stylesheet" href="assets/live/experience.css?v=1.2.5" />
     <script defer src="assets/three.min.js"></script>
-    <script defer src="assets/live/ocean.js?v=1.1.0"></script>
-    <script defer src="assets/live/environment.js?v=1.1.0"></script>
-    <script defer src="assets/live/presentation.js?v=1.1.0"></script>
-    <script defer src="assets/live/experience.js?v=1.1.0"></script>
+    <script defer src="assets/vendor/ray-gltf-loader.js"></script>
+    <script defer src="assets/vendor/ray-meshopt-decoder.js"></script>
+    <script defer src="assets/live/ocean.js?v=1.2.5"></script>
+    <script defer src="assets/live/environment.js?v=1.2.5"></script>
+    <script defer src="assets/live/modeled-context.js?v=1.2.5"></script>
+    <script defer src="assets/live/presentation.js?v=1.2.5"></script>
+    <script defer src="assets/live/experience.js?v=1.2.5"></script>
   </head>
   <body>
     <a class="skip" href="#view-controls">Skip to experience controls</a>
@@ -185,7 +188,7 @@
         <button type="button" id="fireworks" class="outline-button">
           Preview fireworks <span aria-hidden="true">✧</span>
         </button>
-        <details class="patch-details">
+        <details class="patch-details" hidden>
           <summary>DMX patch preview</summary>
           <p>Universe 1 · 24 moving heads · 8 virtual channels each</p>
           <div class="patch-head"><span>GROUP</span><span>ADDRESS</span></div>
@@ -239,7 +242,7 @@
         href="https://www.openstreetmap.org/copyright"
         target="_blank"
         rel="noopener noreferrer"
-        >Geographic context © OpenStreetMap</a
+        >Geographic context © OpenStreetMap · Tokyo / PLATEAU</a
       >
       <div class="quality-label" id="quality-label">ADAPTIVE QUALITY</div>
     </main>
@@ -260,8 +263,7 @@
       <p>
         This is an independent, uncommissioned concept with no artist or venue
         affiliation. The event layout, stage and show visuals are proposed
-        designs. Surroundings are simplified from mapped geography, not a site
-        survey.
+        designs. The surrounding buildings use textured PLATEAU city data and the park uses mapped geography. The proposed event layout is not a site survey.
       </p>
       <p>
         <strong>Explore:</strong> drag to orbit; scroll or pinch to zoom. Use
@@ -269,14 +271,14 @@
         arrow keys to orbit, + / − to zoom and Home to reset.
       </p>
       <p>
-        <strong>Show desk:</strong> try lighting cues and fixture groups. DMX
-        values and fireworks are visual simulations. No audio, artist recordings
-        or live equipment control is included.
+        <strong>Show desk:</strong> explore the lighting looks, adjust colour
+        and brightness, switch moving beams on or off, and preview fireworks.
       </p>
       <p>
         Reduced-motion settings pause continuous lighting movement and replace
         fireworks with a static finale look.
       </p>
+      <p class="source-credits">Tokyo buildings and aerial imagery: <a href="https://www.mlit.go.jp/plateau/site-policy/" target="_blank" rel="noopener noreferrer">Project PLATEAU / MLIT</a>, processed by Kazeyami. Map geometry: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>. Coastal foliage source: <a href="https://polyhaven.com/a/island_tree_01" target="_blank" rel="noopener noreferrer">Poly Haven</a> (CC0).</p>
       <a href="events.html?service=Events%20%26%20Experiences#contact"
         >Discuss your event with us</a
       >

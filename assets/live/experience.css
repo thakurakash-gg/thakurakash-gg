@@ -898,3 +898,10 @@ dialog .dialog-close {
 }
 
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+/* Keep the architectural view clear; contrast stays on the controls. */
+#experience:after,#viewport:after{background:none}
+.masthead {
+  background: linear-gradient(#101c2db3, #101c2d44 70%, transparent);
+  text-shadow: 0 1px 4px #000c;
+}
