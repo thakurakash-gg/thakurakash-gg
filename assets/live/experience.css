@@ -94,8 +94,7 @@ button:active {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(90deg, #050a1499, transparent 37%),
-    linear-gradient(0deg, #050a1480, transparent 22%);
+  background: linear-gradient(0deg, #050a1466, transparent 18%);
 }
 #experience:after {
   content: "";
@@ -897,3 +896,5 @@ dialog .dialog-close {
     transition: none !important;
   }
 }
+
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}

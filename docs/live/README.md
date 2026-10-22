@@ -1,10 +1,13 @@
-# Blue Hour / Kazeyami LIVE 1.0.0
+# Blue Hour / Kazeyami LIVE 1.1.0
 
 Original, independent concert stage concept imagined for Ado. Not a commissioned show or an announcement of an actual event. Published under Events & Experiences, separate from NEXIV and RAY.
 
-## First prototype
+## Venue and show
 
 - Odaiba / Shiokaze Park context using local, preprocessed OpenStreetMap geometry. No runtime map API or third-party map requests.
+- Expanded Tokyo coastline and skyline with 3,529 mapped building footprints and parts. Facade windows, floor ledges, rooftop detail, road markings, street furniture and instanced leaf-cluster trees.
+- RAY-derived sky, water and presentation methods: cloud and horizon shading, directional water waves, Tokyo-specific shoreline tides, reflected scenery, PBR materials, cached soft shadows and desktop contact shading. Compact devices use a lighter presentation path.
+- Unobstructed main scene, with the former left editorial block removed. Daylight is the initial view.
 - Original sculptural stage canopies, trusses, catwalk, silhouette performance chamber, band risers, LED panels, PA arrays, technical compound, audience areas, concessions and front-of-house position.
 - Four camera presets plus pointer, touch and keyboard orbit, pan and zoom.
 - Day/night lighting; three looks; a 36-second show that finishes rather than looping.

@@ -8,10 +8,10 @@
     active = true,
     raf = 0,
     lastFrame = 0;
-  let renderer, scene, camera, water, sun, fill, venue, sky, config;
+  let renderer, scene, camera, water, sun, fill, venue, sky, config, environment;
   let state = {
-    night: 1,
-    targetNight: 1,
+    night: 0,
+    targetNight: 0,
     cue: "opening",
     running: false,
     start: 0,
@@ -51,7 +51,7 @@
     dRadius: 84,
   };
   const views = {
-    audience: { target: [0, 9, 0], theta: 0.25, phi: 1.37, radius: 82 },
+    audience: { target: [0, 7, 8], theta: 0.25, phi: 1.2, radius: 103 },
     stage: { target: [0, 8, -2], theta: -0.55, phi: 1.39, radius: 37 },
     aerial: { target: [0, 0, 33], theta: 0.67, phi: 0.54, radius: 198 },
     bay: {
@@ -180,7 +180,7 @@
       }
       geo.computeBoundingSphere();
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.castShadow = false;
+      mesh.castShadow = mat.userData.castShadow !== false;
       mesh.receiveShadow = true;
       parent.add(mesh);
     }
@@ -286,216 +286,6 @@
       glow: new THREE.MeshBasicMaterial({ color: "#d8e7ff" }),
     };
     ledUniforms.colour.value = new THREE.Color(cueData.opening.colour);
-  }
-  function buildContext(data) {
-    const ground = mats.land;
-    for (const ring of data.land) planShape(ring, 0.38, ground, scene);
-    for (const ring of data.parks) planShape(ring, 0.44, mats.grass, scene);
-    // North lawn and surrounding planting follow the park's mapped path envelope.
-    planShape(
-      [
-        [28, 19],
-        [198, -101],
-        [280, -5],
-        [107, 112],
-      ],
-      0.48,
-      mats.grass,
-      scene,
-    );
-    planShape(
-      [
-        [-105, 106],
-        [-5, 24],
-        [80, 124],
-        [14, 245],
-        [-82, 335],
-      ],
-      0.43,
-      mats.grass,
-      scene,
-    );
-    for (const path of data.paths) {
-      const major = [
-        "motorway",
-        "trunk",
-        "primary",
-        "secondary",
-        "tertiary",
-        "residential",
-      ].includes(path.kind);
-      const width = major ? (path.kind === "motorway" ? 12 : 7) : 2;
-      for (let i = 1; i < path.points.length; i++) {
-        const a = path.points[i - 1],
-          b = path.points[i],
-          dx = b[0] - a[0],
-          dz = b[1] - a[1],
-          len = Math.hypot(dx, dz);
-        if (len < 0.1) continue;
-        box(
-          (a[0] + b[0]) / 2,
-          major ? 0.48 : 0.5,
-          (a[1] + b[1]) / 2,
-          width,
-          0.07,
-          len,
-          major ? mats.road : mats.path,
-          scene,
-          [0, Math.atan2(dx, dz), 0],
-        );
-      }
-    }
-    const windows = makeTexture(
-      (c, w, h) => {
-        c.fillStyle = "#313f55";
-        c.fillRect(0, 0, w, h);
-        for (let y = 4; y < h; y += 14)
-          for (let x = 4; x < w; x += 10) {
-            c.fillStyle = rand() > 0.36 ? "#adc4d8" : "#475972";
-            c.fillRect(x, y, 5, 8);
-          }
-      },
-      128,
-      256,
-    );
-    windows.wrapS = windows.wrapT = THREE.RepeatWrapping;
-    const buildingMat = material("#718192", {
-      map: windows,
-      metalness: 0.4,
-      roughness: 0.5,
-    });
-    worldObjects.push(buildingMat);
-    for (const building of data.buildings) {
-      planShape(building.points, building.h, buildingMat, scene);
-    }
-    // Identifiable sculptural massing for the Fuji TV landmark near Daiba.
-    const fuji = new THREE.Group();
-    fuji.position.set(442, 0, -448);
-    scene.add(fuji);
-    box(-38, 35, 0, 25, 70, 42, mats.white, fuji);
-    box(38, 35, 0, 25, 70, 42, mats.white, fuji);
-    box(0, 47, 0, 75, 9, 33, mats.steel, fuji);
-    box(0, 20, 0, 78, 7, 37, mats.white, fuji);
-    queue(sphereGeo, mats.steel, [11, 58, 0], [0, 0, 0], [13, 13, 13], fuji);
-    buildBridge();
-    buildTrees(data);
-    water = new THREE.Mesh(
-      new THREE.PlaneGeometry(8000, 8000),
-      new THREE.ShaderMaterial({
-        uniforms: { time: { value: 0 }, night: { value: 1 } },
-        vertexShader:
-          "varying vec3 wp; void main(){vec4 p=modelMatrix*vec4(position,1.);wp=p.xyz;gl_Position=projectionMatrix*viewMatrix*p;}",
-        fragmentShader:
-          "varying vec3 wp; uniform float time; uniform float night; void main(){float wave=sin(wp.x*.48+wp.z*.19+time*.5)*sin(wp.z*.72-wp.x*.15+time*.32);float fine=sin(wp.x*1.7+wp.z*.83+time*.6);vec3 day=mix(vec3(.14,.29,.36),vec3(.42,.57,.63),wave*.12+.15);vec3 dark=vec3(.024,.051,.096)+vec3(.08,.12,.21)*pow(max(0.,wave),12.);float light=exp(-abs(wp.x+wp.z*.25+450.)*.003)*pow(max(0.,wave*.6+fine*.4),14.);gl_FragColor=vec4(mix(day,dark,night)+vec3(.18,.23,.39)*light*night,1.);}",
-        side: THREE.FrontSide,
-      }),
-    );
-    water.rotation.x = -Math.PI / 2;
-    water.position.y = -0.2;
-    scene.add(water);
-    sky = new THREE.Mesh(
-      new THREE.SphereGeometry(3900, 28, 16),
-      new THREE.ShaderMaterial({
-        uniforms: { night: { value: 1 } },
-        vertexShader:
-          "varying vec3 p;void main(){p=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}",
-        fragmentShader:
-          "varying vec3 p;uniform float night;void main(){float h=clamp(normalize(p).y,0.,1.);vec3 day=mix(vec3(.76,.82,.87),vec3(.29,.50,.73),pow(h,.45));vec3 dusk=mix(vec3(.23,.27,.40),vec3(.018,.032,.085),pow(h,.4));gl_FragColor=vec4(mix(day,dusk,night),1.);}",
-        side: THREE.BackSide,
-        depthWrite: false,
-      }),
-    );
-    scene.add(sky);
-  }
-  function buildBridge() {
-    const bridge = new THREE.Group();
-    bridge.position.set(-414, 0, -1405);
-    bridge.rotation.y = 0.35;
-    scene.add(bridge);
-    box(0, 44, 0, 1020, 7, 24, mats.white, bridge);
-    box(0, 51, 0, 1020, 2, 26, mats.darkSteel, bridge);
-    for (const x of [-235, 235]) {
-      for (const z of [-17, 17]) {
-        box(x, 66, z, 7, 132, 7, mats.white, bridge);
-        box(x, 130, z, 15, 4, 10, mats.glow, bridge);
-      }
-      bar([x, 100, -17], [x, 100, 17], 2, mats.white, bridge);
-      bar([x, 130, -17], [x, 130, 17], 2, mats.white, bridge);
-    }
-    for (const z of [-17, 17]) {
-      let prev = null;
-      for (let i = 0; i <= 50; i++) {
-        const x = -470 + i * 18.8;
-        const y =
-          Math.abs(x) < 235
-            ? 60 + 70 * ((x * x) / (235 * 235))
-            : 130 - (85 * (Math.abs(x) - 235)) / 235;
-        if (prev) bar(prev, [x, y, z], 0.65, mats.steel, bridge);
-        if (i % 2 === 0) bar([x, 51, z], [x, y, z], 0.22, mats.steel, bridge);
-        prev = [x, y, z];
-      }
-    }
-  }
-  function contains(p, ring) {
-    let inside = false;
-    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-      const a = ring[i],
-        b = ring[j];
-      if (
-        a[1] > p[1] !== b[1] > p[1] &&
-        p[0] < ((b[0] - a[0]) * (p[1] - a[1])) / (b[1] - a[1]) + a[0]
-      )
-        inside = !inside;
-    }
-    return inside;
-  }
-  function buildTrees(data) {
-    const positions = [];
-    for (let i = 0; i < 1600 && positions.length < 330; i++) {
-      const x = -140 + rand() * 610,
-        z = -750 + rand() * 1230;
-      if (!data.land.some((r) => contains([x, z], r))) continue;
-      const local = vec(
-        x - stagePosition[0],
-        0,
-        z - stagePosition[2],
-      ).applyAxisAngle(vec(0, 1, 0), -stageYaw);
-      if (Math.abs(local.x) < 55 && local.z > -28 && local.z < 118) continue;
-      if (data.buildings.some((b) => contains([x, z], b.points))) continue;
-      const nearRoad = data.paths.some((p) =>
-        p.points.some((v) => Math.hypot(v[0] - x, v[1] - z) < 6),
-      );
-      if (nearRoad) continue;
-      positions.push([x, z, 4 + rand() * 4, rand()]);
-    }
-    const crowns = new THREE.InstancedMesh(
-      new THREE.IcosahedronGeometry(1, 1),
-      mats.foliage,
-      positions.length,
-    );
-    const trunks = new THREE.InstancedMesh(cylGeo, mats.bark, positions.length);
-    const dummy = new THREE.Object3D();
-    positions.forEach(([x, z, h, r], i) => {
-      dummy.position.set(x, h * 0.6, z);
-      dummy.scale.set(h * 0.42, h * 0.51, h * 0.4);
-      dummy.rotation.set(r * 0.3, r * 5, r * 0.2);
-      dummy.updateMatrix();
-      crowns.setMatrixAt(i, dummy.matrix);
-      crowns.setColorAt(
-        i,
-        new THREE.Color().setHSL(
-          0.35 + r * 0.03,
-          0.08 + r * 0.08,
-          0.65 + r * 0.2,
-        ),
-      );
-      dummy.position.set(x, h * 0.25, z);
-      dummy.scale.set(0.2, h * 0.5, 0.2);
-      dummy.rotation.set(0, 0, 0);
-      dummy.updateMatrix();
-      trunks.setMatrixAt(i, dummy.matrix);
-    });
-    scene.add(crowns, trunks);
   }
   function truss(a, b, width = 0.55, parent = venue) {
     const av = vec(...a),
@@ -873,34 +663,37 @@
       box(side * 9, 4.8, 103, 12, 0.25, 0.3, mats.black);
     }
     panel(0, 4.7, 103.2, 28, 1.6, label("BLUE HOUR  /  ENTRANCE", 1024, 96));
-    // A restrained crowd gives scale without hiding the venue layout.
-    const count = smallScreen ? 210 : 420,
-      heads = new THREE.InstancedMesh(sphereGeo, mats.audience, count),
-      bodies = new THREE.InstancedMesh(cylGeo, mats.audience, count),
-      d = new THREE.Object3D();
-    for (let i = 0; i < count; i++) {
-      const side = i % 2 ? 1 : -1,
-        x = side * (5 + rand() * 31),
-        z = 33 + rand() * 39,
-        h = 1.4 + rand() * 0.35;
-      d.position.set(x, 0.7 + h - 0.12, z);
-      d.scale.set(0.14, 0.17, 0.14);
-      d.updateMatrix();
-      heads.setMatrixAt(i, d.matrix);
-      d.position.set(x, 0.7 + h * 0.49, z);
-      d.scale.set(0.21, h * 0.8, 0.18);
-      d.updateMatrix();
-      bodies.setMatrixAt(i, d.matrix);
-      const col = new THREE.Color().setHSL(
-        0.55 + rand() * 0.2,
-        0.08 + rand() * 0.3,
-        0.45 + rand() * 0.35,
-      );
-      heads.setColorAt(i, col);
-      bodies.setColorAt(i, col);
+    // Human proportions, varied clothing and shared instanced geometry keep the crowd legible.
+    const count=smallScreen?210:420;
+    mats.audience.color.set('#ffffff');mats.audience.name='CrowdClothing';
+    const skin=material('#ffffff',{roughness:.96});skin.name='CrowdSkin';
+    const pants=material('#42464b',{roughness:1});pants.name='CrowdTrousers';
+    const hair=material('#282725',{roughness:1});hair.name='CrowdHair';
+    const headGeo=new THREE.IcosahedronGeometry(1,1);
+    const bodyGeo=new THREE.CapsuleGeometry(.18,.35,2,6);
+    const heads=new THREE.InstancedMesh(headGeo,skin,count);
+    const bodies=new THREE.InstancedMesh(bodyGeo,mats.audience,count);
+    const hairCaps=new THREE.InstancedMesh(headGeo,hair,count);
+    const legs=new THREE.InstancedMesh(cylGeo,pants,count*2);
+    const arms=new THREE.InstancedMesh(cylGeo,mats.audience,count*2);
+    const feet=new THREE.InstancedMesh(boxGeo,pants,count*2);
+    const d=new THREE.Object3D(),clothing=['#b9b7aa','#596978','#82776c','#6d8075','#a18d84','#414b57'],skins=['#b78765','#d9b18b','#936c51','#e0bea0','#c59876'];
+    for(let i=0;i<count;i++){
+      const side=i%2?1:-1,x=side*(5+rand()*31),z=33+rand()*39,h=1.57+rand()*.23,ground=.68,scale=h/1.7;
+      const shirt=new THREE.Color(clothing[i%clothing.length]);
+      d.rotation.set(0,rand()*.35-.175,0);d.position.set(x,ground+1.17*scale,z);d.scale.set(1,scale,1);d.updateMatrix();bodies.setMatrixAt(i,d.matrix);bodies.setColorAt(i,shirt);
+      d.position.set(x,ground+1.56*scale,z);d.scale.set(.125,.15,.13);d.updateMatrix();heads.setMatrixAt(i,d.matrix);heads.setColorAt(i,new THREE.Color(skins[i%skins.length]));
+      d.position.set(x,ground+1.65*scale,z+.015);d.scale.set(.131,.07,.135);d.updateMatrix();hairCaps.setMatrixAt(i,d.matrix);
+      for(let j=0;j<2;j++){
+        const sign=j?1:-1;
+        d.rotation.set(0,0,sign*.025);d.position.set(x+sign*.095,ground+.4*scale,z);d.scale.set(.067,.8*scale,.075);d.updateMatrix();legs.setMatrixAt(i*2+j,d.matrix);
+        d.rotation.set(0,0,sign*.08);d.position.set(x+sign*.235,ground+1.13*scale,z);d.scale.set(.055,.57*scale,.055);d.updateMatrix();arms.setMatrixAt(i*2+j,d.matrix);arms.setColorAt(i*2+j,shirt);
+        d.rotation.set(0,0,0);d.position.set(x+sign*.095,ground+.045,z-.04);d.scale.set(.14,.09,.27);d.updateMatrix();feet.setMatrixAt(i*2+j,d.matrix);
+      }
     }
-    venue.add(heads, bodies);
+    for(const mesh of [heads,bodies,hairCaps,legs,arms,feet]){mesh.castShadow=true;mesh.receiveShadow=true;venue.add(mesh);}
   }
+
   let particles, particlePositions, particleColours;
   const particleCount = smallScreen ? 720 : 1500;
   function buildFireworks() {
@@ -1405,28 +1198,13 @@
       );
     camera.position.y = Math.max(2, camera.position.y);
     camera.lookAt(orbit.target);
-    // Shift the stage into the open part of the frame, away from editorial copy.
-    camera.setViewOffset(
-      innerWidth,
-      innerHeight,
-      smallScreen ? -innerWidth * 0.04 : -innerWidth * 0.11,
-      smallScreen ? -innerHeight * 0.025 : 0,
-      innerWidth,
-      innerHeight,
-    );
+    camera.clearViewOffset();
     ledUniforms.time.value = reduced ? 0 : t;
     ledUniforms.night.value = state.night;
-    water.material.uniforms.time.value = reduced ? 0 : t;
-    water.material.uniforms.night.value = state.night;
-    sky.material.uniforms.night.value = state.night;
-    sun.intensity = lerp(3.5, 0.95, state.night);
-    fill.intensity = lerp(2.5, 1.8, state.night);
-    scene.fog.color.set(state.night > 0.5 ? "#17253c" : "#b4c6d6");
-    scene.fog.density = lerp(0.00038, 0.00048, state.night);
-    renderer.toneMappingExposure = lerp(1, 0.95, state.night);
+    environment.update(reduced ? 0 : t, state.night, camera);
     updateLights(reduced ? 0 : t);
     updateFireworks(t);
-    renderer.render(scene, camera);
+    environment.render(camera, now, orbit.target);
     if (dt > 0) {
       sampleFrames++;
       if (dt > 0.038) slowFrames++;
@@ -1436,9 +1214,11 @@
       slowFrames > 70 &&
       renderer.getPixelRatio() > 1
     ) {
-      renderer.setPixelRatio(1);
+      environment.quality.contactShading = false;
+      environment.quality.compact = true;
+      renderer.setPixelRatio(Math.min(renderer.getPixelRatio(), 1.25));
       resize();
-      particles.material.uniforms.pixelRatio.value = 1;
+      particles.material.uniforms.pixelRatio.value = renderer.getPixelRatio();
       $("quality-label").textContent = "BALANCED QUALITY";
     }
     raf = requestAnimationFrame(frame);
@@ -1457,6 +1237,7 @@
         m.dispose?.();
       }
     });
+    environment?.dispose();
     renderer?.dispose();
   }
   async function init() {
@@ -1471,7 +1252,7 @@
         powerPreference: "high-performance",
       });
       renderer.setPixelRatio(
-        Math.min(devicePixelRatio, smallScreen ? 1.35 : 1.7),
+        Math.min(Math.max(devicePixelRatio, 1.5), 2, Math.sqrt(4500000 / (innerWidth * innerHeight))),
       );
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -1482,7 +1263,7 @@
         48,
         innerWidth / innerHeight,
         0.5,
-        6500,
+        18000,
       );
       boxGeo = unitBox();
       cylGeo = new THREE.CylinderGeometry(1, 1, 1, 8);
@@ -1495,7 +1276,7 @@
       sun.position.set(-200, 300, 100);
       scene.add(sun);
       buildMaterials();
-      const response = await fetch("assets/live/odaiba.json?v=1.0.0");
+      const response = await fetch("assets/live/odaiba.json?v=1.1.0");
       if (!response.ok)
         throw new Error(
           "The Tokyo site context could not load. Check your connection and try again.",
@@ -1504,10 +1285,16 @@
       if (!config.land?.length)
         throw new Error("The site context is incomplete. Try again.");
       $("load-message").textContent = "Building the stage and lighting rig";
-      buildContext(config);
+      environment = new window.LiveEnvironment({
+        renderer, scene, camera, sun, fill, mats, queue, box, bar, cylinder, planShape, random: rand
+      });
+      await environment.build(config);
+      water=environment.water; sky=environment.sky;
       buildStage();
       flush();
       buildFireworks();
+      environment.finalize();
+      await environment.waterReady;
       venue.updateMatrixWorld(true);
       setView("audience", true);
       setCue("opening", false);
@@ -1525,7 +1312,8 @@
       if (reduced) $("loading").hidden = true;
     } catch (error) {
       console.error("Kazeyami LIVE:", error);
-      renderer?.dispose();
+      environment?.dispose();
+    renderer?.dispose();
       fail(error.message);
     }
   }
