@@ -384,7 +384,7 @@
   }
   async function buildStage() {
     venue=new THREE.Group();venue.position.set(...stagePosition);scene.add(venue);
-    const names=['Production_StageCore','Production_Infrastructure','Production_LED_Centre','Production_LED_Left','Production_LED_Right','Production_LED_OuterLeft','Production_LED_OuterRight'];
+    const names=['Production_StageCore','Production_Infrastructure','Completion_StageEnvelope','Production_LED_Centre','Production_LED_Left','Production_LED_Right','Production_LED_OuterLeft','Production_LED_OuterRight'];
     const groups=await Promise.all(names.map(n=>environment.loadModel(n+'.glb')));
     const led=new THREE.ShaderMaterial({
       uniforms:ledUniforms,side:THREE.DoubleSide,
@@ -1123,7 +1123,7 @@
     ) {
       environment.quality.contactShading = false;
       environment.quality.compact = true;
-      renderer.setPixelRatio(Math.min(renderer.getPixelRatio(), 1.25));
+      renderer.setPixelRatio(Math.min(renderer.getPixelRatio(), 1));
       resize();
       particles.material.uniforms.pixelRatio.value = renderer.getPixelRatio();
       $("quality-label").textContent = "BALANCED QUALITY";
@@ -1154,12 +1154,12 @@
           "The 3D library could not load. Check your connection and try again.",
         );
       renderer = new THREE.WebGLRenderer({
-        antialias: !smallScreen,
+        antialias: false,
         alpha: false,
         powerPreference: "high-performance",
       });
       renderer.setPixelRatio(
-        Math.min(Math.max(devicePixelRatio, 1.5), 2, Math.sqrt(4500000 / (innerWidth * innerHeight))),
+        Math.min(devicePixelRatio, smallScreen?1:1.25, Math.sqrt(2200000 / (innerWidth * innerHeight))),
       );
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;

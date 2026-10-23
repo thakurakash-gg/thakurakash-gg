@@ -9,7 +9,7 @@
       this.quality={compact:limited||innerWidth<700,hdr:this.renderer.capabilities.isWebGL2&&this.renderer.extensions.has('EXT_color_buffer_float'),contactShading:!limited&&innerWidth>=700,contactScale:1};
       this.materials=[];this.night={value:0};this.clockUniform={value:0};this.waterUniforms=[];this.lastMirror=0;this.lastNight=-1;this.lastCamera=new T.Vector3(99999,99999,99999);
       this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=T.PCFSoftShadowMap;this.renderer.shadowMap.autoUpdate=false;
-      this.sun.color.set('#ffedcb');this.sun.castShadow=true;this.sun.shadow.mapSize.set(this.quality.compact?2048:4096,this.quality.compact?2048:4096);
+      this.sun.color.set('#ffedcb');this.sun.castShadow=true;this.sun.shadow.mapSize.set(this.quality.compact?1024:2048,this.quality.compact?1024:2048);
       Object.assign(this.sun.shadow.camera,{left:-225,right:225,top:210,bottom:-210,near:1,far:1050});
       this.sun.shadow.bias=-.00013;this.sun.shadow.normalBias=.12;this.sun.shadow.radius=2.5;
       this.sun.target.position.set(80,2,40);this.scene.add(this.sun.target);
@@ -266,7 +266,7 @@
       this.camera=camera;this.clockUniform.value=time;this.night.value=night;this.sky.position.copy(camera.position);
       this.skyUniforms.top.value.lerpColors(new T.Color('#639dbd'),new T.Color('#0b1b32'),night);
       this.skyUniforms.horizon.value.lerpColors(new T.Color('#e0e5dc'),new T.Color('#52657a'),night);
-      this.scene.fog.color.copy(this.skyUniforms.horizon.value);this.scene.fog.density=.00016;
+      this.scene.fog.color.copy(this.skyUniforms.horizon.value);this.scene.fog.density=this.distanceFogDensity||.00016;
       this.sun.intensity=3.5*(1-night)+.32*night;this.fill.intensity=.75*(1-night)+.32*night;this.rim.intensity=.4*(1-night)+.12*night;
       this.sun.position.set(-240,390*(1-night)+135*night,240);this.sun.color.lerpColors(new T.Color('#ffedcb'),new T.Color('#a8c6e4'),night);
       this.skyUniforms.sunDirection.value.copy(this.sun.position).normalize();this.skyUniforms.sunTint.value.copy(this.sun.color);
@@ -281,10 +281,10 @@
     render(camera,now,target){
       this.camera=camera;
       const moved=this.lastCamera.distanceToSquared(camera.position)>.0001;
-      if(moved||now-this.lastMirror>160){
+      if(now-this.lastMirror>(this.quality.compact?650:300)){
         const mirror=this.mirrorCamera;mirror.copy(camera);mirror.position.y=-camera.position.y-.24;mirror.up.set(0,-1,0);mirror.lookAt(target.x,-target.y-.24,target.z);mirror.updateMatrixWorld();mirror.matrixWorldInverse.copy(mirror.matrixWorld).invert();
         this.textureMatrix.set(.5,0,0,.5,0,.5,0,.5,0,0,.5,.5,0,0,0,1).multiply(mirror.projectionMatrix).multiply(mirror.matrixWorldInverse);
-        const scale=this.quality.compact?.33:.48,w=Math.min(1000,Math.ceil(innerWidth*scale)),h=Math.min(700,Math.ceil(innerHeight*scale));
+        const scale=this.quality.compact?.22:.3,w=Math.min(640,Math.ceil(innerWidth*scale)),h=Math.min(360,Math.ceil(innerHeight*scale));
         if(this.mirrorTarget.width!==w||this.mirrorTarget.height!==h)this.mirrorTarget.setSize(w,h);
         this.water.visible=false;this.sky.position.copy(mirror.position);this.renderer.setRenderTarget(this.mirrorTarget);this.renderer.render(this.scene,mirror);this.renderer.setRenderTarget(null);this.water.visible=true;this.sky.position.copy(camera.position);this.lastMirror=now;this.lastCamera.copy(camera.position);
       }

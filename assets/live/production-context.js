@@ -1,7 +1,7 @@
 /* Native-authored Odaiba geometry, with distance-based foliage for the web preview. */
 (() => {
  'use strict';
- const T=window.THREE,P=window.LiveEnvironment.prototype,VERSION='2.0.0';
+ const T=window.THREE,P=window.LiveEnvironment.prototype,VERSION='2.1.0';
  const root='assets/live/production/';
  P.loadModel=function(file){return new Promise((resolve,reject)=>{const l=new window.RayGLTFLoader();l.setMeshoptDecoder(window.RayMeshoptDecoder);l.load(root+file+'?v='+VERSION,resolve,undefined,reject);});};
  P.photo=function(file,linear=false){return new Promise((resolve,reject)=>new T.TextureLoader().load(root+file+'?v='+VERSION,t=>{t.flipY=false;t.colorSpace=linear?T.NoColorSpace:T.SRGBColorSpace;t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=Math.min(8,this.renderer.capabilities.getMaxAnisotropy());resolve(t);},undefined,reject));};
@@ -66,7 +66,7 @@
      o.material=this.roadMaterial;o.castShadow=false;this.surfaceUV(o.geometry,4.,o.matrixWorld);
     }else{
      m.roughness=Math.max(.3,m.roughness);this.materials.push(m);
-     if(/Prod_Canopy/.test(m.name))m.side=T.DoubleSide;
+     if(/Prod_Canopy|Finish_Canopy|Finish_Velour/.test(m.name))m.side=T.DoubleSide;
      if(/Infra_Glass/.test(m.name)){m.side=T.DoubleSide;m.color.set('#57717e');m.roughness=.25;m.metalness=.4;}
     }
    }
@@ -78,22 +78,21 @@
   g.setAttribute('uv',new T.BufferAttribute(uv,2));
  };
  P.loadSourceContext=async function(){
-  this.quality.contactShading=false;
+  this.quality.contactShading=false;this.distanceFogDensity=.00065;
   document.getElementById('load-message').textContent='Loading the detailed Odaiba venue';
-  const names=['Production_Site','Production_ParkGround','Production_Yurikamome','Production_LocalBridges','Production_HotelFacades','Production_Washingtonia_0','Production_Washingtonia_1','Production_CoastalPine_0','Production_CoastalPine_1'].filter(n=>!this.quality.compact||n!=='Production_HotelFacades');
-  const [city,ground,geo,plants,south,impostors,context,detail,mask,...loaded]=await Promise.all([
-   this.loadModel(this.quality.compact?'tokyo-city-v2-mobile.glb':'tokyo-city-v2.glb'),
+  const names=['Production_Site','Production_ParkGround','Production_Yurikamome','Production_LocalBridges','Production_HotelFacades','Production_Washingtonia_0','Production_Washingtonia_1','Production_CoastalPine_0','Production_CoastalPine_1'].filter(n=>n!=='Production_HotelFacades'&&!/CoastalPine/.test(n));
+  const [city,ground,geo,plants,south,context,detail,mask,...loaded]=await Promise.all([
+   this.loadModel(this.quality.compact?'tokyo-city-atlas-mobile.glb':'tokyo-city-atlas-desktop.glb'),
    new Promise((resolve,reject)=>{const l=new window.RayGLTFLoader();l.setMeshoptDecoder(window.RayMeshoptDecoder);l.load('assets/live/models/tokyo-ground.glb',resolve,undefined,reject);}),
    fetch(root+'registration.json?v='+VERSION).then(r=>r.json()),
-   fetch(root+'planting-v2.json?v='+VERSION).then(r=>r.json()),
-   fetch(root+'planting-southern.json?v='+VERSION).then(r=>r.json()),
-   fetch(root+'tree-impostors.json?v='+VERSION).then(r=>r.json()),
-   this.photo('registered-context.webp'),this.photo('registered-detail.webp'),this.photo('landcover-mask.png',true),
-   ...names.map(n=>this.loadModel(n+(this.quality.compact&&/Washingtonia|CoastalPine/.test(n)?'-mobile':'')+'.glb'))
+   fetch(root+'planting-fixed.json?v='+VERSION).then(r=>r.json()),
+   fetch(root+'planting-southern-fixed.json?v='+VERSION).then(r=>r.json()),
+   this.photo('registered-context.webp'),this.photo('registered-detail.webp'),this.photo('landcover-mask-web.webp',true),
+   ...names.map(n=>this.loadModel(n+(/Washingtonia|CoastalPine/.test(n)?'-mobile':'')+'.glb'))
   ]);
   const surfaces={};
   for(const name of ['leafy_grass','concrete_pavement','asphalt_02']){
-   const [Diffuse,nor_dx]=await Promise.all([this.photo(name+'-Diffuse.webp'),this.photo(name+'-nor_dx.webp',true)]);surfaces[name]={Diffuse,nor_dx};
+   const [Diffuse,nor_dx]=await Promise.all([this.photo(name+'-Diffuse-web.webp'),this.photo(name+'-nor_dx.webp',true)]);surfaces[name]={Diffuse,nor_dx};
   }
   this.parkMaterial=this.parkSurface(surfaces.leafy_grass,surfaces.concrete_pavement,mask,geo);
   this.pavingMaterial=this.worldSurface('Park / concrete paving',surfaces.concrete_pavement.Diffuse,surfaces.concrete_pavement.nor_dx,3);
@@ -101,57 +100,80 @@
   ground.scene.traverse(o=>{if(o.isMesh){o.material=this.registeredSurface(context,detail,geo);o.receiveShadow=true;o.castShadow=false;}});
   this.scene.add(ground.scene);this.cityMaterials=[];
   city.scene.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;
-   for(const m of Array.isArray(o.material)?o.material:[o.material]){m.roughness=.78;m.metalness=.04;m.envMapIntensity=.7;if(m.map)m.map.anisotropy=Math.min(8,this.renderer.capabilities.getMaxAnisotropy());this.cityMaterials.push(m);this.materials.push(m);}
+   const source=o.material,mat=new T.MeshLambertMaterial({map:source.map,color:source.color,vertexColors:true});o.material=mat;this.cityMaterials.push(mat);if(mat.map)mat.map.anisotropy=Math.min(4,this.renderer.capabilities.getMaxAnisotropy());this.materials.push(mat);
   });this.scene.add(city.scene);
   this.foliageSources={};
   loaded.forEach((g,i)=>{const name=names[i];
    if(/Washingtonia|CoastalPine/.test(name)){g.scene.updateMatrixWorld(true);this.foliageSources[name]=g.scene;return;}
    g.scene.name=name;this.prepareMesh(g.scene);this.scene.add(g.scene);
   });
-  this.treeMeta=impostors;this.planting=plants.trees.filter((_,i)=>!this.quality.compact||i%3===0);this.southPlanting=south;
-  this.treeAtlases=await Promise.all(impostors.map(info=>new Promise((resolve,reject)=>new T.TextureLoader().load(root+info.atlas+'?v='+VERSION,t=>{t.colorSpace=T.SRGBColorSpace;t.anisotropy=Math.min(4,this.renderer.capabilities.getMaxAnisotropy());resolve(t);},undefined,reject))));
+  this.planting=plants.trees;this.southPlanting=south;
+  this.treeMeta=await fetch(root+'tree-impostors.json?v='+VERSION).then(r=>r.json());
+  this.treeAtlases=await Promise.all(this.treeMeta.map(info=>new Promise((resolve,reject)=>new T.TextureLoader().load(root+info.atlas+'?v='+VERSION,t=>{t.colorSpace=T.SRGBColorSpace;resolve(t);},undefined,reject))));
   this.sun.target.position.set(-30,3,230);this.canvas.dataset.source='PLATEAU-registered-Odaiba-v2';this.canvas.dataset.contextTrees=String(this.planting.length);
  };
  P.buildBuildings=async function(){};
  P.buildRoads=function(){};
+
+ // Web-only trees: opaque, instanced canopy meshes. Unreal keeps its library assets.
  P.buildVegetation=function(){
-  this.treePools=[];this.treeNear=[];this.treeLastCamera=new T.Vector3(1e6,0,1e6);this.treeLastTime=-1;
-  for(let species=0;species<2;species++){
+  this.webTreeMeshes=[];
+  this.treeCards=[];this.treeCardTime=-10;this.treeCardCamera=new T.Vector3(1e6,0,1e6);
+  for(let species=0;species<2;species++)for(let frame=0;frame<4;frame++){
    const meta=this.treeMeta[species],geo=new T.PlaneGeometry(meta.width,meta.height);geo.translate(0,meta.height/2+meta.bottom,0);
-   for(let frame=0;frame<4;frame++){
-    const map=this.treeAtlases[species].clone();map.needsUpdate=true;map.repeat.set(.25,1);map.offset.set(frame*.25,0);
-    const mat=new T.MeshBasicMaterial({map,alphaTest:.36,side:T.DoubleSide,color:'#e4ebe0'}),mesh=new T.InstancedMesh(geo,mat,this.planting.length);mesh.count=0;mesh.frustumCulled=false;mesh.name='Coastal canopy / distant view';this.scene.add(mesh);this.treePools.push({species,frame,mesh});
+   const map=this.treeAtlases[species].clone();map.repeat.set(.25,1);map.offset.set(frame*.25,0);map.needsUpdate=true;
+   const mat=new T.MeshBasicMaterial({map,alphaTest:.4,side:T.DoubleSide,color:'#d5dfcc'}),mesh=new T.InstancedMesh(geo,mat,this.planting.length);mesh.count=0;mesh.frustumCulled=false;this.scene.add(mesh);this.treeCards.push({species,frame,mesh});
+  }
+  const trunk=new T.CylinderGeometry(.13,.23,3.0,6,1);trunk.translate(0,1.5,0);
+  const bark=new T.MeshLambertMaterial({color:'#665a46'});
+  this.materials.push(bark);
+  const canopies=[0,1].map(species=>{
+   const positions=[],normals=[],colours=[];
+   const clusters=species===0?[[0,4,0,1.7],[1.05,3.5,.2,1.35],[-.95,3.6,.1,1.4],[.1,3.55,-1,1.3]]:[[0,4.1,0,1.45],[.9,3.4,.1,1.4],[-.8,3.5,.1,1.35],[0,3.5,-.9,1.3]];
+   for(const [x,y,z,r] of clusters){
+    const g=new T.IcosahedronGeometry(r,1),p=g.getAttribute('position'),n=g.getAttribute('normal');
+    for(let i=0;i<p.count;i++){
+     positions.push(p.getX(i)+x,p.getY(i)+y,p.getZ(i)+z);normals.push(n.getX(i),n.getY(i),n.getZ(i));
+     const shade=.80+.17*(p.getY(i)/r+.5)+.08*Math.sin(i*2.4);
+     colours.push(shade,shade,shade*.91);
+    }g.dispose();
+   }
+   const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setAttribute('normal',new T.Float32BufferAttribute(normals,3));g.setAttribute('color',new T.Float32BufferAttribute(colours,3));g.computeBoundingSphere();return g;
+  });
+  const leaves=[new T.MeshLambertMaterial({color:'#67814b',vertexColors:true}),new T.MeshLambertMaterial({color:'#506f43',vertexColors:true})];this.materials.push(...leaves);
+  const chunks=new Map(),dummy=new T.Object3D();
+  for(const row of this.planting){const key=String(row[2]);if(!chunks.has(key))chunks.set(key,[]);chunks.get(key).push(row);}
+  for(const rows of chunks.values()){
+   const species=rows[0][2]%2;
+   for(const [g,m] of [[canopies[species],leaves[species]],[trunk,bark]]){
+    const mesh=new T.InstancedMesh(g,m,rows.length);mesh.name='Web canopy / low polygon';mesh.castShadow=false;mesh.receiveShadow=true;
+    rows.forEach(([x,z,_,scale,angle],i)=>{dummy.position.set(x,.44,z);dummy.rotation.set(0,angle,0);dummy.scale.setScalar(Math.min(2.3,scale));dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);});
+    mesh.computeBoundingSphere();this.scene.add(mesh);this.webTreeMeshes.push(mesh);
    }
   }
-  for(const [kind,prefix] of [['palm','Production_Washingtonia_'],['pine','Production_CoastalPine_']]){
+  for(const [kind,prefix] of [['palm','Production_Washingtonia_']]){
    for(let variant=0;variant<2;variant++){
-    const src=this.foliageSources[prefix+variant],rows=this.southPlanting[kind].filter(r=>r[2]===variant),dummy=new T.Object3D();
+    const src=this.foliageSources[prefix+variant],rows=this.southPlanting[kind].filter(r=>r[2]===variant);
     src.traverse(o=>{if(!o.isMesh)return;const g=o.geometry.clone().applyMatrix4(o.matrixWorld),mat=o.material;
      for(const m of Array.isArray(mat)?mat:[mat]){m.side=T.DoubleSide;this.materials.push(m);}
-     const inst=new T.InstancedMesh(g,mat,rows.length);inst.castShadow=!this.quality.compact;inst.receiveShadow=true;
+     const inst=new T.InstancedMesh(g,mat,rows.length);inst.castShadow=false;inst.receiveShadow=true;
      rows.forEach(([x,z,_,scale,angle],i)=>{dummy.position.set(x,.44,z);dummy.rotation.set(0,angle,0);dummy.scale.setScalar(scale);dummy.updateMatrix();inst.setMatrixAt(i,dummy.matrix);});inst.computeBoundingSphere();this.scene.add(inst);
     });
    }
   }
  };
- P.updateTreeLods=function(time,camera){
-  if(!this.treePools)return;
-  const night=this.night.value;
-  for(const p of this.treePools)p.mesh.material.color.setRGB(1-night*.72,1-night*.66,1-night*.55);
-  if(time-this.treeLastTime<.45&&this.treeLastCamera.distanceToSquared(camera.position)<9)return;
-  this.treeLastTime=time;this.treeLastCamera.copy(camera.position);const lists=this.treePools.map(()=>[]),nearLists=[[],[]],dummy=new T.Object3D();
-  for(const row of this.planting){const [x,z,species,scale,angle]=row,d=Math.hypot(camera.position.x-x,camera.position.z-z);
-   if(d<(this.quality.compact?28:48)&&this.treeNear.length){nearLists[species].push(row);continue;}
-   let az=(Math.atan2(camera.position.z-z,camera.position.x-x)-angle)%(Math.PI*2);if(az<0)az+=Math.PI*2;const f=Math.floor(az/(Math.PI/2)+.5)%4;lists[species*4+f].push(row);
+ P.loadNearTrees=async function(){};
+ const baseUpdate=P.update;
+ P.update=function(time,night,camera){
+  baseUpdate.call(this,time,night,camera);if(!this.treeCards)return;
+  const aerial=camera.position.y>55;for(const mesh of this.webTreeMeshes)mesh.visible=aerial;
+  for(const pool of this.treeCards){pool.mesh.visible=!aerial;pool.mesh.material.color.setRGB(1-night*.72,1-night*.66,1-night*.55);}
+  if(aerial||time-this.treeCardTime<.45&&this.treeCardCamera.distanceToSquared(camera.position)<9)return;
+  this.treeCardTime=time;this.treeCardCamera.copy(camera.position);const lists=this.treeCards.map(()=>[]),dummy=new T.Object3D();
+  for(const row of this.planting){
+   const [x,z,species,scale,angle]=row;let az=(Math.atan2(camera.position.z-z,camera.position.x-x)-angle)%(Math.PI*2);if(az<0)az+=Math.PI*2;
+   lists[species*4+Math.floor(az/(Math.PI/2)+.5)%4].push(row);
   }
-  this.treePools.forEach((pool,index)=>{const rows=lists[index];pool.mesh.count=rows.length;rows.forEach(([x,z,_,scale],i)=>{dummy.position.set(x,.44,z);dummy.rotation.set(0,Math.atan2(camera.position.x-x,camera.position.z-z),0);dummy.scale.setScalar(scale);dummy.updateMatrix();pool.mesh.setMatrixAt(i,dummy.matrix);});pool.mesh.instanceMatrix.needsUpdate=true;});
-  this.treeNear.forEach(pool=>{const rows=nearLists[pool.species];pool.mesh.count=rows.length;rows.forEach(([x,z,_,scale,angle],i)=>{dummy.position.set(x,.44,z);dummy.rotation.set(0,angle,0);dummy.scale.setScalar(scale);dummy.updateMatrix();pool.mesh.setMatrixAt(i,dummy.matrix);});pool.mesh.instanceMatrix.needsUpdate=true;});
+  this.treeCards.forEach((pool,i)=>{const rows=lists[i];pool.mesh.count=rows.length;rows.forEach(([x,z,_,scale],j)=>{dummy.position.set(x,.44,z);dummy.rotation.set(0,Math.atan2(camera.position.x-x,camera.position.z-z),0);dummy.scale.setScalar(scale);dummy.updateMatrix();pool.mesh.setMatrixAt(j,dummy.matrix);});pool.mesh.instanceMatrix.needsUpdate=true;});
  };
- P.loadNearTrees=async function(){
-  if(this.quality.compact)return;
-  const sources=await Promise.all([this.loadModel('island_tree_01-near.glb'),this.loadModel('island_tree_02-near.glb')]);
-  sources.forEach((g,species)=>{g.scene.updateMatrixWorld(true);g.scene.traverse(o=>{if(!o.isMesh)return;const geo=o.geometry.clone().applyMatrix4(o.matrixWorld),mat=o.material;for(const m of Array.isArray(mat)?mat:[mat]){m.side=T.DoubleSide;m.alphaTest=Math.max(m.alphaTest,.35);this.materials.push(m);}const mesh=new T.InstancedMesh(geo,mat,this.planting.length);mesh.count=0;mesh.frustumCulled=false;mesh.castShadow=true;mesh.receiveShadow=true;this.scene.add(mesh);this.treeNear.push({species,mesh});});});this.treeLastTime=-10;
- };
- const update=P.update;
- P.update=function(time,night,camera){update.call(this,time,night,camera);this.updateTreeLods(time,camera);};
 })();
