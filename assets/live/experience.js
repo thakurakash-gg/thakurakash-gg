@@ -32,13 +32,14 @@
     seed = (seed * 1664525 + 1013904223) >>> 0;
     return seed / 4294967296;
   };
-  const stagePosition = [50, 0, 330],
-    stageYaw = -0.961592653589793;
+  const stagePosition = [-30, 0, 230],
+    stageYaw = 0;
   const ledUniforms = {
     time: { value: 0 },
     strength: { value: 0.8 },
     colour: { value: null },
     night: { value: 1 },
+    pattern: { value: 0 },
   };
   let orbit = {
     target: null,
@@ -51,15 +52,15 @@
     dRadius: 84,
   };
   const views = {
-    audience: { target: [0, 7, 8], theta: 0.25, phi: 1.36, radius: 112 },
+    audience: { target: [0, 12, 8], theta: 0.16, phi: 1.53, radius: 86 },
     stage: { target: [0, 8, -2], theta: -0.55, phi: 1.39, radius: 37 },
-    aerial: { target: [0, 0, 33], theta: 0.67, phi: 0.54, radius: 198 },
+    aerial: { target: [0, 0, 33], theta: 0.67, phi: 0.78, radius: 198 },
     bay: {
       world: true,
-      target: [-120, 18, -530],
-      theta: 0.6,
-      phi: 1.35,
-      radius: 850,
+      target: [-30, 10, 250],
+      theta: -1.05,
+      phi: 1.2,
+      radius: 240,
     },
   };
   const cueData = {
@@ -381,164 +382,56 @@
         bar(point(i / N, s), point((i + 1) / N, s), 0.022, mats.darkSteel);
       }
   }
-  function buildStage() {
-    venue = new THREE.Group();
-    venue.position.set(...stagePosition);
-    venue.rotation.y = stageYaw;
-    scene.add(venue);
-    box(0, 1.6, 0, 57, 2.1, 23, mats.black);
-    box(0, 2.73, 0, 57, 0.18, 23, mats.deck);
-    box(0, 3.3, -5, 12, 1.1, 8, mats.black);
-    box(0, 3.89, -5, 12, 0.12, 8, mats.deck);
-    box(0, 1.9, 17, 5, 2.65, 13, mats.black);
-    box(0, 3.27, 17, 5, 0.12, 13, mats.deck);
-    cylinder(0, 1.9, 24, 4.5, 2.7, mats.black);
-    for (const side of [-1, 1]) {
-      for (let i = 0; i < 7; i++)
-        box(side * 25, 0.65 + i * 0.31, 14 - i * 0.9, 4, 0.3, 0.9, mats.deck);
-      truss([side * 28, 3, -9], [side * 28, 24, -9]);
-      truss([side * 28, 24, -9], [side * 20, 26, -7]);
-      truss([side * 27, 3, 8], [side * 27, 23, 8]);
-      truss([side * 27, 23, 8], [side * 27, 24, -9]);
-      for (let i = 0; i < 9; i++)
-        box(side * 24.8, 19 - i * 0.71, 7, 1.3, 0.63, 1.05, mats.black, venue, [
-          -0.04 * i,
-          0,
-          0,
-        ]);
-      for (let i = 0; i < 4; i++)
-        box(
-          side * (5 + i * 3.4),
-          3.05,
-          10.3,
-          2,
-          0.6,
-          1.2,
-          mats.black,
-          venue,
-          [0.3, 0, 0],
-        );
-      for (let i = 0; i < 3; i++) petal(side, i);
-    }
-    truss([-28, 24, -9], [28, 24, -9]);
-    truss([-27, 23, 8], [27, 23, 8]);
-    // Performance chamber: open framing and a backlit anonymous silhouette.
-    for (const x of [-4.8, 4.8])
-      for (const z of [-8.8, -1.2])
-        box(x, 8.4, z, 0.12, 9.2, 0.12, mats.darkSteel);
-    for (const y of [3.9, 13]) {
-      box(0, y, -8.8, 9.7, 0.13, 0.14, mats.edge);
-      box(0, y, -1.2, 9.7, 0.13, 0.14, mats.edge);
-    }
-    for (const x of [-4.8, 4.8]) {
-      box(x, 8.5, -8.8, 0.06, 9, 0.05, mats.edge);
-      bar([x, 13, -8.8], [x, 13, -1.2], 0.04, mats.edge);
-    }
-    const led = new THREE.ShaderMaterial({
-      uniforms: ledUniforms,
-      vertexShader:
-        "varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}",
-      fragmentShader:
-        "varying vec2 vUv;uniform float time;uniform float strength;uniform float night;uniform vec3 colour;void main(){vec2 p=(vUv-.5)*2.;p.x*=.82;float r=length(p);float a=atan(p.y,p.x);float bend=r+.11*sin(a*3.+r*4.-time*.11);float ribbon=pow(.5+.5*sin(bend*28.-a*3.+sin(a*2.)*1.7-time*.17),7.);float folds=pow(.5+.5*sin(bend*46.+a*4.+time*.08),14.);float mask=1.-smoothstep(.35,1.15,r);float glow=pow(max(0.,1.-r),2.);float grid=.94+.06*sin(vUv.y*480.);vec3 c=vec3(.012,.022,.05)+colour*(.09+mask*(ribbon*.85+folds*.16)+glow*.28)+vec3(.15,.22,.34)*pow(ribbon,4.)*mask;gl_FragColor=vec4(c*strength*grid*mix(.65,1.,night),1.);}",
+  async function buildStage() {
+    venue=new THREE.Group();venue.position.set(...stagePosition);scene.add(venue);
+    const names=['Production_StageCore','Production_Infrastructure','Production_LED_Centre','Production_LED_Left','Production_LED_Right','Production_LED_OuterLeft','Production_LED_OuterRight'];
+    const groups=await Promise.all(names.map(n=>environment.loadModel(n+'.glb')));
+    const led=new THREE.ShaderMaterial({
+      uniforms:ledUniforms,side:THREE.DoubleSide,
+      vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+      fragmentShader:`varying vec2 vUv;uniform float time,strength,night,pattern;uniform vec3 colour;
+      void main(){vec2 p=(vUv-.5)*2.;float r=length(p),a=atan(p.y,p.x);
+      float wave=sin(r*29.-a*(3.+pattern)+sin(a*(5.+pattern))*1.8-time*.3);
+      float line=pow(.5+.5*wave,9.);float flower=pow(.5+.5*sin((r+.13*cos(a*(5.+pattern)))*35.-time*.18),13.);
+      vec3 c=vec3(.008,.018,.045)+colour*(.15+mix(line,flower,.6)*(1.-smoothstep(.5,1.5,r))*.9);
+      gl_FragColor=vec4(c*strength*mix(.9,1.8,night),1.);
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+      }`
+    });worldObjects.push(led);environment.stageGlow=[];
+    groups.forEach((g,i)=>{
+      g.scene.name=names[i];
+      if(names[i].startsWith('Production_LED_'))g.scene.traverse(o=>{if(o.isMesh){
+        const geo=o.geometry;geo.computeBoundingBox();const b=geo.boundingBox,pos=geo.getAttribute('position'),uv=new Float32Array(pos.count*2);
+        for(let k=0;k<pos.count;k++){uv[k*2]=(pos.getX(k)-b.min.x)/(b.max.x-b.min.x);uv[k*2+1]=(pos.getY(k)-b.min.y)/(b.max.y-b.min.y);}
+        geo.setAttribute('uv',new THREE.BufferAttribute(uv,2));o.material=led;o.castShadow=false;
+      }});
+      else{environment.prepareMesh(g.scene);g.scene.traverse(o=>{if(o.isMesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(/Prod_Accent|Prod_Brand/.test(m.name))environment.stageGlow.push(m);});}
+      scene.add(g.scene);
     });
-    worldObjects.push(led);
-    panel(0, 8.5, -8.7, 9.4, 9, led);
-    for (const side of [-1, 1]) {
-      box(side * 14.5, 10, 4.7, 11, 14, 0.45, mats.black);
-      const screen = panel(side * 14.5, 10, 5, 10.7, 13.7, led);
-      screen.rotation.z = side * -0.04;
-      box(side * 33.8, 9.7, 1, 7.5, 13.4, 0.8, mats.black);
-      panel(side * 33.8, 9.7, 1.45, 7.2, 13.1, led);
-      panel(side * 33.8, 2.25, 1.46, 7.2, 0.75, label("BLUE HOUR", 512, 64));
+    for(const x of [-21,0,21]){
+      const light=new THREE.SpotLight('#a8bfff',2800,85,.6,.8,2);light.position.set(x,19,25);light.target.position.set(x*.6,5,0);venue.add(light,light.target);stageLights.push(light);
     }
-    // Long-hair silhouette is original geometry, not a representation of the artist's face.
-    const silhouette = new THREE.Group();
-    silhouette.position.set(0, 3.95, -4.5);
-    venue.add(silhouette);
-    const shadow = new THREE.MeshBasicMaterial({ color: "#05070d" });
-    queue(
-      sphereGeo,
-      shadow,
-      [0, 2.1, 0],
-      [0, 0, 0.12],
-      [0.24, 0.32, 0.19],
-      silhouette,
-    );
-    queue(
-      new THREE.ConeGeometry(0.52, 1.65, 12),
-      shadow,
-      [0, 1.11, 0],
-      [0, 0, 0],
-      [1, 1, 0.55],
-      silhouette,
-    );
-    queue(
-      new THREE.ConeGeometry(0.35, 1.17, 12),
-      shadow,
-      [-0.04, 1.73, -0.1],
-      [0, 0, -0.16],
-      [1, 1, 0.6],
-      silhouette,
-    );
-    bar([-0.23, 1.73, 0], [-0.6, 1.02, 0.05], 0.09, shadow, silhouette);
-    bar([0.23, 1.73, 0], [0.53, 2.05, 0.02], 0.09, shadow, silhouette);
-    bar([0.53, 2.05, 0.02], [0.24, 2.15, 0.05], 0.075, shadow, silhouette);
-    bar([0.25, 2.2, 0.08], [0.58, 2.15, 0.08], 0.025, mats.steel, silhouette);
-    for (const x of [-0.17, 0.17])
-      bar([x, 0.9, 0], [x, 0.02, 0.02], 0.09, shadow, silhouette);
-    // Band risers, drum kit, keyboard and backline.
-    for (const side of [-1, 1]) {
-      box(side * 9, 3.2, -3, 5, 0.8, 4, mats.deck);
-      if (side === -1) {
-        for (let i = 0; i < 4; i++)
-          cylinder(
-            -9 + (i - 1.5) * 0.8,
-            4.2,
-            -3 + (i % 2) * 0.5,
-            0.38,
-            0.45,
-            mats.black,
-          );
-        queue(
-          new THREE.CylinderGeometry(0.8, 0.8, 0.65, 20),
-          mats.black,
-          [-9, 3.9, -1.5],
-          [Math.PI / 2, 0, 0],
-        );
-        for (const x of [-10.4, -7.8]) {
-          bar([x, 3.5, -3], [x, 5.6, -3], 0.03, mats.steel);
-          queue(new THREE.CylinderGeometry(0.48, 0.48, 0.025, 20), mats.steel, [
-            x,
-            5.6,
-            -3,
-          ]);
-        }
-      } else {
-        box(10, 4.6, -2, 2.1, 0.16, 0.65, mats.black);
-        bar([9.2, 3.7, -2], [10.6, 4.6, -2], 0.035, mats.steel);
-        bar([10.6, 3.7, -2], [9.2, 4.6, -2], 0.035, mats.steel);
-      }
-      for (let i = 0; i < 3; i++)
-        box(side * 18, 3.5, -5 + i * 1.2, 1.2, 1.4, 1, mats.black);
-    }
-    panel(0, 2.05, 11.58, 20, 0.85, label("ADO  /  BLUE HOUR", 1024, 64));
-    for (const x of [-21, 0, 21]) {
-      const light = new THREE.SpotLight("#a8bfff", 2800, 85, 0.6, 0.8, 2);
-      light.position.set(x, 19, 28);
-      light.target.position.set(x * 0.6, 6, 0);
-      venue.add(light, light.target);
-      stageLights.push(light);
-    }
-    // Twenty-four virtual moving heads, each with an eight-channel preview patch.
-    for (let i = 0; i < 24; i++) makeFixture(i);
-    buildVenue();
+    for(let i=0;i<24;i++)makeFixture(i);
+    buildSmoke();
+  }
+  let smokeCloud;
+  function buildSmoke(){
+    const count=160,seed=new Float32Array(count),side=new Float32Array(count),pos=new Float32Array(count*3);
+    for(let i=0;i<count;i++){seed[i]=rand();side[i]=i%2?1:-1;}
+    const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('seed',new THREE.BufferAttribute(seed,1));geo.setAttribute('outlet',new THREE.BufferAttribute(side,1));
+    smokeCloud=new THREE.Points(geo,new THREE.ShaderMaterial({transparent:true,depthWrite:false,
+      uniforms:{time:{value:0},amount:{value:0},night:{value:0},pixelRatio:{value:renderer.getPixelRatio()}},
+      vertexShader:'attribute float seed,outlet;uniform float time,amount,pixelRatio;varying float life;void main(){life=fract(seed+time*.17);vec3 p=vec3(outlet*26.+sin(seed*91.+life*2.)*life*2.,1.8+life*15.,13.+cos(seed*47.)*life*2.);vec4 mv=modelViewMatrix*vec4(p,1.);gl_Position=projectionMatrix*mv;gl_PointSize=min(180.,(2.+life*5.)*440.*pixelRatio/max(1.,-mv.z));}',
+      fragmentShader:'uniform float amount,night;varying float life;void main(){float d=length(gl_PointCoord-.5)*2.;float alpha=exp(-d*d*4.)*(1.-smoothstep(.35,1.,life))*smoothstep(0.,.12,life)*amount*.16;gl_FragColor=vec4(mix(vec3(.88,.9,.91),vec3(.66,.75,1.),night),alpha);}'
+    }));smokeCloud.frustumCulled=false;venue.add(smokeCloud);worldObjects.push(smokeCloud.material);
   }
   function makeFixture(index) {
     const overhead = index < 12,
       i = index % 12;
-    const x = overhead ? -23 + (i * 46) / 11 : -25 + (i * 50) / 11;
-    const y = overhead ? 22.5 : 3.1,
-      z = overhead ? 7 : 9.7;
+    const x = -28 + (i * 56) / 11;
+    const y = overhead ? 23.7 : 1.95,
+      z = overhead ? 8 : 12;
     box(x, y, z, 0.65, 0.36, 0.65, mats.black);
     const head = new THREE.Group();
     head.position.set(x, y, z);
@@ -726,9 +619,9 @@
     }
     fireworks.length = 0;
     const centres = [
-      [-35, 42, -45],
-      [0, 58, -62],
-      [34, 46, -48],
+      [-23, 42, -18],
+      [0, 58, -18],
+      [23, 46, -18],
     ];
     const n = Math.floor(particleCount / 3);
     centres.forEach((c, j) => {
@@ -786,6 +679,8 @@
     });
     ledUniforms.colour.value.set(cue.colour);
     ledUniforms.strength.value = 0.9;
+    if($("screen-brightness")){$("screen-brightness").value=90;$("screen-value").textContent="90%";}
+    if(smokeCloud&&$("smoke"))smokeCloud.material.uniforms.amount.value=+$("smoke").value/100;
     document
       .querySelectorAll("[data-cue]")
       .forEach((b) =>
@@ -847,7 +742,7 @@
     if (name === "audience" && innerWidth < 700) {
       orbit.dRadius = 82 * Math.max(1, 0.82 / (innerWidth / innerHeight));
       orbit.dTheta = stageYaw + 0.05;
-      orbit.dPhi = 1.36;
+      orbit.dPhi = 1.53;
     }
     if (name === "aerial" && innerWidth < 700)
       orbit.dRadius = 198 * Math.max(1, 0.8 / (innerWidth / innerHeight));
@@ -1000,6 +895,16 @@
       .forEach((b) =>
         b.addEventListener("click", () => colour(b.dataset.colour)),
       );
+    $("smoke").addEventListener("input",e=>{const amount=+e.target.value/100;smokeCloud.material.uniforms.amount.value=amount;$("smoke-value").textContent=e.target.value+"%";});
+    $("screen-visual").addEventListener("change",e=>{ledUniforms.pattern.value=+e.target.value;$("show-status").textContent="Screen visual changed";});
+    $("screen-brightness").addEventListener("input",e=>{ledUniforms.strength.value=+e.target.value/100;$("screen-value").textContent=e.target.value+"%";});
+    $("blackout").addEventListener("click",()=>{
+      stopShow();fixtures.forEach(f=>f.intensity=0);ledUniforms.strength.value=0;smokeCloud.material.uniforms.amount.value=0;$("smoke").value=0;$("smoke-value").textContent="0%";$("screen-brightness").value=0;$("screen-value").textContent="0%";fireworks.length=0;particles.visible=false;$("fireworks").disabled=false;$("show-status").textContent="Blackout active · Choose a look to restore";
+    });
+    const demoMusic=new Audio("assets/live/production/BlueHour-Demo.m4a");demoMusic.preload="none";demoMusic.volume=.28;
+    $("demo-music").addEventListener("click",async()=>{try{if(demoMusic.paused){await demoMusic.play();$("demo-music").textContent="Pause demo music";$("demo-music").setAttribute("aria-pressed","true");}else{demoMusic.pause();$("demo-music").textContent="Play original demo music";$("demo-music").setAttribute("aria-pressed","false");}}catch{$("show-status").textContent="Music could not start. Please try again.";}});
+    demoMusic.addEventListener("ended",()=>{$("demo-music").textContent="Play original demo music";$("demo-music").setAttribute("aria-pressed","false");});
+    document.addEventListener("visibilitychange",()=>{if(document.hidden){demoMusic.pause();$("demo-music").textContent="Play original demo music";$("demo-music").setAttribute("aria-pressed","false");}});
     $("movement").checked = !reduced;
     $("movement").addEventListener("change", (e) => {
       state.motion = e.target.checked;
@@ -1203,6 +1108,8 @@
     ledUniforms.night.value = state.night;
     environment.update(reduced ? 0 : t, state.night, camera);
     updateLights(reduced ? 0 : t);
+    if(smokeCloud){smokeCloud.material.uniforms.time.value=reduced?0:t;smokeCloud.material.uniforms.night.value=state.night;}
+    for(const m of environment.stageGlow||[])m.emissiveIntensity=(.25+state.night*3)*ledUniforms.strength.value;
     updateFireworks(t);
     environment.render(camera, now, orbit.target);
     if (dt > 0) {
@@ -1290,7 +1197,7 @@
       });
       await environment.build(config);
       water=environment.water; sky=environment.sky;
-      buildStage();
+      await buildStage();
       flush();
       buildFireworks();
       environment.finalize();
@@ -1299,6 +1206,7 @@
       setView("audience", true);
       setCue("opening", false);
       bindControls();
+      environment.loadNearTrees().catch(error=>console.warn("Near foliage retained in balanced mode",error));
       resize();
       document.body.dataset.experienceState = "ready";
       // Render before revealing; no minimum loading delay or forced introduction.

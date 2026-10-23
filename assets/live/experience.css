@@ -905,3 +905,7 @@ dialog .dialog-close {
   background: linear-gradient(#101c2db3, #101c2d44 70%, transparent);
   text-shadow: 0 1px 4px #000c;
 }
+
+.native-preview-note{font-size:12px;line-height:1.6;color:#bdc7d9;margin:20px 0 12px}.native-enquiry{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-top:1px solid #ffffff2b;color:#fff;text-decoration:none;font-size:13px}.show-desk{overscroll-behavior:contain}.show-desk input[type=range]{touch-action:pan-x}
+.view-controls{padding:0 12px;background:#0b101cc7;border:1px solid #ffffff26;border-radius:9px}.view-controls button{color:#d3daea}.view-number{color:#aeb9ce}.show-state,.view-hint,.map-credit,.quality-label{text-shadow:0 1px 3px #000,0 1px 6px #000}
+@media(max-width:700px){.show-desk{bottom:112px;max-height:min(58dvh,520px);padding:18px}.show-desk input,.show-desk select{font-size:16px}.native-enquiry{min-height:44px;align-items:center}}

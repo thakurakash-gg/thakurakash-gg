@@ -22,15 +22,15 @@
       href="https://thakurakash-gg.github.io/thakurakash-gg/live-experience.html"
     />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/live/experience.css?v=1.2.5" />
+    <link rel="stylesheet" href="assets/live/experience.css?v=2.0.0" />
     <script defer src="assets/three.min.js"></script>
     <script defer src="assets/vendor/ray-gltf-loader.js"></script>
     <script defer src="assets/vendor/ray-meshopt-decoder.js"></script>
-    <script defer src="assets/live/ocean.js?v=1.2.5"></script>
-    <script defer src="assets/live/environment.js?v=1.2.5"></script>
-    <script defer src="assets/live/modeled-context.js?v=1.2.5"></script>
-    <script defer src="assets/live/presentation.js?v=1.2.5"></script>
-    <script defer src="assets/live/experience.js?v=1.2.5"></script>
+    <script defer src="assets/live/ocean.js?v=2.0.0"></script>
+    <script defer src="assets/live/environment.js?v=2.0.0"></script>
+    <script defer src="assets/live/production-context.js?v=2.0.0"></script>
+    <script defer src="assets/live/presentation.js?v=2.0.0"></script>
+    <script defer src="assets/live/experience.js?v=2.0.0"></script>
   </head>
   <body>
     <a class="skip" href="#view-controls">Skip to experience controls</a>
@@ -188,6 +188,16 @@
         <button type="button" id="fireworks" class="outline-button">
           Preview fireworks <span aria-hidden="true">✧</span>
         </button>
+        <div class="desk-row"><label class="field-label" for="smoke">STAGE SMOKE</label><output id="smoke-value" for="smoke">0%</output></div>
+        <input type="range" id="smoke" min="0" max="100" value="0" />
+        <label class="field-label" for="screen-visual">SCREEN VISUAL</label>
+        <select id="screen-visual"><option value="0">Blue rose / contours</option><option value="1">Flowing ribbons</option><option value="2">Radial rays</option></select>
+        <div class="desk-row"><label for="screen-brightness" class="field-label">SCREEN BRIGHTNESS</label><output id="screen-value" for="screen-brightness">90%</output></div>
+        <input type="range" id="screen-brightness" min="0" max="100" value="90" />
+        <button type="button" id="demo-music" class="outline-button" aria-pressed="false">Play original demo music</button>
+        <button type="button" id="blackout" class="outline-button">Blackout / stop effects</button>
+        <p class="native-preview-note">Explore a few stage effects here. The complete lighting and show-control experience is available in Unreal Engine.</p>
+        <a class="native-enquiry" href="events.html?service=Events%20%26%20Experiences#contact">Request the Unreal demo <span aria-hidden="true">↗</span></a>
         <details class="patch-details" hidden>
           <summary>DMX patch preview</summary>
           <p>Universe 1 · 24 moving heads · 8 virtual channels each</p>
@@ -272,13 +282,13 @@
       </p>
       <p>
         <strong>Show desk:</strong> explore the lighting looks, adjust colour
-        and brightness, switch moving beams on or off, and preview fireworks.
+        and brightness, switch moving beams on or off, preview smoke, screen visuals and fireworks, or play the original demo music.
       </p>
       <p>
         Reduced-motion settings pause continuous lighting movement and replace
         fireworks with a static finale look.
       </p>
-      <p class="source-credits">Tokyo buildings and aerial imagery: <a href="https://www.mlit.go.jp/plateau/site-policy/" target="_blank" rel="noopener noreferrer">Project PLATEAU / MLIT</a>, processed by Kazeyami. Map geometry: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>. Coastal foliage source: <a href="https://polyhaven.com/a/island_tree_01" target="_blank" rel="noopener noreferrer">Poly Haven</a> (CC0).</p>
+      <p class="source-credits">Tokyo buildings: <a href="https://www.mlit.go.jp/plateau/site-policy/" target="_blank" rel="noopener noreferrer">Project PLATEAU / MLIT</a>. Aerial imagery: <a href="https://maps.gsi.go.jp/" target="_blank" rel="noopener noreferrer">GSI Maps</a>. Both processed by Kazeyami. Map geometry: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>. Coastal foliage source: <a href="https://polyhaven.com/a/island_tree_01" target="_blank" rel="noopener noreferrer">Poly Haven</a> (CC0).</p>
       <a href="events.html?service=Events%20%26%20Experiences#contact"
         >Discuss your event with us</a
       >
