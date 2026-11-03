@@ -141,13 +141,6 @@ Stage and set production for launches, conferences, performances and red-carpet 
 - Truss and rigging coordination
 - Branding, backdrops and event graphics
 
-LIGHTING, DMX & SHOW CONTROL
-Lighting design, programming and operation for performances, installations and live events. We plan the fixture layout and cue sequence around the show and the available equipment.
-- DMX fixture patching and addressing
-- Lighting programming and cue operation
-- Show control and synchronized cues
-- Rehearsals and on-site technical operation
-
 AUDIO, VIDEO & EVENT HARDWARE
 Integrated sound, displays and playback for presentations and performances. The equipment schedule and technical plan are prepared for the specific space and audience.
 - PA/audio systems and sound operation
