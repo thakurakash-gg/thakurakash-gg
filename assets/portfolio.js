@@ -1,296 +1,67 @@
+/* Work films load only after a visitor chooses a project. */
 (() => {
-  const section = document.querySelector("#work"),
-    preview = document.querySelector("#portfolio-preview"),
-    cards = [...section.querySelectorAll("button.project-card[data-video]")],
-    stop = document.querySelector("#portfolio-stop"),
-    full = document.querySelector("#portfolio-full"),
-    dialog = document.querySelector("#project-film-dialog"),
-    player = document.querySelector("#project-film-player"),
-    reduce = matchMedia("(prefers-reduced-motion: reduce)"),
-    touch = matchMedia("(hover: none)");
-  let current = null,
-    selected = cards[0],
-    run = 0;
-  function end() {
-    run++;
-    preview.pause();
-    section.classList.remove("preview-active");
-    cards.forEach((c) => {
-      c.classList.remove("is-previewing");
-      c.setAttribute("aria-pressed", "false");
-    });
-    stop.hidden = true;
-    current = null;
+  "use strict";
+  const gallery = document.querySelector(".work-portfolio");
+  if (!gallery) return;
+  const dialog = gallery.querySelector("#project-film-dialog");
+  const player = gallery.querySelector("#project-film-player");
+  const title = gallery.querySelector("#film-title");
+  const close = gallery.querySelector("#film-close");
+  const details = gallery.querySelector("#project-case-study");
+  const projects = {
+    architecture: {
+      category: "NEXIV / ARCHITECTURAL FILM",
+      intro: "Experience Center presents an immersive architectural display through a studio film, exploring interiors, spatial atmosphere and moving-image presentation.",
+      demonstrates: "Architectural visualization, interior presentation, composition and a camera sequence through the experience center.",
+      scope: "For a new commission, we agree the design references, camera sequence, film duration, resolution and final display format before production."
+    },
+    interior: {
+      category: "NEXIV / ARCHITECTURAL INTERIOR FILM",
+      intro: "Interior / Natural Light is a 59-second film exploring a contemporary living, dining and kitchen space through daylight, warm timber, marble and sculptural lighting.",
+      demonstrates: "Architectural interior visualization, material detail, lighting, composition and movement through connected living spaces.",
+      scope: "This showcase is supplied in Full HD (1920 × 1080). For a new commission, camera views, duration, resolution, review rounds, soundtrack and delivery versions are agreed in scope."
+    }
+  };
+  function element(tag, text, className) {
+    const node = document.createElement(tag);
+    node.textContent = text;
+    if (className) node.className = className;
+    return node;
   }
-  async function begin(card) {
-    if (card.dataset.preview === "none") {
-      selected = card;
-      full.textContent = "Explore " + card.dataset.title;
-      end();
-      return;
-    }
-    if (current === card) return;
-    const ticket = ++run;
-    current = card;
-    selected = card;
-    preview.poster = card.dataset.poster;
-    full.textContent = "Explore " + card.dataset.title;
-    if (preview.getAttribute("src") !== card.dataset.video) {
-      preview.src = card.dataset.video;
-      preview.load();
-    }
-    cards.forEach((c) => {
-      c.classList.toggle("is-previewing", c === card);
-      c.setAttribute("aria-pressed", String(c === card));
-    });
-    preview.currentTime = 0;
-    section.classList.add("preview-active");
-    stop.hidden = false;
-    if (!reduce.matches && !navigator.connection?.saveData) {
-      try {
-        await preview.play();
-        if (ticket !== run && !current) preview.pause();
-      } catch {
-        document.querySelector("#portfolio-instruction").textContent =
-          "Use Watch project film to play the video.";
-      }
-    }
-  }
-  cards.forEach((card) => {
-    card.addEventListener("pointerenter", (e) => {
-      if (e.pointerType === "mouse") begin(card);
-    });
-    card.addEventListener("pointerleave", () => {
-      if (!touch.matches && document.activeElement !== card) end();
-    });
-    card.addEventListener("focus", () => begin(card));
-    card.addEventListener("click", () => {
-      openFilm(card);
-    });
-    card.addEventListener("blur", (e) => {
-      if (!section.contains(e.relatedTarget)) end();
-    });
-  });
-  stop.addEventListener("click", end);
-  section.addEventListener("pointerleave", () => {
-    if (!touch.matches) end();
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") end();
-  });
-  new IntersectionObserver(
-    (entries) => {
-      if (!entries[0].isIntersecting) end();
-    },
-    { threshold: 0.05 },
-  ).observe(section);
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      end();
-      player.pause();
-    }
-  });
-  const projectDetails = [
-    {
-      category: "ARCHITECTURAL VISUALIZATION",
-      intro:
-        "Help clients understand a space before it is built. We bring architecture into images, films, and interactive experiences that communicate layout, atmosphere, materials, and scale.",
-      services: [
-        "Interior and exterior visualization",
-        "Architectural walkthroughs and films",
-        "360° virtual tours",
-        "RAY interactive experiences and finish exploration",
-      ],
-      process: [
-        [
-          "Brief & references",
-          "Review plans, available models, material references, audience, and the presentation format.",
-        ],
-        [
-          "Model & art direction",
-          "Develop the scene, materials, lighting, camera views, and visual direction for review.",
-        ],
-        [
-          "Review & refine",
-          "Review key views or animation stages and refine the agreed design and presentation.",
-        ],
-        [
-          "Prepare delivery",
-          "Export the agreed images, film, tour, or interactive experience for its intended use.",
-        ],
-      ],
-      quality:
-        "We focus on coherent lighting, convincing materials, considered composition, and clear spatial communication. Reviews check the visualization against the supplied design references.",
-      deliverables: [
-        "Rendered images in agreed formats and resolution",
-        "Architectural films with agreed framing and length",
-        "Tours or RAY experiences when included in scope",
-        "Presentation-ready exports for the agreed channels",
-      ],
-    },
-    {
-      category: "MEDICAL EXPLAINER / 3D ANIMATION",
-      intro:
-        "Turn complex medical subjects into clear visual explanations. We create 3D models, animation, and visual storytelling for educational, presentation, and communication needs.",
-      services: [
-        "Medical and anatomical 3D visualization",
-        "Explainer animation and procedure sequences",
-        "Storyboards and visual development",
-        "Rendered stills and motion graphics",
-      ],
-      process: [
-        [
-          "Define the explanation",
-          "Establish the intended audience, key message, supplied medical references, and required format.",
-        ],
-        [
-          "Storyboard & model",
-          "Develop the visual sequence, anatomical assets, camera direction, and animation plan.",
-        ],
-        [
-          "Animate & review",
-          "Build the sequence and review clarity, pacing, and scientific content with the client or their qualified reviewer.",
-        ],
-        [
-          "Finish & export",
-          "Refine lighting, materials, compositing, and any agreed labels, sound, or narration before export.",
-        ],
-      ],
-      quality:
-        "We prioritize understandable visual hierarchy, careful anatomy references, readable camera angles, and clear pacing. Medical accuracy is reviewed against client-supplied references by an appropriate subject expert; the film is a communication asset, not medical advice.",
-      deliverables: [
-        "Final explainer video in agreed format and resolution",
-        "Agreed titles, labels, and graphic overlays",
-        "Still frames for supporting presentation use, when scoped",
-        "Versions for the agreed presentation or distribution channels",
-      ],
-    },
-    {
-      category: "MINIATURE TOYS / 3D PRINT DESIGN",
-      intro:
-        "From character idea to a model designed for fabrication. We develop miniature toys and collectible forms, with attention to shape, detail, component separation, and presentation.",
-      services: [
-        "Character and miniature sculpting",
-        "Toy and collectible model development",
-        "Component separation and assembly planning",
-        "3D-print model preparation and product visualization",
-      ],
-      process: [
-        [
-          "Define scale & direction",
-          "Agree on the character references, intended size, target printing method, and required components.",
-        ],
-        [
-          "Sculpt & develop",
-          "Build the form, expression, clothing, accessories, and detail at the intended scale.",
-        ],
-        [
-          "Prepare components",
-          "Plan part separation, assembly, and model checks around the intended print setup.",
-        ],
-        [
-          "Review & handoff",
-          "Review the digital model and supply the agreed files and presentation renders.",
-        ],
-      ],
-      quality:
-        "We consider silhouette, surface detail, scale, and assembly. Model preparation is reviewed for the agreed printing method; physical fit and print results require validation with the intended printer, material, and tolerances.",
-      deliverables: [
-        "3D model files in agreed formats, such as STL or OBJ",
-        "Separated components when included in scope",
-        "Assembly reference renders where needed",
-        "Product stills or animation when included in scope",
-      ],
-    },
-  ];
-  projectDetails.push({
-    ...projectDetails[0],
-    category: "NEXIV / ARCHITECTURAL INTERIOR FILM",
-    intro: "Interior — Natural Light is a 59-second film exploring a contemporary living, dining and kitchen space through daylight, warm timber, marble and sculptural lighting.",
-    services: ["Architectural interior visualization", "Material and lighting presentation", "Interior camera sequences and film production"],
-    quality: "The film presents interior composition, material detail and atmosphere. For a new commission, the design, materials and camera sequence are reviewed against the supplied plans and references.",
-    deliverables: ["This showcase film: 59 seconds in Full HD (1920 × 1080)", "For a commission: agreed views, film duration, format and resolution", "Soundtrack, titles and delivery versions as specified in scope"]
-  });
-  function openFilm(card = selected) {
-    const project = card;
-    end();
-    const detail = projectDetails[Number(project.dataset.case)];
-    const container = document.querySelector("#project-case-study");
-    container.replaceChildren();
-    function el(tag, text, cls) {
-      const node = document.createElement(tag);
-      node.textContent = text;
-      if (cls) node.className = cls;
-      return node;
-    }
-    container.append(
-      el("p", detail.category, "case-category"),
-      el("p", detail.intro, "case-intro"),
-    );
-    function block(title) {
+  function openFilm(card) {
+    const project = projects[card.dataset.case];
+    if (!project) return;
+    document.querySelectorAll("video").forEach(video => video.pause());
+    title.textContent = card.dataset.title;
+    player.poster = card.dataset.poster;
+    details.replaceChildren(element("p", project.category, "case-category"), element("p", project.intro, "case-intro"));
+    for (const [heading, copy] of [["What it demonstrates", project.demonstrates], ["Scope & delivery", project.scope]]) {
       const section = document.createElement("section");
-      section.append(el("h4", title));
-      container.append(section);
-      return section;
+      section.append(element("h4", heading), element("p", copy));
+      details.append(section);
     }
-    const services = block("What we do"),
-      list = document.createElement("ul");
-    detail.services.forEach((text) => list.append(el("li", text)));
-    services.append(list);
-    const process = block("How we work"),
-      steps = document.createElement("ol");
-    detail.process.forEach(([title, text]) => {
-      const item = document.createElement("li");
-      item.append(el("h5", title), el("p", text));
-      steps.append(item);
-    });
-    process.append(steps);
-    block("Our quality approach").append(el("p", detail.quality));
-    const delivery = block("What you receive"),
-      outputs = document.createElement("ul");
-    detail.deliverables.forEach((text) => outputs.append(el("li", text)));
-    delivery.append(outputs);
-    container.append(
-      el(
-        "p",
-        "Deliverables, resolution, source-file handover, revision rounds, and schedule are agreed in the project scope.",
-        "case-note",
-      ),
-    );
-    const enquiry = document.createElement("a");
-    enquiry.className = "case-enquiry";
-    enquiry.href =
-      "mailto:sales@kazeyami.com?subject=" +
-      encodeURIComponent("Enquiry — " + project.dataset.title);
-    enquiry.textContent = "Discuss a similar project";
-    container.append(enquiry);
-    dialog.scrollTop = 0;
-    document.querySelector("#film-title").textContent = project.dataset.title;
-    player.poster = project.dataset.poster;
-    if (player.getAttribute("src") !== project.dataset.video) {
-      player.src = project.dataset.video;
-      player.load();
-    }
-    player.currentTime = 0;
+    const enquiry = element("a", "Discuss a similar project", "case-enquiry");
+    enquiry.href = "services.html?service=Architectural%20visualization#contact";
+    details.append(enquiry);
+    player.src = card.dataset.video;
     dialog.showModal();
+    document.body.classList.add("film-open");
+    dialog.scrollTop = 0;
+    close.focus({ preventScroll: true });
     player.play().catch(() => {});
   }
-  full.addEventListener("click", () => openFilm(selected));
-  document
-    .querySelector("#film-close")
-    .addEventListener("click", () => dialog.close());
-  dialog.addEventListener("close", () => player.pause());
-  dialog.addEventListener("click", (e) => {
-    const r = dialog.getBoundingClientRect();
-    if (
-      e.clientX < r.left ||
-      e.clientX > r.right ||
-      e.clientY < r.top ||
-      e.clientY > r.bottom
-    )
-      dialog.close();
+  gallery.querySelectorAll("button.project-card[data-video]").forEach(card => card.addEventListener("click", () => openFilm(card)));
+  close.addEventListener("click", () => dialog.close());
+  dialog.addEventListener("close", () => {
+    document.body.classList.remove("film-open");
+    player.pause();
+    player.removeAttribute("src");
+    player.load();
   });
-  reduce.addEventListener("change", () => {
-    if (reduce.matches) preview.pause();
+  dialog.addEventListener("click", event => {
+    if (event.target !== dialog) return;
+    const bounds = dialog.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
   });
+  document.addEventListener("visibilitychange", () => { if (document.hidden) player.pause(); });
 })();

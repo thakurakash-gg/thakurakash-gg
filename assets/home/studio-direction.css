@@ -1,0 +1,2 @@
+.studio-illustration { position:absolute; inset:0; z-index:-2; overflow:hidden; display:flex; flex-direction:column; justify-content:center; align-items:flex-end; gap:10px; padding:40px 6%; background:radial-gradient(ellipse at 80% 40%,#a02a5a55,transparent 65%),#14121b; color:#edb8d542; font-size:clamp(48px,8vw,130px); font-weight:600; line-height:1; letter-spacing:-.06em; }
+@media(max-width:850px) { .studio-illustration { font-size:64px; opacity:.65; } }
