@@ -1,7 +1,7 @@
 /* Shared end-of-page enquiry invitation; readable without JavaScript. */
 .project-discussion {
   background: #ff5000;
-  color: #171014;
+  color: #ffffff;
   display: grid;
   place-items: center;
   min-height: 62svh;
@@ -42,7 +42,7 @@
 }
 .project-discussion__link svg { width: 24px; height: 24px; flex-shrink: 0; transition: transform .2s; }
 .project-discussion__link:hover svg { transform: translateX(5px); }
-.project-discussion__link:focus-visible { outline: 2px solid #171014; outline-offset: 8px; }
+.project-discussion__link:focus-visible { outline: 2px solid currentColor; outline-offset: 8px; }
 @media (max-width: 600px) {
   .project-discussion { min-height: 480px; padding: 72px 6%; }
   .project-discussion h2 { font-size: clamp(40px, 10.8vw, 62px); max-width: 480px; margin-inline: auto; }
