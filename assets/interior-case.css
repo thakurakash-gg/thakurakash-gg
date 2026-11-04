@@ -1,0 +1,38 @@
+/* Interior project story: the film is the focal point, followed by actual frames. */
+.interior-story { --story-paper:#19181c; --story-ink:#f3f1eb; --story-muted:#bcb8bb; --story-line:#ffffff26; background:var(--story-paper); color:var(--story-ink); padding:clamp(48px,6vw,96px) 6%; border-top:1px solid var(--story-line); scroll-margin-top:24px; }
+html[data-theme="light"] .interior-story { --story-paper:#e9e5dd; --story-ink:#242520; --story-muted:#5d5b55; --story-line:#24252030; }
+.interior-story__shell { max-width:1480px; margin:auto; }
+.interior-story__eyebrow { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px 24px; margin-bottom:32px; color:var(--story-muted); font:400 10px/1.5 Arial,Helvetica,sans-serif; letter-spacing:.12em; text-transform:uppercase; }
+.interior-story__header { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); align-items:end; gap:7%; margin-bottom:32px; }
+.interior-story h2 { margin:0; color:var(--story-ink); font:400 clamp(46px,5.7vw,92px)/1 Arial,Helvetica,sans-serif; letter-spacing:-.06em; }
+.interior-story h2 span { display:block; }
+.interior-story__lead { max-width:550px; margin:0 0 18px; color:var(--story-ink); font-size:clamp(17px,1.7vw,23px); line-height:1.55; letter-spacing:-.02em; }
+.interior-story__watch { display:inline-flex; align-items:center; gap:14px; min-height:44px; font-size:13px; border-bottom:1px solid var(--story-line); }
+.interior-story__watch svg { width:15px; height:15px; }
+.interior-story__specs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:0 0 24px; padding:20px 0; border-top:1px solid var(--story-line); border-bottom:1px solid var(--story-line); gap:16px 28px; }
+.interior-story__specs div { min-width:0; }
+.interior-story__specs dt { margin-bottom:7px; color:var(--story-muted); font:400 10px/1.5 Arial,Helvetica,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
+.interior-story__specs dd { margin:0; color:var(--story-ink); font-size:15px; line-height:1.5; }
+.interior-story__film { margin:0; scroll-margin-top:24px; }
+.interior-story__film video { display:block; width:100%; height:auto; max-height:none; aspect-ratio:16/9; object-fit:contain; background:#0b0b0d; }
+.interior-story__film figcaption { display:flex; justify-content:space-between; gap:16px; margin-top:14px; color:var(--story-muted); font:400 10px/1.5 Arial,Helvetica,sans-serif; letter-spacing:.06em; text-transform:uppercase; }
+.interior-story__frames { margin-top:clamp(44px,5vw,76px); }
+.interior-story__frame-heading { display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:12px 24px; margin-bottom:24px; }
+.interior-story h3 { margin:0; color:var(--story-ink); font:400 clamp(25px,2.7vw,40px)/1.15 Arial,Helvetica,sans-serif; letter-spacing:-.035em; }
+.interior-story__frame-heading p { margin:0; color:var(--story-muted); font-size:13px; line-height:1.6; }
+.interior-story__frame-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
+.interior-story__frame-grid figure { min-width:0; margin:0; }
+.interior-story__frame-grid a { display:block; overflow:hidden; background:#111; }
+.interior-story__frame-grid img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:contain; transition:transform .3s; }
+.interior-story__frame-grid a:hover img { transform:scale(1.025); }
+.interior-story__frame-grid a:focus-visible { outline:2px solid currentColor; outline-offset:5px; }
+.interior-story__frame-grid figcaption { margin-top:12px; color:var(--story-muted); font:400 11px/1.6 Arial,Helvetica,sans-serif; letter-spacing:.04em; }
+.interior-story__notes { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.2fr); gap:8%; padding-top:36px; margin-top:44px; border-top:1px solid var(--story-line); }
+.interior-story__notes p { margin:0 0 18px; color:var(--story-muted); font-size:16px; line-height:1.75; }
+.interior-story__enquiry { display:inline-flex; align-items:center; gap:24px; min-height:48px; margin-top:6px; padding:10px 0; border-bottom:1px solid currentColor; font-size:14px; }
+.interior-story__credits { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px 24px; margin-top:36px; padding-top:20px; border-top:1px solid var(--story-line); color:var(--story-muted); font-size:11px; line-height:1.7; }
+.interior-story__credits p { margin:0; }
+.interior-story__credits a { text-decoration:underline; text-underline-offset:3px; }
+@media(max-width:900px) { .interior-story__header { gap:5%; } .interior-story__frame-grid { gap:18px; } }
+@media(max-width:700px) { .interior-story__header { grid-template-columns:minmax(0,1fr); gap:24px; } .interior-story h2 { font-size:clamp(44px,11.4vw,64px); } .interior-story__eyebrow { margin-bottom:26px; font-size:9px; } .interior-story__lead { font-size:18px; } .interior-story__specs { gap:16px 12px; padding-block:17px; } .interior-story__specs dt { font-size:9px; } .interior-story__specs dd { font-size:12px; } .interior-story__film figcaption { font-size:9px; flex-wrap:wrap; gap:8px; } .interior-story__frame-grid { grid-template-columns:minmax(0,1fr); gap:26px; } .interior-story__notes { grid-template-columns:minmax(0,1fr); gap:22px; padding-top:28px; margin-top:36px; } .interior-story__notes p { font-size:15px; } }
+@media(prefers-reduced-motion:reduce) { .interior-story__frame-grid img { transition:none; transform:none !important; } }
