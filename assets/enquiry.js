@@ -17,6 +17,8 @@
       "Country: " + clean("country"),
       "Phone / WhatsApp: " + clean("phone"),
       "Service: " + clean("service"),
+      "Target date: " + clean("date", "Not specified"),
+      "Budget range: " + clean("budget", "Not specified"),
       "",
       "Project brief:",
       clean("message"),

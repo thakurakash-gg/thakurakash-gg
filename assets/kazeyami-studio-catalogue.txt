@@ -1,163 +1,333 @@
-KAZEYAMI INNOVATIONS â€” SERVICES & BRANCHES
-NEXIV: architecture and visualization.
-Kazeyami Studio: all 2D and 3D creative services.
-Products & Ventures: development, games, apps and products.
-Events & Experiences: events, expos, production, hardware and show technology.
-
-SELECTED WORK
+KAZEYAMI INNOVATIONS — SERVICES
+Updated 5 November 2026
 Lucknow, India | sales@kazeyami.com
-Updated 20 October 2026
 
-01 / ARCHITECTURAL VISUALIZATION
+NEXIV: architectural visualization and design documentation.
+Kazeyami Studio: 2D and 3D creative production.
+Products & Ventures: development, applications, games and products.
+Events & Experiences: event design, fabrication, AV and on-site production.
+
+01 / SERVICE / NEXIV
+Architectural visualization
+
+Present the space. Explain the design.
+
 For architects, developers and property teams presenting a proposal, a development or a launch.
+
 - Interior and exterior still renders
+
 - Architectural walkthroughs and cinematic films
+
 - Masterplan, landscape and aerial visualization
-- 360Â° panoramas and connected virtual tours
-What to send: Floor plans, elevations or a model; material and landscape references; required views and intended use.
-Delivery: Agreed-resolution images, edited films or linked panoramas. Camera list, duration, aspect ratios and review stages are set in the quotation.
 
-02 / REAL-TIME EXPERIENCES & CONFIGURATORS
+- 360° panoramas and connected virtual tours
+
+What to send us
+
+Floor plans, elevations or a model; material and landscape references; required views and intended use.
+
+What you receive
+
+Agreed-resolution images, edited films or linked panoramas. Camera list, duration, aspect ratios and review stages are set in the quotation.
+
+02 / SERVICE / NEXIV
+Architectural real-time, VR & AR
+
+Let people explore and choose.
+
 For architectural sales galleries, property presentations and spatial demonstrations that need more than a fixed camera.
+
 - Unreal Engine architectural experiences
+
 - Browser-based architectural experiences
+
 - VR and AR experiences
-- Material, finish and product-option interactions
-What to send: The source model, target devices, available options and the actions a visitor should be able to take.
-Delivery: A scoped interactive build with agreed controls, content and device testing. Hosting, deployment and ongoing support are specified separately.
 
-03 / CAD, BIM & DESIGN DEVELOPMENT
+- Architectural material and finish interactions
+
+What to send us
+
+The source model, target devices, available options and the actions a visitor should be able to take.
+
+What you receive
+
+A scoped interactive build with agreed controls, content and device testing. Hosting, deployment and ongoing support are specified separately.
+
+03 / SERVICE / NEXIV
+CAD, BIM & design development
+
+Make the design easier to coordinate.
+
 For architectural teams developing a design, organizing technical information or preparing it for visualization.
+
 - CAD drafting and drawing development
+
 - BIM modelling and model coordination
+
 - Architectural design development and documentation
+
 - Model cleanup and preparation for visualization
-What to send: Existing drawings and models, project stage, required drawing or model standards, and the intended handover.
-Delivery: Agreed CAD/BIM files and drawing sets. Level of detail, project responsibility and any required professional approvals are established before work begins.
 
-04 / 3D ASSETS, CHARACTERS & ANIMATION
+What to send us
+
+Existing drawings and models, project stage, required drawing or model standards, and the intended handover.
+
+What you receive
+
+Agreed CAD/BIM files and drawing sets. Level of detail, project responsibility and any required professional approvals are established before work begins.
+
+04 / SERVICE / KAZEYAMI STUDIO
+3D assets, characters & animation
+
+Build the form, movement and detail.
+
 For games, products, films and explainers that need assets or complete animated sequences.
+
 - Character, prop and environment modelling
+
 - Digital sculpting, retopology, UVs and texturing
+
 - Rigging, character animation and game cinematics
+
 - Product renders, turntables and animation
-What to send: Concepts or references, dimensions or scale, art direction, target engine and technical budgets.
-Delivery: Agreed models, textures, rigs or rendered sequences. File formats, polygon budgets, texture sizes and source-file handover are confirmed in scope.
 
-05 / MEDICAL & SCIENTIFIC VISUALIZATION
+What to send us
+
+Concepts or references, dimensions or scale, art direction, target engine and technical budgets.
+
+What you receive
+
+Agreed models, textures, rigs or rendered sequences. File formats, polygon budgets, texture sizes and source-file handover are confirmed in scope.
+
+05 / SERVICE / KAZEYAMI STUDIO
+Medical & scientific visualization
+
+Make complex subjects understandable.
+
 For education, presentations and communication that need a clear visual explanation of anatomy or a scientific process.
+
 - Anatomical and scientific 3D models
+
 - Medical explainers and procedure animation
+
 - Storyboards, labels and visual sequences
+
 - Supporting stills and presentation graphics
-What to send: Approved scientific references, the intended audience, the key explanation and access to a qualified content reviewer.
-Delivery: An agreed explainer film, stills or supporting visuals. Scientific content is reviewed with your subject expert before final delivery.
 
-06 / MINIATURES & 3D PRINTING
+What to send us
+
+Approved scientific references, the intended audience, the key explanation and access to a qualified content reviewer.
+
+What you receive
+
+An agreed explainer film, stills or supporting visuals. Scientific content is reviewed with your subject expert before final delivery.
+
+06 / SERVICE / KAZEYAMI STUDIO
+Miniatures & 3D printing
+
+From a digital sculpt to a physical piece.
+
 For collectible figures, miniature models, display pieces and prototypes.
+
 - Character and miniature sculpting
+
 - Part separation, joints and assembly planning
+
 - Files prepared for the intended printing method
+
 - Physical 3D printing and fabrication
-What to send: Reference images, intended size, quantity, material preferences, finish and delivery location.
-Delivery: Digital print files or fabricated pieces as agreed. Tolerances, test prints, finishing, packaging and shipping are quoted for the specific job.
 
-07 / BRANDING, 2D DESIGN & MOTION
+What to send us
+
+Reference images, intended size, quantity, material preferences, finish and delivery location.
+
+What you receive
+
+Digital print files or fabricated pieces as agreed. Tolerances, test prints, finishing, packaging and shipping are quoted for the specific job.
+
+07 / SERVICE / KAZEYAMI STUDIO
+Branding, 2D design & motion
+
+Give the message a clear visual language.
+
 For brands, product teams and campaigns that need a consistent identity, interface or story.
+
 - Brand identity, guidelines and graphic design
+
 - UI/UX research, user flows, wireframes and interface design
+
 - 2D animation, motion graphics and video editing
+
 - Compositing and visual effects
-What to send: Your audience, objectives, current brand assets, content, references and the channels where the work will appear.
-Delivery: The agreed identity kit, design files, interface prototype or final motion exports. Revisions, fonts, music and third-party licences are specified in the proposal.
 
-08 / FULL-STACK WEB & MOBILE DEVELOPMENT
+What to send us
+
+Your audience, objectives, current brand assets, content, references and the channels where the work will appear.
+
+What you receive
+
+The agreed identity kit, design files, interface prototype or final motion exports. Revisions, fonts, music and third-party licences are specified in the proposal.
+
+08 / SERVICE / PRODUCTS & VENTURES
+Full-stack web & mobile development
+
+Turn the design into a working product.
+
 For businesses and teams building a website, web application, mobile app or a connected internal tool.
+
 - Responsive websites and web applications
+
 - Frontend, backend, APIs and database integration
+
 - Admin panels, dashboards and content workflows
+
 - Mobile applications, testing and deployment
-What to send: User journeys, required features and integrations, content, target platforms and hosting requirements.
-Delivery: An agreed application build and deployment handover. Source access, third-party costs, maintenance and support are defined before development starts.
 
-09 / GAME DEVELOPMENT
+What to send us
+
+User journeys, required features and integrations, content, target platforms and hosting requirements.
+
+What you receive
+
+An agreed application build and deployment handover. Source access, third-party costs, maintenance and support are defined before development starts.
+
+09 / SERVICE / PRODUCTS & VENTURES
+Game development
+
+Connect the world with the way it plays.
+
 For teams developing a playable prototype, a game feature or a complete scoped game experience.
+
 - Gameplay prototypes and interactive systems
+
 - Game environments and asset integration
+
 - UI, animation and technical art integration
+
 - Build preparation, optimization and testing
-What to send: The game concept, target platform, core mechanics, art direction, existing assets and production stage.
-Delivery: A scoped playable build, feature implementation or production assets. Performance targets, engine, milestones and ownership are agreed in writing.
 
-BRANCHES
-NEXIV: architecture and visualization.
-Kazeyami Studio: all 2D and 3D creative services.
-Products & Ventures: development, games, apps and products.
-Events & Experiences: events, expos, production, hardware and show technology.
+What to send us
 
-SELECTED WORK
-RAY waterfront â€” Interactive exterior prototype
-A waterfront exterior environment built for orbiting, examining the surroundings and comparing the atmosphere at different times of day.
-The public version is an exterior prototype. It demonstrates orbit, zoom, view presets and day/night lighting; interior navigation, unit selection and material configuration are not included in this demo.
-https://thakurakash-gg.github.io/thakurakash-gg/work.html#ray-waterfront
+The game concept, target platform, core mechanics, art direction, existing assets and production stage.
 
-Experience center â€” Architectural visualization film
-A studio film showing an immersive architectural presentation inside an experience center.
-Watch the supplied film to review the visual treatment. A new commission is scoped around the design, camera sequence, duration and final display format.
-https://thakurakash-gg.github.io/thakurakash-gg/work.html#experience-center
+What you receive
 
-AMD medical explainer â€” 3D medical animation
-A 3D medical explainer using an eye-related visual sequence to communicate a complex subject.
-This is a visual communication sample. New medical projects require approved references and scientific review by the clientâ€™s qualified subject expert.
-https://thakurakash-gg.github.io/thakurakash-gg/work.html#medical-explainer
+A scoped playable build, feature implementation or production assets. Performance targets, engine, milestones and ownership are agreed in writing.
 
-Mario miniature study â€” Character modelling & print preparation
-A character miniature study showing the assembled form and the separation of components for fabrication planning.
-Presented as a character study, without a claim of affiliation or endorsement by the characterâ€™s rights holder. Printing, finish and assembly are agreed separately for commissioned physical pieces.
-https://thakurakash-gg.github.io/thakurakash-gg/work.html#miniature
+10 / EVENTS & EXPERIENCES
+Event organization & production
 
-COMMISSIONING
-Scope, cost, schedule, review rounds, rights, source files, third-party licences and support are agreed before production.
+From the site plan to the final show cue.
 
-EVENTS & EXPERIENCES
-EXPOS & EXHIBITION SETUPS
+For expos, launches, experience centers, conferences, concerts, shoots and red-carpet events.
+
+- Expo stands, stages, scenic builds, truss and rigging coordination
+
+- Experience centers, interactive installations, touchscreens and kiosks
+
+- PA/audio, LED walls, projection, hardware and playback
+
+- Multi-camera shoots, live streaming and content production
+
+- Planning, vendors, crew, installation, rehearsals and dismantling
+
+What to send us
+
+Event date, venue, audience size, site dimensions, event format, budget range and available equipment.
+
+What you receive
+
+An agreed production plan, equipment and crew scope, setup, show operation and handover or dismantling. Venue, power, rigging, permissions and rental responsibilities are specified in the proposal.
+
+01 / EVENTS & EXPERIENCES
+Expos & exhibition setups
+
 Exhibition stands, brand booths, display zones and visitor circulation. We coordinate design, fabrication, graphics, installation and dismantling around the venue and event brief.
+
 - Stand and booth planning
+
 - Scenic builds, display units and signage
+
 - Brand graphics and screen content
+
 - Installation and dismantling
 
-EXPERIENCE CENTERS & INTERACTIVE SPACES
+02 / EVENTS & EXPERIENCES
+Experience centers & interactive spaces
+
 Physical spaces that bring architecture, products or a brand story together. NEXIV supplies architectural visualization; Kazeyami Studio creates the content; this team integrates the space and hardware.
+
 - Spatial and visitor-journey planning
+
 - Touchscreens, kiosks and interactive installations
+
 - Display, playback and control hardware
+
 - On-site integration and commissioning
 
-STAGES, SETS & RED CARPETS
+03 / EVENTS & EXPERIENCES
+Stages, sets & red carpets
+
 Stage and set production for launches, conferences, performances and red-carpet events, coordinated around the venue and technical requirements.
+
 - Stage planning and scenic/set fabrication
+
 - Red-carpet and entrance setups
+
 - Truss and rigging coordination
+
 - Branding, backdrops and event graphics
 
-AUDIO, VIDEO & EVENT HARDWARE
+04 / EVENTS & EXPERIENCES
+Audio, video & event hardware
+
 Integrated sound, displays and playback for presentations and performances. The equipment schedule and technical plan are prepared for the specific space and audience.
+
 - PA/audio systems and sound operation
+
 - LED walls, projection and projection mapping
+
 - Playback, switching and control systems
+
 - Hardware setup, testing and support
 
-SHOOTS, RECORDING & LIVE STREAMING
+05 / EVENTS & EXPERIENCES
+Shoots, recording & live streaming
+
 Production setup and recording for event coverage, branded shoots and live broadcasts, with the camera plan and final outputs agreed beforehand.
+
 - Shoot setup and production coordination
+
 - Multi-camera event recording
+
 - Live streaming and broadcast workflows
+
 - Editing, motion graphics and delivery versions
 
-EVENT PLANNING & ON-SITE PRODUCTION
+06 / EVENTS & EXPERIENCES
+Event planning & on-site production
+
 Organization and production coordination for corporate launches, exhibitions, conferences, concerts and other scoped live events.
+
 - Venue/site planning and production schedules
+
 - Vendor, crew and technical coordination
+
 - Installation, rehearsals and show operation
+
 - Dismantling and handover
+
+SELECTED WORK
+RAY waterfront — Interactive exterior prototype
+https://thakurakash-gg.github.io/thakurakash-gg/work.html#ray-waterfront
+
+Experience Center — Architectural visualization film
+https://thakurakash-gg.github.io/thakurakash-gg/work.html#experience-center
+
+Interior / Natural Light — Interior film, 59 seconds, Full HD
+https://thakurakash-gg.github.io/thakurakash-gg/work.html#interior-natural-light
+
+COMMISSIONING
+Scope, cost, schedule, review rounds, usage rights, source files, third-party licences and support are agreed before production.
+
+Send the intended use, deliverables, available files, references and target date to sales@kazeyami.com.

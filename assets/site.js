@@ -190,6 +190,14 @@ function setMenu(open) {
   if (open) menu.querySelector("a").focus();
   else toggle.focus();
 }
+const menuBackdrop = document.createElement("button");
+menuBackdrop.className = "menu-backdrop";
+menuBackdrop.type = "button";
+menuBackdrop.tabIndex = -1;
+menuBackdrop.setAttribute("aria-label", "Close navigation");
+menu.before(menuBackdrop);
+menuBackdrop.addEventListener("click", () => setMenu(false));
+
 toggle.addEventListener("click", () =>
   setMenu(!document.body.classList.contains("menu-open")),
 );

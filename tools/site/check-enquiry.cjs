@@ -7,6 +7,8 @@ const values = {
   country: "India",
   phone: "+91 000",
   service: "Events & Experiences",
+  date: "15 November 2026",
+  budget: "INR 100,000 to 150,000",
   message: "LED & DMX\nCamera #2 — café?",
 };
 const draft = build(values),
@@ -19,9 +21,13 @@ assert.equal(
 assert.equal(url.searchParams.get("body"), draft.body);
 assert(draft.body.includes("A & B = 1?"));
 assert(draft.body.includes(values.message));
+assert(draft.body.includes("Target date: " + values.date));
+assert(draft.body.includes("Budget range: " + values.budget));
 const empty = build({ name: "Someone", message: "Brief" });
 assert(empty.body.includes("Company: —"));
 assert(empty.subject.includes("General enquiry"));
+assert(empty.body.includes("Target date: Not specified"));
+assert(empty.body.includes("Budget range: Not specified"));
 console.log(
   "Enquiry drafts: recipient, Unicode, punctuation, multiline content and optional fields pass.",
 );

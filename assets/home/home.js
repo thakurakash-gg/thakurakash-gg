@@ -60,7 +60,7 @@
   if (!video) return;
   let filmVisible = false;
   function syncFilm() {
-    const active = filmVisible && !document.hidden && !document.body.classList.contains("menu-open") && !preference.matches;
+    const active = filmVisible && !document.hidden && !document.body.classList.contains("menu-open") && !preference.matches && !navigator.connection?.saveData;
     if (!active) { video.pause(); return; }
     if (!video.getAttribute("src")) {
       video.src = video.dataset.src;
