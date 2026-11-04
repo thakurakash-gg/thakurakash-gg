@@ -1,7 +1,7 @@
 (() => {
   const section = document.querySelector("#work"),
     preview = document.querySelector("#portfolio-preview"),
-    cards = [...section.querySelectorAll(".project-card")],
+    cards = [...section.querySelectorAll("button.project-card[data-video]")],
     stop = document.querySelector("#portfolio-stop"),
     full = document.querySelector("#portfolio-full"),
     dialog = document.querySelector("#project-film-dialog"),
