@@ -1,133 +1,17 @@
-/* Photo-led studio directory. Replace portrait placeholders with real photographs. */
-.people-section {
-  --people-paper: #111315;
-  --people-ink: #f5f3ee;
-  --people-muted: #b8bab9;
-  --people-line: #ffffff2b;
-  --people-portrait: #e9e4db;
-  background: var(--people-paper);
-  color: var(--people-ink);
-  padding: clamp(64px, 7vw, 112px) 6%;
-  scroll-margin-top: 84px;
-}
-html[data-theme="light"] .people-section {
-  --people-paper: #f3f0e9;
-  --people-ink: #202321;
-  --people-muted: #565d58;
-  --people-line: #20232230;
-  --people-portrait: #e4ded4;
-}
-.people-layout { max-width: 1480px; margin: auto; }
-.people-introduction {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px 8%;
-  align-items: end;
-  margin-bottom: clamp(36px, 5vw, 68px);
-}
-.people-kicker {
-  display: block;
-  margin-bottom: 22px;
-  font: 500 11px/1.5 Arial, Helvetica, sans-serif;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-.people-section .people-heading {
-  margin: 0;
-  color: var(--people-ink);
-  font: 600 clamp(46px, 6vw, 88px)/.98 Arial, Helvetica, sans-serif;
-  letter-spacing: -.055em;
-}
-.people-lead {
-  max-width: 440px;
-  margin: 0 0 4px auto;
-  color: var(--people-muted);
-  font: 400 clamp(17px, 1.5vw, 22px)/1.55 Arial, Helvetica, sans-serif;
-  letter-spacing: -.02em;
-}
-.people-roster {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 44px 24px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.people-member { min-width: 0; margin: 0; padding: 0; }
-.people-portrait {
-  aspect-ratio: 4 / 5;
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  margin-bottom: 20px;
-  background: var(--people-portrait);
-  color: #aaa294;
-}
-.people-portrait::before {
-  content: "";
-  position: absolute;
-  inset: 18px;
-  border: 1px solid #81745d26;
-  pointer-events: none;
-}
-.people-initials {
-  font: 500 clamp(58px, 7.5vw, 118px)/1 Arial, Helvetica, sans-serif;
-  letter-spacing: -.07em;
-}
-.people-photo-note {
-  position: absolute;
-  bottom: 32px;
-  left: 28px;
-  right: 28px;
-  text-align: center;
-  color: #655e52;
-  font: 400 10px/1.4 Arial, Helvetica, sans-serif;
-  letter-spacing: .13em;
-  text-transform: uppercase;
-}
-.people-photo { display: block; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
-.people-portrait:has(.people-photo)::before { display: none; }
-.people-member h3 {
-  margin: 0 0 7px;
-  color: var(--people-ink);
-  font: 600 clamp(18px, 1.65vw, 25px)/1.15 Arial, Helvetica, sans-serif;
-  letter-spacing: -.03em;
-}
-.people-role { margin: 0; color: var(--people-ink); font: 400 13px/1.5 Arial, Helvetica, sans-serif; }
-.people-description {
-  margin: 12px 0 0;
-  max-width: 340px;
-  color: var(--people-muted);
-  font: 400 13px/1.65 Arial, Helvetica, sans-serif;
-}
-.people-closing {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 18px;
-  margin-top: 48px;
-  padding-top: 24px;
-  border-top: 1px solid var(--people-line);
-  color: var(--people-muted);
-  font: 400 13px/1.6 Arial, Helvetica, sans-serif;
-}
-.people-closing p { margin: 0; }
-.people-closing a { color: var(--people-ink); display: inline-flex; align-items: center; gap: 20px; min-height: 44px; border-bottom: 1px solid currentColor; }
-@media (max-width: 1100px) {
-  .people-roster { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (max-width: 760px) {
-  .people-introduction { grid-template-columns: 1fr; gap: 24px; }
-  .people-lead { max-width: 480px; margin-left: 0; }
-  .people-roster { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 18px; }
-  .people-initials { font-size: clamp(52px, 12vw, 90px); }
-  .people-photo-note { bottom: 26px; left: 16px; right: 16px; font-size: 9px; }
-}
-@media (max-width: 420px) {
-  .people-roster { grid-template-columns: minmax(0, 1fr); gap: 38px; }
-  .people-initials { font-size: 100px; }
-  .people-member h3 { font-size: 24px; }
-  .people-description { font-size: 14px; }
-}
+/* Large portrait grid, with names and roles directly below each photograph. */
+.people-section { --people-paper:#111315; --people-ink:#f6f4ed; --people-muted:#bfc1bd; background:var(--people-paper); color:var(--people-ink); padding:clamp(48px,6vw,90px) 4% clamp(72px,8vw,128px); scroll-margin-top:90px; }
+html[data-theme="light"] .people-section { --people-paper:#f2f0e9; --people-ink:#242520; --people-muted:#5b6058; }
+.people-layout { max-width:1600px; margin:auto; }
+.people-kicker { display:block; margin-bottom:28px; font:400 11px/1.5 Arial,Helvetica,sans-serif; letter-spacing:.12em; text-transform:uppercase; }
+.people-section .people-heading { margin:0; color:var(--people-ink); font:600 clamp(72px,14.8vw,224px)/.9 Arial,Helvetica,sans-serif; letter-spacing:-.065em; text-transform:uppercase; }
+.people-lead { max-width:940px; margin:48px 0 64px; color:var(--people-muted); font:400 clamp(18px,1.75vw,26px)/1.5 Arial,Helvetica,sans-serif; letter-spacing:-.02em; }
+.people-roster { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:54px 28px; list-style:none; padding:0; margin:0; }
+.people-member { margin:0; padding:0; min-width:0; }
+.people-portrait { display:grid; place-items:center; position:relative; overflow:hidden; aspect-ratio:4/5; margin:0 0 18px; background:#efed3d; color:#28291466; }
+.people-initials { font:500 clamp(56px,7vw,110px)/1 Arial,Helvetica,sans-serif; letter-spacing:-.06em; }
+.people-photo-note { position:absolute; bottom:24px; left:24px; right:24px; color:#37391b; font:400 10px/1.4 Arial,Helvetica,sans-serif; letter-spacing:.12em; text-transform:uppercase; text-align:center; }
+.people-photo { position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover; }
+.people-member h3 { margin:0 0 7px; color:var(--people-ink); font:600 clamp(18px,1.8vw,26px)/1.2 Arial,Helvetica,sans-serif; letter-spacing:-.035em; text-transform:uppercase; }
+.people-role { margin:0; color:var(--people-muted); font:400 clamp(14px,1.2vw,17px)/1.5 Arial,Helvetica,sans-serif; }
+@media(max-width:1099px) { .people-roster { grid-template-columns:repeat(2,minmax(0,1fr)); gap:44px 24px; } }
+@media(max-width:600px) { .people-section { padding:40px 6% 64px; } .people-section .people-heading { font-size:clamp(64px,17vw,104px); } .people-kicker { margin-bottom:24px; font-size:10px; } .people-lead { margin:28px 0 38px; font-size:18px; } .people-roster { grid-template-columns:minmax(0,1fr); gap:36px; } .people-member h3 { font-size:23px; } .people-initials { font-size:100px; } }

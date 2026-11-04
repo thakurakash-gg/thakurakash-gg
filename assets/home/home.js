@@ -1,6 +1,7 @@
 /* Page chrome uses native scrolling. Existing project forms and direction videos
    continue to be owned by site.js. */
 (() => {
+  if (location.hash === "#team") { location.replace("team.html"); return; }
   const percent = document.querySelector("#read-percent");
   let queued = false;
   function update() {
@@ -56,40 +57,23 @@
     attributeFilter: ["class"],
   });
   const video = document.querySelector("#hero-video");
-  const videoButton = document.querySelector(".video-toggle");
-  const motion = matchMedia("(prefers-reduced-motion: reduce)");
-  let visible = false,
-    userPaused = matchMedia("(pointer: coarse)").matches || innerWidth <= 700;
-  function syncVideo() {
-    videoButton.textContent = video.paused ? "Play video" : "Pause video";
+  if (!video) return;
+  let filmVisible = false;
+  function syncFilm() {
+    const active = filmVisible && !document.hidden && !document.body.classList.contains("menu-open") && !preference.matches;
+    if (!active) { video.pause(); return; }
+    if (!video.getAttribute("src")) {
+      video.src = video.dataset.src;
+      video.load();
+    }
+    video.muted = true;
+    video.play().catch(() => {});
   }
-  video.addEventListener("play", syncVideo);
-  video.addEventListener("pause", syncVideo);
-  videoButton.addEventListener("click", () => {
-    userPaused = !video.paused;
-    if (video.paused) video.play().catch(syncVideo);
-    else video.pause();
-  });
-  new IntersectionObserver(
-    (entries) => {
-      visible = entries[0].isIntersecting;
-      if (
-        visible &&
-        !userPaused &&
-        !document.hidden &&
-        !document.body.classList.contains("menu-open") &&
-        !motion.matches &&
-        !navigator.connection?.saveData
-      )
-        video.play().catch(() => {});
-      else video.pause();
-    },
-    { threshold: 0.25 },
-  ).observe(video);
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden || !visible) video.pause();
-  });
-  new MutationObserver(() => {
-    if (document.body.classList.contains("menu-open")) video.pause();
-  }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  new IntersectionObserver(entries => {
+    filmVisible = entries[0].isIntersecting;
+    syncFilm();
+  }, { threshold: 0.08 }).observe(video);
+  document.addEventListener("visibilitychange", syncFilm);
+  preference.addEventListener("change", syncFilm);
+  new MutationObserver(syncFilm).observe(document.body, { attributes: true, attributeFilter: ["class"] });
 })();

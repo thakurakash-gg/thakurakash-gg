@@ -1,8 +1,8 @@
 # Team photographs
 
-The homepage uses a photo-led team grid. The current portrait spaces are intentionally neutral placeholders; no generated or borrowed faces are used.
+The Team page uses a photo-led team grid. The current portrait spaces are intentionally neutral placeholders; no generated or borrowed faces are used.
 
-When approved photographs are supplied, save optimised 4:5 WebP portraits (around 800 × 1000 px) in this folder. In index.html replace the two placeholder spans inside each matching `people-portrait` div with:
+When approved photographs are supplied, save optimised 4:5 WebP portraits (around 800 × 1000 px) in this folder. In team.html replace the two placeholder spans inside each matching `people-portrait` div with:
 
 ```html
 <img class="people-photo" src="assets/team/siya-baranwal.webp" alt="" width="800" height="1000" loading="lazy" decoding="async">

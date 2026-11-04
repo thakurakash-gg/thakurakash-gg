@@ -1,0 +1,7 @@
+/* Quiet the moving marks while keeping the navigation fully opaque. */
+.overlay .menu-world { opacity: .28; pointer-events: none; }
+.overlay { overflow-y: auto; gap: 36px; }
+.overlay nav, .overlay > p { flex-shrink: 0; }
+.overlay nav a { color: #f5f1e8; text-shadow: 0 1px 5px #000; }
+.overlay nav a:hover { color: #ffb38e; }
+@media (prefers-reduced-motion: reduce) { .overlay .menu-world { opacity: .18; } }
