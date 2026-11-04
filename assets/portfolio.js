@@ -23,6 +23,12 @@
     current = null;
   }
   async function begin(card) {
+    if (card.dataset.preview === "none") {
+      selected = card;
+      full.textContent = "Explore " + card.dataset.title;
+      end();
+      return;
+    }
     if (current === card) return;
     const ticket = ++run;
     current = card;
@@ -197,6 +203,14 @@
       ],
     },
   ];
+  projectDetails.push({
+    ...projectDetails[0],
+    category: "NEXIV / ARCHITECTURAL INTERIOR FILM",
+    intro: "Interior — Natural Light is a 59-second film exploring a contemporary living, dining and kitchen space through daylight, warm timber, marble and sculptural lighting.",
+    services: ["Architectural interior visualization", "Material and lighting presentation", "Interior camera sequences and film production"],
+    quality: "The film presents interior composition, material detail and atmosphere. For a new commission, the design, materials and camera sequence are reviewed against the supplied plans and references.",
+    deliverables: ["This showcase film: 59 seconds in Full HD (1920 × 1080)", "For a commission: agreed views, film duration, format and resolution", "Soundtrack, titles and delivery versions as specified in scope"]
+  });
   function openFilm(card = selected) {
     const project = card;
     end();
