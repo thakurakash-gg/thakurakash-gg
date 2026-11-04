@@ -1,0 +1,54 @@
+/* Shared end-of-page enquiry invitation; readable without JavaScript. */
+.project-discussion {
+  background: #ee316b;
+  color: #171014;
+  display: grid;
+  place-items: center;
+  min-height: 62svh;
+  padding: clamp(80px, 10vw, 160px) 6%;
+  text-align: center;
+  scroll-margin-top: 84px;
+}
+.project-discussion__inner { width: 100%; max-width: 1100px; }
+.project-discussion__kicker {
+  display: block;
+  margin-bottom: 28px;
+  font: 500 11px/1.5 Arial, Helvetica, sans-serif;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.project-discussion h2 {
+  margin: 0;
+  color: inherit;
+  font: 600 clamp(42px, 6.8vw, 104px)/1.02 Arial, Helvetica, sans-serif;
+  letter-spacing: -.055em;
+}
+.project-discussion__copy {
+  max-width: 520px;
+  margin: 26px auto 30px;
+  color: inherit;
+  font: 400 clamp(16px, 1.4vw, 20px)/1.6 Arial, Helvetica, sans-serif;
+}
+.project-discussion__link {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  min-height: 52px;
+  padding: 10px 0;
+  border-bottom: 1px solid currentColor;
+  color: inherit;
+  font: 600 16px/1.4 Arial, Helvetica, sans-serif;
+}
+.project-discussion__link svg { width: 24px; height: 24px; flex-shrink: 0; transition: transform .2s; }
+.project-discussion__link:hover svg { transform: translateX(5px); }
+.project-discussion__link:focus-visible { outline: 2px solid #171014; outline-offset: 8px; }
+@media (max-width: 600px) {
+  .project-discussion { min-height: 480px; padding: 72px 6%; }
+  .project-discussion h2 { font-size: clamp(40px, 10.8vw, 62px); max-width: 480px; margin-inline: auto; }
+  .project-discussion__kicker { font-size: 10px; margin-bottom: 24px; }
+  .project-discussion__copy { max-width: 340px; margin-block: 22px 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-discussion__link svg { transition: none; }
+}

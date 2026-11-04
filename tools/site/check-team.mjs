@@ -25,7 +25,9 @@ for (const [index, [name, role]] of people.entries()) {
   const description = profile.match(/<p class="people-description">([^<]+)<\/p>/)?.[1];
   assert(description && description.length > 30, name + " needs a useful responsibility description in the initial HTML");
 }
-assert(!/<button\b|\bhidden\b|\binert\b|aria-hidden="true"/.test(team), "Profiles must be readable without a selection or JavaScript");
+const readableTeam = team.replace(/<div class="people-portrait"[^>]*>[\s\S]*?<\/div>/g, "").replace(/<svg\b[\s\S]*?<\/svg>/g, "");
+assert(!/<button\b|\bhidden\b|\binert\b|aria-hidden="true"/.test(readableTeam), "Names, roles and descriptions must be readable without selection or JavaScript");
+assert.equal((team.match(/class="people-portrait"/g) || []).length, people.length, "Every teammate needs a reserved portrait space");
 assert(!/team-cast|data-character|data-crew-image|kazeyami-crew|Original illustrated identities/.test(team), "Team art and character-selection markup must be removed");
 assert(!/assets\/home\/team\.(?:js|css)/.test(home), "The retired anime implementation must not load");
 assert(home.includes('href="assets/team/professional-team.css'), "The professional directory style must load");
